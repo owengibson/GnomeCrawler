@@ -14,7 +14,7 @@ public class IdleState : BaseState
 
     public override void UpdateState()
     {
-
+        Debug.Log("Idling");
         CheckSwitchState();
     }
 
@@ -22,9 +22,9 @@ public class IdleState : BaseState
     {
         float currentDist = Vector3.Distance(ctx.CurrentEnemy.transform.position, ctx.PlayerCharacter.transform.position); // check how close the player is 
 
-        if(currentDist < ctx.DistanceToPlayer)
+        if (currentDist < ctx.DistanceToPlayer)
         {
-            SwitchStates(factory.ChaseState());
+            SwitchStates(factory.AttackState());
         }
     }
 
