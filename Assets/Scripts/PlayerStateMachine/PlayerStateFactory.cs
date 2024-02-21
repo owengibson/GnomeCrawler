@@ -12,7 +12,8 @@ namespace GnomeCrawler
         run,
         grounded,
         jump,
-        fall
+        fall,
+        attack
     }
 
     public class PlayerStateFactory
@@ -29,6 +30,7 @@ namespace GnomeCrawler
             _states[PlayerStates.jump] = new PlayerJumpState(_context, this);
             _states[PlayerStates.grounded] = new PlayerGroundedState(_context, this);
             _states[PlayerStates.fall] = new PlayerFallState(_context, this);
+            _states[PlayerStates.attack] = new PlayerAttackState(_context, this);
         }
 
         public PlayerBaseState Idle()
