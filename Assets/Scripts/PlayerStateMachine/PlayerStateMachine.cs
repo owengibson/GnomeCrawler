@@ -22,7 +22,7 @@ namespace GnomeCrawler
         bool _isRunPressed;
 
         float _rotationFactorPerFrame = 15.0f;
-        float _runMultiplier = 4.0f;
+        float _runMultiplier = 5.0f;
         int  _zero = 0;
 
         bool _isJumpPressed = false;

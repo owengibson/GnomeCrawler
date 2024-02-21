@@ -17,8 +17,8 @@ namespace GnomeCrawler
 
         public override void UpdateState()
         {
-            Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
-            Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
+            Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x * (Ctx.RunMultiplier/ 2);
+            Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y * (Ctx.RunMultiplier / 2);
             CheckSwitchStates();
         }
 
