@@ -9,6 +9,8 @@ namespace GnomeCrawler.Deckbuilding
     public class CardSO : SerializedScriptableObject
     {
         public string Name;
+
+        [Multiline]
         public string Description;
         public CardCategory Category;
         [SerializeField] private Stat _statToUpgrade;
