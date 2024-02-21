@@ -11,7 +11,7 @@ namespace GnomeCrawler
 
         public override void EnterState()
         {
-            Debug.Log("Chasing");
+            //Debug.Log("Chasing");
             ctx.EnemyAnimator.SetBool("isMoving", true);
             ctx.EnemyAnimator.SetBool("inCombat", false);
 
@@ -19,9 +19,7 @@ namespace GnomeCrawler
 
         public override void UpdateState()
         {
-            CheckSwitchState();
-
-            Debug.Log("Now Chasing");
+            //Debug.Log("Now Chasing");
             ctx.CurrentEnemy.transform.LookAt(ctx.PlayerCharacter.transform.position);
         }
         public override void FixedUpdateState()

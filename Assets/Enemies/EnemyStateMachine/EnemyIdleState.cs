@@ -11,12 +11,12 @@ namespace GnomeCrawler
 
         public override void EnterState()
         {
-            Debug.Log("Idle");
+            //Debug.Log("Idle");
         }
 
         public override void UpdateState()
         {
-            Debug.Log("Idling");
+            //Debug.Log("Idling");
             CheckSwitchState();
         }
 
