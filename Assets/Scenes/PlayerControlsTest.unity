@@ -467,7 +467,7 @@ Transform:
   m_GameObject: {fileID: 1281911425}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3336799, y: 2.5, z: 2.9813855}
+  m_LocalPosition: {x: 0, y: 1.03, z: -5.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2895,10 +2895,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8878531380576745485}
-  - component: {fileID: 8878531380576745489}
   - component: {fileID: 8878531380576745488}
-  - component: {fileID: 8878531380576745487}
   - component: {fileID: 8878531380576745486}
+  - component: {fileID: 8878531380576745489}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3107,9 +3106,9 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8105689796449346231}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: df18b99e6d676974b8e24e3a74b9f7a0, type: 3}
   m_Controller: {fileID: 9100000, guid: e1fb924e325298b4b87fe386d75f6b72, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -3119,38 +3118,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8878531380576745487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8105689796449346231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5840fde73d252004fbfbd159dc80ace2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSpeed: 5
-  crouchSpeed: 2
-  sprintSpeed: 8
-  jumpHeight: 0.8
-  gravityMultiplier: 2
-  rotationSpeed: 5
-  crouchColliderHeight: 1.35
-  speedDampTime: 0.1
-  velocityDampTime: 0.1
-  rotationDampTime: 0.2
-  airControl: 0.5
-  attacking: {fileID: 0}
-  LockedOn: {fileID: 0}
-  gravityValue: -9.81
-  normalColliderHeight: 0
-  controller: {fileID: 0}
-  playerInput: {fileID: 0}
-  cameraTransform: {fileID: 0}
-  animator: {fileID: 0}
-  playerVelocity: {x: 0, y: 0, z: 0}
 --- !u!143 &8878531380576745488
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3174,8 +3141,8 @@ CharacterController:
   m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.0001
-  m_MinMoveDistance: 0
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &8878531380576745489
 MonoBehaviour:
@@ -3186,28 +3153,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8105689796449346231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Script: {fileID: 11500000, guid: f2052d7b8bb45af4dab1f8f82b95b326, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 922015bc8b3c25843a24352edc54b69e,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 1281911427}
 --- !u!1 &8979277347174469919
 GameObject:
   m_ObjectHideFlags: 0
