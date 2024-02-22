@@ -51,6 +51,9 @@ namespace GnomeCrawler
         // gravity
         float _gravity = -9.8f;
 
+        // temp
+        public int health = 10;
+
         // getters and setters
         public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
         public Animator Animator { get { return _animator; } }
@@ -109,6 +112,9 @@ namespace GnomeCrawler
             _playerInput.Player.Sprint.started += OnRun;
             _playerInput.Player.Sprint.canceled += OnRun;
 
+            //temp
+            _playerInput.Player.Attack.started += OnAttack;
+
             SetupJumpVariables();
         }
 
@@ -144,6 +150,11 @@ namespace GnomeCrawler
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
             _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
+
+            if(health <= 0)
+            {
+                Destroy(this.gameObject);
+            }
         }
 
         Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
@@ -210,5 +221,24 @@ namespace GnomeCrawler
         {
             _playerInput.Player.Disable();
         }
+
+        public void TakeDamage(int amount)
+        {
+            health -= amount;
+        }
+
+        private void OnAttack(InputAction.CallbackContext context)
+        {
+            StartCoroutine(Attack());
+            
+        }
+
+        private IEnumerator Attack()
+        {
+            GetComponentInChildren<PlayerWeaponHitBox>().StartDealDamage();
+            yield return new WaitForSeconds(1);
+            GetComponentInChildren<PlayerWeaponHitBox>().StopDealDamage();
+        }
     }
+
 }

@@ -10,6 +10,9 @@ namespace GnomeCrawler
 
         EnemyBaseState currentState;
         EnemyStateFactory states;
+        EnemyWeaponHitBox hitBox;
+
+        public int enemyHeatlh;
 
         [SerializeField] private GameObject _playerCharacter;
         [SerializeField] private GameObject _currentEnemy;
@@ -21,7 +24,7 @@ namespace GnomeCrawler
         public GameObject CurrentEnemy { get => _currentEnemy; set => _currentEnemy = value; }
         public float DistanceToPlayer { get => _distanceToPlayer; set => _distanceToPlayer = value; }
         public Animator EnemyAnimator { get => _enemyAnimator; set => _enemyAnimator = value; }
-
+        public EnemyWeaponHitBox HitBox { get => hitBox; }
 
         void Start()
         {
@@ -34,6 +37,11 @@ namespace GnomeCrawler
         {
             currentState.UpdateState();
             Debug.Log(currentState);
+
+            if(enemyHeatlh <= 0)
+            {
+                Destroy(this.gameObject);
+            }
         }
 
         private void FixedUpdate()
@@ -48,5 +56,12 @@ namespace GnomeCrawler
         {
             currentState.OnTriggerExitState(other);
         }
+
+        public void TakeDamage(int amount)
+        {
+            enemyHeatlh -= amount;
+        }
+
+
     }
 }
