@@ -47,14 +47,17 @@ namespace GnomeCrawler
 
         public override void InitialiseSubState()
         {
-            if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+            if (Ctx.IsAttackPressed)
+            {
+                SetSubState(Factory.Attack());
+            }
+            else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
             {
                 SetSubState(Factory.Idle());
             }
             else if (Ctx.IsMovementPressed && !Ctx.IsRunPressed)
             {
                 SetSubState(Factory.Walk());
-                Debug.LogWarning("walking");
             }
             else
             {

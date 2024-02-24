@@ -5,7 +5,7 @@ namespace GnomeCrawler
         private bool _isRootState = false;
         private PlayerStateMachine _ctx;
         private PlayerStateFactory _factory;
-        private PlayerBaseState _currentSubState;
+        public PlayerBaseState _currentSubState;
         private PlayerBaseState _currentSuperState;
 
         protected bool IsRootState { set { _isRootState = value; } }

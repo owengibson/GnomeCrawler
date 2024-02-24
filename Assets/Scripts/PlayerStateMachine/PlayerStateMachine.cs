@@ -9,44 +9,55 @@ namespace GnomeCrawler
 {
     public class PlayerStateMachine : MonoBehaviour
     {
+        #region constants
+        const float _rotationFactorPerFrame = 15.0f;
+        const float _runMultiplier = 4.0f;
+        const int _zero = 0;
+        #endregion
+
+        #region classes
         CharacterController _characterController;
         Animator _animator;
         PlayerControls _playerInput;
         Camera _mainCam;
+        #endregion
 
+        #region movement
         Vector2 _currentMovementInput;
         Vector3 _currentMovement;
         Vector3 _appliedMovement;
         Vector3 _cameraRelativeMovement;
         bool _isMovementPressed;
         bool _isRunPressed;
+        #endregion
 
-        float _rotationFactorPerFrame = 15.0f;
-        float _runMultiplier = 4.0f;
-        int  _zero = 0;
-
+        #region jumping
         bool _isJumpPressed = false;
         float _initialJumpVelocity;
         float _initialGravity;
         float _maxJumpHeight = 1.0f;
         float _maxJumpTime = .75f;
         bool _isJumping = false;
-        int _isJumpingHash;
-        int _jumpCountHash;
         bool _requireNewJumpPress = false;
-        int _jumpCount = 0;
-        //Dictionary<int, float> _initialJumpVelocities = new Dictionary<int, float>();
-        //Dictionary<int, float> _jumpGravities = new Dictionary<int, float>();
-        //Coroutine _currentJumpResetRoutine = null;
+        #endregion
 
-        // state variables
+        #region combat
+        bool _isAttackPressed;
+        bool _isAttackFinished = false;
+        #endregion
+
+        #region state variables
         PlayerBaseState _currentState;
         PlayerStateFactory _states;
+        #endregion
 
-        // hash
+        #region hash
         int _isWalkingHash;
         int _isRunningHash;
         int _isFallingHash;
+        int _isJumpingHash;
+        int _isAttackingHash;
+        #endregion
 
         // gravity
         float _gravity = -9.8f;
@@ -54,25 +65,23 @@ namespace GnomeCrawler
         // temp
         public int health = 10;
 
-        // getters and setters
+        #region getters and setters
         public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
         public Animator Animator { get { return _animator; } }
         public CharacterController CharacterController { get { return _characterController; } }
         public Camera MainCam { get { return _mainCam; } }
-        //public Coroutine CurrentJumpResetRoutine { get { return _currentJumpResetRoutine; } set { _currentJumpResetRoutine = value; } }
-        //public Dictionary<int, float> InitialJumpVelocities { get { return _initialJumpVelocities; } }
-        //public Dictionary<int, float> JumpGravities { get { return _jumpGravities; } }
-        public int JumpCount { get { return _jumpCount; } set { _jumpCount = value; } }
         public int IsWalkingHash { get { return _isWalkingHash; } }
         public int IsRunningHash { get { return _isRunningHash; } }
         public int IsFallingHash { get { return _isFallingHash; } }
         public int IsJumpingHash { get { return _isJumpingHash; } }
-        public int JumpCountHash { get { return _jumpCountHash; } }
+        public int IsAttackingHash { get { return _isAttackingHash; } }
         public bool IsMovementPressed { get { return _isMovementPressed; } }
         public bool IsRunPressed { get { return _isRunPressed; } }
         public bool RequireNewJumpPress { get { return _requireNewJumpPress; } set { _requireNewJumpPress = value; } }
         public bool IsJumping { set { _isJumping = value; } }
         public bool IsJumpPressed { get { return _isJumpPressed; } }
+        public bool IsAttackPressed { get { return _isAttackPressed; } }
+        public bool IsAttackFinished { get { return _isAttackFinished; } set { _isAttackFinished = value; } }
         public float InitialJumpVelocity { get { return _initialJumpVelocity; } set { _initialJumpVelocity = value; } }
         public float InitialGravity { get { return _initialGravity; } set { _initialGravity = value; } }
         public float Gravity { get { return _gravity; } }
@@ -82,6 +91,7 @@ namespace GnomeCrawler
         public float AppliedMovementZ { get { return _appliedMovement.z; } set { _appliedMovement.z = value; } }
         public float RunMultiplier { get { return _runMultiplier; } }
         public Vector2 CurrentMovementInput { get { return _currentMovementInput; } }
+        #endregion
 
         private void Awake()
         {
@@ -101,7 +111,7 @@ namespace GnomeCrawler
             _isRunningHash = Animator.StringToHash("isRunning");
             _isFallingHash = Animator.StringToHash("isFalling");
             _isJumpingHash = Animator.StringToHash("isJumping");
-            _jumpCountHash = Animator.StringToHash("jumpCount");
+            _isAttackingHash = Animator.StringToHash("isAttacking");
 
             // set player input callbacks
             _playerInput.Player.Move.started += OnMovementInput;
@@ -111,9 +121,8 @@ namespace GnomeCrawler
             _playerInput.Player.Jump.canceled += OnJump;
             _playerInput.Player.Sprint.started += OnRun;
             _playerInput.Player.Sprint.canceled += OnRun;
-
-            //temp
             _playerInput.Player.Attack.started += OnAttack;
+            _playerInput.Player.Attack.canceled += OnAttack;
 
             SetupJumpVariables();
         }
@@ -123,19 +132,6 @@ namespace GnomeCrawler
             float timeToApex = _maxJumpTime / 2;
             _initialGravity = (-2 * _maxJumpHeight) / Mathf.Pow(timeToApex, 2);
             _initialJumpVelocity = (2 * _maxJumpHeight) / timeToApex;
-            //float secondJumpGravity = (-2 * (_maxJumpHeight + 2)) / Mathf.Pow((timeToApex * 1.25f), 2);
-            //float secondJumpInitialVelocity = (2 * (_maxJumpHeight + 2)) / (timeToApex * 1.25f);
-            //float thirdJumpGravity = (-2 * (_maxJumpHeight + 4)) / Mathf.Pow((timeToApex * 1.5f), 2);
-            //float thirdJumpInitialVelocity = (2 * (_maxJumpHeight + 4)) / (timeToApex * 1.5f);
-
-            //_initialJumpVelocities.Add(1, _initialJumpVelocity);
-            //_initialJumpVelocities.Add(2, secondJumpInitialVelocity);
-            //_initialJumpVelocities.Add(3, thirdJumpInitialVelocity);
-
-            //_jumpGravities.Add(0, initialGravity);
-            //_jumpGravities.Add(1, initialGravity);
-            //_jumpGravities.Add(2, secondJumpGravity);
-            //_jumpGravities.Add(3, thirdJumpGravity);
         }
 
         private void Start()
@@ -147,6 +143,8 @@ namespace GnomeCrawler
         {
             HandleRotation();
             _currentState.UpdateStates();
+            print(_currentState);
+            print(_currentState._currentSubState);
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
             _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
@@ -188,7 +186,7 @@ namespace GnomeCrawler
 
             Quaternion currentRotation = transform.rotation;
 
-            if (_isMovementPressed )
+            if (_isMovementPressed)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
                 transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, _rotationFactorPerFrame * Time.deltaTime);
@@ -211,6 +209,11 @@ namespace GnomeCrawler
         {
             _isRunPressed = context.ReadValueAsButton();
         }
+        private void OnAttack(InputAction.CallbackContext context)
+        {
+            //StartCoroutine(Attack());
+            _isAttackPressed = context.ReadValueAsButton();
+        }
 
         private void OnEnable()
         {
@@ -222,23 +225,24 @@ namespace GnomeCrawler
             _playerInput.Player.Disable();
         }
 
+        public void AnimationFinished(string animName)
+        {
+            print (animName + " animation finished");
+
+            if (animName == "Attack") _isAttackFinished = true;
+        }
+
         public void TakeDamage(int amount)
         {
             health -= amount;
         }
-
-        private void OnAttack(InputAction.CallbackContext context)
-        {
-            StartCoroutine(Attack());
-            
-        }
-
+        /*
         private IEnumerator Attack()
         {
             GetComponentInChildren<PlayerWeaponHitBox>().StartDealDamage();
             yield return new WaitForSeconds(1);
             GetComponentInChildren<PlayerWeaponHitBox>().StopDealDamage();
-        }
+        }*/
     }
 
 }

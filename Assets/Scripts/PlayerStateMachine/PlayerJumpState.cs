@@ -9,7 +9,6 @@ namespace GnomeCrawler
         IEnumerator IJumpResetRoutine()
         {
             yield return new WaitForSeconds(.5f);
-            Ctx.JumpCount = 0;
         }
 
         public PlayerJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
@@ -45,12 +44,6 @@ namespace GnomeCrawler
             {
                 Ctx.RequireNewJumpPress = true;
             }
-            //Ctx.CurrentJumpResetRoutine = Ctx.StartCoroutine(IJumpResetRoutine());
-            /*if (Ctx.JumpCount == 3)
-            {
-                Ctx.JumpCount = 0;
-                Ctx.Animator.SetInteger(Ctx.JumpCountHash, Ctx.JumpCount);
-            }*/
         }
 
         public override void InitialiseSubState()
@@ -71,14 +64,8 @@ namespace GnomeCrawler
 
         void HandleJump()
         {
-            /*if (Ctx.JumpCount < 3 && Ctx.CurrentJumpResetRoutine != null)
-            {
-                Ctx.StopCoroutine(Ctx.CurrentJumpResetRoutine);
-            }*/
             Ctx.Animator.SetBool(Ctx.IsJumpingHash, true);
             Ctx.IsJumping = true;
-            Ctx.JumpCount += 1;
-            Ctx.Animator.SetInteger(Ctx.JumpCountHash, Ctx.JumpCount);
             Ctx.CurrentMovementY = Ctx.InitialJumpVelocity;
             Ctx.AppliedMovementY = Ctx.InitialJumpVelocity;
         }

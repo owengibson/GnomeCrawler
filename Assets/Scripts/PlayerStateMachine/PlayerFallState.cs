@@ -39,7 +39,6 @@ namespace GnomeCrawler
 
         public override void CheckSwitchStates()
         {
-            // if player is grounded, switch to the grounded state
             if (Ctx.CharacterController.isGrounded)
             {
                 SwitchState(Factory.Grounded());

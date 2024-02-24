@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +29,11 @@ namespace GnomeCrawler
 
         public override void CheckSwitchStates()
         {
-            if (!Ctx.IsMovementPressed)
+            if (Ctx.IsAttackPressed)
+            {
+                SwitchState(Factory.Attack());
+            }
+            else if (!Ctx.IsMovementPressed)
             {
                 SwitchState(Factory.Idle());
             }

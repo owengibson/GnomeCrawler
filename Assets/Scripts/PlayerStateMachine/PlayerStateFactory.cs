@@ -57,5 +57,9 @@ namespace GnomeCrawler
         {
             return _states[PlayerStates.fall];
         }
+        public PlayerBaseState Attack()
+        {
+            return _states[PlayerStates.attack];
+        }
     }
 }

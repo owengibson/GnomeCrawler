@@ -11,8 +11,7 @@ namespace GnomeCrawler
 
         public override void EnterState()
         {
-            Ctx.Animator.SetBool(Ctx.IsWalkingHash, false);
-            Ctx.Animator.SetBool(Ctx.IsRunningHash, false);
+            Ctx.Animator.SetBool(Ctx.IsAttackingHash, true);
             Ctx.AppliedMovementX = 0;
             Ctx.AppliedMovementZ = 0;
         }
@@ -22,12 +21,18 @@ namespace GnomeCrawler
             CheckSwitchStates();
         }
 
-        public override void ExitState() { }
+        public override void ExitState() 
+        {
+            Ctx.Animator.SetBool(Ctx.IsAttackingHash, false);
+        }
 
         public override void InitialiseSubState() { }
 
         public override void CheckSwitchStates()
         {
+            if (!Ctx.IsAttackFinished) return;
+            Ctx.IsAttackFinished = false;
+
             if (Ctx.IsMovementPressed && Ctx.IsRunPressed)
             {
                 SwitchState(Factory.Run());
@@ -36,6 +41,12 @@ namespace GnomeCrawler
             {
                 SwitchState(Factory.Walk());
             }
+            else 
+            { 
+                SwitchState(Factory.Idle()); 
+            }
         }
+
+
     }
 }
