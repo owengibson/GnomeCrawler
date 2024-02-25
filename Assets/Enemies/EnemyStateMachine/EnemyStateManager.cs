@@ -16,13 +16,15 @@ namespace GnomeCrawler
 
         [SerializeField] private GameObject _playerCharacter;
         [SerializeField] private GameObject _currentEnemy;
-        [SerializeField] private float _distanceToPlayer;
+        [SerializeField] private float _chasingZone;
+        [SerializeField] private Collider _attackingZone;
         [SerializeField] private Animator _enemyAnimator;
 
         public EnemyBaseState CurrentState { get => currentState; set => currentState = value; }
         public GameObject PlayerCharacter { get => _playerCharacter; set => _playerCharacter = value; }
         public GameObject CurrentEnemy { get => _currentEnemy; set => _currentEnemy = value; }
-        public float DistanceToPlayer { get => _distanceToPlayer; set => _distanceToPlayer = value; }
+        public float ChasingZone { get => _chasingZone; set => _chasingZone = value; }
+        public Collider AttackingZone { get => _attackingZone; set => _attackingZone = value; }
         public Animator EnemyAnimator { get => _enemyAnimator; set => _enemyAnimator = value; }
         public EnemyWeaponHitBox HitBox { get => hitBox; }
 

@@ -14,7 +14,6 @@ namespace GnomeCrawler
             //Debug.Log("Chasing");
             ctx.EnemyAnimator.SetBool("isMoving", true);
             ctx.EnemyAnimator.SetBool("inCombat", false);
-
         }
 
         public override void UpdateState()
@@ -29,9 +28,10 @@ namespace GnomeCrawler
 
         public override void OnTriggerEnterState(Collider collision)
         {
-            if (collision.gameObject.tag == "Player")
+            if (ctx.AttackingZone && collision.gameObject.tag == "Player")
             {
                 SwitchStates(factory.AttackState());
+                Debug.Log("Attack Zone Triggered");
             }
         }
         public override void OnTriggerExitState(Collider collision) { }

@@ -30,7 +30,7 @@ namespace GnomeCrawler
         {
             float currentDist = Vector3.Distance(ctx.CurrentEnemy.transform.position, ctx.PlayerCharacter.transform.position); 
 
-            if (currentDist < ctx.DistanceToPlayer)
+            if (currentDist < ctx.ChasingZone)
             {
                 SwitchStates(factory.ChaseState());
             }
