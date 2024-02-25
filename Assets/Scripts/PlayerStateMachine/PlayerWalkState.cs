@@ -28,7 +28,7 @@ namespace GnomeCrawler
 
         public override void CheckSwitchStates()
         {
-            if (Ctx.IsAttackPressed)
+            if (Ctx.IsAttackPressed && _currentSuperState == Factory.Grounded())
             {
                 SwitchState(Factory.Attack());
             }

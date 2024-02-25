@@ -12,8 +12,8 @@ namespace GnomeCrawler
         public override void EnterState()
         {
             Ctx.Animator.SetBool(Ctx.IsAttackingHash, true);
-            Ctx.AppliedMovementX = 0;
-            Ctx.AppliedMovementZ = 0;
+            Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
+            Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
         }
 
         public override void UpdateState()

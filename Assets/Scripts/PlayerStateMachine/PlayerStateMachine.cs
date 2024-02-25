@@ -11,7 +11,7 @@ namespace GnomeCrawler
     {
         #region constants
         const float _rotationFactorPerFrame = 15.0f;
-        const float _runMultiplier = 4.0f;
+        const float _runMultiplier = 1.5f;
         const int _zero = 0;
         #endregion
 
@@ -23,6 +23,7 @@ namespace GnomeCrawler
         #endregion
 
         #region movement
+        float _moveSpeed = 2.5f;
         Vector2 _currentMovementInput;
         Vector3 _currentMovement;
         Vector3 _appliedMovement;
@@ -85,6 +86,7 @@ namespace GnomeCrawler
         public float InitialJumpVelocity { get { return _initialJumpVelocity; } set { _initialJumpVelocity = value; } }
         public float InitialGravity { get { return _initialGravity; } set { _initialGravity = value; } }
         public float Gravity { get { return _gravity; } }
+        public float MoveSpeed { get { return _moveSpeed; } }
         public float CurrentMovementY { get { return _currentMovement.y; } set { _currentMovement.y = value; } }
         public float AppliedMovementY { get { return _appliedMovement.y; } set { _appliedMovement.y = value; } }
         public float AppliedMovementX { get { return _appliedMovement.x; } set { _appliedMovement.x = value; } }
@@ -136,7 +138,7 @@ namespace GnomeCrawler
 
         private void Start()
         {
-            _characterController.Move(_appliedMovement * Time.deltaTime);
+            _characterController.Move(_appliedMovement * _moveSpeed * Time.deltaTime);
         }
 
         private void Update()
@@ -147,9 +149,9 @@ namespace GnomeCrawler
             print(_currentState._currentSubState);
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
-            _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
+            _characterController.Move(_cameraRelativeMovement * _moveSpeed * Time.deltaTime);
 
-            if(health <= 0)
+            if (health <= 0)
             {
                 Destroy(this.gameObject);
             }
@@ -186,7 +188,7 @@ namespace GnomeCrawler
 
             Quaternion currentRotation = transform.rotation;
 
-            if (_isMovementPressed)
+            if (_isMovementPressed || _isAttackPressed)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
                 transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, _rotationFactorPerFrame * Time.deltaTime);
