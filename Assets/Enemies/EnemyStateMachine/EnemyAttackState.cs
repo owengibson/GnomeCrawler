@@ -14,25 +14,24 @@ namespace GnomeCrawler
     {
         private bool timerIsRunning;
         private float elapsedTime = 0f;
-        private float minAttackChance = 1f;
-        private float maxAttackChance = 3f;
         private float attackChance;
+
         public EnemyAttackState(EnemyStateManager stateManager, EnemyStateFactory stateFactory)
             : base(stateManager, stateFactory) { }
 
         public override void EnterState()
         {
-            attackChance = Random.Range(minAttackChance, maxAttackChance);
+            attackChance = Random.Range(ctx.MinAttackChance, ctx.MaxAttackChance);
             timerIsRunning = true;
         }
 
         public override void UpdateState()
         {
-            Debug.Log(attackChance);
+            Debug.Log(timerIsRunning);
 
             if (!timerIsRunning)
             {
-                attackChance = Random.Range(minAttackChance, maxAttackChance);
+                attackChance = Random.Range(ctx.MinAttackChance, ctx.MaxAttackChance);
                 timerIsRunning = true;
             }
 
@@ -45,15 +44,12 @@ namespace GnomeCrawler
                 {
                     AttackPlayer();
                     Debug.Log("Timer finished!");
-                    timerIsRunning = false;
-                    elapsedTime = 0f;
                 }
             }
         }
 
         public override void FixedUpdateState()
         {
-            ApproachPlayer(1);
             // attack player
             // ctx.EnemyAnimator.Play("Base Layer.Combat");
         }
@@ -68,13 +64,7 @@ namespace GnomeCrawler
             // gonna need the stats/ health system first 
             // set the animation of the punch to play on attack - not when you're in the state
         }
-        public override void OnTriggerExitState(Collider collision) 
-        {
-            if(ctx.AttackingZone && collision.gameObject.tag == "Player")
-            {
-                SwitchStates(factory.ChaseState());
-            }
-        }
+        public override void OnTriggerExitState(Collider collision) { }
 
         public override void CheckSwitchState() { }
 
@@ -82,16 +72,12 @@ namespace GnomeCrawler
 
         private void AttackPlayer()
         {
+            timerIsRunning = false;
+            elapsedTime = 0f;
             ctx.EnemyAnimator.Play("Base Layer.Combat");
-
-        }
-        public void ApproachPlayer(float speed)
-        {
-            float step = speed * Time.deltaTime;
-            ctx.CurrentEnemy.transform.position = Vector3.MoveTowards(ctx.CurrentEnemy.transform.position, ctx.PlayerCharacter.transform.position, step);
+            SwitchStates(factory.ChaseState());
         }
     }
-
 }
 
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace GnomeCrawler
 {
@@ -19,6 +20,10 @@ namespace GnomeCrawler
         [SerializeField] private float _chasingZone;
         [SerializeField] private Collider _attackingZone;
         [SerializeField] private Animator _enemyAnimator;
+        [SerializeField] private float _chaseSpeed;
+        private NavMeshAgent _enemyNavMeshAgent;
+        [SerializeField] private float minAttackChance;
+        [SerializeField] private float maxAttackChance;
 
         public EnemyBaseState CurrentState { get => currentState; set => currentState = value; }
         public GameObject PlayerCharacter { get => _playerCharacter; set => _playerCharacter = value; }
@@ -27,9 +32,14 @@ namespace GnomeCrawler
         public Collider AttackingZone { get => _attackingZone; set => _attackingZone = value; }
         public Animator EnemyAnimator { get => _enemyAnimator; set => _enemyAnimator = value; }
         public EnemyWeaponHitBox HitBox { get => hitBox; }
+        public NavMeshAgent EnemyNavMeshAgent { get => _enemyNavMeshAgent; set => _enemyNavMeshAgent = value; }
+        public float ChaseSpeed { get => _chaseSpeed; set => _chaseSpeed = value; }
+        public float MinAttackChance { get => minAttackChance; set => minAttackChance = value; }
+        public float MaxAttackChance { get => maxAttackChance; set => maxAttackChance = value; }
 
         void Start()
         {
+            _enemyNavMeshAgent = GetComponent<NavMeshAgent>();
             states = new EnemyStateFactory(this);
             currentState = states.IdleState();
             currentState.EnterState();

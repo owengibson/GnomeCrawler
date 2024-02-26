@@ -11,7 +11,8 @@ namespace GnomeCrawler
 
         public override void EnterState()
         {
-            //Debug.Log("Chasing");
+            // tool tip
+            // Debug.Log("Chasing");
             ctx.EnemyAnimator.SetBool("isMoving", true);
             ctx.EnemyAnimator.SetBool("inCombat", false);
         }
@@ -42,9 +43,8 @@ namespace GnomeCrawler
 
         public void ApproachPlayer()
         {
-            float speed = 2f;
-            float step = speed * Time.deltaTime;
-            ctx.CurrentEnemy.transform.position = Vector3.MoveTowards(ctx.CurrentEnemy.transform.position, ctx.PlayerCharacter.transform.position, step);
+            ctx.EnemyNavMeshAgent.speed = ctx.ChaseSpeed;
+            ctx.EnemyNavMeshAgent.destination = ctx.PlayerCharacter.transform.position;
         }
     }
 }
