@@ -31,8 +31,14 @@ namespace GnomeCrawler
         {
             if (ctx.AttackingZone && collision.gameObject.tag == "Player")
             {
-                SwitchStates(factory.AttackState());
-                Debug.Log("Attack Zone Triggered");
+                if(ctx.NeedsBlockState)
+                {
+                    SwitchStates(factory.BlockState());
+                }
+                else
+                {
+                    SwitchStates(factory.AttackState());
+                }
             }
         }
         public override void OnTriggerExitState(Collider collision) { }

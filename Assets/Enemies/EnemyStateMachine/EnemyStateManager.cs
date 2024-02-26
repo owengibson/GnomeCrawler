@@ -24,6 +24,7 @@ namespace GnomeCrawler
         private NavMeshAgent _enemyNavMeshAgent;
         [SerializeField] private float minAttackChance;
         [SerializeField] private float maxAttackChance;
+        [SerializeField] private bool needsBlockState;
 
         public EnemyBaseState CurrentState { get => currentState; set => currentState = value; }
         public GameObject PlayerCharacter { get => _playerCharacter; set => _playerCharacter = value; }
@@ -36,6 +37,7 @@ namespace GnomeCrawler
         public float ChaseSpeed { get => _chaseSpeed; set => _chaseSpeed = value; }
         public float MinAttackChance { get => minAttackChance; set => minAttackChance = value; }
         public float MaxAttackChance { get => maxAttackChance; set => maxAttackChance = value; }
+        public bool NeedsBlockState { get => needsBlockState; set => needsBlockState = value; }
 
         void Start()
         {
