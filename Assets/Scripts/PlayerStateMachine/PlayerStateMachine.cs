@@ -44,7 +44,7 @@ namespace GnomeCrawler
 
         #region combat
         bool _isAttackPressed;
-        bool _isAttackFinished = false;
+        bool _isAttackFinished = true;
         #endregion
 
         #region state variables
@@ -180,6 +180,8 @@ namespace GnomeCrawler
 
         void HandleRotation()
         {
+            if (!_isAttackFinished) return;
+
             Vector3 positionToLookAt;
 
             positionToLookAt.x = _cameraRelativeMovement.x;
@@ -188,7 +190,7 @@ namespace GnomeCrawler
 
             Quaternion currentRotation = transform.rotation;
 
-            if (_isMovementPressed || _isAttackPressed)
+            if (_isMovementPressed)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
                 transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, _rotationFactorPerFrame * Time.deltaTime);

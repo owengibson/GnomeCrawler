@@ -12,8 +12,9 @@ namespace GnomeCrawler
         public override void EnterState()
         {
             Ctx.Animator.SetBool(Ctx.IsAttackingHash, true);
-            Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
-            Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
+            Ctx.IsAttackFinished = false;
+            Ctx.AppliedMovementX = 0;
+            Ctx.AppliedMovementZ = 0;
         }
 
         public override void UpdateState()
@@ -31,9 +32,8 @@ namespace GnomeCrawler
         public override void CheckSwitchStates()
         {
             if (!Ctx.IsAttackFinished) return;
-            Ctx.IsAttackFinished = false;
 
-            if (Ctx.IsMovementPressed && Ctx.IsRunPressed)
+            else if (Ctx.IsMovementPressed && Ctx.IsRunPressed)
             {
                 SwitchState(Factory.Run());
             }
@@ -46,7 +46,5 @@ namespace GnomeCrawler
                 SwitchState(Factory.Idle()); 
             }
         }
-
-
     }
 }
