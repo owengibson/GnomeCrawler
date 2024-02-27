@@ -10,7 +10,7 @@ namespace GnomeCrawler
 
         EnemyBaseState currentState;
         EnemyStateFactory states;
-        EnemyWeaponHitBox hitBox;
+        EnemyCombat hitBox;
 
         public int enemyHeatlh;
 
@@ -24,7 +24,7 @@ namespace GnomeCrawler
         public GameObject CurrentEnemy { get => _currentEnemy; set => _currentEnemy = value; }
         public float DistanceToPlayer { get => _distanceToPlayer; set => _distanceToPlayer = value; }
         public Animator EnemyAnimator { get => _enemyAnimator; set => _enemyAnimator = value; }
-        public EnemyWeaponHitBox HitBox { get => hitBox; }
+        public EnemyCombat HitBox { get => hitBox; }
 
         void Start()
         {
