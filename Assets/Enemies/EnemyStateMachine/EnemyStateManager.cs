@@ -11,7 +11,6 @@ namespace GnomeCrawler
 
         EnemyBaseState currentState;
         EnemyStateFactory states;
-        EnemyWeaponHitBox hitBox;
 
         public int enemyHeatlh;
 
@@ -32,7 +31,6 @@ namespace GnomeCrawler
         public float ChasingZone { get => _chasingZone; set => _chasingZone = value; }
         public Collider AttackingZone { get => _attackingZone; set => _attackingZone = value; }
         public Animator EnemyAnimator { get => _enemyAnimator; set => _enemyAnimator = value; }
-        public EnemyWeaponHitBox HitBox { get => hitBox; }
         public NavMeshAgent EnemyNavMeshAgent { get => _enemyNavMeshAgent; set => _enemyNavMeshAgent = value; }
         public float ChaseSpeed { get => _chaseSpeed; set => _chaseSpeed = value; }
         public float MinAttackChance { get => minAttackChance; set => minAttackChance = value; }
