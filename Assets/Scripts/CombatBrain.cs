@@ -25,7 +25,7 @@ namespace GnomeCrawler
 
         [SerializeField] protected StatsSO _stats;
 
-        public float CurrentHealth { get; set; }
+        [ShowInInspector] public float CurrentHealth { get; set; }
 
         private void Start()
         {

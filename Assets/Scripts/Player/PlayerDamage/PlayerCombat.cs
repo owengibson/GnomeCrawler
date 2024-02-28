@@ -10,6 +10,11 @@ namespace GnomeCrawler.Player
     {
         private List<GameObject> _damagedGameObjects;
 
+        private void Start()
+        {
+            _damagedGameObjects = new List<GameObject>();
+        }
+
         protected override void CheckForRaycastHit()
         {
             RaycastHit hit;

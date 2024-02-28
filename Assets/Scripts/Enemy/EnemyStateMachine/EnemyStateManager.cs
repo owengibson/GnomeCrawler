@@ -24,6 +24,7 @@ namespace GnomeCrawler.Enemy
         [SerializeField] private float minAttackChance;
         [SerializeField] private float maxAttackChance;
         [SerializeField] private bool needsBlockState;
+        private bool _isAttackFinised;
 
         public EnemyBaseState CurrentState { get => currentState; set => currentState = value; }
         public GameObject PlayerCharacter { get => _playerCharacter; set => _playerCharacter = value; }
@@ -36,6 +37,7 @@ namespace GnomeCrawler.Enemy
         public float MinAttackChance { get => minAttackChance; set => minAttackChance = value; }
         public float MaxAttackChance { get => maxAttackChance; set => maxAttackChance = value; }
         public bool NeedsBlockState { get => needsBlockState; set => needsBlockState = value; }
+        public bool IsAttackFinished { get => _isAttackFinised; set => _isAttackFinised = value; }
 
         void Start()
         {
@@ -74,6 +76,9 @@ namespace GnomeCrawler.Enemy
             enemyHeatlh -= amount;
         }
 
-
+        public void EndOfAnimation(string aninName)
+        {
+            if (aninName == "Attack") _isAttackFinised = true;
+        }
     }
 }

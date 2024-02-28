@@ -12,35 +12,38 @@ namespace GnomeCrawler.Enemy
 /// </summary>
     public class EnemyAttackState : EnemyBaseState
     {
-        private bool timerIsRunning;
-        private float elapsedTime = 0f;
-        private float attackChance;
+        private bool _timerIsRunning;
+        private float _elapsedTime = 0f;
+        private float _attackChance;
+        private bool _canAttack;
 
         public EnemyAttackState(EnemyStateManager stateManager, EnemyStateFactory stateFactory)
             : base(stateManager, stateFactory) { }
 
         public override void EnterState()
         {
-            attackChance = Random.Range(ctx.MinAttackChance, ctx.MaxAttackChance);
-            timerIsRunning = true;
+            ctx.IsAttackFinished = false;
+            _attackChance = Random.Range(ctx.MinAttackChance, ctx.MaxAttackChance);
         }
 
         public override void UpdateState()
         {
-            Debug.Log(timerIsRunning);
-
-            if (!timerIsRunning)
+            if(_canAttack)
             {
-                attackChance = Random.Range(ctx.MinAttackChance, ctx.MaxAttackChance);
-                timerIsRunning = true;
+                _timerIsRunning = true;
             }
 
-            else if (timerIsRunning)
+            if (!_timerIsRunning)
             {
-                Debug.Log(timerIsRunning);
-                elapsedTime += Time.deltaTime; 
+                _attackChance = Random.Range(ctx.MinAttackChance, ctx.MaxAttackChance);
+                _timerIsRunning = true;
+            }
 
-                if (elapsedTime >= attackChance)
+            else if (_timerIsRunning)
+            {
+                _elapsedTime += Time.deltaTime;
+
+                if (_elapsedTime >= _attackChance)
                 {
                     AttackPlayer();
                     Debug.Log("Timer finished!");
@@ -48,34 +51,35 @@ namespace GnomeCrawler.Enemy
             }
         }
 
-        public override void FixedUpdateState()
+        public override void FixedUpdateState() { }
+
+        public override void OnTriggerEnterState(Collider collision) { }
+        public override void OnTriggerExitState(Collider collision) 
         {
-            // attack player
-            // ctx.EnemyAnimator.Play("Base Layer.Combat");
+            _canAttack = false;
         }
 
-        public override void OnTriggerEnterState(Collider collision)
+        public override void CheckSwitchState() 
         {
-            if(collision.gameObject.layer == 6)
+            if (!ctx.IsAttackFinished)
             {
-                Debug.Log("Damage Dealt");
+                _timerIsRunning = false;
+                return;
             }
-            // logic for doing damage
-            // gonna need the stats/ health system first 
-            // set the animation of the punch to play on attack - not when you're in the state
-        }
-        public override void OnTriggerExitState(Collider collision) { }
 
-        public override void CheckSwitchState() { }
+            else
+            {
+                SwitchStates(factory.ChaseState());
+            }
+        }
 
         public override void ExitState() { }
 
         private void AttackPlayer()
         {
-            timerIsRunning = false;
-            elapsedTime = 0f;
+            _elapsedTime = 0f;
             ctx.EnemyAnimator.Play("Base Layer.Combat");
-            SwitchStates(factory.ChaseState());
+            CheckSwitchState();
         }
     }
 }
