@@ -93,6 +93,8 @@ namespace GnomeCrawler.Deckbuilding
         {
             _activatableCards.Clear();
             _passiveCards.Clear();
+
+            _statsDisplay = "";
         }
 
         #region STATS_DISPLAY
