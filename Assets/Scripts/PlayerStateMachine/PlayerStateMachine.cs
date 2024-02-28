@@ -53,8 +53,7 @@ namespace GnomeCrawler
         #endregion
 
         #region hash
-        int _isWalkingHash;
-        int _isRunningHash;
+        int _speedHash;
         int _isFallingHash;
         int _isJumpingHash;
         int _isAttackingHash;
@@ -71,8 +70,7 @@ namespace GnomeCrawler
         public Animator Animator { get { return _animator; } }
         public CharacterController CharacterController { get { return _characterController; } }
         public Camera MainCam { get { return _mainCam; } }
-        public int IsWalkingHash { get { return _isWalkingHash; } }
-        public int IsRunningHash { get { return _isRunningHash; } }
+        public int SpeedHash { get { return _speedHash; } }
         public int IsFallingHash { get { return _isFallingHash; } }
         public int IsJumpingHash { get { return _isJumpingHash; } }
         public int IsAttackingHash { get { return _isAttackingHash; } }
@@ -109,8 +107,7 @@ namespace GnomeCrawler
             _currentState.EnterState();
 
             // set parameter hash references
-            _isWalkingHash = Animator.StringToHash("isWalking");
-            _isRunningHash = Animator.StringToHash("isRunning");
+            _speedHash = Animator.StringToHash("speed");
             _isFallingHash = Animator.StringToHash("isFalling");
             _isJumpingHash = Animator.StringToHash("isJumping");
             _isAttackingHash = Animator.StringToHash("isAttacking");

@@ -6,10 +6,6 @@ namespace GnomeCrawler
 {
     public class PlayerJumpState : PlayerBaseState, IRootState
     {
-        IEnumerator IJumpResetRoutine()
-        {
-            yield return new WaitForSeconds(.5f);
-        }
 
         public PlayerJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
         : base(currentContext, playerStateFactory)

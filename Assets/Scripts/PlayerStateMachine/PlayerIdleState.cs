@@ -11,14 +11,13 @@ namespace GnomeCrawler
 
         public override void EnterState()
         {
-            Ctx.Animator.SetBool(Ctx.IsWalkingHash, false);
-            Ctx.Animator.SetBool(Ctx.IsRunningHash, false);
             Ctx.AppliedMovementX = 0;
             Ctx.AppliedMovementZ = 0;
         }
 
         public override void UpdateState()
         {
+            Ctx.Animator.SetFloat(Ctx.SpeedHash, Ctx.CurrentMovementInput.magnitude, 0.1f, Time.deltaTime);
             CheckSwitchStates();
         }
 

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7677011659843183631}
   - component: {fileID: 1779297194710462887}
+  - component: {fileID: 7843766408584491132}
   m_Layer: 5
   m_Name: Card Container
   m_TagString: Untagged
@@ -62,3 +63,32 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
+--- !u!114 &7843766408584491132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8142004830040676088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 524b16e3dbdfb834d94517b95f61c521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _allCards:
+  - {fileID: 11400000, guid: 67a39121513fdc945a9de0646932de78, type: 2}
+  - {fileID: 11400000, guid: fa6bce79035fbfe41a1ce6e9fd644ae5, type: 2}
+  - {fileID: 11400000, guid: d8f3d42fc6e02d246847a774467f2f7b, type: 2}
+  - {fileID: 11400000, guid: e03cd2ef3e352ee4b92e0aaf592d0c5d, type: 2}
+  - {fileID: 11400000, guid: 4087167f058eb664280a9985a2074f8e, type: 2}
+  - {fileID: 11400000, guid: 86b9ea3773fe87648800cde12a51f4cd, type: 2}
+  _deck:
+  - {fileID: 11400000, guid: 4087167f058eb664280a9985a2074f8e, type: 2}
+  - {fileID: 11400000, guid: 86b9ea3773fe87648800cde12a51f4cd, type: 2}
+  - {fileID: 11400000, guid: d8f3d42fc6e02d246847a774467f2f7b, type: 2}
+  - {fileID: 11400000, guid: e03cd2ef3e352ee4b92e0aaf592d0c5d, type: 2}
+  - {fileID: 11400000, guid: 67a39121513fdc945a9de0646932de78, type: 2}
+  - {fileID: 11400000, guid: fa6bce79035fbfe41a1ce6e9fd644ae5, type: 2}
+  _cardUIContainer: {fileID: 7677011659843183631}
+  _cardPrefab: {fileID: 1243766675425362075, guid: 47acaa8ac04bc4f4eb871b35802d80d3,
+    type: 3}

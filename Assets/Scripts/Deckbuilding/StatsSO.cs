@@ -9,7 +9,7 @@ namespace GnomeCrawler.Deckbuilding
     public class StatsSO : SerializedScriptableObject
     {
         public Dictionary<Stat, float> _stats = new Dictionary<Stat, float>();
-        private List<CardSO> _passiveCards = new List<CardSO>();
+        [SerializeField] private List<CardSO> _passiveCards = new List<CardSO>();
         private List<CardSO> _activatableCards = new List<CardSO>();
 
         public float GetStat(Stat stat)
@@ -28,7 +28,7 @@ namespace GnomeCrawler.Deckbuilding
                 if (card.UpgradedStat.Key == stat)
                 {
                     // Flat stat addition
-                    if (!card.IsActivatableCard)
+                    if (!card.IsPercentUpgrade)
                     {
                         flatStats += card.UpgradedStat.Value;
                     }
@@ -45,7 +45,7 @@ namespace GnomeCrawler.Deckbuilding
                 if (card.UpgradedStat.Key == stat)
                 {
                     // Flat stat addition
-                    if (!card.IsActivatableCard)
+                    if (!card.IsPercentUpgrade)
                     {
                         flatStats += card.UpgradedStat.Value;
                     }

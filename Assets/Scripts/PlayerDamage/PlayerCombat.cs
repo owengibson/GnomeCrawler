@@ -1,3 +1,4 @@
+using GnomeCrawler.Deckbuilding;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -23,10 +24,13 @@ namespace GnomeCrawler
         [SerializeField] private Transform _originTransform;
         #endregion
 
+        [SerializeField] private StatsSO _playerStats;
+
         public float CurrentHealth { get; set; }
 
         private void Start()
         {
+            _maxHealth = _playerStats.GetStat(Stat.Health);
             CurrentHealth = _maxHealth;
 
             _canDealDamage = false;
@@ -35,6 +39,7 @@ namespace GnomeCrawler
 
         private void Update()
         {
+            _weaponDamage = _playerStats.GetStat(Stat.Damage);
             if (_canDealDamage)
             {
                 CheckForRaycastHit();
@@ -50,7 +55,7 @@ namespace GnomeCrawler
 
                 if (hit.transform.TryGetComponent(out IDamageable damageable) && !_hasDealtDamage.Contains(hit.transform.gameObject))
                 {
-                    damageable.TakeDamage(_weaponDamage);
+                    damageable.TakeDamage(_playerStats.GetStat(Stat.Damage));
                     _hasDealtDamage.Add(hit.transform.gameObject);
                 }
             }
@@ -72,10 +77,30 @@ namespace GnomeCrawler
             CurrentHealth -= amount;
         }
 
+        private void AddCardToStats(CardSO card)
+        {
+            _playerStats.AddCard(card);
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(_originTransform.position, _originTransform.position -  _originTransform.up * _weaponLength);
+            Gizmos.DrawLine(_originTransform.position, _originTransform.position - _originTransform.up * _weaponLength);
+        }
+
+        private void OnApplicationQuit()
+        {
+            _playerStats.ResetCards();
+        }
+
+        private void OnEnable()
+        {
+            EventManager.OnCardChosen += AddCardToStats;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.OnCardChosen -= AddCardToStats;
         }
     }
 }
