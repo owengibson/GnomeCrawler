@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-namespace GnomeCrawler
+namespace GnomeCrawler.Enemy
 {/// <summary>
 /// the enemy should attack the player
 /// every x seconds, they will attack the player / the speed of anim is ok for now

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GnomeCrawler
+namespace GnomeCrawler.Player
 {
     public class PlayerRunState : PlayerBaseState
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace GnomeCrawler
+namespace GnomeCrawler.Enemy
 {
 
     public class EnemyStateManager : MonoBehaviour

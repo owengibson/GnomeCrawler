@@ -1,4 +1,4 @@
-namespace GnomeCrawler
+namespace GnomeCrawler.Player
 {
     public abstract class PlayerBaseState
     {

@@ -1,4 +1,5 @@
 using GnomeCrawler.Deckbuilding;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,18 +13,17 @@ namespace GnomeCrawler
         #endregion
 
         #region damage
-        [SerializeField] private float _weaponLength;
-        [SerializeField] private float _weaponDamage;
-        [SerializeField] private bool _canDealDamage;
-        private bool _hasDealtDamage;
+        [SerializeField] protected float _weaponLength;
+        [SerializeField] protected bool _canDealDamage;
+        protected bool _hasDealtDamage;
         #endregion
 
         #region raycast
-        [SerializeField] private LayerMask _layerMask;
-        [SerializeField] private Transform _originTransform;
+        [SerializeField] protected LayerMask _layerMask;
+        [SerializeField] protected Transform _originTransform;
         #endregion
 
-        [SerializeField] private StatsSO _stats;
+        [SerializeField] protected StatsSO _stats;
 
         public float CurrentHealth { get; set; }
 
@@ -38,14 +38,13 @@ namespace GnomeCrawler
 
         private void Update()
         {
-            _weaponDamage = _stats.GetStat(Stat.Damage);
             if (_canDealDamage)
             {
                 CheckForRaycastHit();
             }
         }
 
-        private void CheckForRaycastHit()
+        protected virtual void CheckForRaycastHit()
         {
             RaycastHit hit;
 
@@ -60,7 +59,7 @@ namespace GnomeCrawler
             }
         }
 
-        public void StartDealDamage()
+        public virtual void StartDealDamage()
         {
             _canDealDamage = true;
             _hasDealtDamage = false;
@@ -76,7 +75,7 @@ namespace GnomeCrawler
             CurrentHealth -= amount;
         }
 
-        private void OnDrawGizmos()
+        protected void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(_originTransform.position, _originTransform.position - _originTransform.up * _weaponLength);

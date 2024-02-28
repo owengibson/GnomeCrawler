@@ -1,4 +1,4 @@
-namespace GnomeCrawler
+namespace GnomeCrawler.Enemy
 {
     public class EnemyStateFactory
     {

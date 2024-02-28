@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-namespace GnomeCrawler
+namespace GnomeCrawler.Player
 {
     public class PlayerStateMachine : MonoBehaviour
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GnomeCrawler
+namespace GnomeCrawler.Enemy
 {
     public class EnemyIdleState : EnemyBaseState
     {
