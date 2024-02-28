@@ -1,4 +1,6 @@
 using GnomeCrawler.Deckbuilding;
+using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,20 +10,21 @@ namespace GnomeCrawler
 {
     public class CardManager : MonoBehaviour
     {
-        [SerializeField] private CardSO[] _defenseCards;
-        [SerializeField] private CardSO[] _attackCards;
-        [SerializeField] private CardSO[] _utilityCards;
+        [SerializeField] private CardSO[] _allCards;
         [Space]
 
-        [SerializeField] private List<CardSO> _currentPool;
+        [SerializeField] private List<CardSO> _deck;
         [SerializeField] private Transform _cardUIContainer;
         [SerializeField] private GameObject _cardPrefab;
 
-        private bool _areFirstCards = true;
-        private int _noOfCardsPerHand = 3;
+        private bool _isFirstDraw = true;
+        private int _noOfCardsPerDraw = 3;
 
         private void InstantiateCards(List<CardSO> cards)
         {
+            foreach(Transform child in _cardUIContainer)
+                Destroy(child.gameObject);
+
             foreach (CardSO card in cards)
             {
                 GameObject newCardGO = Instantiate(_cardPrefab, _cardUIContainer);
@@ -30,16 +33,20 @@ namespace GnomeCrawler
             }
         }
 
-        private List<CardSO> ChooseCards(List<CardSO> pool)
+        private List<CardSO> DrawCards(List<CardSO> pool)
         {
-            List<CardSO> output = new List<CardSO>();
-            List<int> usedNumbers = new List<int>();
-            for (int i = 0; i < _noOfCardsPerHand; i++)
+            if (_isFirstDraw)
             {
-                int randomNum = Random.Range(0, pool.Count - 1);
-                while (usedNumbers.Contains(randomNum))
+                return DrawFirstCards();
+            }
+
+            List<CardSO> output = new List<CardSO>();
+            for (int i = 0; i < _noOfCardsPerDraw; i++)
+            {
+                int randomNum = UnityEngine.Random.Range(0, pool.Count);
+                while (output.Contains(pool[randomNum]))
                 {
-                    randomNum = Random.Range(0, pool.Count - 1);
+                    randomNum = UnityEngine.Random.Range(0, pool.Count);
                 }
                 output.Add(pool[randomNum]);
             }
@@ -48,9 +55,26 @@ namespace GnomeCrawler
             return output;
         }
 
-        private void ChooseAndDisplayCards()
+        public void DrawAndDisplayCards()
         {
-            
+            InstantiateCards(DrawCards(_deck));
+        }
+
+        private List<CardSO> DrawFirstCards()
+        {
+            List<CardSO> output = new List<CardSO> ();
+            foreach (CardCategory category in Enum.GetValues(typeof(CardCategory)))
+            {
+                CardSO card = _deck[UnityEngine.Random.Range(0, _deck.Count)];
+                while (card.Category != category)
+                {
+                    card = _deck[UnityEngine.Random.Range(0, _deck.Count)];
+                }
+                output.Add(card);
+            }
+
+            _isFirstDraw = false;
+            return output;
         }
     }
 }
