@@ -25,6 +25,7 @@ namespace GnomeCrawler.Enemy
         [SerializeField] private float maxAttackChance;
         [SerializeField] private bool needsBlockState;
         private bool _isAttackFinised;
+        [SerializeField] private bool _isInAttackZone;
 
         public EnemyBaseState CurrentState { get => currentState; set => currentState = value; }
         public GameObject PlayerCharacter { get => _playerCharacter; set => _playerCharacter = value; }
@@ -38,6 +39,7 @@ namespace GnomeCrawler.Enemy
         public float MaxAttackChance { get => maxAttackChance; set => maxAttackChance = value; }
         public bool NeedsBlockState { get => needsBlockState; set => needsBlockState = value; }
         public bool IsAttackFinished { get => _isAttackFinised; set => _isAttackFinised = value; }
+        public bool IsInAttackZone { get => _isInAttackZone; set => _isInAttackZone = value; }
 
         void Start()
         {
@@ -64,11 +66,17 @@ namespace GnomeCrawler.Enemy
         }
         private void OnTriggerEnter(Collider other)
         {
-            currentState.OnTriggerEnterState(other);
+            if (AttackingZone && other.gameObject.tag == "Player")
+            {
+                IsInAttackZone = true;
+            }
         }
         private void OnTriggerExit(Collider other)
         {
-            currentState.OnTriggerExitState(other);
+            if (AttackingZone && other.gameObject.tag == "Player")
+            {
+                IsInAttackZone = false;
+            }
         }
 
         public void TakeDamage(int amount)

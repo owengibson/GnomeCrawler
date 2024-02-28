@@ -22,13 +22,23 @@ namespace GnomeCrawler.Enemy
 
         public override void EnterState()
         {
+            ctx.EnemyNavMeshAgent.speed = 0;
             ctx.IsAttackFinished = false;
             _attackChance = Random.Range(ctx.MinAttackChance, ctx.MaxAttackChance);
+            ctx.EnemyAnimator.SetBool("inCombat", true);
+            /*AttackPlayer();*/
         }
 
         public override void UpdateState()
         {
-            if(_canAttack)
+            CheckSwitchState();
+
+           /* if (ctx.IsAttackFinished)
+            {
+                AttackPlayer();
+            }*/
+
+            /*if(_canAttack)
             {
                 _timerIsRunning = true;
             }
@@ -46,41 +56,38 @@ namespace GnomeCrawler.Enemy
                 if (_elapsedTime >= _attackChance)
                 {
                     AttackPlayer();
-                    Debug.Log("Timer finished!");
+                    //Debug.Log("Timer finished!");
                 }
-            }
+            }*/
         }
 
         public override void FixedUpdateState() { }
 
-        public override void OnTriggerEnterState(Collider collision) { }
-        public override void OnTriggerExitState(Collider collision) 
-        {
-            _canAttack = false;
-        }
-
         public override void CheckSwitchState() 
         {
-            if (!ctx.IsAttackFinished)
+           /* if (!ctx.IsAttackFinished)
             {
                 _timerIsRunning = false;
                 return;
-            }
+            }*/
 
-            else
+            if (ctx.IsAttackFinished && !ctx.IsInAttackZone)
             {
                 SwitchStates(factory.ChaseState());
             }
         }
 
-        public override void ExitState() { }
-
-        private void AttackPlayer()
+        public override void ExitState() 
         {
+            ctx.EnemyAnimator.SetBool("inCombat", false);
+        }
+
+       /* private void AttackPlayer()
+        {
+            ctx.IsAttackFinished = false;
             _elapsedTime = 0f;
             ctx.EnemyAnimator.Play("Base Layer.Combat");
-            CheckSwitchState();
-        }
+        }*/
     }
 }
 

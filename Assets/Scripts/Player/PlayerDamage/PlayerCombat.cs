@@ -12,6 +12,7 @@ namespace GnomeCrawler.Player
 
         private void Start()
         {
+            base.InitialiseVariables();
             _damagedGameObjects = new List<GameObject>();
         }
 

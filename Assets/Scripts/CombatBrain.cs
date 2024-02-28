@@ -24,24 +24,30 @@ namespace GnomeCrawler
         #endregion
 
         [SerializeField] protected StatsSO _stats;
-
-        [ShowInInspector] public float CurrentHealth { get; set; }
+        [SerializeField] private float _currentHealth;
+        public float CurrentHealth { get; set; }
 
         private void Start()
+        {
+            InitialiseVariables();
+        }
+
+        private void Update()
+        {
+            _currentHealth = CurrentHealth;
+            if (_canDealDamage)
+            {
+                CheckForRaycastHit();
+            }
+        }
+
+        protected virtual void InitialiseVariables()
         {
             _maxHealth = _stats.GetStat(Stat.Health);
             CurrentHealth = _maxHealth;
 
             _canDealDamage = false;
             _hasDealtDamage = false;
-        }
-
-        private void Update()
-        {
-            if (_canDealDamage)
-            {
-                CheckForRaycastHit();
-            }
         }
 
         protected virtual void CheckForRaycastHit()
@@ -61,12 +67,14 @@ namespace GnomeCrawler
 
         public virtual void StartDealDamage()
         {
+            print("start deal damage");
             _canDealDamage = true;
             _hasDealtDamage = false;
         }
 
         public void EndDealDamage()
         {
+            print("end deal damage");
             _canDealDamage = false;
         }
 

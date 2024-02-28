@@ -19,6 +19,7 @@ namespace GnomeCrawler.Enemy
 
         public override void UpdateState()
         {
+            CheckSwitchState();
             //Debug.Log("Now Chasing");
             ctx.CurrentEnemy.transform.LookAt(ctx.PlayerCharacter.transform.position);
         }
@@ -27,23 +28,17 @@ namespace GnomeCrawler.Enemy
             ApproachPlayer();
         }
 
-        public override void OnTriggerEnterState(Collider collision)
+        public override void CheckSwitchState() 
         {
-            if (ctx.AttackingZone && collision.gameObject.tag == "Player")
+            if (ctx.NeedsBlockState)
             {
-                if(ctx.NeedsBlockState)
-                {
-                    SwitchStates(factory.BlockState());
-                }
-                else
-                {
-                    SwitchStates(factory.AttackState());
-                }
+                SwitchStates(factory.BlockState());
+            }
+            else if (ctx.IsInAttackZone)
+            {
+                SwitchStates(factory.AttackState());
             }
         }
-        public override void OnTriggerExitState(Collider collision) { }
-
-        public override void CheckSwitchState() { }
 
         public override void ExitState() { }
 

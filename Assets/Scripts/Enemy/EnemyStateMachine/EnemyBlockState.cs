@@ -21,10 +21,6 @@ namespace GnomeCrawler.Enemy
 
         public override void FixedUpdateState() { }
 
-        public override void OnTriggerEnterState(Collider collision) { }
-
-        public override void OnTriggerExitState(Collider collision) { }
-
         public override void CheckSwitchState() { }
 
         public override void ExitState() { }

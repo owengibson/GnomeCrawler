@@ -16,8 +16,6 @@ namespace GnomeCrawler.Enemy
         public abstract void EnterState();
         public abstract void UpdateState();
         public abstract void FixedUpdateState();
-        public abstract void OnTriggerEnterState(Collider collision);
-        public abstract void OnTriggerExitState(Collider collision);
         public abstract void CheckSwitchState();
         public abstract void ExitState();
 

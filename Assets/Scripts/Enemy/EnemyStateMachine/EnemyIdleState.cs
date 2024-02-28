@@ -22,10 +22,6 @@ namespace GnomeCrawler.Enemy
 
         public override void FixedUpdateState() { }
 
-        public override void OnTriggerEnterState(Collider collision) { }
-
-        public override void OnTriggerExitState(Collider collision) { }
-
         public override void CheckSwitchState()
         {
             float currentDist = Vector3.Distance(ctx.CurrentEnemy.transform.position, ctx.PlayerCharacter.transform.position); 
