@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -60,7 +61,7 @@ namespace GnomeCrawler.Deckbuilding
             percentStat = 1 - percentStat; // Convert percentage stat
             statToReturn += statToReturn * percentStat; // Apply percentage stat to total
 
-            return statToReturn;
+            return (float)Math.Round(statToReturn, 1);
         }
 
         public void AddCard(CardSO card)
@@ -93,5 +94,22 @@ namespace GnomeCrawler.Deckbuilding
             _activatableCards.Clear();
             _passiveCards.Clear();
         }
+
+        #region STATS_DISPLAY
+        [Button("Show/Update Stats Display")]
+        private void UpdateStatsDisplay()
+        {
+            _statsDisplay = "";
+            foreach (Stat stat in _stats.Keys)
+            {
+                _statsDisplay += "<b>" + stat.ToString() + ": </b>" + GetStat(stat) + "\n";
+            }
+            _statsDisplay = _statsDisplay.Trim();
+        }
+        [BoxGroup("Stats Display")]
+        [HideLabel]
+        [DisplayAsString(false, EnableRichText = true)]
+        [SerializeField] private string _statsDisplay = "";
+        #endregion
     }
 }
