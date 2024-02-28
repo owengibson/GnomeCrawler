@@ -11,10 +11,10 @@ namespace GnomeCrawler
 
         public override void EnterState()
         {
-            //Debug.Log("Chasing");
+            // tool tip
+            // Debug.Log("Chasing");
             ctx.EnemyAnimator.SetBool("isMoving", true);
             ctx.EnemyAnimator.SetBool("inCombat", false);
-
         }
 
         public override void UpdateState()
@@ -29,9 +29,16 @@ namespace GnomeCrawler
 
         public override void OnTriggerEnterState(Collider collision)
         {
-            if (collision.gameObject.tag == "Player")
+            if (ctx.AttackingZone && collision.gameObject.tag == "Player")
             {
-                SwitchStates(factory.AttackState());
+                if(ctx.NeedsBlockState)
+                {
+                    SwitchStates(factory.BlockState());
+                }
+                else
+                {
+                    SwitchStates(factory.AttackState());
+                }
             }
         }
         public override void OnTriggerExitState(Collider collision) { }
@@ -42,9 +49,8 @@ namespace GnomeCrawler
 
         public void ApproachPlayer()
         {
-            float speed = 2f;
-            float step = speed * Time.deltaTime;
-            ctx.CurrentEnemy.transform.position = Vector3.MoveTowards(ctx.CurrentEnemy.transform.position, ctx.PlayerCharacter.transform.position, step);
+            ctx.EnemyNavMeshAgent.speed = ctx.ChaseSpeed;
+            ctx.EnemyNavMeshAgent.destination = ctx.PlayerCharacter.transform.position;
         }
     }
 }

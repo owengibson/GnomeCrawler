@@ -4,19 +4,18 @@ using UnityEngine;
 
 namespace GnomeCrawler
 {
-    public class EnemyIdleState : EnemyBaseState
+    public class EnemyBlockState : EnemyBaseState
     {
-        public EnemyIdleState(EnemyStateManager stateManager, EnemyStateFactory stateFactory)
+        public EnemyBlockState(EnemyStateManager stateManager, EnemyStateFactory stateFactory)
             : base(stateManager, stateFactory) { }
 
         public override void EnterState()
         {
-            //Debug.Log("Idle");
+            Debug.Log("Hello from the Block state");
         }
 
         public override void UpdateState()
         {
-            //Debug.Log("Idling");
             CheckSwitchState();
         }
 
@@ -26,15 +25,7 @@ namespace GnomeCrawler
 
         public override void OnTriggerExitState(Collider collision) { }
 
-        public override void CheckSwitchState()
-        {
-            float currentDist = Vector3.Distance(ctx.CurrentEnemy.transform.position, ctx.PlayerCharacter.transform.position); 
-
-            if (currentDist < ctx.ChasingZone)
-            {
-                SwitchStates(factory.ChaseState());
-            }
-        }
+        public override void CheckSwitchState() { }
 
         public override void ExitState() { }
     }

@@ -11,5 +11,9 @@ namespace GnomeCrawler
         public EnemyBaseState AttackState() { return new EnemyAttackState(context, this); }
 
         public EnemyBaseState ChaseState() { return new EnemyChaseState(context, this); }
+        
+        public EnemyBaseState BlockState() { return new EnemyBlockState(context, this); }
+
+
     }
 }
