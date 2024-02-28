@@ -256,7 +256,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7738708703031477792}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 569859153090241439}
+        m_TargetAssemblyTypeName: GnomeCrawler.Deckbuilding.CardUI, Assembly-CSharp
+        m_MethodName: ChooseCard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &569859153090241439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,7 +377,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 87.95
+  m_fontSize: 0
   m_fontSizeBase: 86
   m_fontWeight: 400
   m_enableAutoSizing: 1
