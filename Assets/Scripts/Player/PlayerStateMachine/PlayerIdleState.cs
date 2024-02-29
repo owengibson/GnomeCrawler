@@ -31,6 +31,10 @@ namespace GnomeCrawler.Player
             {
                 SwitchState(Factory.Attack());
             }
+            else if (Ctx.IsDodgePressed && _currentSuperState == Factory.Grounded() && Ctx.CanDodge && Ctx.IsMovementPressed)
+            {
+                SwitchState(Factory.Dodge());
+            }
             else if (Ctx.IsMovementPressed && Ctx.IsRunPressed)
             {
                 SwitchState(Factory.Run());

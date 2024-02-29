@@ -9,18 +9,39 @@ namespace GnomeCrawler.Player
         public PlayerDodgeState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
         : base(currentContext, playerStateFactory) { }
 
+        IEnumerator DodgeTimer()
+        {
+            yield return new WaitForSeconds(Ctx.DodgeDuration);
+            Ctx.DodgeVelocity = 1f;
+            Ctx.IsDodging = false;
+            Ctx.StartCoroutine(DodgeCooldownTimer());
+        }
+
+        IEnumerator DodgeCooldownTimer()
+        {
+            yield return new WaitForSeconds(Ctx.DodgeCooldown);
+            Ctx.CanDodge = true;
+        }
+
         public override void EnterState()
         {
-            Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x * 10f;
-            Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y * 10f;
+            HandleDodge();
+            Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
+            Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
         }
 
         public override void UpdateState()
         {
-            CheckSwitchStates();
+            if (!Ctx.IsDodging)
+            {
+                CheckSwitchStates();
+            }
         }
 
-        public override void ExitState() { }
+        public override void ExitState() 
+        {
+            Ctx.Animator.SetBool(Ctx.IsDodgingHash, false);
+        }
 
         public override void InitialiseSubState() { }
 
@@ -34,10 +55,23 @@ namespace GnomeCrawler.Player
             {
                 SwitchState(Factory.Idle());
             }
+            else if (Ctx.IsMovementPressed)
+            {
+                SwitchState(Factory.Walk());
+            }
             else if (Ctx.IsMovementPressed && Ctx.IsRunPressed)
             {
                 SwitchState(Factory.Run());
             }
+        }
+
+        private void HandleDodge()
+        {
+            Ctx.Animator.SetBool(Ctx.IsDodgingHash, true);
+            Ctx.DodgeVelocity = Ctx.DodgeForce;
+            Ctx.IsDodging = true;
+            Ctx.CanDodge = false;
+            Ctx.StartCoroutine(DodgeTimer());
         }
     }
 }

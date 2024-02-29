@@ -1,3 +1,5 @@
+using GnomeCrawler.Deckbuilding;
+using GnomeCrawler.Systems;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditorInternal;
@@ -21,10 +23,10 @@ namespace GnomeCrawler.Player
         Animator _animator;
         PlayerControls _playerInput;
         Camera _mainCam;
+        [SerializeField] private StatsSO _playerStats;
         #endregion
 
         #region movement
-        float _moveSpeed = 2.5f;
         Vector2 _currentMovementInput;
         Vector3 _currentMovement;
         Vector3 _appliedMovement;
@@ -43,9 +45,18 @@ namespace GnomeCrawler.Player
         bool _requireNewJumpPress = false;
         #endregion
 
+        #region dodging
+        float _dodgeForce = 4f;
+        float _dodgeVelocity = 1f;
+        float _dodgeDuration = 0.5f;
+        float _dodgeCooldown = 1f;
+        bool _isDodgePressed;
+        bool _isDodging = false;
+        bool _canDodge = true;
+        #endregion
+
         #region combat
         bool _isAttackPressed;
-        bool _isDodgePressed;
         bool _isAttackFinished = true;
         #endregion
 
@@ -59,6 +70,7 @@ namespace GnomeCrawler.Player
         int _isFallingHash;
         int _isJumpingHash;
         int _isAttackingHash;
+        int _isDodgingHash;
         #endregion
 
         // gravity
@@ -69,10 +81,12 @@ namespace GnomeCrawler.Player
         public Animator Animator { get { return _animator; } }
         public CharacterController CharacterController { get { return _characterController; } }
         public Camera MainCam { get { return _mainCam; } }
+        public StatsSO PlayerStats { get { return _playerStats; } }
         public int SpeedHash { get { return _speedHash; } }
         public int IsFallingHash { get { return _isFallingHash; } }
         public int IsJumpingHash { get { return _isJumpingHash; } }
         public int IsAttackingHash { get { return _isAttackingHash; } }
+        public int IsDodgingHash { get { return _isDodgingHash; } }
         public bool IsMovementPressed { get { return _isMovementPressed; } }
         public bool IsRunPressed { get { return _isRunPressed; } }
         public bool RequireNewJumpPress { get { return _requireNewJumpPress; } set { _requireNewJumpPress = value; } }
@@ -84,13 +98,18 @@ namespace GnomeCrawler.Player
         public float InitialJumpVelocity { get { return _initialJumpVelocity; } set { _initialJumpVelocity = value; } }
         public float InitialGravity { get { return _initialGravity; } set { _initialGravity = value; } }
         public float Gravity { get { return _gravity; } }
-        public float MoveSpeed { get { return _moveSpeed; } }
         public float CurrentMovementY { get { return _currentMovement.y; } set { _currentMovement.y = value; } }
         public float AppliedMovementY { get { return _appliedMovement.y; } set { _appliedMovement.y = value; } }
         public float AppliedMovementX { get { return _appliedMovement.x; } set { _appliedMovement.x = value; } }
         public float AppliedMovementZ { get { return _appliedMovement.z; } set { _appliedMovement.z = value; } }
         public float RunMultiplier { get { return _runMultiplier; } }
         public Vector2 CurrentMovementInput { get { return _currentMovementInput; } }
+        public float DodgeVelocity { get { return _dodgeVelocity; } set { _dodgeVelocity = value; } }
+        public float DodgeDuration { get => _dodgeDuration; }
+        public float DodgeCooldown { get => _dodgeCooldown; }
+        public float DodgeForce { get => _dodgeForce; }
+        public bool IsDodging { get => _isDodging; set => _isDodging = value; }
+        public bool CanDodge { get => _canDodge; set => _canDodge = value; }
         #endregion
 
         private void Awake()
@@ -111,6 +130,7 @@ namespace GnomeCrawler.Player
             _isFallingHash = Animator.StringToHash("isFalling");
             _isJumpingHash = Animator.StringToHash("isJumping");
             _isAttackingHash = Animator.StringToHash("isAttacking");
+            _isDodgingHash = Animator.StringToHash("isDodging");
 
             // set player input callbacks
             _playerInput.Player.Move.started += OnMovementInput;
@@ -137,7 +157,7 @@ namespace GnomeCrawler.Player
 
         private void Start()
         {
-            _characterController.Move(_appliedMovement * _moveSpeed * Time.deltaTime);
+            _characterController.Move(_appliedMovement * _playerStats.GetStat(Stat.MoveSpeed) * Time.deltaTime);
         }
 
         private void Update()
@@ -148,7 +168,7 @@ namespace GnomeCrawler.Player
             print(_currentState._currentSubState);*/
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
-            _characterController.Move(_cameraRelativeMovement * _moveSpeed * Time.deltaTime);
+            _characterController.Move(_cameraRelativeMovement * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity * Time.deltaTime);
         }
 
         Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
@@ -219,11 +239,18 @@ namespace GnomeCrawler.Player
         private void OnEnable()
         {
             _playerInput.Player.Enable();
+            EventManager.OnCardChosen += AddCardToStats;
         }
 
         private void OnDisable()
         {
             _playerInput.Player.Disable();
+            EventManager.OnCardChosen -= AddCardToStats;
+        }
+
+        private void AddCardToStats(CardSO card)
+        {
+            PlayerStats.AddCard(card);
         }
 
         public void AnimationFinished(string animName)

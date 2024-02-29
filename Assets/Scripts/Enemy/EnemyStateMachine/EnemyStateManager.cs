@@ -52,7 +52,7 @@ namespace GnomeCrawler.Enemy
         void Update()
         {
             currentState.UpdateState();
-            Debug.Log(currentState);
+            //Debug.Log(currentState);
 
             if(enemyHeatlh <= 0)
             {

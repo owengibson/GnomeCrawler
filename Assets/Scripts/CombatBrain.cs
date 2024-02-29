@@ -22,7 +22,6 @@ namespace GnomeCrawler
         #endregion
 
         [SerializeField] protected StatsSO _stats;
-        [SerializeField] private float _currentHealth;
         public float CurrentHealth { get; set; }
 
         private void Start()
@@ -32,7 +31,6 @@ namespace GnomeCrawler
 
         private void Update()
         {
-            _currentHealth = CurrentHealth;
             if (_canDealDamage)
             {
                 CheckForRaycastHit();
