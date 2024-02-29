@@ -44,6 +44,7 @@ namespace GnomeCrawler.Player
 
         #region combat
         bool _isAttackPressed;
+        bool _isDodgePressed;
         bool _isAttackFinished = true;
         #endregion
 
@@ -80,6 +81,7 @@ namespace GnomeCrawler.Player
         public bool IsJumping { set { _isJumping = value; } }
         public bool IsJumpPressed { get { return _isJumpPressed; } }
         public bool IsAttackPressed { get { return _isAttackPressed; } }
+        public bool IsDodgePressed { get { return _isDodgePressed; } }
         public bool IsAttackFinished { get { return _isAttackFinished; } set { _isAttackFinished = value; } }
         public float InitialJumpVelocity { get { return _initialJumpVelocity; } set { _initialJumpVelocity = value; } }
         public float InitialGravity { get { return _initialGravity; } set { _initialGravity = value; } }
@@ -122,6 +124,8 @@ namespace GnomeCrawler.Player
             _playerInput.Player.Sprint.canceled += OnRun;
             _playerInput.Player.Attack.started += OnAttack;
             _playerInput.Player.Attack.canceled += OnAttack;
+            _playerInput.Player.Dodge.started += OnDodge;
+            _playerInput.Player.Dodge.canceled += OnDodge;
 
             SetupJumpVariables();
         }
@@ -212,8 +216,11 @@ namespace GnomeCrawler.Player
         }
         private void OnAttack(InputAction.CallbackContext context)
         {
-            //StartCoroutine(Attack());
             _isAttackPressed = context.ReadValueAsButton();
+        }
+        private void OnDodge(InputAction.CallbackContext context)
+        {
+            _isDodgePressed = context.ReadValueAsButton();
         }
 
         private void OnEnable()
@@ -237,13 +244,6 @@ namespace GnomeCrawler.Player
         {
             health -= amount;
         }
-        /*
-        private IEnumerator Attack()
-        {
-            GetComponentInChildren<PlayerWeaponHitBox>().StartDealDamage();
-            yield return new WaitForSeconds(1);
-            GetComponentInChildren<PlayerWeaponHitBox>().StopDealDamage();
-        }*/
     }
 
 }
