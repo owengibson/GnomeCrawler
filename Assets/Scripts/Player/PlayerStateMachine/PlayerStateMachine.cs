@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 
 namespace GnomeCrawler.Player
 {
+    // State Machine Heavily Inspired By IHeartGameDev https://www.youtube.com/c/iHeartGameDev/videos
     public class PlayerStateMachine : MonoBehaviour
     {
         #region constants
@@ -62,9 +63,6 @@ namespace GnomeCrawler.Player
 
         // gravity
         float _gravity = -9.8f;
-
-        // temp
-        public int health = 10;
 
         #region getters and setters
         public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
@@ -151,11 +149,6 @@ namespace GnomeCrawler.Player
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
             _characterController.Move(_cameraRelativeMovement * _moveSpeed * Time.deltaTime);
-
-            if (health <= 0)
-            {
-                Destroy(this.gameObject);
-            }
         }
 
         Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
@@ -238,11 +231,6 @@ namespace GnomeCrawler.Player
             print (animName + " animation finished");
 
             if (animName == "Attack") _isAttackFinished = true;
-        }
-
-        public void TakeDamage(int amount)
-        {
-            health -= amount;
         }
     }
 

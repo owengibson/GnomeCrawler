@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using GnomeCrawler.Systems;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -17,6 +19,11 @@ namespace GnomeCrawler.Deckbuilding
         private bool _isFirstDraw = true;
         private int _noOfCardsPerDraw = 3;
 
+        private void Start()
+        {
+            DrawAndDisplayCards();
+        }
+
         private void InstantiateCards(List<CardSO> cards)
         {
             foreach(Transform child in _cardUIContainer)
@@ -28,6 +35,7 @@ namespace GnomeCrawler.Deckbuilding
                 CardUI newCard = newCardGO.GetComponent<CardUI>();
                 newCard.SetCard(card);
             }
+            EventSystem.current.SetSelectedGameObject(_cardUIContainer.GetChild(0).gameObject);
         }
 
         private List<CardSO> DrawCards(List<CardSO> pool)
@@ -54,6 +62,7 @@ namespace GnomeCrawler.Deckbuilding
 
         public void DrawAndDisplayCards()
         {
+            EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
             InstantiateCards(DrawCards(_deck));
         }
 
@@ -72,6 +81,15 @@ namespace GnomeCrawler.Deckbuilding
 
             _isFirstDraw = false;
             return output;
+        }
+
+        private void OnEnable()
+        {
+            EventManager.OnRoomCleared += DrawAndDisplayCards;
+        }
+        private void OnDisable()
+        {
+            EventManager.OnRoomCleared -= DrawAndDisplayCards;
         }
     }
 }

@@ -1,12 +1,10 @@
 using GnomeCrawler.Deckbuilding;
-using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
+using GnomeCrawler.Systems;
 using UnityEngine;
 
 namespace GnomeCrawler
 {
-    public class CombatBrain : MonoBehaviour, IDamageable
+    public class CombatBrain : MonoBehaviour, IDamageable, IKillable
     {
         #region health
         [SerializeField] private float _maxHealth;
@@ -81,6 +79,15 @@ namespace GnomeCrawler
         public void TakeDamage(float amount)
         {
             CurrentHealth -= amount;
+
+            if (CurrentHealth <= 0) Die();
+        }
+
+        public virtual void Die()
+        {
+            EventManager.OnEnemyKilled?.Invoke(gameObject);
+            Destroy(gameObject);
+
         }
 
         protected void OnDrawGizmos()

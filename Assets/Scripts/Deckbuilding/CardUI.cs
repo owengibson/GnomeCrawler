@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using GnomeCrawler;
+using GnomeCrawler.Systems;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -54,6 +54,7 @@ namespace GnomeCrawler.Deckbuilding
         {
             if (_card == null) return;
             EventManager.OnCardChosen?.Invoke(_card);
+            EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
             Destroy(gameObject);
         }
 
