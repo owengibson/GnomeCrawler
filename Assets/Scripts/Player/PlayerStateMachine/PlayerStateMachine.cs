@@ -46,7 +46,7 @@ namespace GnomeCrawler.Player
         #endregion
 
         #region dodging
-        float _dodgeForce = 4f;
+        float _dodgeForce = 2f;
         float _dodgeVelocity = 1f;
         float _dodgeDuration = 0.5f;
         float _dodgeCooldown = 1f;
@@ -239,18 +239,11 @@ namespace GnomeCrawler.Player
         private void OnEnable()
         {
             _playerInput.Player.Enable();
-            EventManager.OnCardChosen += AddCardToStats;
         }
 
         private void OnDisable()
         {
             _playerInput.Player.Disable();
-            EventManager.OnCardChosen -= AddCardToStats;
-        }
-
-        private void AddCardToStats(CardSO card)
-        {
-            PlayerStats.AddCard(card);
         }
 
         public void AnimationFinished(string animName)

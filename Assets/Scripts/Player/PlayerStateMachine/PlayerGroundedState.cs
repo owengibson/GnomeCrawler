@@ -33,7 +33,7 @@ namespace GnomeCrawler.Player
 
         public override void CheckSwitchStates()
         {
-            if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress && Ctx.IsAttackFinished)
+            if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress && Ctx.IsAttackFinished && !Ctx.IsDodging)
             {
                 SwitchState(Factory.Jump());
             }
