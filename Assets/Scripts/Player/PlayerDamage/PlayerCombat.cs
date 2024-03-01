@@ -41,6 +41,12 @@ namespace GnomeCrawler.Player
         private void AddCardToStats(CardSO card)
         {
             _stats.AddCard(card);
+
+            if (card.UpgradedStat.Key == Stat.Health)
+            {
+                CurrentHealth += _stats.GetStat(Stat.Health) - _maxHealth;
+                _maxHealth = _stats.GetStat(Stat.Health);
+            }
         }
 
         private void OnApplicationQuit()

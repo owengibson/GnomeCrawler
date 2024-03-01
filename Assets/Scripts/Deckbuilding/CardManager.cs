@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using GnomeCrawler.Systems;
+using DG.Tweening;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -18,6 +19,7 @@ namespace GnomeCrawler.Deckbuilding
 
         private bool _isFirstDraw = true;
         private int _noOfCardsPerDraw = 3;
+
 
         private void Start()
         {

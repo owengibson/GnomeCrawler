@@ -7,7 +7,7 @@ namespace GnomeCrawler
     public class CombatBrain : MonoBehaviour, IDamageable, IKillable
     {
         #region health
-        [SerializeField] private float _maxHealth;
+        [SerializeField] protected float _maxHealth;
         #endregion
 
         #region damage
