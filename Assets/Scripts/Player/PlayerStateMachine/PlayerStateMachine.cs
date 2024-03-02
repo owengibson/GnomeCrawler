@@ -1,5 +1,6 @@
 using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditorInternal;
@@ -24,6 +25,10 @@ namespace GnomeCrawler.Player
         PlayerControls _playerInput;
         Camera _mainCam;
         [SerializeField] private StatsSO _playerStats;
+        #endregion
+
+        #region lock on
+        bool _isLockedOnPressed = false;
         #endregion
 
         #region movement
@@ -145,6 +150,9 @@ namespace GnomeCrawler.Player
             _playerInput.Player.Dodge.started += OnDodge;
             _playerInput.Player.Dodge.canceled += OnDodge;
 
+            _playerInput.Player.LockOn.started += CameraLockOn;
+            _playerInput.Player.LockOn.canceled += CameraLockOn;
+
             SetupJumpVariables();
         }
 
@@ -211,6 +219,15 @@ namespace GnomeCrawler.Player
             }
         }
 
+        void HandleLockOn()
+        {
+            if (_isLockedOnPressed)
+            {
+                _isLockedOnPressed = false;
+
+            }
+        }
+
         void OnMovementInput(InputAction.CallbackContext context)
         {
             _currentMovementInput = context.ReadValue<Vector2>();
@@ -234,6 +251,11 @@ namespace GnomeCrawler.Player
         private void OnDodge(InputAction.CallbackContext context)
         {
             _isDodgePressed = context.ReadValueAsButton();
+        }
+
+        private void CameraLockOn(InputAction.CallbackContext context)
+        {
+            _isLockedOnPressed = context.ReadValueAsButton();
         }
 
         private void OnEnable()
