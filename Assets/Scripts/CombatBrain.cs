@@ -79,7 +79,7 @@ namespace GnomeCrawler
         {
             CurrentHealth -= amount;
 
-            _healthBar.SetProgress(CurrentHealth / _maxHealth * 3);
+            _healthBar.SetProgress(CurrentHealth / _maxHealth);
 
             if (CurrentHealth <= 0) Die();
         }
@@ -88,7 +88,7 @@ namespace GnomeCrawler
         {
             EventManager.OnEnemyKilled?.Invoke(gameObject);
             Destroy(gameObject);
-            Destroy(_healthBar);
+            Destroy(_healthBar.gameObject);
 
         }
 
