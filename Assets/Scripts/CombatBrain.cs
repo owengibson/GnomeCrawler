@@ -8,6 +8,7 @@ namespace GnomeCrawler
     {
         #region health
         [SerializeField] protected float _maxHealth;
+        [SerializeField] protected ProgressBar _healthBar;
         #endregion
 
         #region damage
@@ -78,6 +79,8 @@ namespace GnomeCrawler
         {
             CurrentHealth -= amount;
 
+            _healthBar.SetProgress(CurrentHealth / _maxHealth * 3);
+
             if (CurrentHealth <= 0) Die();
         }
 
@@ -85,6 +88,7 @@ namespace GnomeCrawler
         {
             EventManager.OnEnemyKilled?.Invoke(gameObject);
             Destroy(gameObject);
+            Destroy(_healthBar);
 
         }
 
@@ -92,6 +96,15 @@ namespace GnomeCrawler
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(_originTransform.position, _originTransform.position - _originTransform.up * _weaponLength);
+        }
+
+        public void SetUpHealthBar(Canvas canvas, Camera camera)
+        {
+            _healthBar.transform.SetParent(canvas.transform);
+            if(_healthBar.TryGetComponent<FaceCameraScript>(out FaceCameraScript faceCamera))
+            {
+                faceCamera.FaceCamera = camera;
+            }
         }
     }
 }

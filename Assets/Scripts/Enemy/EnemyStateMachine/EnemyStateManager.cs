@@ -12,7 +12,7 @@ namespace GnomeCrawler.Enemy
         EnemyBaseState currentState;
         EnemyStateFactory states;
 
-        public int enemyHeatlh;
+        public int EnemyHeatlh;
 
         [SerializeField] private GameObject _playerCharacter;
         [SerializeField] private GameObject _currentEnemy;
@@ -26,6 +26,9 @@ namespace GnomeCrawler.Enemy
         [SerializeField] private bool needsBlockState;
         private bool _isAttackFinised;
         [SerializeField] private bool _isInAttackZone;
+        [SerializeField] private Camera _camera;
+        [SerializeField] private Canvas _healthBarCanvas;   
+
 
         public EnemyBaseState CurrentState { get => currentState; set => currentState = value; }
         public GameObject PlayerCharacter { get => _playerCharacter; set => _playerCharacter = value; }
@@ -44,6 +47,7 @@ namespace GnomeCrawler.Enemy
         void Start()
         {
             _enemyNavMeshAgent = GetComponent<NavMeshAgent>();
+            _currentEnemy.GetComponent<CombatBrain>().SetUpHealthBar(_healthBarCanvas, _camera);
             states = new EnemyStateFactory(this);
             currentState = states.IdleState();
             currentState.EnterState();
@@ -54,10 +58,10 @@ namespace GnomeCrawler.Enemy
             currentState.UpdateState();
             //Debug.Log(currentState);
 
-            if(enemyHeatlh <= 0)
-            {
-                Destroy(this.gameObject);
-            }
+            //if(EnemyHeatlh <= 0)
+            //{
+            //    Destroy(this.gameObject);
+            //}
         }
 
         private void FixedUpdate()
@@ -79,10 +83,10 @@ namespace GnomeCrawler.Enemy
             }
         }
 
-        public void TakeDamage(int amount)
-        {
-            enemyHeatlh -= amount;
-        }
+        //public void TakeDamage(int amount)
+        //{
+        //    EnemyHeatlh -= amount;
+        //}
 
         public void EndOfAnimation(string aninName)
         {
