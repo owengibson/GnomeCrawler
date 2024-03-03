@@ -6,6 +6,8 @@ namespace GnomeCrawler
 {
     public class CombatBrain : MonoBehaviour, IDamageable, IKillable
     {
+        public Transform _lockOnTransform;
+
         #region health
         [SerializeField] protected float _maxHealth;
         [SerializeField] protected ProgressBar _healthBar;

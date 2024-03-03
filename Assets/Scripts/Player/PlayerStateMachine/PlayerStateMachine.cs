@@ -44,7 +44,7 @@ namespace GnomeCrawler.Player
         bool _isJumpPressed = false;
         float _initialJumpVelocity;
         float _initialGravity;
-        float _maxJumpHeight = 1.0f;
+        float _maxJumpHeight = .75f;
         float _maxJumpTime = .75f;
         bool _isJumping = false;
         bool _requireNewJumpPress = false;

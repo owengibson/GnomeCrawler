@@ -11,7 +11,7 @@ namespace GnomeCrawler.Enemy
 
         public override void EnterState()
         {
-            Debug.Log("Hello from the Block state");
+            //Debug.Log("Hello from the Block state");
         }
 
         public override void UpdateState()
