@@ -61,7 +61,6 @@ namespace GnomeCrawler.Player
         void HandleJump()
         {
             Ctx.Animator.SetBool(Ctx.IsJumpingHash, true);
-            Ctx.IsJumping = true;
             Ctx.CurrentMovementY = Ctx.InitialJumpVelocity;
             Ctx.AppliedMovementY = Ctx.InitialJumpVelocity;
         }

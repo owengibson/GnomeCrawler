@@ -1195,6 +1195,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerStats: {fileID: 11400000, guid: df67eefceb9e18a4f864b494bdb92f0a, type: 2}
+  lockOnCam: {fileID: 0}
+  camAnimator: {fileID: 0}
+  _targetLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  _environmentLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  _playerLockTransform: {fileID: 5677453526399955631}
 --- !u!114 &7571929431642785975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1207,7 +1216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2a7120b4640534d84cbe18f40444f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lockOnTransform: {fileID: 0}
+  _lockOnTransform: {fileID: 5677453526399955631}
   _maxHealth: 100
   _healthBar: {fileID: 7319852554501137680}
   _weaponLength: 1

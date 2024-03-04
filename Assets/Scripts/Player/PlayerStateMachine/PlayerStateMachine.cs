@@ -1,3 +1,4 @@
+using Cinemachine;
 using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
 using System;
@@ -28,7 +29,19 @@ namespace GnomeCrawler.Player
         #endregion
 
         #region lock on
-        bool _isLockedOnPressed = false;
+        [Header("Lock On")]
+        [SerializeField] CinemachineVirtualCamera lockOnCam;
+        [SerializeField] Animator camAnimator;
+        [SerializeField] LayerMask _targetLayers;
+        [SerializeField] LayerMask _environmentLayers;
+        [SerializeField] Transform _playerLockTransform;
+
+        List<CombatBrain> _avaliableTargets = new List<CombatBrain>();
+        CombatBrain _nearestLockOnTarget;
+        float _lockOnRadius = 30.0f;
+        float _minimumViewableAngle = -50.0f;
+        float _maximumViewableAngle = 50.0f;
+        bool _isLockedOn = false;
         #endregion
 
         #region movement
@@ -46,7 +59,6 @@ namespace GnomeCrawler.Player
         float _initialGravity;
         float _maxJumpHeight = .75f;
         float _maxJumpTime = .75f;
-        bool _isJumping = false;
         bool _requireNewJumpPress = false;
         #endregion
 
@@ -54,7 +66,7 @@ namespace GnomeCrawler.Player
         float _dodgeForce = 2f;
         float _dodgeVelocity = 1f;
         float _dodgeDuration = 0.5f;
-        float _dodgeCooldown = 1f;
+        float _dodgeCooldown = 0.75f;
         bool _isDodgePressed;
         bool _isDodging = false;
         bool _canDodge = true;
@@ -95,7 +107,6 @@ namespace GnomeCrawler.Player
         public bool IsMovementPressed { get { return _isMovementPressed; } }
         public bool IsRunPressed { get { return _isRunPressed; } }
         public bool RequireNewJumpPress { get { return _requireNewJumpPress; } set { _requireNewJumpPress = value; } }
-        public bool IsJumping { set { _isJumping = value; } }
         public bool IsJumpPressed { get { return _isJumpPressed; } }
         public bool IsAttackPressed { get { return _isAttackPressed; } }
         public bool IsDodgePressed { get { return _isDodgePressed; } }
@@ -150,8 +161,7 @@ namespace GnomeCrawler.Player
             _playerInput.Player.Dodge.started += OnDodge;
             _playerInput.Player.Dodge.canceled += OnDodge;
 
-            _playerInput.Player.LockOn.started += CameraLockOn;
-            _playerInput.Player.LockOn.canceled += CameraLockOn;
+            _playerInput.Player.LockOn.performed += CameraLockOn;
 
             SetupJumpVariables();
         }
@@ -205,27 +215,86 @@ namespace GnomeCrawler.Player
             if (!_isAttackFinished) return;
 
             Vector3 positionToLookAt;
-
-            positionToLookAt.x = _cameraRelativeMovement.x;
-            positionToLookAt.y = _zero;
-            positionToLookAt.z = _cameraRelativeMovement.z;
-
             Quaternion currentRotation = transform.rotation;
 
-            if (_isMovementPressed)
+            if (_isLockedOn && !_isDodging)
             {
+                positionToLookAt = _nearestLockOnTarget.transform.position - transform.position;
+                positionToLookAt.Normalize();
+                positionToLookAt.y = 0;
+
                 Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
                 transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, _rotationFactorPerFrame * Time.deltaTime);
+
+            }
+            else
+            {
+                positionToLookAt.x = _cameraRelativeMovement.x;
+                positionToLookAt.y = _zero;
+                positionToLookAt.z = _cameraRelativeMovement.z;
+
+                if (_isMovementPressed)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
+                    transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, _rotationFactorPerFrame * Time.deltaTime);
+                }
             }
         }
 
-        void HandleLockOn()
+        public void HandleLocatingLockOnTargets()
         {
-            if (_isLockedOnPressed)
-            {
-                _isLockedOnPressed = false;
+            float shortestDistance = Mathf.Infinity;
+            float shortestDistanceOfRightTarget = Mathf.Infinity;
+            float shortestDistanceOfLeftTarget = -Mathf.Infinity;
 
+            Collider[] colliders = Physics.OverlapSphere(_playerLockTransform.position, _lockOnRadius, _targetLayers);
+
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                CombatBrain lockOnTarget = colliders[i]?.GetComponent<CombatBrain>();
+
+                if (lockOnTarget != null)
+                {
+                    Vector3 lockOnTargetDirection = lockOnTarget.transform.position - _playerLockTransform.position;
+                    float distanceFromPlayer = Vector3.Distance(_playerLockTransform.position, lockOnTarget.transform.position);
+                    float viewableAngle = Vector3.Angle(lockOnTargetDirection, _mainCam.transform.forward);
+
+                    if (viewableAngle > _minimumViewableAngle && viewableAngle < _maximumViewableAngle)
+                    {
+                        RaycastHit hit;
+
+                        if (Physics.Linecast(_playerLockTransform.position, lockOnTarget._lockOnTransform.position, out hit, _environmentLayers))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            _avaliableTargets.Add(lockOnTarget);
+                        }
+                    }
+                }
             }
+
+            for (int k = 0; k < _avaliableTargets.Count; k++)
+            {
+                if (_avaliableTargets[k] != null)
+                {
+                    float distanceFromTarget = Vector3.Distance(_playerLockTransform.position, _avaliableTargets[k].transform.position);
+                    Vector3 lockTragetDirection = _avaliableTargets[k].transform.position - _playerLockTransform.position;
+
+                    if (distanceFromTarget < shortestDistance)
+                    {
+                        shortestDistance = distanceFromTarget;
+                        _nearestLockOnTarget = _avaliableTargets[k];
+                    }
+                }
+            }
+        }
+
+        public void ClearLockOnTargets()
+        {
+            _nearestLockOnTarget = null;
+            _avaliableTargets.Clear();
         }
 
         void OnMovementInput(InputAction.CallbackContext context)
@@ -255,7 +324,20 @@ namespace GnomeCrawler.Player
 
         private void CameraLockOn(InputAction.CallbackContext context)
         {
-            _isLockedOnPressed = context.ReadValueAsButton();
+            if (!_isLockedOn)
+            {
+                HandleLocatingLockOnTargets();
+                _isLockedOn = true;
+                lockOnCam.LookAt = _nearestLockOnTarget._lockOnTransform;
+                camAnimator.Play("LockCam");
+            }
+            else
+            {
+                _isLockedOn = false;
+                camAnimator.Play("FollowCam");
+                ClearLockOnTargets();
+                return;
+            }
         }
 
         private void OnEnable()
