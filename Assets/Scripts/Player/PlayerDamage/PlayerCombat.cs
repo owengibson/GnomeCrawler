@@ -23,9 +23,9 @@ namespace GnomeCrawler.Player
 
             if (Physics.Raycast(_originTransform.position, -_originTransform.up, out hit, _weaponLength, _layerMask))
             {
-
                 if (hit.transform.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hit.transform.gameObject))
                 {
+                    print("hit " + hit.transform.gameObject);
                     damageable.TakeDamage(_stats.GetStat(Stat.Damage));
                     _damagedGameObjects.Add(hit.transform.gameObject);
                 }
@@ -34,8 +34,8 @@ namespace GnomeCrawler.Player
 
         public override void StartDealDamage()
         {
-            base.StartDealDamage();
             _damagedGameObjects.Clear();
+            base.StartDealDamage();
         }
 
         private void AddCardToStats(CardSO card)

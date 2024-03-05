@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace GnomeCrawler.Player
@@ -33,6 +34,7 @@ namespace GnomeCrawler.Player
         public void HandleGravity()
         {
             float previousYVelocity = Ctx.CurrentMovementY;
+            Debug.Log(previousYVelocity);
             Ctx.CurrentMovementY = Ctx.CurrentMovementY + Ctx.Gravity * Time.deltaTime;
             Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentMovementY) * .5f, -20.0f);
         }

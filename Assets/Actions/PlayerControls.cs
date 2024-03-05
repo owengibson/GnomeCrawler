@@ -107,6 +107,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SeekRightLockOnTagret"",
+                    ""type"": ""Button"",
+                    ""id"": ""09ecf470-e0f1-4d7a-8c28-84a729444c7b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SeekLeftLockOnTagret"",
+                    ""type"": ""Button"",
+                    ""id"": ""4b561220-1cf5-4cba-9e6c-102e3d146964"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -244,6 +262,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""0f85b4e1-175c-4656-8859-c653581a8d70"",
+                    ""path"": ""<Keyboard>/slash"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""1cdbdc97-c844-4b53-95ba-c739a594f3a8"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
@@ -318,6 +347,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""44af0a78-b4f4-4601-b14c-bdd415c1e53e"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SeekRightLockOnTagret"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e3314c5f-5e89-4e08-95a9-ec80fab713df"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SeekLeftLockOnTagret"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -335,6 +386,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_LockOn = m_Player.FindAction("LockOn", throwIfNotFound: true);
         m_Player_Ability = m_Player.FindAction("Ability", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_SeekRightLockOnTagret = m_Player.FindAction("SeekRightLockOnTagret", throwIfNotFound: true);
+        m_Player_SeekLeftLockOnTagret = m_Player.FindAction("SeekLeftLockOnTagret", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -405,6 +458,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_LockOn;
     private readonly InputAction m_Player_Ability;
     private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_SeekRightLockOnTagret;
+    private readonly InputAction m_Player_SeekLeftLockOnTagret;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -418,6 +473,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @LockOn => m_Wrapper.m_Player_LockOn;
         public InputAction @Ability => m_Wrapper.m_Player_Ability;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        public InputAction @SeekRightLockOnTagret => m_Wrapper.m_Player_SeekRightLockOnTagret;
+        public InputAction @SeekLeftLockOnTagret => m_Wrapper.m_Player_SeekLeftLockOnTagret;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -454,6 +511,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @SeekRightLockOnTagret.started += instance.OnSeekRightLockOnTagret;
+            @SeekRightLockOnTagret.performed += instance.OnSeekRightLockOnTagret;
+            @SeekRightLockOnTagret.canceled += instance.OnSeekRightLockOnTagret;
+            @SeekLeftLockOnTagret.started += instance.OnSeekLeftLockOnTagret;
+            @SeekLeftLockOnTagret.performed += instance.OnSeekLeftLockOnTagret;
+            @SeekLeftLockOnTagret.canceled += instance.OnSeekLeftLockOnTagret;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -485,6 +548,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @SeekRightLockOnTagret.started -= instance.OnSeekRightLockOnTagret;
+            @SeekRightLockOnTagret.performed -= instance.OnSeekRightLockOnTagret;
+            @SeekRightLockOnTagret.canceled -= instance.OnSeekRightLockOnTagret;
+            @SeekLeftLockOnTagret.started -= instance.OnSeekLeftLockOnTagret;
+            @SeekLeftLockOnTagret.performed -= instance.OnSeekLeftLockOnTagret;
+            @SeekLeftLockOnTagret.canceled -= instance.OnSeekLeftLockOnTagret;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -513,5 +582,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnLockOn(InputAction.CallbackContext context);
         void OnAbility(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnSeekRightLockOnTagret(InputAction.CallbackContext context);
+        void OnSeekLeftLockOnTagret(InputAction.CallbackContext context);
     }
 }

@@ -85,6 +85,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SeekRightLockOnTagret",
+                    "type": "Button",
+                    "id": "09ecf470-e0f1-4d7a-8c28-84a729444c7b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SeekLeftLockOnTagret",
+                    "type": "Button",
+                    "id": "4b561220-1cf5-4cba-9e6c-102e3d146964",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -222,6 +240,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0f85b4e1-175c-4656-8859-c653581a8d70",
+                    "path": "<Keyboard>/slash",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LockOn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1cdbdc97-c844-4b53-95ba-c739a594f3a8",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
@@ -294,6 +323,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44af0a78-b4f4-4601-b14c-bdd415c1e53e",
+                    "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SeekRightLockOnTagret",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e3314c5f-5e89-4e08-95a9-ec80fab713df",
+                    "path": "<Gamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SeekLeftLockOnTagret",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

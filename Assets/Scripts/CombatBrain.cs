@@ -66,19 +66,18 @@ namespace GnomeCrawler
 
         public virtual void StartDealDamage()
         {
-            print("start deal damage");
             _canDealDamage = true;
             _hasDealtDamage = false;
         }
 
         public void EndDealDamage()
         {
-            print("end deal damage");
             _canDealDamage = false;
         }
 
         public void TakeDamage(float amount)
         {
+            print(name + " has taken damage");
             CurrentHealth -= amount;
 
             _healthBar.SetProgress(CurrentHealth / _maxHealth);
@@ -98,6 +97,7 @@ namespace GnomeCrawler
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(_originTransform.position, _originTransform.position - _originTransform.up * _weaponLength);
+            Gizmos.DrawLine(_originTransform.position - _originTransform.up * _weaponLength, _originTransform.position);
         }
 
         public void SetUpHealthBar(Canvas canvas, Camera camera)

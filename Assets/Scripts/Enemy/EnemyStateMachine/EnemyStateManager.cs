@@ -47,7 +47,7 @@ namespace GnomeCrawler.Enemy
         void Start()
         {
             _enemyNavMeshAgent = GetComponent<NavMeshAgent>();
-            _currentEnemy.GetComponent<CombatBrain>().SetUpHealthBar(_healthBarCanvas, _camera);
+            gameObject.GetComponent<CombatBrain>().SetUpHealthBar(_healthBarCanvas, _camera);
             states = new EnemyStateFactory(this);
             currentState = states.IdleState();
             currentState.EnterState();
