@@ -125,6 +125,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CycleCards"",
+                    ""type"": ""Button"",
+                    ""id"": ""a69f161b-9c5c-4395-b40f-e34da0d80cbf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -284,6 +293,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""50581b27-65e6-46dd-a23b-192fd5f1a8f4"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ability"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c64da113-e90c-4363-9d4c-ed893488dec8"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
@@ -369,6 +389,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""SeekLeftLockOnTagret"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9230d2c7-356c-419e-af37-a2822f07299c"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleCards"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dc56c675-cf21-484a-a859-f2cf74adf699"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleCards"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -388,6 +430,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_SeekRightLockOnTagret = m_Player.FindAction("SeekRightLockOnTagret", throwIfNotFound: true);
         m_Player_SeekLeftLockOnTagret = m_Player.FindAction("SeekLeftLockOnTagret", throwIfNotFound: true);
+        m_Player_CycleCards = m_Player.FindAction("CycleCards", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -460,6 +503,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_SeekRightLockOnTagret;
     private readonly InputAction m_Player_SeekLeftLockOnTagret;
+    private readonly InputAction m_Player_CycleCards;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -475,6 +519,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @SeekRightLockOnTagret => m_Wrapper.m_Player_SeekRightLockOnTagret;
         public InputAction @SeekLeftLockOnTagret => m_Wrapper.m_Player_SeekLeftLockOnTagret;
+        public InputAction @CycleCards => m_Wrapper.m_Player_CycleCards;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -517,6 +562,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SeekLeftLockOnTagret.started += instance.OnSeekLeftLockOnTagret;
             @SeekLeftLockOnTagret.performed += instance.OnSeekLeftLockOnTagret;
             @SeekLeftLockOnTagret.canceled += instance.OnSeekLeftLockOnTagret;
+            @CycleCards.started += instance.OnCycleCards;
+            @CycleCards.performed += instance.OnCycleCards;
+            @CycleCards.canceled += instance.OnCycleCards;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -554,6 +602,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SeekLeftLockOnTagret.started -= instance.OnSeekLeftLockOnTagret;
             @SeekLeftLockOnTagret.performed -= instance.OnSeekLeftLockOnTagret;
             @SeekLeftLockOnTagret.canceled -= instance.OnSeekLeftLockOnTagret;
+            @CycleCards.started -= instance.OnCycleCards;
+            @CycleCards.performed -= instance.OnCycleCards;
+            @CycleCards.canceled -= instance.OnCycleCards;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -584,5 +635,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnSeekRightLockOnTagret(InputAction.CallbackContext context);
         void OnSeekLeftLockOnTagret(InputAction.CallbackContext context);
+        void OnCycleCards(InputAction.CallbackContext context);
     }
 }
