@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 namespace GnomeCrawler
 {
+    /// <summary>
+    /// Inspired by the Llama Academy WorldSpace HealthBar tutorial
+    /// https://www.youtube.com/watch?v=cUQVLgohAjY&t=1s 
+    /// </summary>
     public class ProgressBar : MonoBehaviour
     {
         [SerializeField] private Image _progressImage;

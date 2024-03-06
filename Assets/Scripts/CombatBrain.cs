@@ -66,14 +66,12 @@ namespace GnomeCrawler
 
         public virtual void StartDealDamage()
         {
-            print("start deal damage");
             _canDealDamage = true;
             _hasDealtDamage = false;
         }
 
         public void EndDealDamage()
         {
-            print("end deal damage");
             _canDealDamage = false;
         }
 
