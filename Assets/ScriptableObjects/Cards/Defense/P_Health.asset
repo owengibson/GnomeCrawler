@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e23a2925a638d254ea024d9c537e1fa8, type: 3}
-  m_Name: Pc Damage
+  m_Name: P_Health
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -27,20 +27,20 @@ MonoBehaviour:
         Assembly-CSharp],[System.Single, mscorlib]], mscorlib
     - Name: 
       Entry: 3
-      Data: 2
+      Data: 0
     - Name: 
       Entry: 4
-      Data: 5
+      Data: 10
     - Name: 
       Entry: 8
       Data: 
-  Name: Pc Damage
-  Description: 'Deal
+  Name: Health
+  Description: 'Gain
 
-    <b>+5% damage</b>'
-  Category: 1
-  _statToUpgrade: 2
-  _value: 5
+    <b>10% health</b>'
+  Category: 0
+  _statToUpgrade: 0
+  _value: 10
   IsPercentUpgrade: 1
   IsActivatableCard: 0
   ActiveDuration: 0

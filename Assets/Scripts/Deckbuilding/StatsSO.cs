@@ -11,7 +11,8 @@ namespace GnomeCrawler.Deckbuilding
     {
         public Dictionary<Stat, float> _stats = new Dictionary<Stat, float>();
         [SerializeField] private List<CardSO> _passiveCards = new List<CardSO>();
-        private List<CardSO> _activatableCards = new List<CardSO>();
+        [SerializeField] private List<CardSO> _activatableCards = new List<CardSO>();
+        [SerializeField] private List<CardSO> _activeCards = new List<CardSO>();
 
         public float GetStat(Stat stat)
         {
@@ -41,7 +42,7 @@ namespace GnomeCrawler.Deckbuilding
                 }
             }
             // Activatable cards
-            foreach (CardSO card in _activatableCards)
+            foreach (CardSO card in _activeCards)
             {
                 if (card.UpgradedStat.Key == stat)
                 {
@@ -77,22 +78,27 @@ namespace GnomeCrawler.Deckbuilding
             }
         }
 
-        public void RemoveCard(CardSO card)
+        public void RemoveActiveCard(CardSO card)
         {
-            if (card.IsActivatableCard)
+            if (!card.IsActivatableCard) return;
+            _activeCards.Remove(card);
+        }
+
+        public void ActivateCard(CardSO card)
+        {
+            if (_activatableCards.Contains(card))
             {
                 _activatableCards.Remove(card);
+                _activeCards.Add(card);
             }
-            else
-            {
-                _passiveCards.Remove(card);
-            }
+            else Debug.Log("Card not in activatable cards list");
         }
 
         public void ResetCards()
         {
-            _activatableCards.Clear();
+            _activeCards.Clear();
             _passiveCards.Clear();
+            _activatableCards.Clear();
 
             _statsDisplay = "";
         }

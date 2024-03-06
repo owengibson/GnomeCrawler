@@ -34,7 +34,7 @@ namespace GnomeCrawler.Deckbuilding
             _titleText.text = card.Name;
             _descriptionText.text = card.Description;
 
-            switch (_card.Category)
+            switch (card.Category)
             {
                 case CardCategory.Defense:
                     _backgroundImage.color = _defenseColour;
