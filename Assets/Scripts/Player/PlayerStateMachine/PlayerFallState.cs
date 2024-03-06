@@ -34,7 +34,7 @@ namespace GnomeCrawler.Player
         public void HandleGravity()
         {
             float previousYVelocity = Ctx.CurrentMovementY;
-            Debug.Log(previousYVelocity);
+            //Debug.Log(previousYVelocity);
             Ctx.CurrentMovementY = Ctx.CurrentMovementY + Ctx.Gravity * Time.deltaTime;
             Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentMovementY) * .5f, -20.0f);
         }
@@ -49,7 +49,11 @@ namespace GnomeCrawler.Player
 
         public override void InitialiseSubState()
         {
-            if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
+            if (Ctx.IsDodging)
+            {
+                SetSubState(Factory.Dodge());
+            }
+            else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
             {
                 SetSubState(Factory.Idle());
             }

@@ -6,6 +6,7 @@ namespace GnomeCrawler
 {
     public interface IKillable
     {
+        bool IsKilled { get; set; }
         void Die();
     }
 }
