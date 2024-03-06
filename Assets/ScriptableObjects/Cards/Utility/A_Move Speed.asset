@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e23a2925a638d254ea024d9c537e1fa8, type: 3}
-  m_Name: Armour
+  m_Name: A_Move Speed
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -27,20 +27,22 @@ MonoBehaviour:
         Assembly-CSharp],[System.Single, mscorlib]], mscorlib
     - Name: 
       Entry: 3
-      Data: 1
+      Data: 4
     - Name: 
       Entry: 4
-      Data: 2
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
-  Name: Armour
-  Description: 'Gain
+  Name: Move Speed
+  Description: 'Move
 
-    <b>2 armour</b>'
-  Category: 0
-  _statToUpgrade: 1
-  _value: 2
-  IsPercentUpgrade: 0
-  IsActivatableCard: 0
-  ActiveDuration: 0
+    <b>50% faster</b>
+
+    for 10 seconds'
+  Category: 2
+  _statToUpgrade: 4
+  _value: 50
+  IsPercentUpgrade: 1
+  IsActivatableCard: 1
+  ActiveDuration: 10

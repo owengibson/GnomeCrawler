@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e23a2925a638d254ea024d9c537e1fa8, type: 3}
-  m_Name: Flat Damage
+  m_Name: A_Damage
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -30,17 +30,19 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
-  Name: Flat Damage
+  Name: Damage
   Description: 'Deal
 
-    <b>+1 damage</b>'
+    <b>50% more damage</b>
+
+    for 5 seconds'
   Category: 1
   _statToUpgrade: 2
-  _value: 1
-  IsPercentUpgrade: 0
-  IsActivatableCard: 0
-  ActiveDuration: 0
+  _value: 50
+  IsPercentUpgrade: 1
+  IsActivatableCard: 1
+  ActiveDuration: 5
