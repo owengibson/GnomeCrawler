@@ -104,7 +104,7 @@ namespace GnomeCrawler.Deckbuilding
         }
 
         #region STATS_DISPLAY
-        [Button("Show/Update Stats Display")]
+        [Button]
         private void UpdateStatsDisplay()
         {
             _statsDisplay = "";
