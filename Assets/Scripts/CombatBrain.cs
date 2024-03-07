@@ -26,6 +26,7 @@ namespace GnomeCrawler
 
         [SerializeField] protected StatsSO _stats;
         public float CurrentHealth { get; set; }
+        public bool IsDead { get; set; }
 
         private void Start()
         {
@@ -47,6 +48,7 @@ namespace GnomeCrawler
 
             _canDealDamage = false;
             _hasDealtDamage = false;
+            IsDead = false;
         }
 
         protected virtual void CheckForRaycastHit()
@@ -88,6 +90,7 @@ namespace GnomeCrawler
         public virtual void Die()
         {
             EventManager.OnEnemyKilled?.Invoke(gameObject);
+            IsDead = true;
             Destroy(gameObject);
             Destroy(_healthBar.gameObject);
 

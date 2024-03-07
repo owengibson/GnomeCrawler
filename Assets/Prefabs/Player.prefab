@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 123313475775611357}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0.1, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1202,7 +1202,7 @@ MonoBehaviour:
     m_Bits: 128
   _environmentLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1536
   _playerLockTransform: {fileID: 5677453526399955631}
 --- !u!114 &7571929431642785975
 MonoBehaviour:
@@ -1219,7 +1219,7 @@ MonoBehaviour:
   _lockOnTransform: {fileID: 5677453526399955631}
   _maxHealth: 100
   _healthBar: {fileID: 7319852554501137680}
-  _weaponLength: 1
+  _weaponLength: 1.05
   _canDealDamage: 0
   _layerMask:
     serializedVersion: 2
@@ -2152,7 +2152,7 @@ Transform:
   m_GameObject: {fileID: 6724994275787102711}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.5, z: -0}
+  m_LocalPosition: {x: 0, y: -0.6, z: -0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2675,6 +2675,11 @@ PrefabInstance:
       propertyPath: Target
       value: 
       objectReference: {fileID: 381020526712882754}
+    - target: {fileID: 3626593625660060360, guid: 9253992c720deed46bbc1eadde39646a,
+        type: 3}
+      propertyPath: Offset.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6435674880077784291, guid: 9253992c720deed46bbc1eadde39646a,
         type: 3}
       propertyPath: m_Pivot.x

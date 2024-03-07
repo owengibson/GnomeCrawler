@@ -49,6 +49,10 @@ namespace GnomeCrawler.Player
             {
                 SetSubState(Factory.Attack());
             }
+            else if (Ctx.IsDodgePressed)
+            {
+                SetSubState(Factory.Dodge());
+            }
             else if (!Ctx.IsMovementPressed && !Ctx.IsRunPressed)
             {
                 SetSubState(Factory.Idle());
@@ -57,7 +61,7 @@ namespace GnomeCrawler.Player
             {
                 SetSubState(Factory.Walk());
             }
-            else
+            else if (Ctx.IsMovementPressed && Ctx.IsRunPressed)
             {
                 SetSubState(Factory.Run());
             }

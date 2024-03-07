@@ -41,10 +41,11 @@ namespace GnomeCrawler.Player
         CombatBrain _nearestLockOnTarget;
         CombatBrain _leftLockOnTarget;
         CombatBrain _rightLockOnTarget;
-        float _lockOnRadius = 30.0f;
-        float _minimumViewableAngle = -50.0f;
-        float _maximumViewableAngle = 50.0f;
+        float _lockOnRadius = 15.0f;
+        float _minimumViewableAngle = -60.0f;
+        float _maximumViewableAngle = 60.0f;
         bool _isLockedOn = false;
+        Coroutine _lockOnCoroutine;
         #endregion
 
         #region movement
@@ -185,11 +186,28 @@ namespace GnomeCrawler.Player
 
         private void Update()
         {
+            HandleLockOnStatus();
             HandleRotation();
             _currentState.UpdateStates();
+            //print(_currentState);
+            //print(_currentState._currentSubState);
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
             _characterController.Move(_cameraRelativeMovement * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity * Time.deltaTime);
+        }
+
+        private void HandleLockOnStatus()
+        {
+            if (_isLockedOn)
+            {
+                if (_currentLockOnTarget == null)
+                    return;
+
+                if (_currentLockOnTarget.IsDead)
+                {
+                    SetLockOnStatus(false);
+                }
+            }
         }
 
         Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
@@ -220,7 +238,7 @@ namespace GnomeCrawler.Player
             Vector3 positionToLookAt;
             Quaternion currentRotation = transform.rotation;
 
-            if (_isLockedOn && !_isDodging)
+            if (_isLockedOn && !_isDodging && !_isRunPressed)
             {
                 positionToLookAt = _currentLockOnTarget.transform.position - transform.position;
                 positionToLookAt.Normalize();
@@ -250,7 +268,7 @@ namespace GnomeCrawler.Player
             float shortestDistanceOfRightTarget = Mathf.Infinity;
             float shortestDistanceOfLeftTarget = -Mathf.Infinity;
 
-            Collider[] colliders = Physics.OverlapSphere(_playerLockTransform.position, _lockOnRadius, _targetLayers);
+            Collider[] colliders = Physics.OverlapSphere(transform.position, _lockOnRadius, _targetLayers);
 
             for (int i = 0; i < colliders.Length; i++)
             {
@@ -258,9 +276,19 @@ namespace GnomeCrawler.Player
 
                 if (lockOnTarget != null)
                 {
-                    Vector3 lockOnTargetDirection = lockOnTarget.transform.position - _playerLockTransform.position;
-                    float distanceFromPlayer = Vector3.Distance(_playerLockTransform.position, lockOnTarget.transform.position);
+                    Vector3 lockOnTargetDirection = lockOnTarget.transform.position - transform.position;
+                    float distanceFromTarget = Vector3.Distance(transform.position, lockOnTarget.transform.position);
                     float viewableAngle = Vector3.Angle(lockOnTargetDirection, _mainCam.transform.forward);
+
+                    if (lockOnTarget.IsDead)
+                    {
+                        continue;
+                    }
+
+                    if (lockOnTarget.transform.root == transform.root)
+                    {
+                        continue;
+                    }
 
                     if (viewableAngle > _minimumViewableAngle && viewableAngle < _maximumViewableAngle)
                     {
@@ -282,7 +310,7 @@ namespace GnomeCrawler.Player
             {
                 if (_avaliableTargets[k] != null)
                 {
-                    float distanceFromTarget = Vector3.Distance(_playerLockTransform.position, _avaliableTargets[k].transform.position);
+                    float distanceFromTarget = Vector3.Distance(transform.position, _avaliableTargets[k].transform.position);
 
                     if (distanceFromTarget < shortestDistance)
                     {
@@ -295,10 +323,11 @@ namespace GnomeCrawler.Player
                         Vector3 relativeEnemyPosition = transform.InverseTransformPoint(_avaliableTargets[k].transform.position);
 
                         var distanceFromLeftTarget = relativeEnemyPosition.x;
-                        var distanceFromRightTarget = relativeEnemyPosition.y;
+                        var distanceFromRightTarget = relativeEnemyPosition.x;
 
                         if (_avaliableTargets[k] == _currentLockOnTarget)
                         {
+                            print(_avaliableTargets[k] + " is current target");
                             continue;
                         }
 
@@ -318,28 +347,14 @@ namespace GnomeCrawler.Player
                 else
                 {
                     ClearLockOnTargets();
-                    _isLockedOn = false;
-                }
-            }
-        }
-
-        private void HandleLockOnSwitchTarget(CombatBrain directionOfLockOn)
-        {
-            if (_isLockedOn)
-            {
-                HandleLocatingLockOnTargets();
-
-                if (directionOfLockOn != null)
-                {
-                    _currentLockOnTarget = directionOfLockOn;
-                    lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
+                    SetLockOnStatus(false);
                 }
             }
         }
 
         public void ClearLockOnTargets()
         {
-            _currentLockOnTarget = null;
+            print("clear lockon tagets");
             _nearestLockOnTarget = null;
             _leftLockOnTarget = null;
             _rightLockOnTarget= null;
@@ -373,45 +388,69 @@ namespace GnomeCrawler.Player
 
         private void CameraLockOn(InputAction.CallbackContext context)
         {
-/*            HandleLocatingLockOnTargets();
-
-            if (_nearestLockOnTarget != null)
+            if (_isLockedOn)
             {
-                _currentLockOnTarget = _nearestLockOnTarget;
-                _isLockedOn = true;
-                lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
-                camAnimator.Play("LockCam");
+                ClearLockOnTargets();
+                SetLockOnStatus(false);
+                return;
             }
-            else
-            {
-                camAnimator.Play("FollowCam");
-            }
-*/
             if (!_isLockedOn)
             {
                 HandleLocatingLockOnTargets();
-                if (_nearestLockOnTarget == null) return;
-                _currentLockOnTarget = _nearestLockOnTarget;
-                _isLockedOn = true;
-                lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
-                camAnimator.Play("LockCam");
-            }
-            else
-            {
-                HandleLocatingLockOnTargets();
-                _isLockedOn = false;
-                camAnimator.Play("FollowCam");
+
+                if (_nearestLockOnTarget != null)
+                {
+                    _currentLockOnTarget = _nearestLockOnTarget;
+                    SetLockOnStatus(true);
+                } 
             }
         }
 
         private void RightLockOnSwap(InputAction.CallbackContext context)
         {
-            HandleLockOnSwitchTarget(_rightLockOnTarget);
+            if (_isLockedOn)
+            {
+                ClearLockOnTargets();
+                HandleLocatingLockOnTargets();
+
+                if (_rightLockOnTarget != null)
+                {
+                    print("right target exists");
+                    _currentLockOnTarget = _rightLockOnTarget;
+                    lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
+                }
+            }
         }
 
         private void LeftLockOnSwap(InputAction.CallbackContext context)
         {
-            HandleLockOnSwitchTarget(_leftLockOnTarget);
+            if (_isLockedOn)
+            {
+                ClearLockOnTargets();
+                HandleLocatingLockOnTargets();
+
+                if (_leftLockOnTarget != null)
+                {
+                    print("left target exists");
+                    _currentLockOnTarget = _leftLockOnTarget;
+                    lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
+                }
+            }
+        }
+
+        private void SetLockOnStatus(bool isLocked)
+        {
+            if (isLocked)
+            {
+                lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
+                camAnimator.Play("LockCam");
+                _isLockedOn = true;
+            }
+            else if (!isLocked)
+            {
+                camAnimator.Play("FollowCam");
+                _isLockedOn = false;
+            }
         }
 
         private void OnEnable()
@@ -429,6 +468,24 @@ namespace GnomeCrawler.Player
             print (animName + " animation finished");
 
             if (animName == "Attack") _isAttackFinished = true;
+        }
+        public IEnumerator WaitThenFindNewTarget()
+        {
+            while (!_currentLockOnTarget.IsDead)
+            {
+                yield return null;
+            }
+
+            ClearLockOnTargets();
+            HandleLocatingLockOnTargets();
+
+            if (_nearestLockOnTarget != null)
+            {
+                _currentLockOnTarget = _nearestLockOnTarget;
+                SetLockOnStatus(true);
+            }
+
+            yield return null;
         }
     }
 
