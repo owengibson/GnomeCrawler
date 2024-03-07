@@ -28,6 +28,7 @@ namespace GnomeCrawler.Deckbuilding
         {
             if (!card.IsActivatableCard) return;
             _stats.ActivateCard(card);
+            EventManager.OnCardActivated?.Invoke(card);
             StartCoroutine(RemoveCardAfterDuration(card));
         }
 
@@ -39,12 +40,10 @@ namespace GnomeCrawler.Deckbuilding
 
         private void OnEnable()
         {
-            EventManager.OnCardActivated += ActivateCard;
             _playerControls.Enable();
         }
         private void OnDisable()
         {
-            EventManager.OnCardActivated -= ActivateCard;
             _playerControls.Disable();
         }
     }

@@ -51,6 +51,7 @@ namespace GnomeCrawler.Deckbuilding
         {
             if (!_activatableCards.Contains(card)) return;
             _activatableCards.Remove(card);
+            Debug.Log($"Removed {card.Name} from list");
 
             if (_activatableCards.Count > 0)
             {
