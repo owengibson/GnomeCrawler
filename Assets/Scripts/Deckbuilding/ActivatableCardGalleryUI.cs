@@ -55,7 +55,6 @@ namespace GnomeCrawler.Deckbuilding
 
             if (_activatableCards.Count > 0)
             {
-                _galleryIndex--;
                 RenderGalleryAtIndex(_galleryIndex);
             }
             else
