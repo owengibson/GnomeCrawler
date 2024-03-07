@@ -12,7 +12,6 @@ namespace GnomeCrawler.Enemy
         EnemyBaseState currentState;
         EnemyStateFactory states;
 
-        public int EnemyHeatlh;
 
         [SerializeField] private GameObject _playerCharacter;
         [SerializeField] private GameObject _currentEnemy;
