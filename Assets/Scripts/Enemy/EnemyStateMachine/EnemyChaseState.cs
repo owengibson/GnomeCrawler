@@ -21,7 +21,7 @@ namespace GnomeCrawler.Enemy
         {
             CheckSwitchState();
             //Debug.Log("Now Chasing");
-            ctx.CurrentEnemy.transform.LookAt(ctx.PlayerCharacter.transform.position);
+            //ctx.CurrentEnemy.transform.LookAt(ctx.PlayerCharacter.transform.position);
         }
         public override void FixedUpdateState()
         {
