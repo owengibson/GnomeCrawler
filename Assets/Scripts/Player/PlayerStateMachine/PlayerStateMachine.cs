@@ -190,8 +190,8 @@ namespace GnomeCrawler.Player
             HandleLockOnStatus();
             HandleRotation();
             _currentState.UpdateStates();
-            //print(_currentState);
-            //print(_currentState._currentSubState);
+            print(_currentState);
+            print(_currentState._currentSubState);
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
             _characterController.Move(_cameraRelativeMovement * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity * Time.deltaTime);
@@ -444,13 +444,13 @@ namespace GnomeCrawler.Player
             if (isLocked)
             {
                 lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
-                followCam.LookAt = _currentLockOnTarget._lockOnTransform;
+                //followCam.LookAt = _currentLockOnTarget._lockOnTransform;
                 camAnimator.Play("LockCam");
                 _isLockedOn = true;
             }
             else if (!isLocked)
             {
-                followCam.LookAt = _playerLockTransform;
+                //followCam.LookAt = _playerLockTransform;
                 camAnimator.Play("FollowCam");
                 _isLockedOn = false;
             }
@@ -490,6 +490,7 @@ namespace GnomeCrawler.Player
 
             yield return null;
         }
+
     }
 
 }

@@ -45,11 +45,11 @@ namespace GnomeCrawler.Player
 
         public override void InitialiseSubState()
         {
-            if (Ctx.IsAttackPressed)
+            if (Ctx.IsAttackPressed || !Ctx.IsAttackFinished)
             {
                 SetSubState(Factory.Attack());
             }
-            else if (Ctx.IsDodgePressed)
+            else if (Ctx.IsDodgePressed || Ctx.IsDodging)
             {
                 SetSubState(Factory.Dodge());
             }
