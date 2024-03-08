@@ -349,6 +349,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemies:
   - {fileID: 36536451}
+--- !u!114 &199200786 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1016745871350740959, guid: 8559b27828f353840b92d0cbdd424981,
+    type: 3}
+  m_PrefabInstance: {fileID: 976329830}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 319d2fe34a804e245819465c9505ea59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &225193823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -606,6 +618,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7934170556165661632, guid: ea8c998d0e8c6ae4a9dd84c5840f269f,
+        type: 3}
+      propertyPath: followCam
+      value: 
+      objectReference: {fileID: 199200786}
     - target: {fileID: 7934170556165661632, guid: ea8c998d0e8c6ae4a9dd84c5840f269f,
         type: 3}
       propertyPath: lockOnCam
@@ -1363,7 +1380,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 1783
+    m_Bits: 4294967295
 --- !u!114 &914928221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1630,7 +1647,7 @@ PrefabInstance:
     - target: {fileID: 1333217352986472407, guid: 8559b27828f353840b92d0cbdd424981,
         type: 3}
       propertyPath: m_ChildCameras.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3283249288303316216, guid: 8559b27828f353840b92d0cbdd424981,
         type: 3}

@@ -31,6 +31,7 @@ namespace GnomeCrawler.Player
         #region lock on
         [Header("Lock On")]
         [SerializeField] CinemachineVirtualCamera lockOnCam;
+        [SerializeField] CinemachineFreeLook followCam;
         [SerializeField] Animator camAnimator;
         [SerializeField] LayerMask _targetLayers;
         [SerializeField] LayerMask _environmentLayers;
@@ -443,11 +444,13 @@ namespace GnomeCrawler.Player
             if (isLocked)
             {
                 lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
+                followCam.LookAt = _currentLockOnTarget._lockOnTransform;
                 camAnimator.Play("LockCam");
                 _isLockedOn = true;
             }
             else if (!isLocked)
             {
+                followCam.LookAt = _playerLockTransform;
                 camAnimator.Play("FollowCam");
                 _isLockedOn = false;
             }
