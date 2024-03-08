@@ -62,7 +62,7 @@ namespace GnomeCrawler.Player
         bool _isJumpPressed = false;
         float _initialJumpVelocity;
         float _initialGravity;
-        float _maxJumpHeight = .75f;
+        float _maxJumpHeight = 2f;
         float _maxJumpTime = .75f;
         bool _requireNewJumpPress = false;
         #endregion
@@ -190,11 +190,13 @@ namespace GnomeCrawler.Player
             HandleLockOnStatus();
             HandleRotation();
             _currentState.UpdateStates();
-            print(_currentState);
-            print(_currentState._currentSubState);
+            //print(_currentState);
+            //print(_currentState._currentSubState);
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
-            _characterController.Move(_cameraRelativeMovement * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity * Time.deltaTime);
+            _cameraRelativeMovement.x = _cameraRelativeMovement.x * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity;
+            _cameraRelativeMovement.z = _cameraRelativeMovement.z * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity;
+            _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
         }
 
         private void HandleLockOnStatus()

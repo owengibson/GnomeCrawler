@@ -20,8 +20,6 @@ namespace GnomeCrawler.Enemy
         [SerializeField] private Animator _enemyAnimator;
         [SerializeField] private float _chaseSpeed;
         private NavMeshAgent _enemyNavMeshAgent;
-        [SerializeField] private float minAttackChance;
-        [SerializeField] private float maxAttackChance;
         [SerializeField] private bool needsBlockState;
         private bool _isAttackFinised;
         [SerializeField] private bool _isInAttackZone;
@@ -37,8 +35,6 @@ namespace GnomeCrawler.Enemy
         public Animator EnemyAnimator { get => _enemyAnimator; set => _enemyAnimator = value; }
         public NavMeshAgent EnemyNavMeshAgent { get => _enemyNavMeshAgent; set => _enemyNavMeshAgent = value; }
         public float ChaseSpeed { get => _chaseSpeed; set => _chaseSpeed = value; }
-        public float MinAttackChance { get => minAttackChance; set => minAttackChance = value; }
-        public float MaxAttackChance { get => maxAttackChance; set => maxAttackChance = value; }
         public bool NeedsBlockState { get => needsBlockState; set => needsBlockState = value; }
         public bool IsAttackFinished { get => _isAttackFinised; set => _isAttackFinised = value; }
         public bool IsInAttackZone { get => _isInAttackZone; set => _isInAttackZone = value; }
