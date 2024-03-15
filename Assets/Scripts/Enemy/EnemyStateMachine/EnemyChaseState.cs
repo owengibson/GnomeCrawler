@@ -23,7 +23,6 @@ namespace GnomeCrawler.Enemy
             //Debug.Log("Now Chasing");
             Vector3 playerPos = ctx.PlayerCharacter.transform.position;
             playerPos.y = ctx.transform.position.y;
-            ctx.CurrentEnemy.transform.LookAt(playerPos);
         }
         public override void FixedUpdateState()
         {
