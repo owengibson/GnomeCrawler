@@ -9,12 +9,21 @@ namespace GnomeCrawler.Player
         public PlayerAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
         : base(currentContext, playerStateFactory) { }
 
+        IEnumerator AttackMovement()
+        {
+            yield return new WaitForSeconds(0.3f);
+            Ctx.AppliedMovementX = 0;
+            Ctx.AppliedMovementZ = 0;
+        }
+
         public override void EnterState()
         {
             Ctx.Animator.SetBool(Ctx.IsAttackingHash, true);
+            Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
+            Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
+            //Debug.Log(Ctx.AppliedMovementX + ", " + Ctx.AppliedMovementZ);
             Ctx.IsAttackFinished = false;
-            Ctx.AppliedMovementX = 0;
-            Ctx.AppliedMovementZ = 0;
+            Ctx.StartCoroutine(AttackMovement());
         }
 
         public override void UpdateState()

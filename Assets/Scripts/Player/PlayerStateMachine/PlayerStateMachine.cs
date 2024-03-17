@@ -131,6 +131,7 @@ namespace GnomeCrawler.Player
         public float DodgeForce { get => _dodgeForce; }
         public bool IsDodging { get => _isDodging; set => _isDodging = value; }
         public bool CanDodge { get => _canDodge; set => _canDodge = value; }
+        public Vector3 CameraRelativeMovement { get => _cameraRelativeMovement; set => _cameraRelativeMovement = value; }
         #endregion
 
         private void Awake()
@@ -472,7 +473,10 @@ namespace GnomeCrawler.Player
         {
             print (animName + " animation finished");
 
-            if (animName == "Attack") _isAttackFinished = true;
+            if (animName == "Attack")
+            {
+                _isAttackFinished = true;
+            }
         }
         public IEnumerator WaitThenFindNewTarget()
         {
