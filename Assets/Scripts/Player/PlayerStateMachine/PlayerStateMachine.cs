@@ -31,6 +31,7 @@ namespace GnomeCrawler.Player
         #region lock on
         [Header("Lock On")]
         [SerializeField] CinemachineVirtualCamera lockOnCam;
+        [SerializeField] CinemachineFreeLook followCam;
         [SerializeField] Animator camAnimator;
         [SerializeField] LayerMask _targetLayers;
         [SerializeField] LayerMask _environmentLayers;
@@ -61,7 +62,7 @@ namespace GnomeCrawler.Player
         bool _isJumpPressed = false;
         float _initialJumpVelocity;
         float _initialGravity;
-        float _maxJumpHeight = .75f;
+        float _maxJumpHeight = 2f;
         float _maxJumpTime = .75f;
         bool _requireNewJumpPress = false;
         #endregion
@@ -193,7 +194,9 @@ namespace GnomeCrawler.Player
             //print(_currentState._currentSubState);
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
-            _characterController.Move(_cameraRelativeMovement * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity * Time.deltaTime);
+            _cameraRelativeMovement.x = _cameraRelativeMovement.x * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity;
+            _cameraRelativeMovement.z = _cameraRelativeMovement.z * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity;
+            _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
         }
 
         private void HandleLockOnStatus()
@@ -443,11 +446,13 @@ namespace GnomeCrawler.Player
             if (isLocked)
             {
                 lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
+                //followCam.LookAt = _currentLockOnTarget._lockOnTransform;
                 camAnimator.Play("LockCam");
                 _isLockedOn = true;
             }
             else if (!isLocked)
             {
+                //followCam.LookAt = _playerLockTransform;
                 camAnimator.Play("FollowCam");
                 _isLockedOn = false;
             }
@@ -487,6 +492,7 @@ namespace GnomeCrawler.Player
 
             yield return null;
         }
+
     }
 
 }
