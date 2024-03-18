@@ -14,6 +14,7 @@ namespace GnomeCrawler.Player
             yield return new WaitForSeconds(0.3f);
             Ctx.AppliedMovementX = 0;
             Ctx.AppliedMovementZ = 0;
+            Ctx.CanMoveWhileAttacking = false;
         }
 
         public override void EnterState()
@@ -21,8 +22,8 @@ namespace GnomeCrawler.Player
             Ctx.Animator.SetBool(Ctx.IsAttackingHash, true);
             Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
             Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
-            //Debug.Log(Ctx.AppliedMovementX + ", " + Ctx.AppliedMovementZ);
             Ctx.IsAttackFinished = false;
+            Ctx.CanMoveWhileAttacking = true    ;
             Ctx.StartCoroutine(AttackMovement());
         }
 

@@ -80,6 +80,7 @@ namespace GnomeCrawler.Player
         #region combat
         bool _isAttackPressed;
         bool _isAttackFinished = true;
+        bool _canMoveWhileAttacking = false;
         #endregion
 
         #region state variables
@@ -132,6 +133,7 @@ namespace GnomeCrawler.Player
         public bool IsDodging { get => _isDodging; set => _isDodging = value; }
         public bool CanDodge { get => _canDodge; set => _canDodge = value; }
         public Vector3 CameraRelativeMovement { get => _cameraRelativeMovement; set => _cameraRelativeMovement = value; }
+        public bool CanMoveWhileAttacking { get => _canMoveWhileAttacking; set => _canMoveWhileAttacking = value; }
         #endregion
 
         private void Awake()
@@ -237,7 +239,7 @@ namespace GnomeCrawler.Player
 
         void HandleRotation()
         {
-            if (!_isAttackFinished) return;
+            if (!_isAttackFinished && !_canMoveWhileAttacking) return;
 
             Vector3 positionToLookAt;
             Quaternion currentRotation = transform.rotation;
