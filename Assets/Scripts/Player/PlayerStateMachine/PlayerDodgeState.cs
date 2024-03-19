@@ -41,6 +41,7 @@ namespace GnomeCrawler.Player
         public override void ExitState() 
         {
             Ctx.Animator.SetBool(Ctx.IsDodgingHash, false);
+            Ctx.ChainAttackNumber = 0;
         }
 
         public override void InitialiseSubState() { }

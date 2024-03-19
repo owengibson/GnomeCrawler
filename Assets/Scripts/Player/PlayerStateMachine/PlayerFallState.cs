@@ -29,6 +29,7 @@ namespace GnomeCrawler.Player
         public override void ExitState()
         {
             Ctx.Animator.SetBool(Ctx.IsFallingHash, false);
+            Ctx.ChainAttackNumber = 0;
         }
 
         public void HandleGravity()

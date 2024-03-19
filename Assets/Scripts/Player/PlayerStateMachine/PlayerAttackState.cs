@@ -17,14 +17,25 @@ namespace GnomeCrawler.Player
             Ctx.CanMoveWhileAttacking = false;
         }
 
+        IEnumerator ChainAttackCooldown()
+        {
+            Ctx.ChainAttackNumber = 0;
+            yield return new WaitForSeconds(0.3f);
+        }
+
         public override void EnterState()
         {
             Ctx.Animator.SetBool(Ctx.IsAttackingHash, true);
             Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
             Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
             Ctx.IsAttackFinished = false;
-            Ctx.CanMoveWhileAttacking = true    ;
+            Ctx.CanMoveWhileAttacking = true;
             Ctx.StartCoroutine(AttackMovement());
+
+            Ctx.ChainAttackNumber++;
+            Ctx.Animator.SetInteger(Ctx.AttackNumberHash, Ctx.ChainAttackNumber);
+            if (Ctx.ResetChainAttackCoroutine != null) Ctx.StopCoroutine(Ctx.ResetChainAttackCoroutine);
+
         }
 
         public override void UpdateState()
@@ -35,6 +46,11 @@ namespace GnomeCrawler.Player
         public override void ExitState() 
         {
             Ctx.Animator.SetBool(Ctx.IsAttackingHash, false);
+
+            if (Ctx.ChainAttackNumber >= 3)
+            {
+                Ctx.StartCoroutine(ChainAttackCooldown());
+            }
         }
 
         public override void InitialiseSubState() { }
@@ -43,6 +59,11 @@ namespace GnomeCrawler.Player
         {
             if (!Ctx.IsAttackFinished) return;
 
+
+            if (Ctx.IsAttackPressed && Ctx.ChainAttackNumber < 3)
+            {
+                SwitchState(Factory.Attack());
+            }
             else if (Ctx.IsDodgePressed && _currentSuperState == Factory.Grounded() && Ctx.CanDodge && Ctx.IsMovementPressed)
             {
                 SwitchState(Factory.Dodge());

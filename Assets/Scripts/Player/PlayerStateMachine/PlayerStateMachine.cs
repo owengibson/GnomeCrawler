@@ -81,6 +81,8 @@ namespace GnomeCrawler.Player
         bool _isAttackPressed;
         bool _isAttackFinished = true;
         bool _canMoveWhileAttacking = false;
+        int _chainAttackNumber = 0;
+        Coroutine _resetChainAttackCoroutine;
         #endregion
 
         #region state variables
@@ -94,6 +96,7 @@ namespace GnomeCrawler.Player
         int _isJumpingHash;
         int _isAttackingHash;
         int _isDodgingHash;
+        int _attackNumberHash;
         #endregion
 
         // gravity
@@ -134,6 +137,9 @@ namespace GnomeCrawler.Player
         public bool CanDodge { get => _canDodge; set => _canDodge = value; }
         public Vector3 CameraRelativeMovement { get => _cameraRelativeMovement; set => _cameraRelativeMovement = value; }
         public bool CanMoveWhileAttacking { get => _canMoveWhileAttacking; set => _canMoveWhileAttacking = value; }
+        public int ChainAttackNumber { get => _chainAttackNumber; set => _chainAttackNumber = value; }
+        public Coroutine ResetChainAttackCoroutine { get => _resetChainAttackCoroutine; set => _resetChainAttackCoroutine = value; }
+        public int AttackNumberHash { get => _attackNumberHash; set => _attackNumberHash = value; }
         #endregion
 
         private void Awake()
@@ -155,6 +161,7 @@ namespace GnomeCrawler.Player
             _isJumpingHash = Animator.StringToHash("isJumping");
             _isAttackingHash = Animator.StringToHash("isAttacking");
             _isDodgingHash = Animator.StringToHash("isDodging");
+            AttackNumberHash = Animator.StringToHash("attackNumber");
 
             // set player input callbacks
             _playerInput.Player.Move.started += OnMovementInput;
@@ -478,6 +485,7 @@ namespace GnomeCrawler.Player
             if (animName == "Attack")
             {
                 _isAttackFinished = true;
+                ResetChainAttackCoroutine = StartCoroutine(ResetChainAttack());
             }
         }
         public IEnumerator WaitThenFindNewTarget()
@@ -497,6 +505,13 @@ namespace GnomeCrawler.Player
             }
 
             yield return null;
+        }
+
+        IEnumerator ResetChainAttack()
+        {
+            yield return new WaitForSeconds(1f);
+            Debug.Log("chain attack reset");
+            _chainAttackNumber = 0;
         }
 
     }
