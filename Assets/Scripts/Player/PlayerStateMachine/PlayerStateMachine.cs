@@ -160,8 +160,8 @@ namespace GnomeCrawler.Player
             _playerInput.Player.Move.started += OnMovementInput;
             _playerInput.Player.Move.canceled += OnMovementInput;
             _playerInput.Player.Move.performed += OnMovementInput;
-            _playerInput.Player.Jump.performed += OnJump;
-            _playerInput.Player.Jump.canceled += OnJump;
+            //_playerInput.Player.Jump.performed += OnJump;
+            //_playerInput.Player.Jump.canceled += OnJump;
             _playerInput.Player.Sprint.started += OnRun;
             _playerInput.Player.Sprint.canceled += OnRun;
             _playerInput.Player.Attack.started += OnAttack;
