@@ -14,7 +14,7 @@ namespace GnomeCrawler
     public class ProgressBar : MonoBehaviour
     {
         [SerializeField] private Image _progressImage;
-        [SerializeField] private float _defaultSpeed = 1f;
+        [SerializeField] private float _defaultSpeed = 20f;
         [SerializeField] private UnityEvent<float> _onProgress;
         [SerializeField] private UnityEvent _onCompleted;
 
