@@ -13,7 +13,7 @@ namespace GnomeCrawler.Enemy
         EnemyStateFactory states;
 
 
-        [SerializeField] private GameObject _playerCharacter;
+        private GameObject _playerCharacter;
         [SerializeField] private GameObject _currentEnemy;
         [SerializeField] private float _chasingZone;
         [SerializeField] private Collider _attackingZone;
@@ -43,6 +43,14 @@ namespace GnomeCrawler.Enemy
         {
             _enemyNavMeshAgent = GetComponent<NavMeshAgent>();
             gameObject.GetComponent<CombatBrain>().SetUpHealthBar(_healthBarCanvas, _camera);
+
+
+            // THIS IS A SHORT TERM FIX DO NOT KEEP THIS
+            _playerCharacter = GameObject.FindWithTag("Player");
+            // AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // BM code
+
+
             states = new EnemyStateFactory(this);
             currentState = states.IdleState();
             currentState.EnterState();
