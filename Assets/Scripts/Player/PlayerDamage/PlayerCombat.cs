@@ -1,20 +1,23 @@
 using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
-using System.Collections;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GnomeCrawler.Player
 {
     public class PlayerCombat : CombatBrain
     {
         private List<GameObject> _damagedGameObjects;
+        [SerializeField] private Slider _healthbarSlider;
 
         private void Start()
         {
             base.InitialiseVariables();
             _damagedGameObjects = new List<GameObject>();
+            _healthbarSlider.maxValue = _maxHealth;
+            _healthbarSlider.value = CurrentHealth;
         }
 
         protected override void CheckForRaycastHit()
@@ -30,6 +33,18 @@ namespace GnomeCrawler.Player
                     _damagedGameObjects.Add(hit.transform.gameObject);
                 }
             }
+        }
+
+        [Button]
+        private void DealOneDamage()
+        {
+            TakeDamage(1);
+        }
+
+        public override void TakeDamage(float amount)
+        {
+            base.TakeDamage(amount);
+            _healthbarSlider.value = CurrentHealth;
         }
 
         public override void StartDealDamage()

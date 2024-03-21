@@ -1,5 +1,6 @@
 using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace GnomeCrawler
@@ -76,8 +77,7 @@ namespace GnomeCrawler
         {
             _canDealDamage = false;
         }
-
-        public void TakeDamage(float amount)
+        public virtual void TakeDamage(float amount)
         {
             print(name + " has taken damage");
             CurrentHealth -= amount;

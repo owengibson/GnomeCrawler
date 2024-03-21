@@ -509,7 +509,7 @@ namespace GnomeCrawler.Player
 
         IEnumerator ResetChainAttack()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
             Debug.Log("chain attack reset");
             _chainAttackNumber = 0;
         }
