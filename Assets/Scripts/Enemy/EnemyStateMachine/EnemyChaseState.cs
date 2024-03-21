@@ -12,8 +12,9 @@ namespace GnomeCrawler.Enemy
         public override void EnterState()
         {
             // tool tip
-            // Debug.Log("Chasing");
+            Debug.Log("Chasing");
             ctx.EnemyAnimator.SetBool("isMoving", true);
+
             ctx.EnemyAnimator.SetBool("inCombat", false);
         }
 

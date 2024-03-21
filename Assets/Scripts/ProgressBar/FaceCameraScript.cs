@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FaceCameraScript : MonoBehaviour
 {
-    public Camera FaceCamera;
+    [HideInInspector] public Camera FaceCamera;
 
     private void Start()
     {
