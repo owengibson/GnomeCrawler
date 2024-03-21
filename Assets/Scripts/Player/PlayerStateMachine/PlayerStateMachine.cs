@@ -214,7 +214,7 @@ namespace GnomeCrawler.Player
             if (_isLockedOn)
             {
                 if (_currentLockOnTarget == null)
-                    return;
+                    SetLockOnStatus(false);
 
                 if (_currentLockOnTarget.IsDead)
                 {
@@ -298,7 +298,7 @@ namespace GnomeCrawler.Player
                         continue;
                     }
 
-                    if (lockOnTarget.transform.root == transform.root)
+                    if (lockOnTarget.transform == transform)
                     {
                         continue;
                     }
