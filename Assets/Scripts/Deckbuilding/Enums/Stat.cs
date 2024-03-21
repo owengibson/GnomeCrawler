@@ -8,9 +8,11 @@ namespace GnomeCrawler.Deckbuilding
     {
         Health,
         Armour,
+        BlockChance,
         Damage,
-        ArmourPenetration,
-        MoveSpeed,
-        Luck
+        CritChance,
+        NumberOfRolls,
+        Luck,
+        MoveSpeed
     }
 }

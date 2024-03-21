@@ -80,6 +80,9 @@ namespace GnomeCrawler.Player
         #region combat
         bool _isAttackPressed;
         bool _isAttackFinished = true;
+        bool _canMoveWhileAttacking = false;
+        int _chainAttackNumber = 0;
+        Coroutine _resetChainAttackCoroutine;
         #endregion
 
         #region state variables
@@ -93,6 +96,7 @@ namespace GnomeCrawler.Player
         int _isJumpingHash;
         int _isAttackingHash;
         int _isDodgingHash;
+        int _attackNumberHash;
         #endregion
 
         // gravity
@@ -131,6 +135,11 @@ namespace GnomeCrawler.Player
         public float DodgeForce { get => _dodgeForce; }
         public bool IsDodging { get => _isDodging; set => _isDodging = value; }
         public bool CanDodge { get => _canDodge; set => _canDodge = value; }
+        public Vector3 CameraRelativeMovement { get => _cameraRelativeMovement; set => _cameraRelativeMovement = value; }
+        public bool CanMoveWhileAttacking { get => _canMoveWhileAttacking; set => _canMoveWhileAttacking = value; }
+        public int ChainAttackNumber { get => _chainAttackNumber; set => _chainAttackNumber = value; }
+        public Coroutine ResetChainAttackCoroutine { get => _resetChainAttackCoroutine; set => _resetChainAttackCoroutine = value; }
+        public int AttackNumberHash { get => _attackNumberHash; set => _attackNumberHash = value; }
         #endregion
 
         private void Awake()
@@ -152,13 +161,14 @@ namespace GnomeCrawler.Player
             _isJumpingHash = Animator.StringToHash("isJumping");
             _isAttackingHash = Animator.StringToHash("isAttacking");
             _isDodgingHash = Animator.StringToHash("isDodging");
+            AttackNumberHash = Animator.StringToHash("attackNumber");
 
             // set player input callbacks
             _playerInput.Player.Move.started += OnMovementInput;
             _playerInput.Player.Move.canceled += OnMovementInput;
             _playerInput.Player.Move.performed += OnMovementInput;
-            _playerInput.Player.Jump.performed += OnJump;
-            _playerInput.Player.Jump.canceled += OnJump;
+            //_playerInput.Player.Jump.performed += OnJump;
+            //_playerInput.Player.Jump.canceled += OnJump;
             _playerInput.Player.Sprint.started += OnRun;
             _playerInput.Player.Sprint.canceled += OnRun;
             _playerInput.Player.Attack.started += OnAttack;
@@ -236,7 +246,7 @@ namespace GnomeCrawler.Player
 
         void HandleRotation()
         {
-            if (!_isAttackFinished) return;
+            if (!_isAttackFinished && !_canMoveWhileAttacking) return;
 
             Vector3 positionToLookAt;
             Quaternion currentRotation = transform.rotation;
@@ -472,7 +482,11 @@ namespace GnomeCrawler.Player
         {
             print (animName + " animation finished");
 
-            if (animName == "Attack") _isAttackFinished = true;
+            if (animName == "Attack")
+            {
+                _isAttackFinished = true;
+                ResetChainAttackCoroutine = StartCoroutine(ResetChainAttack());
+            }
         }
         public IEnumerator WaitThenFindNewTarget()
         {
@@ -491,6 +505,13 @@ namespace GnomeCrawler.Player
             }
 
             yield return null;
+        }
+
+        IEnumerator ResetChainAttack()
+        {
+            yield return new WaitForSeconds(1f);
+            Debug.Log("chain attack reset");
+            _chainAttackNumber = 0;
         }
 
     }
