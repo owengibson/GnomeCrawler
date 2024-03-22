@@ -11,7 +11,7 @@ namespace GnomeCrawler.Player
 
         IEnumerator AttackMovement()
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.2f);
             Ctx.AppliedMovementX = 0;
             Ctx.AppliedMovementZ = 0;
             Ctx.CanMoveWhileAttacking = false;
@@ -47,7 +47,7 @@ namespace GnomeCrawler.Player
         {
             Ctx.Animator.SetBool(Ctx.IsAttackingHash, false);
 
-            if (Ctx.ChainAttackNumber >= 3)
+            if (Ctx.ChainAttackNumber >= 4)
             {
                 Ctx.StartCoroutine(ChainAttackCooldown());
             }
@@ -60,7 +60,7 @@ namespace GnomeCrawler.Player
             if (!Ctx.IsAttackFinished) return;
 
 
-            if (Ctx.IsAttackPressed && Ctx.ChainAttackNumber < 3)
+            if (Ctx.IsAttackPressed && Ctx.ChainAttackNumber < 4)
             {
                 SwitchState(Factory.Attack());
             }

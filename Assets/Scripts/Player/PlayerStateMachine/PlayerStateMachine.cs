@@ -100,7 +100,7 @@ namespace GnomeCrawler.Player
         #endregion
 
         // gravity
-        float _gravity = -4.9f;
+        float _gravity = -9.8f;
 
         #region getters and setters
         public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }

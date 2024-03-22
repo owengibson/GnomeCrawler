@@ -16,6 +16,7 @@ namespace GnomeCrawler.Player
 
         public override void EnterState()
         {
+            Debug.Log("Flaa state");
             InitialiseSubState();
             Ctx.Animator.SetBool(Ctx.IsFallingHash, true);
         }

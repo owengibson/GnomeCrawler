@@ -1207,7 +1207,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.0001
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!95 &854374048558032644
 Animator:
@@ -1222,7 +1222,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: e1fb924e325298b4b87fe386d75f6b72, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1275,6 +1275,7 @@ MonoBehaviour:
     m_Bits: 128
   _originTransform: {fileID: 1026454177806845361}
   _stats: {fileID: 11400000, guid: df67eefceb9e18a4f864b494bdb92f0a, type: 2}
+  _healthbarSlider: {fileID: 0}
 --- !u!114 &381895839817322118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1501,14 +1502,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3811333318770161664}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.014939131, y: -0.16802682, z: 0.7874423, w: -0.59285617}
-  m_LocalPosition: {x: 0.139, y: 0.22, z: 0.021}
+  m_LocalRotation: {x: 0.16249208, y: -0.08076909, z: -0.8342658, w: 0.52064687}
+  m_LocalPosition: {x: 0.16, y: 0.126, z: 0.152}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8901950777166221020}
   m_Father: {fileID: 4173627488669491507}
-  m_LocalEulerAnglesHint: {x: 16.4, y: 10.554, z: -104.524}
+  m_LocalEulerAnglesHint: {x: 1.973, y: -20.82, z: -116.428}
 --- !u!1 &3851583131496525590
 GameObject:
   m_ObjectHideFlags: 0
@@ -2655,8 +2656,8 @@ Transform:
   m_GameObject: {fileID: 8542164331504733210}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: -0.474, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.05, z: 0.74}
+  m_LocalPosition: {x: 0, y: -0.45, z: 0}
+  m_LocalScale: {x: 0.10000001, y: 0.05000003, z: 0.74}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6628248539939097743}
