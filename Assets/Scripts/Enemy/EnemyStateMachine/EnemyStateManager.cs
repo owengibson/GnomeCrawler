@@ -15,7 +15,7 @@ namespace GnomeCrawler.Enemy
         private GameObject _playerCharacter;
         [SerializeField] private GameObject _currentEnemy;
         [SerializeField] private float _chasingZone;
-        [SerializeField] private Collider _attackingZone;
+        private Collider _attackingZone;
         [SerializeField] private Animator _enemyAnimator;
         [SerializeField] private float _chaseSpeed;
         private NavMeshAgent _enemyNavMeshAgent;
