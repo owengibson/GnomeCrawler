@@ -11,12 +11,11 @@ namespace GnomeCrawler.Enemy
 
         public override void EnterState()
         {
-            //Debug.Log("Idle");
+
         }
 
         public override void UpdateState()
         {
-            //Debug.Log("Idling");
             CheckSwitchState();
         }
 
@@ -26,7 +25,7 @@ namespace GnomeCrawler.Enemy
         {
             float currentDist = Vector3.Distance(ctx.transform.position, ctx.PlayerCharacter.transform.position); 
 
-            if (currentDist < ctx.ChasingZone)
+            if (currentDist < ctx.ChasingDistance)
             {
                 SwitchStates(factory.ChaseState());
             }

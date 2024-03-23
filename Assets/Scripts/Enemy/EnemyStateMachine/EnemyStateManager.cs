@@ -14,8 +14,8 @@ namespace GnomeCrawler.Enemy
 
         private GameObject _playerCharacter;
         [SerializeField] private GameObject _currentEnemy;
-        [SerializeField] private float _chasingZone;
-        private Collider _attackingZone;
+        [SerializeField] private float _chasingDistance;
+        [SerializeField] private float _attackingDistance;
         [SerializeField] private Animator _enemyAnimator;
         [SerializeField] private float _chaseSpeed;
         private NavMeshAgent _enemyNavMeshAgent;
@@ -29,8 +29,8 @@ namespace GnomeCrawler.Enemy
         public EnemyBaseState CurrentState { get => currentState; set => currentState = value; }
         public GameObject PlayerCharacter { get => _playerCharacter; set => _playerCharacter = value; }
         public GameObject CurrentEnemy { get => _currentEnemy; set => _currentEnemy = value; }
-        public float ChasingZone { get => _chasingZone; set => _chasingZone = value; }
-        public Collider AttackingZone { get => _attackingZone; set => _attackingZone = value; }
+        public float ChasingDistance { get => _chasingDistance; set => _chasingDistance = value; }
+        public float AttackingDistance { get => _attackingDistance; set => _attackingDistance = value; }
         public Animator EnemyAnimator { get => _enemyAnimator; set => _enemyAnimator = value; }
         public NavMeshAgent EnemyNavMeshAgent { get => _enemyNavMeshAgent; set => _enemyNavMeshAgent = value; }
         public float ChaseSpeed { get => _chaseSpeed; set => _chaseSpeed = value; }
@@ -45,7 +45,7 @@ namespace GnomeCrawler.Enemy
             _healthBarCanvas = GameObject.Find("Enemy Canvas").GetComponent<Canvas>();
             _playerCharacter = GameObject.FindWithTag("Player");
 
-            gameObject.GetComponent<CombatBrain>().SetUpHealthBar(_healthBarCanvas, _camera);
+            gameObject.GetComponent<EnemyCombat>().SetUpHealthBar(_healthBarCanvas, _camera);
             states = new EnemyStateFactory(this);
             currentState = states.IdleState();
             currentState.EnterState();
@@ -54,27 +54,13 @@ namespace GnomeCrawler.Enemy
         void Update()
         {
             currentState.UpdateState();
+            //print(currentState);
         }
 
         private void FixedUpdate()
         {
             currentState.FixedUpdateState();
         }
-        private void OnTriggerEnter(Collider other)
-        {
-            if (AttackingZone && other.gameObject.tag == "Player")
-            {
-                IsInAttackZone = true;
-            }
-        }
-        private void OnTriggerExit(Collider other)
-        {
-            if (AttackingZone && other.gameObject.tag == "Player")
-            {
-                IsInAttackZone = false;
-            }
-        }
-
 
         public void EndOfAnimation(string aninName)
         {

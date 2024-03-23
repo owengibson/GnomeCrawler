@@ -26,6 +26,14 @@ namespace GnomeCrawler.Enemy
 
         public override void CheckSwitchState() 
         {
+
+            float currentDist = Vector3.Distance(ctx.transform.position, ctx.PlayerCharacter.transform.position);
+
+            if (currentDist > ctx.AttackingDistance)
+            {
+                ctx.IsInAttackZone = false;
+            }
+
             if (ctx.IsAttackFinished && !ctx.IsInAttackZone)
             {
                 SwitchStates(factory.ChaseState());

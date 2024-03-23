@@ -24,6 +24,7 @@ namespace GnomeCrawler.Enemy
             //Debug.Log("Now Chasing");
             Vector3 playerPos = ctx.PlayerCharacter.transform.position;
             playerPos.y = ctx.transform.position.y;
+            
         }
         public override void FixedUpdateState()
         {
@@ -32,6 +33,13 @@ namespace GnomeCrawler.Enemy
 
         public override void CheckSwitchState() 
         {
+            float currentDist = Vector3.Distance(ctx.transform.position, ctx.PlayerCharacter.transform.position);
+
+            if (currentDist < ctx.AttackingDistance)
+            {
+                ctx.IsInAttackZone = true;
+            }
+
             if (ctx.NeedsBlockState)
             {
                 SwitchStates(factory.BlockState());

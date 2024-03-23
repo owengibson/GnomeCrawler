@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7525094088557290597}
   - component: {fileID: 8952343558094357753}
-  - component: {fileID: 5441430285168371546}
   - component: {fileID: 2721011174778793522}
   - component: {fileID: 7176603794779367870}
   - component: {fileID: 8913321516268840075}
   - component: {fileID: 1904276630318679531}
+  - component: {fileID: 8686420759334426632}
   m_Layer: 7
   m_Name: Rat Enemy
   m_TagString: Enemy
@@ -54,33 +54,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentEnemy: {fileID: 2530414414581860366}
   _chasingZone: 7
-  _attackingZone: {fileID: 2361157360319191351}
   _enemyAnimator: {fileID: 1904276630318679531}
   _chaseSpeed: 4
   needsBlockState: 0
   _isInAttackZone: 0
---- !u!114 &5441430285168371546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2530414414581860366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 727510309fa042640b5b41d7e19a23e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lockOnTransform: {fileID: 8128932769561095471}
-  _maxHealth: 10
-  _healthBar: {fileID: 1164792949527804818}
-  _weaponLength: 1.52
-  _canDealDamage: 0
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  _originTransform: {fileID: 7318278516286213611}
-  _stats: {fileID: 11400000, guid: cbb4d6bf7318d5640a80952ddb20aa38, type: 2}
 --- !u!65 &2721011174778793522
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -172,6 +149,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8686420759334426632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2530414414581860366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6844b20c2b3c1a5458736e1367773530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lockOnTransform: {fileID: 8128932769561095471}
+  _maxHealth: 10
+  _weaponLength: 2
+  _canDealDamage: 0
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _originTransform: {fileID: 7318278516286213611}
+  _stats: {fileID: 11400000, guid: cbb4d6bf7318d5640a80952ddb20aa38, type: 2}
+  _healthBar: {fileID: 1164792949527804818}
 --- !u!1 &3368101859617192574
 GameObject:
   m_ObjectHideFlags: 0
