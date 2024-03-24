@@ -38,15 +38,20 @@ namespace GnomeCrawler.Player
             base.StartDealDamage();
         }
 
-        private void AddCardToStats(CardSO card)
+        private void AddHandToStats()
         {
-            _stats.AddCard(card);
+            List<CardSO> hand = EventManager.GetNewHand?.Invoke();
 
-            if (card.UpgradedStat.Key == Stat.Health)
+            foreach (CardSO card in hand)
             {
-                CurrentHealth += _stats.GetStat(Stat.Health) - _maxHealth;
-                _maxHealth = _stats.GetStat(Stat.Health);
+                _stats.AddCard(card);
+                if (card.UpgradedStat.Key == Stat.Health)
+                {
+                    CurrentHealth += _stats.GetStat(Stat.Health) - _maxHealth;
+                    _maxHealth = _stats.GetStat(Stat.Health);
+                }
             }
+
         }
 
         private void OnApplicationQuit()
@@ -61,12 +66,12 @@ namespace GnomeCrawler.Player
 
         private void OnEnable()
         {
-            EventManager.OnCardChosen += AddCardToStats;
+            EventManager.OnRoomStarted += AddHandToStats;
         }
 
         private void OnDisable()
         {
-            EventManager.OnCardChosen -= AddCardToStats;
+            EventManager.OnRoomStarted -= AddHandToStats;
         }
     }
 }

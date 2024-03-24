@@ -10,20 +10,27 @@ namespace GnomeCrawler.Deckbuilding
 {
     public class CardManager : MonoBehaviour
     {
-        [SerializeField] private CardSO[] _allCards;
+        [SerializeField] private List<CardSO> _allCards;
         [Space]
 
         [SerializeField] private List<CardSO> _deck;
         [SerializeField] private Transform _cardUIContainer;
         [SerializeField] private GameObject _cardPrefab;
+        [Space]
 
-        private bool _isFirstDraw = true;
-        private int _noOfCardsPerDraw = 3;
+        [Header("Parameters")]
+        [SerializeField] private int _handSize = 3;
+        [SerializeField] private int _numberOfCardsToDraw = 3;
 
 
         private void Start()
         {
-            DrawAndDisplayCards();
+            
+        }
+
+        private List<CardSO> DrawHand()
+        {
+            return DrawCards(_deck, _handSize);
         }
 
         private void InstantiateCards(List<CardSO> cards)
@@ -40,15 +47,10 @@ namespace GnomeCrawler.Deckbuilding
             EventSystem.current.SetSelectedGameObject(_cardUIContainer.GetChild(0).gameObject);
         }
 
-        private List<CardSO> DrawCards(List<CardSO> pool)
+        private List<CardSO> DrawCards(List<CardSO> pool, int noOfCardsToDraw)
         {
-            if (_isFirstDraw)
-            {
-                return DrawFirstCards();
-            }
-
             List<CardSO> output = new List<CardSO>();
-            for (int i = 0; i < _noOfCardsPerDraw; i++)
+            for (int i = 0; i < noOfCardsToDraw; i++)
             {
                 int randomNum = UnityEngine.Random.Range(0, pool.Count);
                 while (output.Contains(pool[randomNum]))
@@ -65,33 +67,26 @@ namespace GnomeCrawler.Deckbuilding
         public void DrawAndDisplayCards()
         {
             EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
-            InstantiateCards(DrawCards(_deck));
+            InstantiateCards(DrawCards(_allCards, _numberOfCardsToDraw));
         }
 
-        private List<CardSO> DrawFirstCards()
+        private void AddCardToDeck(CardSO card)
         {
-            List<CardSO> output = new List<CardSO> ();
-            foreach (CardCategory category in Enum.GetValues(typeof(CardCategory)))
-            {
-                CardSO card = _deck[UnityEngine.Random.Range(0, _deck.Count)];
-                while (card.Category != category)
-                {
-                    card = _deck[UnityEngine.Random.Range(0, _deck.Count)];
-                }
-                output.Add(card);
-            }
-
-            _isFirstDraw = false;
-            return output;
+            _deck.Add(card);
         }
 
         private void OnEnable()
         {
             EventManager.OnRoomCleared += DrawAndDisplayCards;
+            EventManager.OnCardChosen += AddCardToDeck;
+            EventManager.GetNewHand += DrawHand;
+
         }
         private void OnDisable()
         {
             EventManager.OnRoomCleared -= DrawAndDisplayCards;
+            EventManager.OnCardChosen -= AddCardToDeck;
+            EventManager.GetNewHand -= DrawHand;
         }
     }
 }
