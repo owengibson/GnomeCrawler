@@ -14,7 +14,7 @@ namespace GnomeCrawler.Player
             yield return new WaitForSeconds(Ctx.DodgeDuration);
             Ctx.DodgeVelocity = 1f;
             Ctx.IsDodging = false;
-            if (Ctx.DodgeNumber >= 2)
+            if (Ctx.DodgeNumber >= Ctx.PlayerStats.GetStat(Deckbuilding.Stat.NumberOfRolls))
             {
                 Ctx.DodgeNumber = 0;
                 Ctx.StartCoroutine(DodgeCooldownTimer(Ctx.DodgeCooldown));
@@ -57,7 +57,7 @@ namespace GnomeCrawler.Player
 
         public override void CheckSwitchStates()
         {
-            if (Ctx.IsDodgePressed && Ctx.CanDodge && Ctx.DodgeNumber < 2)
+            if (Ctx.IsDodgePressed && Ctx.CanDodge && Ctx.DodgeNumber < Ctx.PlayerStats.GetStat(Deckbuilding.Stat.NumberOfRolls))
             {
                 SwitchState(Factory.Dodge());
             }

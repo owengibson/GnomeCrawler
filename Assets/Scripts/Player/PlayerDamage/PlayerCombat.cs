@@ -12,6 +12,7 @@ namespace GnomeCrawler.Player
         private List<GameObject> _damagedGameObjects;
         private bool _isInvincible = false;
         [SerializeField] private Slider _healthbarSlider;
+        [SerializeField] private GameObject head;
 
         private void Start()
         {
@@ -19,6 +20,18 @@ namespace GnomeCrawler.Player
             _damagedGameObjects = new List<GameObject>();
             _healthbarSlider.maxValue = _maxHealth;
             _healthbarSlider.value = CurrentHealth;
+        }
+
+        private void Update()
+        {
+            if (_isInvincible)
+            {
+                head.SetActive(false);
+            }
+            else
+            {
+                head.SetActive(true);
+            }
         }
 
         protected override void CheckForRaycastHit()
@@ -49,17 +62,6 @@ namespace GnomeCrawler.Player
             base.StartDealDamage();
         }
 
-        private void AddCardToStats(CardSO card)
-        {
-            _stats.AddCard(card);
-
-            if (card.UpgradedStat.Key == Stat.Health)
-            {
-                CurrentHealth += _stats.GetStat(Stat.Health) - _maxHealth;
-                _maxHealth = _stats.GetStat(Stat.Health);
-            }
-        }
-
         private void OnApplicationQuit()
         {
             _stats.ResetCards();
@@ -70,14 +72,22 @@ namespace GnomeCrawler.Player
             base.Die();
         }
 
+        public void StartIFrames()
+        {
+            _isInvincible = true;
+        }
+
+        public void StopIFrames()
+        {
+            _isInvincible = false;
+        }
+
         private void OnEnable()
         {
-            EventManager.OnCardChosen += AddCardToStats;
         }
 
         private void OnDisable()
         {
-            EventManager.OnCardChosen -= AddCardToStats;
         }
     }
 }
