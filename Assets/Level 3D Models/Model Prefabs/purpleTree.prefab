@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2358386100102122792}
   - component: {fileID: 1663359044372480653}
   - component: {fileID: 3526748919919916615}
+  - component: {fileID: 6232824162137309288}
   m_Layer: 10
   m_Name: purpleTree
   m_TagString: Untagged
@@ -26,9 +27,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3166447275253569426}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.4072851, z: -0, w: 0.91330117}
+  m_LocalRotation: {x: 0, y: 0.40728667, z: 0, w: 0.91330034}
   m_LocalPosition: {x: 21.9, y: 0.0000009536743, z: 21.21}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalScale: {x: 5.9999995, y: 6, z: 5.9999995}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -62,7 +63,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: da988046934cf824aa536ad1558ae67c, type: 2}
-  - {fileID: 2100000, guid: b19a508d85cde1e4fa455193297a4acc, type: 2}
+  - {fileID: 2100000, guid: a2fcbd837de972341930449743aec25a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,3 +85,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6232824162137309288
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3166447275253569426}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.18763691, y: 5.1214285, z: 0.1996666}
+  m_Center: {x: -0.0043371674, y: 2.5607142, z: -0.0048448252}
