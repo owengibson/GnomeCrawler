@@ -72,6 +72,8 @@ namespace GnomeCrawler.Player
         float _dodgeVelocity = 1f;
         float _dodgeDuration = 0.5f;
         float _dodgeCooldown = 0.75f;
+        float _miniDodgeCooldown = 0.1f;
+        int _dodgeNumber = 0;
         bool _isDodgePressed;
         bool _isDodging = false;
         bool _canDodge = true;
@@ -140,6 +142,8 @@ namespace GnomeCrawler.Player
         public int ChainAttackNumber { get => _chainAttackNumber; set => _chainAttackNumber = value; }
         public Coroutine ResetChainAttackCoroutine { get => _resetChainAttackCoroutine; set => _resetChainAttackCoroutine = value; }
         public int AttackNumberHash { get => _attackNumberHash; set => _attackNumberHash = value; }
+        public int DodgeNumber { get => _dodgeNumber; set => _dodgeNumber = value; }
+        public float MiniDodgeCooldown { get => _miniDodgeCooldown; set => _miniDodgeCooldown = value; }
         #endregion
 
         private void Awake()

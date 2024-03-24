@@ -12,6 +12,8 @@ namespace GnomeCrawler.Player
         IEnumerator AttackMovement()
         {
             yield return new WaitForSeconds(0.2f);
+            Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
+            Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
             Ctx.AppliedMovementX = 0;
             Ctx.AppliedMovementZ = 0;
             Ctx.CanMoveWhileAttacking = false;
@@ -40,7 +42,10 @@ namespace GnomeCrawler.Player
 
         public override void UpdateState()
         {
-            CheckSwitchStates();
+            if (Ctx.IsAttackFinished)
+            {
+                CheckSwitchStates();
+            }
         }
 
         public override void ExitState() 
@@ -57,9 +62,6 @@ namespace GnomeCrawler.Player
 
         public override void CheckSwitchStates()
         {
-            if (!Ctx.IsAttackFinished) return;
-
-
             if (Ctx.IsAttackPressed && Ctx.ChainAttackNumber < 4)
             {
                 SwitchState(Factory.Attack());

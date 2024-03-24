@@ -14,12 +14,20 @@ namespace GnomeCrawler.Player
             yield return new WaitForSeconds(Ctx.DodgeDuration);
             Ctx.DodgeVelocity = 1f;
             Ctx.IsDodging = false;
-            Ctx.StartCoroutine(DodgeCooldownTimer());
+            if (Ctx.DodgeNumber >= 2)
+            {
+                Ctx.DodgeNumber = 0;
+                Ctx.StartCoroutine(DodgeCooldownTimer(Ctx.DodgeCooldown));
+            }
+            else
+            {
+                Ctx.StartCoroutine(DodgeCooldownTimer(Ctx.MiniDodgeCooldown));
+            }
         }
 
-        IEnumerator DodgeCooldownTimer()
+        IEnumerator DodgeCooldownTimer(float cooldownTime)
         {
-            yield return new WaitForSeconds(Ctx.DodgeCooldown);
+            yield return new WaitForSeconds(cooldownTime);
             Ctx.CanDodge = true;
         }
 
@@ -48,7 +56,11 @@ namespace GnomeCrawler.Player
 
         public override void CheckSwitchStates()
         {
-            if (Ctx.IsAttackPressed && _currentSuperState == Factory.Grounded())
+            if (Ctx.IsDodgePressed && Ctx.CanDodge && Ctx.DodgeNumber < 2)
+            {
+                SwitchState(Factory.Dodge());
+            }
+            else if (Ctx.IsAttackPressed && _currentSuperState == Factory.Grounded())
             {
                 SwitchState(Factory.Attack());
             }
@@ -72,6 +84,7 @@ namespace GnomeCrawler.Player
             Ctx.DodgeVelocity = Ctx.DodgeForce;
             Ctx.IsDodging = true;
             Ctx.CanDodge = false;
+            Ctx.DodgeNumber++;
             Ctx.StartCoroutine(DodgeTimer());
         }
     }
