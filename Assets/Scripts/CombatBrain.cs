@@ -77,6 +77,7 @@ namespace GnomeCrawler
         {
             _canDealDamage = false;
         }
+
         public virtual void TakeDamage(float amount)
         {
             print(name + " has taken damage");

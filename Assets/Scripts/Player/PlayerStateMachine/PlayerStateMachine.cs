@@ -77,6 +77,7 @@ namespace GnomeCrawler.Player
         bool _isDodgePressed;
         bool _isDodging = false;
         bool _canDodge = true;
+        Coroutine _resetDodgeCoroutine;
         #endregion
 
         #region combat
@@ -144,6 +145,7 @@ namespace GnomeCrawler.Player
         public int AttackNumberHash { get => _attackNumberHash; set => _attackNumberHash = value; }
         public int DodgeNumber { get => _dodgeNumber; set => _dodgeNumber = value; }
         public float MiniDodgeCooldown { get => _miniDodgeCooldown; set => _miniDodgeCooldown = value; }
+        public Coroutine ResetDodgeCoroutine { get => _resetDodgeCoroutine; set => _resetDodgeCoroutine = value; }
         #endregion
 
         private void Awake()
@@ -516,6 +518,13 @@ namespace GnomeCrawler.Player
             yield return new WaitForSeconds(0.5f);
             Debug.Log("chain attack reset");
             _chainAttackNumber = 0;
+        }
+
+        public IEnumerator ResetDodge()
+        {
+            yield return new WaitForSeconds(0.5f);
+            Debug.Log("dodge reset");
+            _dodgeNumber = 0;
         }
 
     }

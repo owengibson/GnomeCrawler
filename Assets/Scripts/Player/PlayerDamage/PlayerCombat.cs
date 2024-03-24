@@ -10,6 +10,7 @@ namespace GnomeCrawler.Player
     public class PlayerCombat : CombatBrain
     {
         private List<GameObject> _damagedGameObjects;
+        private bool _isInvincible = false;
         [SerializeField] private Slider _healthbarSlider;
 
         private void Start()
@@ -35,14 +36,9 @@ namespace GnomeCrawler.Player
             }
         }
 
-        [Button]
-        private void DealOneDamage()
-        {
-            TakeDamage(1);
-        }
-
         public override void TakeDamage(float amount)
         {
+            if (_isInvincible) return;
             base.TakeDamage(amount);
             _healthbarSlider.value = CurrentHealth;
         }

@@ -22,6 +22,7 @@ namespace GnomeCrawler.Player
             else
             {
                 Ctx.StartCoroutine(DodgeCooldownTimer(Ctx.MiniDodgeCooldown));
+                Ctx.ResetDodgeCoroutine = Ctx.StartCoroutine(Ctx.ResetDodge());
             }
         }
 
@@ -80,6 +81,7 @@ namespace GnomeCrawler.Player
 
         private void HandleDodge()
         {
+            if (Ctx.ResetDodgeCoroutine != null) Ctx.StopCoroutine(Ctx.ResetDodgeCoroutine);
             Ctx.Animator.SetBool(Ctx.IsDodgingHash, true);
             Ctx.DodgeVelocity = Ctx.DodgeForce;
             Ctx.IsDodging = true;
