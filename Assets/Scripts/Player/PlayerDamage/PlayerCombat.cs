@@ -61,6 +61,21 @@ namespace GnomeCrawler.Player
             _damagedGameObjects.Clear();
             base.StartDealDamage();
         }
+		
+        private void AddHandToStats(List<CardSO> hand)
+        {
+            foreach (CardSO card in hand)
+            {
+                _stats.AddCard(card);
+                if (card.UpgradedStat.Key == Stat.Health)
+                {
+                    CurrentHealth += _stats.GetStat(Stat.Health) - _maxHealth;
+                    _maxHealth = _stats.GetStat(Stat.Health);
+                }
+            }
+
+            EventManager.OnHandDrawn?.Invoke();
+        }
 
         private void OnApplicationQuit()
         {
@@ -84,10 +99,12 @@ namespace GnomeCrawler.Player
 
         private void OnEnable()
         {
+            EventManager.OnHandApproved += AddHandToStats;
         }
 
         private void OnDisable()
         {
+            EventManager.OnHandApproved -= AddHandToStats;
         }
     }
 }
