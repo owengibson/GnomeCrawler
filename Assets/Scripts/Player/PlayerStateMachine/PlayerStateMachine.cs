@@ -36,6 +36,7 @@ namespace GnomeCrawler.Player
         [SerializeField] LayerMask _targetLayers;
         [SerializeField] LayerMask _environmentLayers;
         [SerializeField] Transform _playerLockTransform;
+        [SerializeField] GameObject _lockOnImage;
 
         List<CombatBrain> _avaliableTargets = new List<CombatBrain>();
         CombatBrain _currentLockOnTarget;
@@ -86,6 +87,9 @@ namespace GnomeCrawler.Player
         bool _canMoveWhileAttacking = false;
         int _chainAttackNumber = 0;
         Coroutine _resetChainAttackCoroutine;
+        bool _isFlinching = false;
+        bool _isFlinchFinished = true;
+        bool _isInvincible = false;
         #endregion
 
         #region state variables
@@ -100,6 +104,7 @@ namespace GnomeCrawler.Player
         int _isAttackingHash;
         int _isDodgingHash;
         int _attackNumberHash;
+        int _flinchHash;
         #endregion
 
         // gravity
@@ -116,6 +121,8 @@ namespace GnomeCrawler.Player
         public int IsJumpingHash { get { return _isJumpingHash; } }
         public int IsAttackingHash { get { return _isAttackingHash; } }
         public int IsDodgingHash { get { return _isDodgingHash; } }
+        public int AttackNumberHash { get => _attackNumberHash; set => _attackNumberHash = value; }
+        public int FlinchHash { get => _flinchHash; set => _flinchHash = value; }
         public bool IsMovementPressed { get { return _isMovementPressed; } }
         public bool IsRunPressed { get { return _isRunPressed; } }
         public bool RequireNewJumpPress { get { return _requireNewJumpPress; } set { _requireNewJumpPress = value; } }
@@ -142,10 +149,12 @@ namespace GnomeCrawler.Player
         public bool CanMoveWhileAttacking { get => _canMoveWhileAttacking; set => _canMoveWhileAttacking = value; }
         public int ChainAttackNumber { get => _chainAttackNumber; set => _chainAttackNumber = value; }
         public Coroutine ResetChainAttackCoroutine { get => _resetChainAttackCoroutine; set => _resetChainAttackCoroutine = value; }
-        public int AttackNumberHash { get => _attackNumberHash; set => _attackNumberHash = value; }
         public int DodgeNumber { get => _dodgeNumber; set => _dodgeNumber = value; }
         public float MiniDodgeCooldown { get => _miniDodgeCooldown; set => _miniDodgeCooldown = value; }
         public Coroutine ResetDodgeCoroutine { get => _resetDodgeCoroutine; set => _resetDodgeCoroutine = value; }
+        public bool IsFlinching { get => _isFlinching; set => _isFlinching = value; }
+        public bool IsInvincible { get => _isInvincible; set => _isInvincible = value; }
+        public bool IsFlinchFinished { get => _isFlinchFinished; set => _isFlinchFinished = value; }
         #endregion
 
         private void Awake()
@@ -167,7 +176,8 @@ namespace GnomeCrawler.Player
             _isJumpingHash = Animator.StringToHash("isJumping");
             _isAttackingHash = Animator.StringToHash("isAttacking");
             _isDodgingHash = Animator.StringToHash("isDodging");
-            AttackNumberHash = Animator.StringToHash("attackNumber");
+            _attackNumberHash = Animator.StringToHash("attackNumber");
+            _flinchHash = Animator.StringToHash("flinch");
 
             // set player input callbacks
             _playerInput.Player.Move.started += OnMovementInput;
@@ -203,11 +213,13 @@ namespace GnomeCrawler.Player
 
         private void Update()
         {
+            Debug.Log(Animator.GetCurrentAnimatorStateInfo(0).IsName("Flinch"));
             HandleLockOnStatus();
             HandleRotation();
             _currentState.UpdateStates();
             //print(_currentState);
-            //print(_currentState._currentSubState);
+            print(_currentState._currentSubState);
+
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
             _cameraRelativeMovement.x = _cameraRelativeMovement.x * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity;
@@ -226,6 +238,13 @@ namespace GnomeCrawler.Player
                 {
                     SetLockOnStatus(false);
                 }
+
+                _lockOnImage.SetActive(true);
+                _lockOnImage.transform.position = _mainCam.WorldToScreenPoint(_currentLockOnTarget._lockOnTransform.transform.position);
+            }
+            else
+            {
+                _lockOnImage.SetActive(false);
             }
         }
 
@@ -492,6 +511,10 @@ namespace GnomeCrawler.Player
             {
                 _isAttackFinished = true;
                 ResetChainAttackCoroutine = StartCoroutine(ResetChainAttack());
+            }
+            if (animName == "Flinch")
+            {
+                _isFlinchFinished = true;
             }
         }
         public IEnumerator WaitThenFindNewTarget()

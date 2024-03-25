@@ -27,7 +27,11 @@ namespace GnomeCrawler.Player
 
         public override void CheckSwitchStates()
         {
-            if (Ctx.IsAttackPressed && _currentSuperState == Factory.Grounded())
+            if (Ctx.IsFlinching)
+            {
+                SwitchState(Factory.Flinch());
+            }
+            else if (Ctx.IsAttackPressed && _currentSuperState == Factory.Grounded())
             {
                 SwitchState(Factory.Attack());
             }

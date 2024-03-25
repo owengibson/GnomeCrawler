@@ -14,7 +14,8 @@ namespace GnomeCrawler.Player
         jump,
         fall,
         attack,
-        dodge
+        dodge,
+        flinch
     }
 
     public class PlayerStateFactory
@@ -33,6 +34,7 @@ namespace GnomeCrawler.Player
             _states[PlayerStates.fall] = new PlayerFallState(_context, this);
             _states[PlayerStates.attack] = new PlayerAttackState(_context, this);
             _states[PlayerStates.dodge] = new PlayerDodgeState(_context, this);
+            _states[PlayerStates.flinch] = new PlayerFlinchState(_context, this);
         }
 
         public PlayerBaseState Idle()
@@ -66,6 +68,10 @@ namespace GnomeCrawler.Player
         public PlayerBaseState Dodge()
         {
             return _states[PlayerStates.dodge];
+        }
+        public PlayerBaseState Flinch()
+        {
+            return _states[PlayerStates.flinch];
         }
     }
 }

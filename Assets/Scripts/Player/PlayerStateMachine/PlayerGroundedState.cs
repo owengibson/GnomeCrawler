@@ -39,13 +39,17 @@ namespace GnomeCrawler.Player
             }
             if (!Ctx.CharacterController.isGrounded)
             {
-                SwitchState(Factory.Fall());
+                //SwitchState(Factory.Fall());
             }
         }
 
         public override void InitialiseSubState()
         {
-            if (Ctx.IsAttackPressed || !Ctx.IsAttackFinished)
+            if (Ctx.IsFlinching)
+            {
+                SetSubState(Factory.Flinch());
+            }
+            else if (Ctx.IsAttackPressed || !Ctx.IsAttackFinished)
             {
                 SetSubState(Factory.Attack());
             }

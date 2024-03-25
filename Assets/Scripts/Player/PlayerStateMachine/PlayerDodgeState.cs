@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 namespace GnomeCrawler.Player
@@ -41,10 +42,7 @@ namespace GnomeCrawler.Player
 
         public override void UpdateState()
         {
-            if (!Ctx.IsDodging)
-            {
-                CheckSwitchStates();
-            }
+            CheckSwitchStates();
         }
 
         public override void ExitState() 
@@ -57,7 +55,13 @@ namespace GnomeCrawler.Player
 
         public override void CheckSwitchStates()
         {
-            if (Ctx.IsDodgePressed && Ctx.CanDodge && Ctx.DodgeNumber < Ctx.PlayerStats.GetStat(Deckbuilding.Stat.NumberOfRolls))
+            if (Ctx.IsFlinching && !Ctx.IsInvincible)
+            {
+                SwitchState(Factory.Flinch());
+            }
+
+            if (Ctx.IsDodging) return;
+            else if (Ctx.IsDodgePressed && Ctx.CanDodge && Ctx.DodgeNumber < Ctx.PlayerStats.GetStat(Deckbuilding.Stat.NumberOfRolls))
             {
                 SwitchState(Factory.Dodge());
             }
