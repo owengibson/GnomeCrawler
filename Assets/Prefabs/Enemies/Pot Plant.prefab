@@ -24,13 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3553762204815260613}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 28.7, z: 0}
+  m_LocalRotation: {x: 0.99144495, y: -0, z: -0, w: -0.13052607}
+  m_LocalPosition: {x: 0, y: 30.8, z: 11.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4446503266647493114}
-  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 195, y: 0, z: 0}
 --- !u!1 &3604369292898277348
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,11 +103,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3260103939731783016}
   - component: {fileID: 5614386700804922271}
+  - component: {fileID: 3136610626112207218}
   - component: {fileID: 3435974055141672251}
   - component: {fileID: 3940687471505831255}
   - component: {fileID: 4239732504751816828}
   - component: {fileID: 3998142259268378566}
-  - component: {fileID: 3136610626112207218}
   m_Layer: 7
   m_Name: Pot Plant
   m_TagString: Enemy
@@ -150,6 +150,30 @@ MonoBehaviour:
   _chaseSpeed: 1
   needsBlockState: 0
   _isInAttackZone: 0
+--- !u!114 &3136610626112207218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8341400936204171614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6844b20c2b3c1a5458736e1367773530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lockOnTransform: {fileID: 2341045515234972630}
+  _maxHealth: 10
+  _weaponLength: 1
+  _canDealDamage: 0
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _originTransform: {fileID: 8090219564288581315}
+  _stats: {fileID: 11400000, guid: cbb4d6bf7318d5640a80952ddb20aa38, type: 2}
+  _healthBar: {fileID: 1983906179242212170}
+  _enemyAnim: {fileID: 3435974055141672251}
+  _enemyMaterial: {fileID: 0}
 --- !u!95 &3435974055141672251
 Animator:
   serializedVersion: 5
@@ -190,10 +214,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.47632653
-  m_Height: 1.350083
+  m_Radius: 0.78
+  m_Height: 1.9923444
   m_Direction: 1
-  m_Center: {x: -0.023673475, y: 0.6176749, z: 0}
+  m_Center: {x: 0, y: 1.35, z: 0}
 --- !u!54 &4239732504751816828
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -243,29 +267,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &3136610626112207218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8341400936204171614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6844b20c2b3c1a5458736e1367773530, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lockOnTransform: {fileID: 2341045515234972630}
-  _maxHealth: 10
-  _weaponLength: 1.2
-  _canDealDamage: 0
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  _originTransform: {fileID: 8090219564288581315}
-  _stats: {fileID: 11400000, guid: cbb4d6bf7318d5640a80952ddb20aa38, type: 2}
-  _healthBar: {fileID: 1983906179242212170}
-  _enemyAnim: {fileID: 3435974055141672251}
 --- !u!1001 &1848390314953652567
 PrefabInstance:
   m_ObjectHideFlags: 0

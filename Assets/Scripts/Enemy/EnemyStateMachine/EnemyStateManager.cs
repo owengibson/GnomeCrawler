@@ -54,7 +54,6 @@ namespace GnomeCrawler.Enemy
         void Update()
         {
             currentState.UpdateState();
-            //print(currentState);
         }
 
         private void FixedUpdate()
@@ -64,7 +63,11 @@ namespace GnomeCrawler.Enemy
 
         public void EndOfAnimation(string aninName)
         {
-            if (aninName == "Attack") _isAttackFinised = true;
+            if (aninName == "Attack")
+            {
+                _isAttackFinised = true;
+                _enemyAnimator.SetBool("inCombat", false);
+            }
         }
     }
 }

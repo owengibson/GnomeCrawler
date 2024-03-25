@@ -91,7 +91,7 @@ namespace GnomeCrawler
             Destroy(gameObject);
         }
 
-        protected void OnDrawGizmos()
+        protected virtual void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(_originTransform.position, _originTransform.position - _originTransform.up * _weaponLength);

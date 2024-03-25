@@ -10,25 +10,28 @@ namespace GnomeCrawler
         private List<GameObject> _damagedGameObjects;
         [SerializeField] protected ProgressBar _healthBar;
         [SerializeField] protected Animator _enemyAnim;
-
+        protected MeshRenderer _meshRenderer;
+        Color _orginalColor;
 
         private void Start()
         {
             base.InitialiseVariables();
             _damagedGameObjects = new List<GameObject>();
+            _meshRenderer = GetComponentInChildren<MeshRenderer>();
+            _orginalColor = _meshRenderer.material.color;
         }
 
         protected override void CheckForRaycastHit()
         {
-            RaycastHit hit;
+            Collider[] hitColliders = Physics.OverlapSphere(_originTransform.position, _weaponLength, _layerMask);
 
-            if (Physics.Raycast(_originTransform.position, -_originTransform.up, out hit, _weaponLength, _layerMask))
+            foreach (var hitCollider in hitColliders)
             {
-                if (hit.transform.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hit.transform.gameObject))
+                if (hitCollider.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hitCollider.transform.gameObject))
                 {
-                    print("hit " + hit.transform.gameObject);
+                    print("hit " + hitCollider.transform.gameObject);
                     damageable.TakeDamage(_stats.GetStat(Stat.Damage));
-                    _damagedGameObjects.Add(hit.transform.gameObject);
+                    _damagedGameObjects.Add(hitCollider.transform.gameObject);
                 }
             }
         }
@@ -68,7 +71,9 @@ namespace GnomeCrawler
 
         private void DamageFeedback()
         {
+            _meshRenderer.material.color = Color.black;
             _enemyAnim.SetBool("isDamaged", true);
+            Invoke("ResetColour", .15f);
         }
 
         private void EndHurtAnimation()
@@ -76,5 +81,15 @@ namespace GnomeCrawler
             _enemyAnim.SetBool("isDamaged", false);
         }
 
+        protected override void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(_originTransform.position, _weaponLength);
+        }
+
+        private void ResetColour()
+        {
+             _meshRenderer.material.color = _orginalColor;
+        }
     }
 }
