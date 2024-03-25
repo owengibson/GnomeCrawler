@@ -9,9 +9,13 @@ namespace GnomeCrawler.Player
         public PlayerAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
         : base(currentContext, playerStateFactory) { }
 
+        private bool _isAttackChained = false;
+
         IEnumerator AttackMovement()
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.1f);
+            Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
+            Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
             Ctx.AppliedMovementX = 0;
             Ctx.AppliedMovementZ = 0;
             Ctx.CanMoveWhileAttacking = false;
@@ -28,6 +32,7 @@ namespace GnomeCrawler.Player
             Ctx.Animator.SetBool(Ctx.IsAttackingHash, true);
             Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
             Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
+            _isAttackChained = false;
             Ctx.IsAttackFinished = false;
             Ctx.CanMoveWhileAttacking = true;
             Ctx.StartCoroutine(AttackMovement());
@@ -40,14 +45,20 @@ namespace GnomeCrawler.Player
 
         public override void UpdateState()
         {
-            CheckSwitchStates();
+            if (Ctx.IsAttackFinished)
+            {
+                CheckSwitchStates();
+            }
         }
 
         public override void ExitState() 
         {
-            Ctx.Animator.SetBool(Ctx.IsAttackingHash, false);
+            if (!_isAttackChained)
+            {
+                Ctx.Animator.SetBool(Ctx.IsAttackingHash, false);
+            }
 
-            if (Ctx.ChainAttackNumber >= 3)
+            if (Ctx.ChainAttackNumber >= 4)
             {
                 Ctx.StartCoroutine(ChainAttackCooldown());
             }
@@ -57,11 +68,9 @@ namespace GnomeCrawler.Player
 
         public override void CheckSwitchStates()
         {
-            if (!Ctx.IsAttackFinished) return;
-
-
-            if (Ctx.IsAttackPressed && Ctx.ChainAttackNumber < 3)
+            if (Ctx.IsAttackPressed && Ctx.ChainAttackNumber < 4)
             {
+                _isAttackChained = true;
                 SwitchState(Factory.Attack());
             }
             else if (Ctx.IsDodgePressed && _currentSuperState == Factory.Grounded() && Ctx.CanDodge && Ctx.IsMovementPressed)

@@ -10,7 +10,9 @@ namespace GnomeCrawler.Player
     public class PlayerCombat : CombatBrain
     {
         private List<GameObject> _damagedGameObjects;
+        private bool _isInvincible = false;
         [SerializeField] private Slider _healthbarSlider;
+        [SerializeField] private GameObject head;
 
         private void Start()
         {
@@ -18,6 +20,18 @@ namespace GnomeCrawler.Player
             _damagedGameObjects = new List<GameObject>();
             _healthbarSlider.maxValue = _maxHealth;
             _healthbarSlider.value = CurrentHealth;
+        }
+
+        private void Update()
+        {
+            if (_isInvincible)
+            {
+                head.SetActive(false);
+            }
+            else
+            {
+                head.SetActive(true);
+            }
         }
 
         protected override void CheckForRaycastHit()
@@ -35,14 +49,9 @@ namespace GnomeCrawler.Player
             }
         }
 
-        [Button]
-        private void DealOneDamage()
-        {
-            TakeDamage(1);
-        }
-
         public override void TakeDamage(float amount)
         {
+            if (_isInvincible) return;
             base.TakeDamage(amount);
             _healthbarSlider.value = CurrentHealth;
         }
@@ -52,16 +61,22 @@ namespace GnomeCrawler.Player
             _damagedGameObjects.Clear();
             base.StartDealDamage();
         }
-
-        private void AddCardToStats(CardSO card)
+		
+        private void AddHandToStats(List<CardSO> hand)
         {
-            _stats.AddCard(card);
+            _stats.ResetCards();
 
-            if (card.UpgradedStat.Key == Stat.Health)
+            foreach (CardSO card in hand)
             {
-                CurrentHealth += _stats.GetStat(Stat.Health) - _maxHealth;
-                _maxHealth = _stats.GetStat(Stat.Health);
+                _stats.AddCard(card);
+                if (card.UpgradedStat.Key == Stat.Health)
+                {
+                    CurrentHealth += _stats.GetStat(Stat.Health) - _maxHealth;
+                    _maxHealth = _stats.GetStat(Stat.Health);
+                }
             }
+
+            EventManager.OnHandDrawn?.Invoke();
         }
 
         private void OnApplicationQuit()
@@ -74,14 +89,24 @@ namespace GnomeCrawler.Player
             base.Die();
         }
 
+        public void StartIFrames()
+        {
+            _isInvincible = true;
+        }
+
+        public void StopIFrames()
+        {
+            _isInvincible = false;
+        }
+
         private void OnEnable()
         {
-            EventManager.OnCardChosen += AddCardToStats;
+            EventManager.OnHandApproved += AddHandToStats;
         }
 
         private void OnDisable()
         {
-            EventManager.OnCardChosen -= AddCardToStats;
+            EventManager.OnHandApproved -= AddHandToStats;
         }
     }
 }
