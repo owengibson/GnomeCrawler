@@ -38,10 +38,8 @@ namespace GnomeCrawler.Player
             base.StartDealDamage();
         }
 
-        private void AddHandToStats()
+        private void AddHandToStats(List<CardSO> hand)
         {
-            List<CardSO> hand = EventManager.GetNewHand?.Invoke();
-
             foreach (CardSO card in hand)
             {
                 _stats.AddCard(card);
@@ -52,6 +50,7 @@ namespace GnomeCrawler.Player
                 }
             }
 
+            EventManager.OnHandDrawn?.Invoke();
         }
 
         private void OnApplicationQuit()
@@ -66,12 +65,12 @@ namespace GnomeCrawler.Player
 
         private void OnEnable()
         {
-            EventManager.OnRoomStarted += AddHandToStats;
+            EventManager.OnHandApproved += AddHandToStats;
         }
 
         private void OnDisable()
         {
-            EventManager.OnRoomStarted -= AddHandToStats;
+            EventManager.OnHandApproved -= AddHandToStats;
         }
     }
 }

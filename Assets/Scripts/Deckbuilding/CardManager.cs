@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using GnomeCrawler.Systems;
 using DG.Tweening;
+using UnityEngine.UI;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -14,13 +15,20 @@ namespace GnomeCrawler.Deckbuilding
         [Space]
 
         [SerializeField] private List<CardSO> _deck;
+        [Space]
+
+        [Header("GameObject/Prefab References")]
         [SerializeField] private Transform _cardUIContainer;
         [SerializeField] private GameObject _cardPrefab;
+        [SerializeField] private GameObject _handApproveButton;
         [Space]
 
         [Header("Parameters")]
         [SerializeField] private int _handSize = 3;
         [SerializeField] private int _numberOfCardsToDraw = 3;
+        [Space]
+
+        [SerializeField] private List<CardSO> _hand;
 
 
         private void Start()
@@ -28,12 +36,21 @@ namespace GnomeCrawler.Deckbuilding
             
         }
 
-        private List<CardSO> DrawHand()
+        private void DrawAndDisplayNewHand()
         {
-            return DrawCards(_deck, _handSize);
+            _hand = DrawCards(_deck, _handSize);
+            EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
+            InstantiateCards(_hand, false);
+            _handApproveButton.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(_handApproveButton);
         }
 
-        private void InstantiateCards(List<CardSO> cards)
+        private List<CardSO> GetCurrentHand()
+        {
+            return _hand;
+        }
+
+        private void InstantiateCards(List<CardSO> cards, bool isSelection)
         {
             foreach(Transform child in _cardUIContainer)
                 Destroy(child.gameObject);
@@ -43,8 +60,14 @@ namespace GnomeCrawler.Deckbuilding
                 GameObject newCardGO = Instantiate(_cardPrefab, _cardUIContainer);
                 CardUI newCard = newCardGO.GetComponent<CardUI>();
                 newCard.SetCard(card);
+                if (!isSelection)
+                {
+                    newCardGO.GetComponent<Button>().enabled = false;
+                }
             }
-            EventSystem.current.SetSelectedGameObject(_cardUIContainer.GetChild(0).gameObject);
+
+            if (!isSelection)
+                EventSystem.current.SetSelectedGameObject(_cardUIContainer.GetChild(0).gameObject);
         }
 
         private List<CardSO> DrawCards(List<CardSO> pool, int noOfCardsToDraw)
@@ -67,7 +90,7 @@ namespace GnomeCrawler.Deckbuilding
         public void DrawAndDisplayCards()
         {
             EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
-            InstantiateCards(DrawCards(_allCards, _numberOfCardsToDraw));
+            InstantiateCards(DrawCards(_allCards, _numberOfCardsToDraw), true);
         }
 
         private void AddCardToDeck(CardSO card)
@@ -75,18 +98,27 @@ namespace GnomeCrawler.Deckbuilding
             _deck.Add(card);
         }
 
+        public void ApproveHand()
+        {
+            EventManager.OnHandApproved?.Invoke(_hand);
+
+            foreach (Transform child in _cardUIContainer)
+                Destroy(child.gameObject);
+
+            EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
+        }
+
         private void OnEnable()
         {
+            EventManager.OnRoomStarted += DrawAndDisplayNewHand;
             EventManager.OnRoomCleared += DrawAndDisplayCards;
             EventManager.OnCardChosen += AddCardToDeck;
-            EventManager.GetNewHand += DrawHand;
-
         }
         private void OnDisable()
         {
+            EventManager.OnRoomStarted -= DrawAndDisplayNewHand;
             EventManager.OnRoomCleared -= DrawAndDisplayCards;
             EventManager.OnCardChosen -= AddCardToDeck;
-            EventManager.GetNewHand -= DrawHand;
         }
     }
 }
