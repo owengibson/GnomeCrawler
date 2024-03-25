@@ -106,6 +106,8 @@ namespace GnomeCrawler.Deckbuilding
                 Destroy(child.gameObject);
 
             EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
+
+            _handApproveButton.SetActive(false);
         }
 
         private void OnEnable()

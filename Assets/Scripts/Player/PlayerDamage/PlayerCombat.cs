@@ -64,6 +64,8 @@ namespace GnomeCrawler.Player
 		
         private void AddHandToStats(List<CardSO> hand)
         {
+            _stats.ResetCards();
+
             foreach (CardSO card in hand)
             {
                 _stats.AddCard(card);
