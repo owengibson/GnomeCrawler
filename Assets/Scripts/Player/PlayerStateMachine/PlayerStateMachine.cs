@@ -232,11 +232,15 @@ namespace GnomeCrawler.Player
             if (_isLockedOn)
             {
                 if (_currentLockOnTarget == null)
+                {
                     SetLockOnStatus(false);
+                    return;
+                }
 
                 if (_currentLockOnTarget.IsDead)
                 {
                     SetLockOnStatus(false);
+                    return;
                 }
 
                 _lockOnImage.SetActive(true);

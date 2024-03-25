@@ -26,6 +26,7 @@ namespace GnomeCrawler.Player
 
         private void Update()
         {
+            base.InternalUpdate();
             if (_isInvincible)
             {
                 _stateMachine.IsInvincible = true;
