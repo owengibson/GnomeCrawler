@@ -35,6 +35,11 @@ namespace GnomeCrawler
 
         private void Update()
         {
+            InternalUpdate();
+        }
+
+        protected void InternalUpdate()
+        {
             if (_canDealDamage)
             {
                 CheckForRaycastHit();

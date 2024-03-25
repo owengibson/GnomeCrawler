@@ -45,10 +45,7 @@ namespace GnomeCrawler.Player
 
         public override void UpdateState()
         {
-            if (Ctx.IsAttackFinished)
-            {
-                CheckSwitchStates();
-            }
+            CheckSwitchStates();
         }
 
         public override void ExitState() 
@@ -68,7 +65,15 @@ namespace GnomeCrawler.Player
 
         public override void CheckSwitchStates()
         {
-            if (Ctx.IsAttackPressed && Ctx.ChainAttackNumber < 4)
+            if (Ctx.IsFlinching)
+            {
+                Ctx.IsAttackFinished = true;
+                SwitchState(Factory.Flinch());
+            }
+
+            if (!Ctx.IsAttackFinished) return;
+
+            else if (Ctx.IsAttackPressed && Ctx.ChainAttackNumber < 4)
             {
                 _isAttackChained = true;
                 SwitchState(Factory.Attack());
@@ -85,9 +90,9 @@ namespace GnomeCrawler.Player
             {
                 SwitchState(Factory.Walk());
             }
-            else 
-            { 
-                SwitchState(Factory.Idle()); 
+            else
+            {
+                SwitchState(Factory.Idle());
             }
         }
     }

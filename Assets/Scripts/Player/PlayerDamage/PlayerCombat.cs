@@ -11,12 +11,14 @@ namespace GnomeCrawler.Player
     {
         private List<GameObject> _damagedGameObjects;
         private bool _isInvincible = false;
+        private PlayerStateMachine _stateMachine;
         [SerializeField] private Slider _healthbarSlider;
-        [SerializeField] private GameObject head;
+        [SerializeField] private GameObject hat;
 
         private void Start()
         {
             base.InitialiseVariables();
+            _stateMachine = gameObject.GetComponent<PlayerStateMachine>();
             _damagedGameObjects = new List<GameObject>();
             _healthbarSlider.maxValue = _maxHealth;
             _healthbarSlider.value = CurrentHealth;
@@ -24,13 +26,16 @@ namespace GnomeCrawler.Player
 
         private void Update()
         {
+            base.InternalUpdate();
             if (_isInvincible)
             {
-                head.SetActive(false);
+                _stateMachine.IsInvincible = true;
+                //hat.SetActive(false);
             }
             else
             {
-                head.SetActive(true);
+                _stateMachine.IsInvincible = false;
+                //hat.SetActive(true);
             }
         }
 
@@ -52,6 +57,7 @@ namespace GnomeCrawler.Player
         public override void TakeDamage(float amount)
         {
             if (_isInvincible) return;
+            _stateMachine.IsFlinching = true;
             base.TakeDamage(amount);
             _healthbarSlider.value = CurrentHealth;
         }
