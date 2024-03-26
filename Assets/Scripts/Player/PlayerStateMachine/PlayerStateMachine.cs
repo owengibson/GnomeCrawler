@@ -208,6 +208,7 @@ namespace GnomeCrawler.Player
 
         private void Start()
         {
+            transform.parent = transform.root;
             _characterController.Move(_appliedMovement * _playerStats.GetStat(Stat.MoveSpeed) * Time.deltaTime);
         }
 
@@ -218,7 +219,7 @@ namespace GnomeCrawler.Player
             HandleRotation();
             _currentState.UpdateStates();
             //print(_currentState);
-            print(_currentState._currentSubState);
+            //print(_currentState._currentSubState);
 
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);

@@ -48,7 +48,14 @@ namespace GnomeCrawler.Player
                 if (hit.transform.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hit.transform.gameObject))
                 {
                     print("hit " + hit.transform.gameObject);
-                    damageable.TakeDamage(_stats.GetStat(Stat.Damage));
+                    float damage = _stats.GetStat(Stat.Damage);
+                    Debug.Log(damage);
+                    if (Random.Range(0, 100) <= _stats.GetStat(Stat.CritChance))
+                    {
+                        damage *= _stats.GetStat(Stat.CritDamageMultiplier);
+                        Debug.Log(damage);
+                    }
+                    damageable.TakeDamage(damage);
                     _damagedGameObjects.Add(hit.transform.gameObject);
                 }
             }
@@ -57,6 +64,8 @@ namespace GnomeCrawler.Player
         public override void TakeDamage(float amount)
         {
             if (_isInvincible) return;
+            if (Random.Range(0,100) <= _stats.GetStat(Stat.BlockChance)) return;
+
             _stateMachine.IsFlinching = true;
             base.TakeDamage(amount);
             _healthbarSlider.value = CurrentHealth;
@@ -79,6 +88,9 @@ namespace GnomeCrawler.Player
                 {
                     CurrentHealth += _stats.GetStat(Stat.Health) - _maxHealth;
                     _maxHealth = _stats.GetStat(Stat.Health);
+
+                    _healthbarSlider.maxValue = _maxHealth;
+                    _healthbarSlider.value = CurrentHealth;
                 }
             }
 
