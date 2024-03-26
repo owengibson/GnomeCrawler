@@ -38,7 +38,7 @@ namespace GnomeCrawler.Deckbuilding
 
         private void DrawAndDisplayNewHand()
         {
-            _hand = DrawCards(_deck, _handSize);
+            _hand = DrawCards(_deck, _handSize, true);
             EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
             InstantiateCards(_hand, false);
             _handApproveButton.SetActive(true);
@@ -70,17 +70,29 @@ namespace GnomeCrawler.Deckbuilding
                 EventSystem.current.SetSelectedGameObject(_cardUIContainer.GetChild(0).gameObject);
         }
 
-        private List<CardSO> DrawCards(List<CardSO> pool, int noOfCardsToDraw)
+        private List<CardSO> DrawCards(List<CardSO> pool, int noOfCardsToDraw, bool isDrawingFromDeck)
         {
             List<CardSO> output = new List<CardSO>();
             for (int i = 0; i < noOfCardsToDraw; i++)
             {
                 int randomNum = UnityEngine.Random.Range(0, pool.Count);
-                while (output.Contains(pool[randomNum]))
+                if (isDrawingFromDeck)
                 {
-                    randomNum = UnityEngine.Random.Range(0, pool.Count);
+                    while (output.Contains(pool[randomNum]))
+                    {
+                        randomNum = UnityEngine.Random.Range(0, pool.Count);
+                    }
+                    output.Add(pool[randomNum]);
                 }
-                output.Add(pool[randomNum]);
+                else
+                {
+                    while (output.Contains(pool[randomNum]) || _deck.Contains(pool[randomNum]))
+                    {
+                        randomNum = UnityEngine.Random.Range(0, pool.Count);
+                    }
+                    output.Add(pool[randomNum]);
+                }
+
             }
 
 
@@ -90,7 +102,7 @@ namespace GnomeCrawler.Deckbuilding
         public void DrawAndDisplayCards()
         {
             EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
-            InstantiateCards(DrawCards(_allCards, _numberOfCardsToDraw), true);
+            InstantiateCards(DrawCards(_allCards, _numberOfCardsToDraw, false), true);
         }
 
         private void AddCardToDeck(CardSO card)
