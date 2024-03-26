@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace GnomeCrawler.Enemy
+namespace GnomeCrawler.Enemies
 {
     public abstract class EnemyBaseState
     {

@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-namespace GnomeCrawler.Enemy
+namespace GnomeCrawler.Enemies
 {
     public class EnemyAttackState : EnemyBaseState
     {

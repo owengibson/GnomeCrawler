@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using GnomeCrawler.Systems;
 
-namespace GnomeCrawler
+namespace GnomeCrawler.Rooms
 {
     public class RoomManager : MonoBehaviour
     {
         [SerializeField] private List<GameObject> _enemies;
+
+        public void AddEnemyToList(GameObject enemy)
+        {
+            if (!_enemies.Contains(enemy))
+                _enemies.Add(enemy);
+        }
 
         private void RemoveEnemyFromList(GameObject enemy)
         {
