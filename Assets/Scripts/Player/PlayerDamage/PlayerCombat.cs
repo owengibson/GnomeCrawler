@@ -47,9 +47,8 @@ namespace GnomeCrawler.Player
             {
                 if (hit.transform.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hit.transform.gameObject))
                 {
-                    print("hit " + hit.transform.gameObject);
+                    //print("hit " + hit.transform.gameObject);
                     float damage = _stats.GetStat(Stat.Damage);
-                    Debug.Log(damage);
                     if (Random.Range(0, 100) <= _stats.GetStat(Stat.CritChance))
                     {
                         damage *= _stats.GetStat(Stat.CritDamageMultiplier);
