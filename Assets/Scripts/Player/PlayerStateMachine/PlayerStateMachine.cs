@@ -214,7 +214,7 @@ namespace GnomeCrawler.Player
 
         private void Update()
         {
-            Debug.Log(Animator.GetCurrentAnimatorStateInfo(0).IsName("Flinch"));
+            //Debug.Log(Animator.GetCurrentAnimatorStateInfo(0).IsName("Flinch"));
             HandleLockOnStatus();
             HandleRotation();
             _currentState.UpdateStates();

@@ -66,7 +66,8 @@ namespace GnomeCrawler.Deckbuilding
                 }
             }
 
-            if (!isSelection)
+            if (isSelection)
+                Debug.Log(EventSystem.current.gameObject);
                 EventSystem.current.SetSelectedGameObject(_cardUIContainer.GetChild(0).gameObject);
         }
 
