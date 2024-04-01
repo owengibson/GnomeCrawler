@@ -116,14 +116,21 @@ namespace GnomeCrawler.Player
             _isInvincible = false;
         }
 
+        private StatsSO GetPlayerStats()
+        {
+            return _stats;
+        }
+
         private void OnEnable()
         {
             EventManager.OnHandApproved += AddHandToStats;
+            EventManager.GetPlayerStats += GetPlayerStats;
         }
 
         private void OnDisable()
         {
             EventManager.OnHandApproved -= AddHandToStats;
+            EventManager.GetPlayerStats -= GetPlayerStats;
         }
     }
 }

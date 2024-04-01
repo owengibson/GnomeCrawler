@@ -18,5 +18,6 @@ namespace GnomeCrawler.Systems
         public static Action<List<CardSO>> OnHandApproved;
 
         public static Func<CardSO> GetSelectedActivatableCard;
+        public static Func<StatsSO> GetPlayerStats;
     }
 }
