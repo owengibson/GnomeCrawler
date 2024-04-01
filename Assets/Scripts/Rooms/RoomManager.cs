@@ -13,17 +13,14 @@ namespace GnomeCrawler.Rooms
         {
             if (!_enemies.Contains(enemy))
                 _enemies.Add(enemy);
-
-            Debug.Log($"{enemy.GetInstanceID()} added to {gameObject.name}");
         }
 
         private void RemoveEnemyFromList(GameObject enemy)
         {
-            if (_enemies.Contains(enemy))
-            {
-                _enemies.Remove(enemy);
-                Debug.Log(_enemies.Count + "in " + gameObject.name);
-            }
+            if (!_enemies.Contains(enemy))
+                return;
+
+            _enemies.Remove(enemy);
 
             if (_enemies.Count == 0)
             {
