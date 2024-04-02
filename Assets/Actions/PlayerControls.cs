@@ -134,6 +134,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HandQuickview"",
+                    ""type"": ""Button"",
+                    ""id"": ""c9ee4ce8-6742-4ea6-bed4-c72b009df2e4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -411,6 +420,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""CycleCards"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d7f1f4ec-3a70-4b1d-83d0-f9dbf5c41798"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HandQuickview"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5210b44-6076-4295-ab75-5deb2da9de88"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HandQuickview"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -431,6 +462,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_SeekRightLockOnTagret = m_Player.FindAction("SeekRightLockOnTagret", throwIfNotFound: true);
         m_Player_SeekLeftLockOnTagret = m_Player.FindAction("SeekLeftLockOnTagret", throwIfNotFound: true);
         m_Player_CycleCards = m_Player.FindAction("CycleCards", throwIfNotFound: true);
+        m_Player_HandQuickview = m_Player.FindAction("HandQuickview", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -504,6 +536,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SeekRightLockOnTagret;
     private readonly InputAction m_Player_SeekLeftLockOnTagret;
     private readonly InputAction m_Player_CycleCards;
+    private readonly InputAction m_Player_HandQuickview;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -520,6 +553,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @SeekRightLockOnTagret => m_Wrapper.m_Player_SeekRightLockOnTagret;
         public InputAction @SeekLeftLockOnTagret => m_Wrapper.m_Player_SeekLeftLockOnTagret;
         public InputAction @CycleCards => m_Wrapper.m_Player_CycleCards;
+        public InputAction @HandQuickview => m_Wrapper.m_Player_HandQuickview;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -565,6 +599,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @CycleCards.started += instance.OnCycleCards;
             @CycleCards.performed += instance.OnCycleCards;
             @CycleCards.canceled += instance.OnCycleCards;
+            @HandQuickview.started += instance.OnHandQuickview;
+            @HandQuickview.performed += instance.OnHandQuickview;
+            @HandQuickview.canceled += instance.OnHandQuickview;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -605,6 +642,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @CycleCards.started -= instance.OnCycleCards;
             @CycleCards.performed -= instance.OnCycleCards;
             @CycleCards.canceled -= instance.OnCycleCards;
+            @HandQuickview.started -= instance.OnHandQuickview;
+            @HandQuickview.performed -= instance.OnHandQuickview;
+            @HandQuickview.canceled -= instance.OnHandQuickview;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -636,5 +676,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSeekRightLockOnTagret(InputAction.CallbackContext context);
         void OnSeekLeftLockOnTagret(InputAction.CallbackContext context);
         void OnCycleCards(InputAction.CallbackContext context);
+        void OnHandQuickview(InputAction.CallbackContext context);
     }
 }
