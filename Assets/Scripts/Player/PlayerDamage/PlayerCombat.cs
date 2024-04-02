@@ -85,10 +85,12 @@ namespace GnomeCrawler.Player
                 _stats.AddCard(card);
                 if (card.UpgradedStat.Key == Stat.Health)
                 {
-                    CurrentHealth += _stats.GetStat(Stat.Health) - _maxHealth;
+                    float currentHealthRatio = CurrentHealth / _maxHealth;
                     _maxHealth = _stats.GetStat(Stat.Health);
+                    CurrentHealth = _maxHealth * currentHealthRatio;
 
                     _healthbarSlider.maxValue = _maxHealth;
+                    _healthbarSlider.transform.localScale = new Vector3(_maxHealth / 10, _healthbarSlider.transform.localScale.y, _healthbarSlider.transform.localScale.z);
                     _healthbarSlider.value = CurrentHealth;
                 }
             }

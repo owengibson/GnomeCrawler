@@ -10,7 +10,7 @@ namespace GnomeCrawler
         public Transform _lockOnTransform;
 
         #region health
-        [SerializeField] protected float _maxHealth;
+        protected float _maxHealth;
         #endregion
 
         #region damage

@@ -16,7 +16,7 @@ namespace GnomeCrawler.Player
     {
         #region constants
         const float _rotationFactorPerFrame = 15.0f;
-        const float _runMultiplier = 1.5f;
+        const float _runMultiplier = 1.2f;
         const int _zero = 0;
         #endregion
 
