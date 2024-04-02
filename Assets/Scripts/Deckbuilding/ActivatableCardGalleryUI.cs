@@ -38,6 +38,15 @@ namespace GnomeCrawler.Deckbuilding
             RenderGalleryAtIndex(_galleryIndex);
         }
 
+        private void CheckHandForActivatableCards(List<CardSO> hand)
+        {
+            foreach (CardSO card in hand)
+            {
+                if (card.IsActivatableCard)
+                    AddCardToGallery(card);
+            }
+        }
+
         private void AddCardToGallery(CardSO card)
         {
             if (!card.IsActivatableCard) return;
@@ -86,14 +95,14 @@ namespace GnomeCrawler.Deckbuilding
 
         private void OnEnable()
         {
-            EventManager.OnCardChosen += AddCardToGallery;
+            EventManager.OnHandApproved += CheckHandForActivatableCards;
             EventManager.OnCardActivated += RemoveCardFromGallery;
             EventManager.GetSelectedActivatableCard += GetSelectedCard;
             _playerControls.Enable();
         }
         private void OnDisable()
         {
-            EventManager.OnCardChosen -= AddCardToGallery;
+            EventManager.OnHandApproved -= CheckHandForActivatableCards;
             EventManager.OnCardActivated -= RemoveCardFromGallery;
             EventManager.GetSelectedActivatableCard -= GetSelectedCard;
             _playerControls.Disable();

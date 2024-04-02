@@ -21,7 +21,7 @@ namespace GnomeCrawler.Deckbuilding
 
         private void ActivateSelectedCard(InputAction.CallbackContext context)
         {
-            ActivateCard(EventManager.GetSelectedActivatableCard());
+            ActivateCard(EventManager.GetSelectedActivatableCard?.Invoke());
         }
 
         private void ActivateCard(CardSO card)
