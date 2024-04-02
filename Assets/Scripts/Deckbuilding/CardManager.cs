@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -66,7 +65,8 @@ namespace GnomeCrawler.Deckbuilding
                 }
             }
 
-            if (!isSelection)
+            if (isSelection)
+                Debug.Log(EventSystem.current.gameObject);
                 EventSystem.current.SetSelectedGameObject(_cardUIContainer.GetChild(0).gameObject);
         }
 
@@ -108,6 +108,21 @@ namespace GnomeCrawler.Deckbuilding
         private void AddCardToDeck(CardSO card)
         {
             _deck.Add(card);
+
+            if (Random.Range(0f, 100f) <= EventManager.GetPlayerStats?.Invoke().GetStat(Stat.Luck))
+            {
+                _deck.Add(DrawLuckCard());
+            }
+        }
+
+        private CardSO DrawLuckCard()
+        {
+            int randomNum = Random.Range(0, _allCards.Count);
+            while (_deck.Contains(_allCards[randomNum]) || _allCards[randomNum].IsActivatableCard)
+            {
+                randomNum = Random.Range(0, _allCards.Count);
+            }
+            return _allCards[randomNum];
         }
 
         public void ApproveHand()

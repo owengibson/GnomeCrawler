@@ -92,6 +92,7 @@ namespace GnomeCrawler
 
         public virtual void Die()
         {
+            Debug.Log(gameObject + " killed");
             EventManager.OnEnemyKilled?.Invoke(gameObject);
             IsDead = true;
             Destroy(gameObject);

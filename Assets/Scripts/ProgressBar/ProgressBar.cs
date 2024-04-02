@@ -39,7 +39,7 @@ namespace GnomeCrawler
         {
             if (progress is <0 || progress > 1)
             {
-                Debug.LogWarning($"Invaled number passed. Expected value between 0 & 1. Got {progress} Claimping ");
+                //Debug.LogWarning($"Invaled number passed. Expected value between 0 & 1. Got {progress} Claimping ");
                 progress = Mathf.Clamp01(progress);
             }
 

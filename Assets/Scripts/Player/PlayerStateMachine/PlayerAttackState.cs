@@ -71,7 +71,7 @@ namespace GnomeCrawler.Player
                 SwitchState(Factory.Flinch());
             }
 
-            if (!Ctx.IsAttackFinished) return;
+            else if (!Ctx.IsAttackFinished) return;
 
             else if (Ctx.IsAttackPressed && Ctx.ChainAttackNumber < 4)
             {

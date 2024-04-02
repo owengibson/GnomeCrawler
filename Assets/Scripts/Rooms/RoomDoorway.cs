@@ -41,6 +41,17 @@ namespace GnomeCrawler.Rooms
 
         }
 
+        private void OnTriggerExit(Collider other)
+        {
+            if (!other.CompareTag("Player"))
+                return;
+
+            if (Type == DoorwayType.Entry)
+            {
+                Collider.isTrigger = false;
+            }
+        }
+
         private void OpenRoomExit()
         {
             if (Type != DoorwayType.Exit)
