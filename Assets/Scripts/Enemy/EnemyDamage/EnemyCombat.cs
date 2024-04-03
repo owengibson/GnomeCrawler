@@ -24,7 +24,7 @@ namespace GnomeCrawler
 
         protected override void CheckForRaycastHit()
         {
-            Collider[] hitColliders = Physics.OverlapSphere(_originTransform.position, _weaponLength, _layerMask);
+            Collider[] hitColliders = Physics.OverlapSphere(_originTransform.position, _weaponSize, _layerMask);
 
             foreach (var hitCollider in hitColliders)
             {
@@ -85,7 +85,7 @@ namespace GnomeCrawler
         protected override void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(_originTransform.position, _weaponLength);
+            Gizmos.DrawSphere(_originTransform.position, _weaponSize);
         }
 
         private void ResetColour()
