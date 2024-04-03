@@ -20,17 +20,36 @@ namespace GnomeCrawler
 
         public GameState CurrentGameState { get; private set; }
 
-        private GameStateManager()
-        {
-
-        }
 
         public void SetState(GameState newGameState)
         {
             if (newGameState == CurrentGameState) return;
+            switch (newGameState)
+            {
+                case GameState.Gameplay:
+                    Time.timeScale = 1f;
+                    break;
+
+                case GameState.Paused:
+                    Time.timeScale = 0f;
+                    break;
+
+                default:
+                    break;
+            }
+
 
             CurrentGameState = newGameState;
-            EventManager.OnGameStateChanged?.Invoke(newGameState);
+            
+        }
+
+        private void OnEnable()
+        {
+            EventManager.OnGameStateChanged += SetState;
+        }
+        private void OnDisable()
+        {
+            EventManager.OnGameStateChanged -= SetState;
         }
     }
 }

@@ -8,14 +8,7 @@ namespace GnomeCrawler
     {
         void Update()
         {
-            //check for player input
-
-            GameState currentGameState = GameStateManager.Instance.CurrentGameState;
-            GameState newGameState = currentGameState == GameState.Gameplay
-                ? GameState.Paused
-                : GameState.Gameplay;
-
-            GameStateManager.Instance.SetState(newGameState);
+            
         }
     }
 }
