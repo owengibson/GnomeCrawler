@@ -47,8 +47,14 @@ namespace GnomeCrawler.Player
             {
                 if (hit.transform.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hit.transform.gameObject))
                 {
-                    print("hit " + hit.transform.gameObject);
-                    damageable.TakeDamage(_stats.GetStat(Stat.Damage));
+                    //print("hit " + hit.transform.gameObject);
+                    float damage = _stats.GetStat(Stat.Damage);
+                    if (Random.Range(0, 100) <= _stats.GetStat(Stat.CritChance))
+                    {
+                        damage *= _stats.GetStat(Stat.CritDamageMultiplier);
+                        Debug.Log(damage);
+                    }
+                    damageable.TakeDamage(damage);
                     _damagedGameObjects.Add(hit.transform.gameObject);
                 }
             }
@@ -57,6 +63,8 @@ namespace GnomeCrawler.Player
         public override void TakeDamage(float amount)
         {
             if (_isInvincible) return;
+            if (Random.Range(0,100) <= _stats.GetStat(Stat.BlockChance)) return;
+
             _stateMachine.IsFlinching = true;
             base.TakeDamage(amount);
             _healthbarSlider.value = CurrentHealth;
@@ -79,6 +87,9 @@ namespace GnomeCrawler.Player
                 {
                     CurrentHealth += _stats.GetStat(Stat.Health) - _maxHealth;
                     _maxHealth = _stats.GetStat(Stat.Health);
+
+                    _healthbarSlider.maxValue = _maxHealth;
+                    _healthbarSlider.value = CurrentHealth;
                 }
             }
 
@@ -105,14 +116,21 @@ namespace GnomeCrawler.Player
             _isInvincible = false;
         }
 
+        private StatsSO GetPlayerStats()
+        {
+            return _stats;
+        }
+
         private void OnEnable()
         {
             EventManager.OnHandApproved += AddHandToStats;
+            EventManager.GetPlayerStats += GetPlayerStats;
         }
 
         private void OnDisable()
         {
             EventManager.OnHandApproved -= AddHandToStats;
+            EventManager.GetPlayerStats -= GetPlayerStats;
         }
     }
 }

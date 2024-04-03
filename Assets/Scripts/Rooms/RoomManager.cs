@@ -17,11 +17,15 @@ namespace GnomeCrawler.Rooms
 
         private void RemoveEnemyFromList(GameObject enemy)
         {
-            if (_enemies.Contains(enemy))
-                _enemies.Remove(enemy);
+            if (!_enemies.Contains(enemy))
+                return;
+
+            _enemies.Remove(enemy);
 
             if (_enemies.Count == 0)
+            {
                 EventManager.OnRoomCleared?.Invoke();
+            }
         }
 
         private void OnEnable()

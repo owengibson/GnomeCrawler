@@ -207,17 +207,18 @@ namespace GnomeCrawler.Player
 
         private void Start()
         {
+            transform.parent = transform.root;
             _characterController.Move(_appliedMovement * _playerStats.GetStat(Stat.MoveSpeed) * Time.deltaTime);
         }
 
         private void Update()
         {
-            Debug.Log(Animator.GetCurrentAnimatorStateInfo(0).IsName("Flinch"));
+            //Debug.Log(Animator.GetCurrentAnimatorStateInfo(0).IsName("Flinch"));
             HandleLockOnStatus();
             HandleRotation();
             _currentState.UpdateStates();
             //print(_currentState);
-            print(_currentState._currentSubState);
+            //print(_currentState._currentSubState);
 
 
             _cameraRelativeMovement = ConvertToCameraSpace(_appliedMovement);
