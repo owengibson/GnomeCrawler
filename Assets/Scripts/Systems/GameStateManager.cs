@@ -5,21 +5,9 @@ using UnityEngine;
 
 namespace GnomeCrawler.Systems
 {
-    public class GameStateManager : MonoBehaviour
+    public class GameStateManager : Singleton<GameStateManager>
     {
-        private static GameStateManager _instance;
-        public static GameStateManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new GameStateManager();
-                return _instance;
-            }
-        }
-
         public GameState CurrentGameState { get; private set; }
-
 
         public void SetState(GameState newGameState)
         {
@@ -40,9 +28,7 @@ namespace GnomeCrawler.Systems
                     break;
             }
 
-
             CurrentGameState = newGameState;
-            
         }
 
         private void OnEnable()
