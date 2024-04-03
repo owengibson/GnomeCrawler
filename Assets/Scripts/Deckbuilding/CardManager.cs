@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using GnomeCrawler.Systems;
-using DG.Tweening;
 using UnityEngine.UI;
 
 namespace GnomeCrawler.Deckbuilding
