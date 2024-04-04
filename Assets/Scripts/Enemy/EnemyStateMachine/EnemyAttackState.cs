@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
-using UnityEditor;
-using UnityEditor.Rendering;
+
 using UnityEngine;
 
 namespace GnomeCrawler.Enemies

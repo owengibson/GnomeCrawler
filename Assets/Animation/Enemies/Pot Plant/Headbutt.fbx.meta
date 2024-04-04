@@ -55,9 +55,34 @@ ModelImporter:
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
+      curves:
+      - name: Curve
+        curve:
+          serializedVersion: 2
+          curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 2
+            outSlope: 2
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          preInfinity: 2
+          postInfinity: 2
+          rotationOrder: 4
       events:
-      - time: 0.43288165
+      - time: 0.49659845
         functionName: StartDealDamage
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6844b20c2b3c1a5458736e1367773530,
@@ -65,7 +90,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.6319657
+      - time: 0.74877983
         functionName: EndDealDamage
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6844b20c2b3c1a5458736e1367773530,
