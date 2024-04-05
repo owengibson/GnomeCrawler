@@ -68,7 +68,7 @@ namespace GnomeCrawler.Player
         #endregion
 
         #region dodging
-        float _dodgeForce = 2f;
+        float _dodgeForce = 1.5f;
         float _dodgeVelocity = 1f;
         float _dodgeDuration = 0.5f;
         float _dodgeCooldown = 0.75f;
