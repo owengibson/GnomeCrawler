@@ -9,6 +9,7 @@ namespace GnomeCrawler.Player
 {
     public class PlayerCombat : CombatBrain
     {
+        public float PoisionTickTime;
         private List<GameObject> _damagedGameObjects;
         private bool _isInvincible = false;
         private PlayerStateMachine _stateMachine;
@@ -121,6 +122,20 @@ namespace GnomeCrawler.Player
         private StatsSO GetPlayerStats()
         {
             return _stats;
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.tag == "PoisonArea")
+            {
+                PoisionTickTime -= Time.deltaTime;
+
+                if (PoisionTickTime <= 0)
+                {
+                    TakeDamage(1);
+                    PoisionTickTime = 2.0f;
+                }
+            }
         }
 
         private void OnEnable()
