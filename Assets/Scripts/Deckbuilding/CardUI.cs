@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using GnomeCrawler.Systems;
+using Sirenix.OdinInspector;
 
 namespace GnomeCrawler.Deckbuilding
 {
