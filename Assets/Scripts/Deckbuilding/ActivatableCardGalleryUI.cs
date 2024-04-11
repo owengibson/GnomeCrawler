@@ -30,7 +30,11 @@ namespace GnomeCrawler.Deckbuilding
         [Button]
         private void SelectNextCard(InputAction.CallbackContext context)
         {
+            if (_activatableCards.Count == 0)
+                return;
+
             _galleryIndex++;
+            _galleryIndex = Mathf.Clamp(_galleryIndex, 0, _activatableCards.Count);
             if (_galleryIndex == _activatableCards.Count)
             {
                 _galleryIndex = 0;
@@ -64,6 +68,7 @@ namespace GnomeCrawler.Deckbuilding
 
             if (_activatableCards.Count > 0)
             {
+                _galleryIndex--;
                 RenderGalleryAtIndex(_galleryIndex);
             }
             else
