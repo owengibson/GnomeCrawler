@@ -585,7 +585,7 @@ PrefabInstance:
     - target: {fileID: 1729018966694134968, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00008017718
+      value: 0.000080177175
       objectReference: {fileID: 0}
     - target: {fileID: 3712955003221416495, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
@@ -2022,18 +2022,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 949769731}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &920262570 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 273251849142387173, guid: fd12d9bb5540c2a4ab5186227ba3144b,
-    type: 3}
-  m_PrefabInstance: {fileID: 949769731}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &949769731
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2102,11 +2090,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5041541121088368273, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 1783
+      objectReference: {fileID: 0}
     - target: {fileID: 7571929431642785975, guid: fd12d9bb5540c2a4ab5186227ba3144b,
         type: 3}
       propertyPath: _healthbarSlider
       value: 
-      objectReference: {fileID: 920262570}
+      objectReference: {fileID: 0}
     - target: {fileID: 7934170556165661632, guid: fd12d9bb5540c2a4ab5186227ba3144b,
         type: 3}
       propertyPath: followCam
