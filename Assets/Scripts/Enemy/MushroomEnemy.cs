@@ -28,7 +28,7 @@ namespace GnomeCrawler
         {
             float currentDistance = Vector3.Distance(transform.position, _player.transform.position);
 
-            if (currentDistance < 12) _hasAggro = true;
+            if (currentDistance < 12 || _hasAggro) _hasAggro = true;
             else return;
 
             if (currentDistance > 2)
@@ -41,13 +41,17 @@ namespace GnomeCrawler
             }
         }
 
-        private void FollowPlayer()
+        private void FollowPlayer() 
         {
+            _animator.SetBool("isChasing", true);
+            _animator.SetBool("isFarting", false);
             _navMeshAgent.destination = _player.transform.position;
         }
 
         private void Fart()
         {
+            _animator.SetBool("isChasing", false);
+            _animator.SetBool("isFarting", true);
             _navMeshAgent.destination = transform.position;
             if (_poisonCloudCooldown == null)
             {
