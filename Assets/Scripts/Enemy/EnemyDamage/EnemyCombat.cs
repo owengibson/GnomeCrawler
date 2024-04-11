@@ -1,4 +1,6 @@
 using GnomeCrawler.Deckbuilding;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace GnomeCrawler.Enemies
@@ -8,12 +10,17 @@ namespace GnomeCrawler.Enemies
         [SerializeField] protected ProgressBar _healthBar;
         [SerializeField] protected Animator _enemyAnim;
         [SerializeField] protected Renderer _meshRenderer;
-        protected Color _orginalColor;
+        protected List<Color> _originalColours = new List<Color>();
+        protected int _originalColorIndex;
 
         private void Start()
         {
             base.InitialiseVariables();
-            _orginalColor = _meshRenderer.material.color;
+
+            foreach (Material mat in _meshRenderer.materials)
+            {
+                _originalColours.Add(mat.GetColor("_MainColor"));
+            }
         }
 
         protected override void CheckForRaycastHit()
@@ -66,7 +73,10 @@ namespace GnomeCrawler.Enemies
 
         private void DamageFeedback()
         {
-            _meshRenderer.material.color = Color.black;
+            foreach(Material mat in _meshRenderer.materials)
+            {
+                mat.SetColor("_MainColor", Color.black);
+            }
             _enemyAnim.SetBool("isDamaged", true);
             Invoke("ResetColour", .15f);
         }
@@ -84,7 +94,12 @@ namespace GnomeCrawler.Enemies
 
         private void ResetColour()
         {
-            _meshRenderer.material.color = _orginalColor;
+            foreach (Material mat in _meshRenderer.materials)
+            {
+                mat.SetColor("_MainColor", _originalColours[_originalColorIndex]);
+                _originalColorIndex++;
+            }
+            _originalColorIndex = 0;
         }
     }
 }

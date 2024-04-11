@@ -46,7 +46,11 @@ namespace GnomeCrawler.Enemies
         private void Start()
         {
             base.InitialiseVariables();
-            _orginalColor = _meshRenderer.material.color;
+
+            foreach (Material mat in _meshRenderer.materials)
+            {
+                _originalColours.Add(mat.color);
+            }
         }
 
         public override void TakeDamage(float amount)
