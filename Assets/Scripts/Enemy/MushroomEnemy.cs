@@ -12,7 +12,8 @@ namespace GnomeCrawler
         private Animator _animator;
         private NavMeshAgent _navMeshAgent;
         private GameObject _player;
-        private Coroutine _poisonCloudCooldown;
+        private GameObject fartCloud;
+        private Coroutine _fartCloudCooldown;
 
         private bool _hasAggro = false;
 
@@ -50,22 +51,28 @@ namespace GnomeCrawler
 
         private void Fart()
         {
-            _animator.SetBool("isChasing", false);
-            _animator.SetBool("isFarting", true);
             _navMeshAgent.destination = transform.position;
-            if (_poisonCloudCooldown == null)
+            if (_fartCloudCooldown == null)
             {
-                _poisonCloudCooldown = StartCoroutine(FartCooldown());
+                _animator.SetBool("isChasing", false);
+                _animator.SetBool("isFarting", true);
+                _fartCloudCooldown = StartCoroutine(CreateFart());
             }
         }
 
-        private IEnumerator FartCooldown()
+        private IEnumerator CreateFart()
         {
-            GameObject poisonCloud = Instantiate(_poisonCloudPrefab, transform.position, Quaternion.identity);
+            yield return new WaitForSeconds(0.5f);
+            fartCloud = Instantiate(_poisonCloudPrefab, transform.position, Quaternion.identity);
             yield return new WaitForSeconds(4f);
-            Destroy(poisonCloud);
+            Destroy(fartCloud);
             yield return new WaitForSeconds(1f);
-            _poisonCloudCooldown = null;
+            _fartCloudCooldown = null;
+        }
+
+        private void OnDestroy()
+        {
+            if (fartCloud != null) Destroy(fartCloud);
         }
     }
 }
