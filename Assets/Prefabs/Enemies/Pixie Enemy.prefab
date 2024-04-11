@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentEnemy: {fileID: 2055257202721625741}
-  _chasingDistance: 10
-  _attackingDistance: 5
+  _chasingDistance: 15
+  _attackingDistance: 7
   _enemyAnimator: {fileID: 8726041082167544185}
   _chaseSpeed: 3
   needsBlockState: 0
@@ -80,10 +80,10 @@ MonoBehaviour:
   _originTransform: {fileID: 8433178222604932702, guid: bb2138617fd3d2742afd27ea40cc8bc7,
     type: 3}
   _stats: {fileID: 11400000, guid: 1e117c51492437e49af3940f951d42ad, type: 2}
-  Projectile: {fileID: 0}
   _healthBar: {fileID: 4732173929296998400}
   _enemyAnim: {fileID: 8726041082167544185}
   _meshRenderer: {fileID: 6065082953702642832}
+  _handTransform: {fileID: 8537258643550623480}
 --- !u!95 &8726041082167544185
 Animator:
   serializedVersion: 5
@@ -551,6 +551,12 @@ SkinnedMeshRenderer:
 --- !u!4 &7513545926550572763 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 82b8dc3e8e982b147a07a52b9d049ca2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8056872986572761392}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8537258643550623480 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: 82b8dc3e8e982b147a07a52b9d049ca2,
     type: 3}
   m_PrefabInstance: {fileID: 8056872986572761392}
   m_PrefabAsset: {fileID: 0}

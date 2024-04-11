@@ -8,7 +8,7 @@ namespace GnomeCrawler.Enemies
         [SerializeField] protected ProgressBar _healthBar;
         [SerializeField] protected Animator _enemyAnim;
         [SerializeField] protected Renderer _meshRenderer;
-        Color _orginalColor;
+        protected Color _orginalColor;
 
         private void Start()
         {

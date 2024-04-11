@@ -5,12 +5,26 @@ namespace GnomeCrawler.Enemies
 {
     //public class EnemyProjectile : EnemyCombat
     //{
+    //    protected float _projectileDamage;
+    //    public float DamageDealt { get; set; }
+
+
     //    void Start()
     //    {
-    //        base.InitialiseVariables();
+    //        //GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+    //        //sphere.transform.localScale = Vector3.one;
+    //        //sphere.transform.localPosition = Vector3.zero;
     //        _canDealDamage = true;
+    //        // create sphere method
     //        StartCoroutine(DestroyProjectile());
     //    }
+
+    //    //public EnemyProjectile()
+    //    //{
+    //    //    _projectileDamage = _stats.GetStat(Deckbuilding.Stat.Damage);
+    //    //    DamageDealt = _projectileDamage;
+    //    //}
+
 
     //    protected override void CheckForRaycastHit() { }
 
@@ -20,17 +34,14 @@ namespace GnomeCrawler.Enemies
     //        _canDealDamage = false;
     //        Destroy(this);
     //    }
-
     //}
 
-    public class EnemyRangedCombat : CombatBrain
+    public class EnemyRangedCombat : EnemyCombat
     {
-        //public EnemyProjectile Projectile;
-
-        [SerializeField] protected ProgressBar _healthBar;
-        [SerializeField] protected Animator _enemyAnim;
-        [SerializeField] protected Renderer _meshRenderer;
-        Color _orginalColor;
+        private EnemyProjectile _enemyProjectile;
+        private Transform _playerTransform;
+        private float _speed = 5f;
+        [SerializeField] private Transform _handTransform;
 
         private void Start()
         {
@@ -51,17 +62,13 @@ namespace GnomeCrawler.Enemies
             Destroy(_healthBar.gameObject);
         }
 
-        public void SetUpHealthBar(Canvas canvas, Camera camera)
-        {
-            _healthBar.transform.SetParent(canvas.transform);
-            if (_healthBar.TryGetComponent<FaceCameraScript>(out FaceCameraScript faceCamera))
-            {
-                faceCamera.FaceCamera = camera;
-            }
-        }
         public override void StartDealDamage()
         {
-            //EnemyProjectile clone = Instantiate(Projectile);
+            _canDealDamage = true;
+            CreateBullet();
+            //GameObject sphere = new GameObject("EnemySphere");
+            //EnemyProjectile clone = Instantiate(_enemyProjectile);
+            //EnemyProjectile projectileComponent = sphere.AddComponent<EnemyProjectile>();
 
             /* 
              * 
@@ -82,6 +89,25 @@ namespace GnomeCrawler.Enemies
         private void EndHurtAnimation() // move to hurtstate
         {
             _enemyAnim.SetBool("isDamaged", false);
+        }
+
+        private void CreateBullet()
+        {
+            _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+
+            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            //sphere.transform.localScale = Vector3.one;
+            sphere.transform.localPosition = _handTransform.position;
+            _originTransform = sphere.transform;
+            sphere.layer = LayerMask.NameToLayer("Enemy");
+
+            Vector3 direction = (_playerTransform.position - sphere.transform.position).normalized;
+
+            Rigidbody rb = sphere.AddComponent<Rigidbody>();
+            rb.useGravity = false; 
+            rb.velocity = direction * _speed;
+
+            Destroy(sphere, 2f);
         }
 
     }
