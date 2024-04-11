@@ -1,38 +1,33 @@
 using GnomeCrawler.Deckbuilding;
-using Sirenix.OdinInspector.Editor.Validation;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace GnomeCrawler
+namespace GnomeCrawler.Enemies
 {
     public class EnemyCombat : CombatBrain
     {
-        private List<GameObject> _damagedGameObjects;
         [SerializeField] protected ProgressBar _healthBar;
         [SerializeField] protected Animator _enemyAnim;
-        protected MeshRenderer _meshRenderer;
-        Color _orginalColor;
+        [SerializeField] protected Renderer _meshRenderer;
+        protected Color _orginalColor;
 
         private void Start()
         {
             base.InitialiseVariables();
-            _damagedGameObjects = new List<GameObject>();
-            _meshRenderer = GetComponentInChildren<MeshRenderer>();
             _orginalColor = _meshRenderer.material.color;
         }
 
         protected override void CheckForRaycastHit()
         {
-            Collider[] hitColliders = Physics.OverlapSphere(_originTransform.position, _weaponSize, _layerMask);
+
+            Collider[] hitColliders = Physics.OverlapSphere(_originTransform.position, _weaponLength, _layerMask);
 
             foreach (var hitCollider in hitColliders)
             {
-                if (hitCollider.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hitCollider.transform.gameObject))
+
+                if (hitCollider.transform.TryGetComponent(out IDamageable damageable) && !_hasDealtDamage)
                 {
-                    print("hit " + hitCollider.transform.gameObject);
                     damageable.TakeDamage(_stats.GetStat(Stat.Damage));
-                    _damagedGameObjects.Add(hitCollider.transform.gameObject);
+                    _hasDealtDamage = true;
                 }
             }
         }
@@ -46,7 +41,6 @@ namespace GnomeCrawler
 
         public override void StartDealDamage()
         {
-            _damagedGameObjects.Clear();
             base.StartDealDamage();
         }
 
@@ -85,12 +79,12 @@ namespace GnomeCrawler
         protected override void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(_originTransform.position, _weaponSize);
+            Gizmos.DrawSphere(_originTransform.position, _weaponLength);
         }
 
         private void ResetColour()
         {
-             _meshRenderer.material.color = _orginalColor;
+            _meshRenderer.material.color = _orginalColor;
         }
     }
 }

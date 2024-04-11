@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -40,19 +38,29 @@ namespace GnomeCrawler.Enemies
 
         void Start()
         {
-            _enemyNavMeshAgent = GetComponent<NavMeshAgent>();
-            _camera = Camera.main;
-            _healthBarCanvas = GameObject.Find("Enemy Canvas").GetComponent<Canvas>();
             _playerCharacter = GameObject.FindWithTag("Player");
 
-            gameObject.GetComponent<EnemyCombat>().SetUpHealthBar(_healthBarCanvas, _camera);
-            states = new EnemyStateFactory(this);
-            currentState = states.IdleState();
-            currentState.EnterState();
+            if (_playerCharacter != null)
+            {
+                _enemyNavMeshAgent = GetComponent<NavMeshAgent>();
+                _camera = Camera.main;
+                _healthBarCanvas = GameObject.Find("Enemy Canvas").GetComponent<Canvas>();
+                gameObject.GetComponent<EnemyCombat>().SetUpHealthBar(_healthBarCanvas, _camera);
+                states = new EnemyStateFactory(this);
+                currentState = states.IdleState();
+                currentState.EnterState();
+            }
+            else
+            {
+                Debug.LogWarning("Player character not found. Check if the player exists in the scene.");
+            }
+
         }
 
         void Update()
         {
+            if (_playerCharacter == null)
+                return;
             currentState.UpdateState();
         }
 

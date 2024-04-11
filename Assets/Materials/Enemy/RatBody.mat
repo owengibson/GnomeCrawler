@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: RatBody
-  m_Shader: {fileID: -6465566751694194690, guid: e1765f56a893d444c8c7a4cfce76783f,
-    type: 3}
+  m_Shader: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -18,7 +17,8 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -94,6 +94,7 @@ Material:
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _BlendOp: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -107,6 +108,7 @@ Material:
     - _GRADIENT: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
+    - _GlossinessSource: 0
     - _GlossyReflections: 0
     - _HueChange: 0
     - _Metallic: 0
@@ -119,8 +121,11 @@ Material:
     - _ShadeBase: 0
     - _ShadePower: 1
     - _ShadeRotation: 0
+    - _Shininess: 0
     - _Smoothness: 0.5
+    - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
+    - _SpecSource: 0
     - _SpecularHighlights: 1
     - _SpecularStep: 0
     - _SrcBlend: 1
@@ -129,9 +134,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.43298328, g: 0.55057603, b: 0.6603774, a: 1}
+    - _BaseColor: {r: 0.7653045, g: 0.35686278, b: 0.9764706, a: 1}
     - _BottomColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.43298325, g: 0.5505759, b: 0.6603774, a: 1}
+    - _Color: {r: 0.7653045, g: 0.35686275, b: 0.97647053, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 0.5725422, g: 0.5255874, b: 0.8773585, a: 0}
     - _ScreenColorRange: {r: 0, g: 1, b: 0, a: 0}

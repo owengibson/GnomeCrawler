@@ -1,6 +1,5 @@
 using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace GnomeCrawler
