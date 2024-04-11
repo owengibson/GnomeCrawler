@@ -111,7 +111,7 @@ namespace GnomeCrawler.Enemies
             rb.useGravity = false; 
             rb.velocity = direction * _speed;
 
-            Destroy(sphere, 2f);
+            Destroy(sphere, 4f);
         }
 
     }
