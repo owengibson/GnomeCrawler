@@ -13,6 +13,8 @@ namespace GnomeCrawler.Player
     // State Machine Heavily Inspired By IHeartGameDev https://www.youtube.com/c/iHeartGameDev/videos
     public class PlayerStateMachine : MonoBehaviour
     {
+        public Analytics analyticsScript;
+
         #region constants
         const float _rotationFactorPerFrame = 15.0f;
         const float _runMultiplier = 1.5f;
@@ -422,6 +424,8 @@ namespace GnomeCrawler.Player
         private void OnAttack(InputAction.CallbackContext context)
         {
             _isAttackPressed = context.ReadValueAsButton();
+            string buttonName = context.action.name;
+            analyticsScript.TrackButtonPress(buttonName);
         }
         private void OnDodge(InputAction.CallbackContext context)
         {

@@ -585,7 +585,7 @@ PrefabInstance:
     - target: {fileID: 1729018966694134968, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00008017718
+      value: 0.000080177175
       objectReference: {fileID: 0}
     - target: {fileID: 3712955003221416495, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
@@ -730,12 +730,12 @@ PrefabInstance:
     - target: {fileID: 9188475215262377829, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00015878065
+      value: 0.00015882487
       objectReference: {fileID: 0}
     - target: {fileID: 9188475215262377829, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00007286471
+      value: 0.00007288501
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2010,6 +2010,50 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 770204962}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &827701432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 827701434}
+  - component: {fileID: 827701433}
+  m_Layer: 0
+  m_Name: Analytics Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &827701433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827701432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6560cf3c64e337246b688ac8794e00e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &827701434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827701432}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &847513594 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 1578268599828919987, guid: b26260dec19dc1d4cade873633d0c7c2,
@@ -2122,6 +2166,11 @@ PrefabInstance:
       propertyPath: camAnimator
       value: 
       objectReference: {fileID: 847513594}
+    - target: {fileID: 7934170556165661632, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: analyticsScript
+      value: 
+      objectReference: {fileID: 827701433}
     - target: {fileID: 8299221423421808768, guid: fd12d9bb5540c2a4ab5186227ba3144b,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -3027,3 +3076,4 @@ SceneRoots:
   - {fileID: 179883732}
   - {fileID: 949769731}
   - {fileID: 1770563430}
+  - {fileID: 827701434}
