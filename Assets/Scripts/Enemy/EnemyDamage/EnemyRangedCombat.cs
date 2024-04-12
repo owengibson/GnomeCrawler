@@ -46,7 +46,11 @@ namespace GnomeCrawler.Enemies
         private void Start()
         {
             base.InitialiseVariables();
-            _orginalColor = _meshRenderer.material.color;
+
+            foreach (Material mat in _meshRenderer.materials)
+            {
+                _originalColours.Add(mat.color);
+            }
         }
 
         public override void TakeDamage(float amount)
@@ -107,7 +111,7 @@ namespace GnomeCrawler.Enemies
             rb.useGravity = false; 
             rb.velocity = direction * _speed;
 
-            Destroy(sphere, 2f);
+            Destroy(sphere, 4f);
         }
 
     }

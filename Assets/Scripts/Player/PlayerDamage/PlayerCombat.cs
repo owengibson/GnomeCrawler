@@ -8,6 +8,7 @@ namespace GnomeCrawler.Player
 {
     public class PlayerCombat : CombatBrain
     {
+        public float PoisionTickTime;
         private List<GameObject> _damagedGameObjects;
         private bool _isInvincible = false;
         private PlayerStateMachine _stateMachine;
@@ -42,7 +43,7 @@ namespace GnomeCrawler.Player
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(_originTransform.position, -_originTransform.up, out hit, _weaponLength, _layerMask))
+            if (Physics.Raycast(_originTransform.position, -_originTransform.up, out hit, _weaponSize, _layerMask))
             {
                 if (hit.transform.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hit.transform.gameObject))
                 {
@@ -84,10 +85,12 @@ namespace GnomeCrawler.Player
                 _stats.AddCard(card);
                 if (card.UpgradedStat.Key == Stat.Health)
                 {
-                    CurrentHealth += _stats.GetStat(Stat.Health) - _maxHealth;
+                    float currentHealthRatio = CurrentHealth / _maxHealth;
                     _maxHealth = _stats.GetStat(Stat.Health);
+                    CurrentHealth = _maxHealth * currentHealthRatio;
 
                     _healthbarSlider.maxValue = _maxHealth;
+                    _healthbarSlider.transform.localScale = new Vector3(_maxHealth / 10, _healthbarSlider.transform.localScale.y, _healthbarSlider.transform.localScale.z);
                     _healthbarSlider.value = CurrentHealth;
                 }
             }
@@ -118,6 +121,20 @@ namespace GnomeCrawler.Player
         private StatsSO GetPlayerStats()
         {
             return _stats;
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.tag == "PoisonArea")
+            {
+                PoisionTickTime -= Time.deltaTime;
+
+                if (PoisionTickTime <= 0)
+                {
+                    TakeDamage(1);
+                    PoisionTickTime = 2.0f;
+                }
+            }
         }
 
         private void OnEnable()

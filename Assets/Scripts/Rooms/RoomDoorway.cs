@@ -13,6 +13,7 @@ namespace GnomeCrawler.Rooms
         public DoorwayType Type;
 
         [SerializeField] private RoomDoorway _otherDoorway;
+        [SerializeField] private GameObject _doorParticles; 
 
         private bool _hasExitBeenSet = false;
 
@@ -37,6 +38,7 @@ namespace GnomeCrawler.Rooms
                 Type = DoorwayType.Entry;
                 _otherDoorway.Type = DoorwayType.Exit;
                 _otherDoorway.Collider.isTrigger = false;
+                _otherDoorway._doorParticles.SetActive(true);
             }
 
         }
@@ -49,6 +51,7 @@ namespace GnomeCrawler.Rooms
             if (Type == DoorwayType.Entry)
             {
                 Collider.isTrigger = false;
+                _doorParticles.SetActive(true);
             }
         }
 
@@ -58,6 +61,7 @@ namespace GnomeCrawler.Rooms
                 return;
 
             Collider.enabled = false;
+            _doorParticles.SetActive(false);
         }
 
         private void OnEnable()

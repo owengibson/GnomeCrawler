@@ -9,11 +9,11 @@ namespace GnomeCrawler
         public Transform _lockOnTransform;
 
         #region health
-        [SerializeField] protected float _maxHealth;
+        protected float _maxHealth;
         #endregion
 
         #region damage
-        [SerializeField] protected float _weaponLength;
+        [SerializeField] protected float _weaponSize;
         [SerializeField] protected bool _canDealDamage;
         protected bool _hasDealtDamage;
         #endregion
@@ -59,7 +59,7 @@ namespace GnomeCrawler
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(_originTransform.position, -_originTransform.up, out hit, _weaponLength, _layerMask))
+            if (Physics.Raycast(_originTransform.position, -_originTransform.up, out hit, _weaponSize, _layerMask))
             {
 
                 if (hit.transform.TryGetComponent(out IDamageable damageable) && !_hasDealtDamage)
@@ -100,8 +100,8 @@ namespace GnomeCrawler
         protected virtual void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(_originTransform.position, _originTransform.position - _originTransform.up * _weaponLength);
-            Gizmos.DrawLine(_originTransform.position - _originTransform.up * _weaponLength, _originTransform.position);
+            Gizmos.DrawLine(_originTransform.position, _originTransform.position - _originTransform.up * _weaponSize);
+            Gizmos.DrawLine(_originTransform.position - _originTransform.up * _weaponSize, _originTransform.position);
         }
     }
 }

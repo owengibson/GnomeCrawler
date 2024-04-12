@@ -17,7 +17,7 @@ namespace GnomeCrawler.Player
 
         #region constants
         const float _rotationFactorPerFrame = 15.0f;
-        const float _runMultiplier = 1.5f;
+        const float _runMultiplier = 1.2f;
         const int _zero = 0;
         #endregion
 
@@ -44,7 +44,7 @@ namespace GnomeCrawler.Player
         CombatBrain _nearestLockOnTarget;
         CombatBrain _leftLockOnTarget;
         CombatBrain _rightLockOnTarget;
-        float _lockOnRadius = 15.0f;
+        float _lockOnRadius = 25.0f;
         float _minimumViewableAngle = -60.0f;
         float _maximumViewableAngle = 60.0f;
         bool _isLockedOn = false;
@@ -70,7 +70,7 @@ namespace GnomeCrawler.Player
         #endregion
 
         #region dodging
-        float _dodgeForce = 2f;
+        float _dodgeForce = 1.5f;
         float _dodgeVelocity = 1f;
         float _dodgeDuration = 0.5f;
         float _dodgeCooldown = 0.75f;
@@ -488,6 +488,8 @@ namespace GnomeCrawler.Player
         {
             if (isLocked)
             {
+                followCam.gameObject.SetActive(false);
+
                 lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
                 //followCam.LookAt = _currentLockOnTarget._lockOnTransform;
                 camAnimator.Play("LockCam");
@@ -495,6 +497,8 @@ namespace GnomeCrawler.Player
             }
             else if (!isLocked)
             {
+                followCam.transform.position = lockOnCam.transform.position;
+                followCam.gameObject.SetActive(true);
                 //followCam.LookAt = _playerLockTransform;
                 camAnimator.Play("FollowCam");
                 _isLockedOn = false;
