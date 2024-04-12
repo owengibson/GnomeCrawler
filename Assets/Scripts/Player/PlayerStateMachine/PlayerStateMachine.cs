@@ -424,8 +424,8 @@ namespace GnomeCrawler.Player
         private void OnAttack(InputAction.CallbackContext context)
         {
             _isAttackPressed = context.ReadValueAsButton();
-            string buttonName = context.action.name;
-            analyticsScript.TrackButtonPress(buttonName);
+            string buttonName = context.action.name; // Added for Analytics
+            analyticsScript.TrackButtonPress(buttonName); // Added for Analytics
         }
         private void OnDodge(InputAction.CallbackContext context)
         {

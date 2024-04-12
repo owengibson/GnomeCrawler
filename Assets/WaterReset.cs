@@ -6,7 +6,13 @@ namespace GnomeCrawler
 {
     public class WaterReset : MonoBehaviour
     {
+        private Analytics analyticsScript;
         [SerializeField] private Transform _resetTransform;
+
+        private void Start()
+        {
+            analyticsScript = GetComponent<Analytics>();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -17,6 +23,9 @@ namespace GnomeCrawler
                 other.transform.position = _resetTransform.position;
                 other.enabled = true;
             }
+
+            string triggerName = gameObject.name;
+            analyticsScript.TrackTriggerEntry(triggerName);
         }
     }
 }

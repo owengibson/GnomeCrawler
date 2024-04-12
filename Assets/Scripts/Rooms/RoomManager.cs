@@ -8,6 +8,7 @@ namespace GnomeCrawler.Rooms
     public class RoomManager : MonoBehaviour
     {
         [SerializeField] private List<GameObject> _enemies;
+        [SerializeField] private Analytics _analyticsScript;
 
         public void AddEnemyToList(GameObject enemy)
         {
@@ -36,5 +37,6 @@ namespace GnomeCrawler.Rooms
         {
             EventManager.OnEnemyKilled -= RemoveEnemyFromList;
         }
+
     }
 }

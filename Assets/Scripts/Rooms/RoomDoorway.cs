@@ -40,7 +40,6 @@ namespace GnomeCrawler.Rooms
                 _otherDoorway.Collider.isTrigger = false;
                 _otherDoorway._doorParticles.SetActive(true);
             }
-
         }
 
         private void OnTriggerExit(Collider other)
