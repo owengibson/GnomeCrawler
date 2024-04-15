@@ -1,3 +1,4 @@
+using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Enemies;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,24 +6,32 @@ using UnityEngine;
 
 namespace GnomeCrawler
 {
-    public class EnemyProjectile : EnemyCombat
-
+    public class EnemyProjectile : MonoBehaviour
     {
-    //    void Start()
-    //    {
-    //        base.InitialiseVariables();
-    //        _canDealDamage = true;
-    //        StartCoroutine(DestroyProjectile());
-    //    }
+        [SerializeField] private StatsSO _stats;
+        [SerializeField] private float _lifespan = 4f;
 
-    //    protected override void CheckForRaycastHit() { }
+        private IDamageable _damageable;
 
-    //    private IEnumerator DestroyProjectile()
-    //    {
-    //        yield return new WaitForSeconds(4);
-    //        _canDealDamage = false;
-    //        Destroy(this);
-    //    }
+        private void Awake()
+        {
+            Invoke("DestroyProjectile", _lifespan);
+        }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (!collision.gameObject.CompareTag("Player"))
+                return;
+
+            if (collision.gameObject.TryGetComponent(out _damageable))
+            {
+                _damageable.TakeDamage(_stats.GetStat(Stat.Damage));
+            }
+        }
+
+        private void DestroyProjectile()
+        {
+            Destroy(gameObject);
+        }
     }
 }

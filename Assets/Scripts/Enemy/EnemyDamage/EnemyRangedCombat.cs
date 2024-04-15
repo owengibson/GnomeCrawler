@@ -3,44 +3,10 @@ using UnityEngine;
 
 namespace GnomeCrawler.Enemies
 {
-    //public class EnemyProjectile : EnemyCombat
-    //{
-    //    protected float _projectileDamage;
-    //    public float DamageDealt { get; set; }
-
-
-    //    void Start()
-    //    {
-    //        //GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-    //        //sphere.transform.localScale = Vector3.one;
-    //        //sphere.transform.localPosition = Vector3.zero;
-    //        _canDealDamage = true;
-    //        // create sphere method
-    //        StartCoroutine(DestroyProjectile());
-    //    }
-
-    //    //public EnemyProjectile()
-    //    //{
-    //    //    _projectileDamage = _stats.GetStat(Deckbuilding.Stat.Damage);
-    //    //    DamageDealt = _projectileDamage;
-    //    //}
-
-
-    //    protected override void CheckForRaycastHit() { }
-
-    //    private IEnumerator DestroyProjectile()
-    //    {
-    //        yield return new WaitForSeconds(4);
-    //        _canDealDamage = false;
-    //        Destroy(this);
-    //    }
-    //}
-
     public class EnemyRangedCombat : EnemyCombat
     {
-        private EnemyProjectile _enemyProjectile;
-        private Transform _playerTransform;
-        private float _speed = 5f;
+        [SerializeField] private GameObject _enemyProjectilePrefab;
+        private float _projectileSpeed = 5f;
         [SerializeField] private Transform _handTransform;
 
         private void Start()
@@ -97,21 +63,13 @@ namespace GnomeCrawler.Enemies
 
         private void CreateBullet()
         {
-            _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            GameObject projectile = Instantiate(_enemyProjectilePrefab, _handTransform.position, Quaternion.identity);
 
-            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            //sphere.transform.localScale = Vector3.one;
-            sphere.transform.localPosition = _handTransform.position;
-            _originTransform = sphere.transform;
-            sphere.layer = LayerMask.NameToLayer("Enemy");
+            Vector3 direction = (playerTransform.position - _handTransform.position).normalized;
 
-            Vector3 direction = (_playerTransform.position - sphere.transform.position).normalized;
-
-            Rigidbody rb = sphere.AddComponent<Rigidbody>();
-            rb.useGravity = false; 
-            rb.velocity = direction * _speed;
-
-            Destroy(sphere, 4f);
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            rb.velocity = direction * _projectileSpeed;
         }
 
     }

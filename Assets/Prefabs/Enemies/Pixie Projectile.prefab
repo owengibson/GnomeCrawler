@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 2886471363162677904}
   - component: {fileID: 2916124686490914818}
   - component: {fileID: 7626500092513305698}
-  m_Layer: 0
+  - component: {fileID: 879957353574429215}
+  m_Layer: 7
   m_Name: Pixie Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,14 +119,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 797bde752038a45489af6e49afe6306b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lockOnTransform: {fileID: 0}
-  _weaponSize: 0
-  _canDealDamage: 0
-  _layerMask:
+  _stats: {fileID: 11400000, guid: 1e117c51492437e49af3940f951d42ad, type: 2}
+  _lifespan: 4
+--- !u!54 &879957353574429215
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6364409288163070702}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  _originTransform: {fileID: 0}
-  _stats: {fileID: 0}
-  _healthBar: {fileID: 0}
-  _enemyAnim: {fileID: 0}
-  _meshRenderer: {fileID: 0}
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
