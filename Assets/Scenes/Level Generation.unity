@@ -587,7 +587,7 @@ PrefabInstance:
     - target: {fileID: 1729018966694134968, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.322642
+      value: -0.32264203
       objectReference: {fileID: 0}
     - target: {fileID: 1729018966694134968, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
@@ -929,6 +929,78 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 223856688}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &247095757
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1770563430}
+    m_Modifications:
+    - target: {fileID: 2542977557018647083, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 168.5426
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542977557018647083, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542977557018647083, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 271.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542977557018647083, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542977557018647083, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542977557018647083, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542977557018647083, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542977557018647083, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542977557018647083, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542977557018647083, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906998506914234863, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      propertyPath: m_Name
+      value: Healing Room
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8906998506914234863, guid: 7ffa62bf9fba5724fa042a8785200a11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 786272106}
+  m_SourcePrefab: {fileID: 100100000, guid: 7ffa62bf9fba5724fa042a8785200a11, type: 3}
 --- !u!1001 &273363165
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2022,6 +2094,79 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 770204962}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &786272104 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8906998506914234863, guid: 7ffa62bf9fba5724fa042a8785200a11,
+    type: 3}
+  m_PrefabInstance: {fileID: 247095757}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &786272105 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2542977557018647083, guid: 7ffa62bf9fba5724fa042a8785200a11,
+    type: 3}
+  m_PrefabInstance: {fileID: 247095757}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &786272106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786272104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238d443cf4b172f4989d5ce455c57c3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowImmediateRepeats: 1
+  AllowRotation: 0
+  RepeatMode: 0
+  OverrideAutomaticTileBounds: 0
+  TileBoundsOverride:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.5, y: 0.5, z: 0.5}
+  Entrance: {fileID: 0}
+  Exit: {fileID: 0}
+  OverrideConnectionChance: 0
+  ConnectionChance: 0
+  Tags:
+    Tags: []
+  AllDoorways: []
+  UsedDoorways: []
+  UnusedDoorways: []
+  placement:
+    pathDepth: 0
+    normalizedPathDepth: 0
+    branchDepth: 0
+    normalizedBranchDepth: 0
+    isOnMainPath: 0
+    localBounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0, y: 0, z: 0}
+    worldBounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0, y: 0, z: 0}
+    graphNode:
+      Graph: {fileID: 0}
+      TileSets: []
+      NodeType: 0
+      Position: 0
+      Label: 
+      Keys: []
+      Locks: []
+      LockPlacement: 0
+    graphLine:
+      Graph: {fileID: 0}
+      DungeonArchetypes: []
+      Position: 0
+      Length: 0
+      Keys: []
+      Locks: []
+    archetype: {fileID: 0}
+    tileSet: {fileID: 0}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
+  fileVersion: 1
 --- !u!95 &847513594 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 1578268599828919987, guid: b26260dec19dc1d4cade873633d0c7c2,
@@ -2279,7 +2424,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488652995}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.3225234, y: 0.630596, z: 0.3243841, w: 0.62697875}
+  m_LocalRotation: {x: -0.3225234, y: 0.630596, z: 0.32438412, w: 0.62697875}
   m_LocalPosition: {x: 47.99077, y: 10.013126, z: 70}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2667,6 +2812,7 @@ Transform:
   - {fileID: 223856689}
   - {fileID: 1796676062}
   - {fileID: 2018878248}
+  - {fileID: 786272105}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1796676061
