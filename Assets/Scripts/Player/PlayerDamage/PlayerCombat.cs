@@ -1,7 +1,9 @@
 using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace GnomeCrawler.Player
@@ -22,6 +24,7 @@ namespace GnomeCrawler.Player
             _damagedGameObjects = new List<GameObject>();
             _healthbarSlider.maxValue = _maxHealth;
             _healthbarSlider.value = CurrentHealth;
+            Gamepad.current.SetMotorSpeeds(0, 0);
         }
 
         private void Update()
@@ -56,6 +59,7 @@ namespace GnomeCrawler.Player
                     }
                     damageable.TakeDamage(damage);
                     _damagedGameObjects.Add(hit.transform.gameObject);
+                    StartCoroutine(Rumble(0.1f, 0.1f));
                 }
             }
         }
@@ -65,6 +69,7 @@ namespace GnomeCrawler.Player
             if (_isInvincible) return;
             if (Random.Range(0,100) <= _stats.GetStat(Stat.BlockChance)) return;
 
+            StartCoroutine(Rumble(0.5f, amount / 4));
             _stateMachine.IsFlinching = true;
             base.TakeDamage(amount);
             _healthbarSlider.value = CurrentHealth;
@@ -75,7 +80,7 @@ namespace GnomeCrawler.Player
             _damagedGameObjects.Clear();
             base.StartDealDamage();
         }
-		
+
         private void AddHandToStats(List<CardSO> hand)
         {
             _stats.ResetCards();
@@ -135,6 +140,13 @@ namespace GnomeCrawler.Player
                     PoisionTickTime = 2.0f;
                 }
             }
+        }
+
+        private IEnumerator Rumble(float time, float rumbleAmount)
+        {
+            Gamepad.current.SetMotorSpeeds(rumbleAmount, rumbleAmount);
+            yield return new WaitForSeconds(time);
+            Gamepad.current.SetMotorSpeeds(0f, 0f);
         }
 
         private void OnEnable()

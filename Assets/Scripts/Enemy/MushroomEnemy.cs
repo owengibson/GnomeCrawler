@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -62,12 +63,29 @@ namespace GnomeCrawler
 
         private IEnumerator CreateFart()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
             fartCloud = Instantiate(_poisonCloudPrefab, transform.position, Quaternion.identity);
             yield return new WaitForSeconds(4f);
             Destroy(fartCloud);
             yield return new WaitForSeconds(1f);
             _fartCloudCooldown = null;
+        }
+
+        private IEnumerator CoolDown()
+        {
+            _animator.SetBool("isChasing", true);
+            _animator.SetBool("isFarting", false);
+            yield return new WaitForSeconds(0.5f);
+            _fartCloudCooldown = null;
+        }
+
+        public void StopFart()
+        {
+            if (_fartCloudCooldown != null)
+            {
+                StopCoroutine(_fartCloudCooldown);
+                StartCoroutine(CoolDown());
+            }
         }
 
         private void OnDestroy()
