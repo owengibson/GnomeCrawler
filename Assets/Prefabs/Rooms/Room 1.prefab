@@ -844,6 +844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemies: []
+  _analyticsScript: {fileID: 0}
 --- !u!1 &5723225524921522828
 GameObject:
   m_ObjectHideFlags: 0
@@ -2107,7 +2108,7 @@ PrefabInstance:
     - target: {fileID: 3662298861960958486, guid: 53b4c78da65f8e543a4cb857b2a8cfa5,
         type: 3}
       propertyPath: m_Name
-      value: RatSpawner
+      value: Spawner
       objectReference: {fileID: 0}
     - target: {fileID: 6175315656827342567, guid: 53b4c78da65f8e543a4cb857b2a8cfa5,
         type: 3}
@@ -3002,6 +3003,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1340640041216917854, guid: 130525e41ea9aaf4ebdbb6ee82e4479a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2dfdacb59c890094e946a31b9d7b8aca, type: 2}
     - target: {fileID: 6832922098036576705, guid: 130525e41ea9aaf4ebdbb6ee82e4479a,
         type: 3}
       propertyPath: m_Name
@@ -3325,7 +3331,7 @@ PrefabInstance:
     - target: {fileID: 2700508262947502253, guid: 5ebe7b9d25b0a7e418ba91546a385ba1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 48.71
+      value: 39.73
       objectReference: {fileID: 0}
     - target: {fileID: 2700508262947502253, guid: 5ebe7b9d25b0a7e418ba91546a385ba1,
         type: 3}
@@ -3335,7 +3341,7 @@ PrefabInstance:
     - target: {fileID: 2700508262947502253, guid: 5ebe7b9d25b0a7e418ba91546a385ba1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 36.41
+      value: 42.94
       objectReference: {fileID: 0}
     - target: {fileID: 2700508262947502253, guid: 5ebe7b9d25b0a7e418ba91546a385ba1,
         type: 3}
