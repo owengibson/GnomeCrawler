@@ -15,8 +15,8 @@ MonoBehaviour:
   globalPropGroupID_obsolete: 
   globalPropRanges_obsolete: []
   Length:
-    Min: 10
-    Max: 20
+    Min: 15
+    Max: 15
   BranchMode: 0
   BranchCount:
     Min: 1
@@ -25,7 +25,19 @@ MonoBehaviour:
   KeyManager: {fileID: 0}
   DoorwayConnectionChance: 0
   RestrictConnectionToSameSection: 0
-  TileInjectionRules: []
+  TileInjectionRules:
+  - TileSet: {fileID: 11400000, guid: 5d29dcf3ac67c0b4c8466a98fce00594, type: 2}
+    NormalizedPathDepth:
+      Min: 0.06487697
+      Max: 1
+    NormalizedBranchDepth:
+      Min: 0
+      Max: 1
+    CanAppearOnMainPath: 1
+    CanAppearOnBranchPath: 0
+    IsRequired: 1
+    IsLocked: 0
+    LockID: 0
   TileTagConnectionMode: 0
   TileConnectionTags: []
   BranchTagPruneMode: 1
@@ -46,6 +58,24 @@ MonoBehaviour:
     NodeType: 2
     Position: 1
     Label: Goal
+    Keys: []
+    Locks: []
+    LockPlacement: 0
+  - Graph: {fileID: 11400000}
+    TileSets:
+    - {fileID: 11400000, guid: f18f0025fbe77f8458157d5c2887e5ae, type: 2}
+    NodeType: 0
+    Position: 0.34615386
+    Label: Heal Room
+    Keys: []
+    Locks: []
+    LockPlacement: 0
+  - Graph: {fileID: 11400000}
+    TileSets:
+    - {fileID: 11400000, guid: 5d29dcf3ac67c0b4c8466a98fce00594, type: 2}
+    NodeType: 0
+    Position: 0.7307692
+    Label: Heal room
     Keys: []
     Locks: []
     LockPlacement: 0
