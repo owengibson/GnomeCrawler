@@ -110,7 +110,9 @@ namespace GnomeCrawler.Player
 
         public override void Die()
         {
+            EventManager.OnPlayerKilled?.Invoke();
             base.Die();
+            Gamepad.current.SetMotorSpeeds(0f, 0f);
         }
 
         public void StartIFrames()
@@ -159,6 +161,7 @@ namespace GnomeCrawler.Player
         {
             EventManager.OnHandApproved -= AddHandToStats;
             EventManager.GetPlayerStats -= GetPlayerStats;
+
         }
     }
 }

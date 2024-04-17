@@ -12,6 +12,7 @@ namespace GnomeCrawler.Systems
         public static Action OnRoomStarted;
         public static Action OnRoomCleared;
         public static Action<GameObject> OnEnemyKilled;
+        public static Action OnPlayerKilled;
         public static Action<GameState> OnGameStateChanged;
         public static Action<CardSO> OnCardActivated;
         public static Action OnHandDrawn;

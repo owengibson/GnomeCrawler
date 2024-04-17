@@ -28,6 +28,7 @@ namespace GnomeCrawler
 
         void Update()
         {
+            if (_player == null) return;
             float currentDistance = Vector3.Distance(transform.position, _player.transform.position);
 
             if (currentDistance < 12 || _hasAggro) _hasAggro = true;

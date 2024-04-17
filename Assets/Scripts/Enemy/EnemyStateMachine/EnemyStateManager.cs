@@ -66,6 +66,8 @@ namespace GnomeCrawler.Enemies
 
         private void FixedUpdate()
         {
+            if (_playerCharacter == null)
+                return;
             currentState.FixedUpdateState();
         }
 
