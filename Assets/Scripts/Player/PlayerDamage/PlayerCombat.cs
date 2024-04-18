@@ -10,6 +10,7 @@ namespace GnomeCrawler.Player
 {
     public class PlayerCombat : CombatBrain
     {
+        private float _healTickTime;
         public float PoisionTickTime;
         private List<GameObject> _damagedGameObjects;
         private bool _isInvincible = false;
@@ -142,6 +143,17 @@ namespace GnomeCrawler.Player
                     PoisionTickTime = 2.0f;
                 }
             }
+
+            if (other.gameObject.tag == "HealArea")
+            {
+                _healTickTime -= Time.deltaTime;
+
+                if (_healTickTime <= 0)
+                {
+                    HealPlayer(1);
+                    _healTickTime = .2f;
+                }
+            }
         }
 
         private IEnumerator Rumble(float time, float rumbleAmount)
@@ -161,6 +173,14 @@ namespace GnomeCrawler.Player
         {
             EventManager.OnHandApproved -= AddHandToStats;
             EventManager.GetPlayerStats -= GetPlayerStats;
+
+        }
+
+        private void HealPlayer(float amount)
+        {
+            CurrentHealth += amount;
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, _stats.GetStat(Stat.Health));
+            _healthbarSlider.value = CurrentHealth;
 
         }
     }
