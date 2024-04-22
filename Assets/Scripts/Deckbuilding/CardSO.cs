@@ -8,6 +8,7 @@ namespace GnomeCrawler.Deckbuilding
     [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
     public class CardSO : SerializedScriptableObject
     {
+        public CardType Type;
         public string Name;
 
         [Multiline]
@@ -15,6 +16,7 @@ namespace GnomeCrawler.Deckbuilding
         public CardCategory Category;
         [SerializeField] private Stat _statToUpgrade;
         [SerializeField] private float _value;
+        public Ability AbilityReference;
 
         public bool IsPercentUpgrade;
         public bool IsActivatableCard;

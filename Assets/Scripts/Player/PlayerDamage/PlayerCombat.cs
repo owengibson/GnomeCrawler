@@ -16,7 +16,7 @@ namespace GnomeCrawler.Player
         private bool _isInvincible = false;
         private PlayerStateMachine _stateMachine;
         [SerializeField] private Slider _healthbarSlider;
-        [SerializeField] private GameObject hat;
+        [SerializeField] private GameObject _abilitiesGO;
 
         private void Start()
         {
@@ -34,12 +34,10 @@ namespace GnomeCrawler.Player
             if (_isInvincible)
             {
                 _stateMachine.IsInvincible = true;
-                //hat.SetActive(false);
             }
             else
             {
                 _stateMachine.IsInvincible = false;
-                //hat.SetActive(true);
             }
         }
 
@@ -59,6 +57,7 @@ namespace GnomeCrawler.Player
                         Debug.Log(damage);
                     }
                     damageable.TakeDamage(damage);
+                    EventManager.OnPlayerHit?.Invoke(damage);
                     _damagedGameObjects.Add(hit.transform.gameObject);
                     StartCoroutine(Rumble(0.1f, 0.1f));
                 }
@@ -88,17 +87,31 @@ namespace GnomeCrawler.Player
 
             foreach (CardSO card in hand)
             {
-                _stats.AddCard(card);
-                if (card.UpgradedStat.Key == Stat.Health)
+                switch (card.Type)
                 {
-                    float currentHealthRatio = CurrentHealth / _maxHealth;
-                    _maxHealth = _stats.GetStat(Stat.Health);
-                    CurrentHealth = _maxHealth * currentHealthRatio;
+                    case CardType.Stat:
+                        _stats.AddCard(card);
+                        if (card.UpgradedStat.Key == Stat.Health)
+                        {
+                            float currentHealthRatio = CurrentHealth / _maxHealth;
+                            _maxHealth = _stats.GetStat(Stat.Health);
+                            CurrentHealth = _maxHealth * currentHealthRatio;
 
-                    _healthbarSlider.maxValue = _maxHealth;
-                    _healthbarSlider.transform.localScale = new Vector3(_maxHealth / 10, _healthbarSlider.transform.localScale.y, _healthbarSlider.transform.localScale.z);
-                    _healthbarSlider.value = CurrentHealth;
+                            _healthbarSlider.maxValue = _maxHealth;
+                            _healthbarSlider.transform.localScale = new Vector3(_maxHealth / 10, _healthbarSlider.transform.localScale.y, _healthbarSlider.transform.localScale.z);
+                            _healthbarSlider.value = CurrentHealth;
+                        }
+                        break;
+                    case CardType.Ability:
+                        card.AbilityReference.enabled = true;
+                        break;
+                    case CardType.StatAndAbility:
+                        _stats.AddCard(card);
+                        break;
+                    default:
+                        break;
                 }
+                
             }
 
             EventManager.OnHandDrawn?.Invoke();
@@ -167,21 +180,21 @@ namespace GnomeCrawler.Player
         {
             EventManager.OnHandApproved += AddHandToStats;
             EventManager.GetPlayerStats += GetPlayerStats;
+            EventManager.OnPlayerLifeSteal += HealPlayer;
         }
 
         private void OnDisable()
         {
             EventManager.OnHandApproved -= AddHandToStats;
             EventManager.GetPlayerStats -= GetPlayerStats;
-
+            EventManager.OnPlayerLifeSteal -= HealPlayer;
         }
 
-        private void HealPlayer(float amount)
+        public void HealPlayer(float amount)
         {
             CurrentHealth += amount;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, _stats.GetStat(Stat.Health));
             _healthbarSlider.value = CurrentHealth;
-
         }
     }
 }

@@ -18,6 +18,9 @@ namespace GnomeCrawler.Systems
         public static Action OnHandDrawn;
         public static Action<List<CardSO>> OnHandApproved;
 
+        public static Action<float> OnPlayerHit;
+        public static Action<float> OnPlayerLifeSteal;
+
         public static Func<CardSO> GetSelectedActivatableCard;
         public static Func<StatsSO> GetPlayerStats;
     }
