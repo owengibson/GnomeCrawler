@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using GnomeCrawler.Systems;
 using Sirenix.OdinInspector;
+using GnomeCrawler.Audio;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -55,6 +56,8 @@ namespace GnomeCrawler.Deckbuilding
             if (_card == null) return;
             EventManager.OnCardChosen?.Invoke(_card);
             EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
+
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("CardChosen"));
             Destroy(gameObject);
         }
 

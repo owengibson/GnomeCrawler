@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using GnomeCrawler.Systems;
 using UnityEngine.UI;
+using GnomeCrawler.Audio;
 
 namespace GnomeCrawler.Deckbuilding
 {
