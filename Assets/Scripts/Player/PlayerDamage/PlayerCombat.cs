@@ -75,6 +75,23 @@ namespace GnomeCrawler.Player
             _healthbarSlider.value = CurrentHealth;
         }
 
+        public void TakeDamageWithInvincibility(float amount)
+        {
+            float healthAfterDamage = CurrentHealth - amount;
+            if (CurrentHealth == 1) return;
+            else if (healthAfterDamage <= 0)
+            {
+                CurrentHealth = 1;
+                StartCoroutine(Rumble(0.5f, amount / 4));
+            }
+            else if (healthAfterDamage >= 1)
+            {
+                CurrentHealth -= amount;
+                StartCoroutine(Rumble(0.5f, amount / 4));
+            }
+            _healthbarSlider.value = CurrentHealth;
+        }
+
         public override void StartDealDamage()
         {
             _damagedGameObjects.Clear();
@@ -84,6 +101,10 @@ namespace GnomeCrawler.Player
         private void AddHandToStats(List<CardSO> hand)
         {
             _stats.ResetCards();
+            foreach (Ability abiltyComponent in _abilitiesGO.GetComponents<Ability>())
+            {
+                abiltyComponent.enabled = false;
+            }
 
             foreach (CardSO card in hand)
             {
@@ -103,10 +124,37 @@ namespace GnomeCrawler.Player
                         }
                         break;
                     case CardType.Ability:
-                        card.AbilityReference.enabled = true;
+                        var abilityComponent = _abilitiesGO.GetComponent(card.AbilityClassName);
+                        foreach(Ability ability in _abilitiesGO.GetComponentsInChildren<Ability>())
+                        {
+                            if (ability == abilityComponent)
+                            {
+                                ability.InitialiseCard(card);
+                                ability.enabled = true;
+                            }
+                        }
                         break;
                     case CardType.StatAndAbility:
                         _stats.AddCard(card);
+                        if (card.UpgradedStat.Key == Stat.Health)
+                        {
+                            float currentHealthRatio = CurrentHealth / _maxHealth;
+                            _maxHealth = _stats.GetStat(Stat.Health);
+                            CurrentHealth = _maxHealth * currentHealthRatio;
+
+                            _healthbarSlider.maxValue = _maxHealth;
+                            _healthbarSlider.transform.localScale = new Vector3(_maxHealth / 10, _healthbarSlider.transform.localScale.y, _healthbarSlider.transform.localScale.z);
+                            _healthbarSlider.value = CurrentHealth;
+                        }
+                        var abilityComponentBoth = _abilitiesGO.GetComponent(card.AbilityClassName);
+                        foreach (Ability ability in _abilitiesGO.GetComponentsInChildren<Ability>())
+                        {
+                            if (ability == abilityComponentBoth)
+                            {
+                                ability.InitialiseCard(card);
+                                ability.enabled = true;
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -181,6 +229,7 @@ namespace GnomeCrawler.Player
             EventManager.OnHandApproved += AddHandToStats;
             EventManager.GetPlayerStats += GetPlayerStats;
             EventManager.OnPlayerLifeSteal += HealPlayer;
+            EventManager.OnPlayerHurtFromAbility += TakeDamageWithInvincibility;
         }
 
         private void OnDisable()
@@ -188,6 +237,7 @@ namespace GnomeCrawler.Player
             EventManager.OnHandApproved -= AddHandToStats;
             EventManager.GetPlayerStats -= GetPlayerStats;
             EventManager.OnPlayerLifeSteal -= HealPlayer;
+            EventManager.OnPlayerHurtFromAbility -= TakeDamageWithInvincibility;
         }
 
         public void HealPlayer(float amount)

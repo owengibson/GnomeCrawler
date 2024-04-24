@@ -6,8 +6,9 @@ using UnityEngine;
 
 namespace GnomeCrawler.Deckbuilding
 {
-    public class LifeSteal : Ability
+    public class TestAbility : Ability
     {
+        private float lifeStealMultiplier = 0.1f;
 
         private void OnEnable()
         {
@@ -21,7 +22,7 @@ namespace GnomeCrawler.Deckbuilding
 
         private void StealLife(float amount)
         {
-            EventManager.OnPlayerLifeSteal?.Invoke(amount * Card.AbilityValues[0].value);
+            EventManager.OnPlayerLifeSteal?.Invoke(amount * lifeStealMultiplier);
         }
     }
 }

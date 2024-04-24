@@ -16,7 +16,9 @@ namespace GnomeCrawler.Deckbuilding
         public CardCategory Category;
         [SerializeField] private Stat _statToUpgrade;
         [SerializeField] private float _value;
-        public Ability AbilityReference;
+
+        public string AbilityClassName;
+        public List<StringFloatPair> AbilityValues = new List<StringFloatPair>();
 
         public bool IsPercentUpgrade;
         public bool IsActivatableCard;
@@ -30,5 +32,12 @@ namespace GnomeCrawler.Deckbuilding
         {
             UpgradedStat = new KeyValuePair<Stat, float> (_statToUpgrade, _value);
         }
+    }
+
+    [System.Serializable]
+    public class StringFloatPair
+    {
+        public string valueName;
+        public float value;
     }
 }
