@@ -13,11 +13,11 @@ namespace GnomeCrawler.Enemies
         {
             if (transform.parent.TryGetComponent<RoomManager>(out _room))
             {
-                Invoke("InstantiateRat", 1);
+                Invoke("InstantiateEnemy", 1);
             }
         }
 
-        private void InstantiateRat()
+        private void InstantiateEnemy()
         {
             GameObject newEnemy = Instantiate(_enemyPrefab, gameObject.transform);
             _room.AddEnemyToList(newEnemy);

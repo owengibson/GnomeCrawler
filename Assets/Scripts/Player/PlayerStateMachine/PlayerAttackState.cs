@@ -47,7 +47,7 @@ namespace GnomeCrawler.Player
         {
             CheckSwitchStates();
         }
-
+        
         public override void ExitState() 
         {
             if (!_isAttackChained)
