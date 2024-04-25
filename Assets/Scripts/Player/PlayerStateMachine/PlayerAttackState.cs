@@ -13,9 +13,15 @@ namespace GnomeCrawler.Player
 
         IEnumerator AttackMovement()
         {
-            yield return new WaitForSeconds(0.1f);
-            Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
-            Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;
+            Vector2 dir = new Vector2(Ctx.CurrentMovementInput.x, Ctx.CurrentMovementInput.y);
+            dir.Normalize();
+            if (dir == Vector2.zero)
+            {
+                dir = Vector2.up;
+            }
+            Ctx.AppliedMovementX = dir.x;
+            Ctx.AppliedMovementZ = dir.y;
+            yield return new WaitForSeconds(Ctx.PlayerStats.GetStat(Deckbuilding.Stat.AttackMoveTime));
             Ctx.AppliedMovementX = 0;
             Ctx.AppliedMovementZ = 0;
             Ctx.CanMoveWhileAttacking = false;
@@ -47,7 +53,7 @@ namespace GnomeCrawler.Player
         {
             CheckSwitchStates();
         }
-
+        
         public override void ExitState() 
         {
             if (!_isAttackChained)

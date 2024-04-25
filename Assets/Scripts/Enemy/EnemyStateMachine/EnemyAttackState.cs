@@ -1,3 +1,4 @@
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace GnomeCrawler.Enemies
@@ -9,6 +10,7 @@ namespace GnomeCrawler.Enemies
 
         public override void EnterState()
         {
+            Debug.Log("Attacking");
             ctx.EnemyNavMeshAgent.speed = 0;
             ctx.IsAttackFinished = false;
             ctx.EnemyAnimator.SetBool("inCombat", true);

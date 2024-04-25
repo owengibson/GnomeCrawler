@@ -54,7 +54,7 @@ namespace GnomeCrawler
         private void Fart()
         {
             _navMeshAgent.destination = transform.position;
-            if (_fartCloudCooldown == null)
+            if (_fartCloudCooldown == null && fartCloud == null)
             {
                 _animator.SetBool("isChasing", false);
                 _animator.SetBool("isFarting", true);

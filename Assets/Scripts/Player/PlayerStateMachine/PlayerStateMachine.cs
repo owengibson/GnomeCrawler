@@ -45,8 +45,8 @@ namespace GnomeCrawler.Player
         CombatBrain _leftLockOnTarget;
         CombatBrain _rightLockOnTarget;
         float _lockOnRadius = 25.0f;
-        float _minimumViewableAngle = -60.0f;
-        float _maximumViewableAngle = 60.0f;
+        float _minimumViewableAngle = -80.0f;
+        float _maximumViewableAngle = 80.0f;
         bool _isLockedOn = false;
         Coroutine _lockOnCoroutine;
         #endregion
@@ -442,6 +442,7 @@ namespace GnomeCrawler.Player
             }
             if (!_isLockedOn)
             {
+                ClearLockOnTargets();
                 HandleLocatingLockOnTargets();
 
                 if (_nearestLockOnTarget != null)

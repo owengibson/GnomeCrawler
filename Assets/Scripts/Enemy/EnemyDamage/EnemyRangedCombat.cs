@@ -6,7 +6,7 @@ namespace GnomeCrawler.Enemies
     public class EnemyRangedCombat : EnemyCombat
     {
         [SerializeField] private GameObject _enemyProjectilePrefab;
-        private float _projectileSpeed = 5f;
+        [SerializeField] private float _projectileSpeed = 5f;
         [SerializeField] private Transform _handTransform;
 
         private void Start()
@@ -15,7 +15,7 @@ namespace GnomeCrawler.Enemies
 
             foreach (Material mat in _meshRenderer.materials)
             {
-                _originalColours.Add(mat.color);
+                _originalColours.Add(mat.GetColor("_MainColor"));
             }
         }
 
@@ -36,17 +36,6 @@ namespace GnomeCrawler.Enemies
         {
             _canDealDamage = true;
             CreateBullet();
-            //GameObject sphere = new GameObject("EnemySphere");
-            //EnemyProjectile clone = Instantiate(_enemyProjectile);
-            //EnemyProjectile projectileComponent = sphere.AddComponent<EnemyProjectile>();
-
-            /* 
-             * 
-             * instantiate the thing
-             * with the above script
-             * and it's own stats
-             *  
-             */
         }
 
         private void DamageFeedback() // move to hurtstate
@@ -71,6 +60,14 @@ namespace GnomeCrawler.Enemies
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             rb.velocity = direction * _projectileSpeed;
         }
-
+        private void ResetColour()
+        {
+            foreach (Material mat in _meshRenderer.materials)
+            {
+                mat.SetColor("_MainColor", _originalColours[_originalColorIndex]);
+                _originalColorIndex++;
+            }
+            _originalColorIndex = 0;
+        }
     }
 }
