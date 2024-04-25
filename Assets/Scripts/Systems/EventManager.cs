@@ -21,6 +21,7 @@ namespace GnomeCrawler.Systems
         public static Action<float> OnPlayerHit;
         public static Action<float> OnPlayerLifeSteal;
         public static Action<float> OnPlayerHurtFromAbility;
+        public static Action OnSwimActivated;
 
         public static Func<CardSO> GetSelectedActivatableCard;
         public static Func<StatsSO> GetPlayerStats;

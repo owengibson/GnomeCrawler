@@ -11,19 +11,26 @@ namespace GnomeCrawler
     {
         private void OnEnable()
         {
-            StartCoroutine(DrainHealth());
+            //StartCoroutine(DrainHealthCO());
+            InvokeRepeating("DrainHealth", 0, Card.AbilityValues[1].value);
         }
 
         private void OnDisable()
         {
-            StopCoroutine(DrainHealth());
+            //StopCoroutine(DrainHealthCO());
+            CancelInvoke();
         }
 
-        private IEnumerator DrainHealth()
+        private IEnumerator DrainHealthCO()
         {
             yield return new WaitForSeconds(Card.AbilityValues[1].value);
             EventManager.OnPlayerHurtFromAbility?.Invoke(Card.AbilityValues[0].value);
-            StartCoroutine(DrainHealth());
+            StartCoroutine(DrainHealthCO());
+        }
+
+        private void DrainHealth()
+        {
+            EventManager.OnPlayerHurtFromAbility?.Invoke(Card.AbilityValues[0].value);
         }
     }
-}
+} 
