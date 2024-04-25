@@ -14,6 +14,7 @@ namespace GnomeCrawler.Deckbuilding
         CritDamageMultiplier,
         NumberOfRolls,
         Luck,
-        MoveSpeed
+        MoveSpeed,
+        AttackMoveTime
     }
 }

@@ -14,6 +14,7 @@ namespace GnomeCrawler
         private void ShowGameOverScreen()
         {
             GetComponent<Canvas>().enabled = true;
+            _button.SetActive(true);
             EventSystem.current.SetSelectedGameObject(_button);
         }
 

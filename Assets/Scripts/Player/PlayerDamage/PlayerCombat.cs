@@ -26,6 +26,7 @@ namespace GnomeCrawler.Player
             _healthbarSlider.maxValue = _maxHealth;
             _healthbarSlider.value = CurrentHealth;
             Gamepad.current.SetMotorSpeeds(0, 0);
+            _stats.ResetCards();
         }
 
         private void Update()
