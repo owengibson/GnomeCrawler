@@ -27,7 +27,12 @@ namespace GnomeCrawler.Deckbuilding
         private void ActivateCard(CardSO card)
         {
             if (!card.IsActivatableCard) return;
-            _stats.ActivateCard(card);
+
+            if (card.Type != CardType.Ability)
+            {
+                _stats.ActivateCard(card);
+            }
+
             EventManager.OnCardActivated?.Invoke(card);
             StartCoroutine(RemoveCardAfterDuration(card));
         }
@@ -36,6 +41,7 @@ namespace GnomeCrawler.Deckbuilding
         {
             yield return new WaitForSeconds(card.ActiveDuration);
             _stats.RemoveActiveCard(card);
+            EventManager.OnCardDeactivated?.Invoke(card);
         }
 
         private void OnEnable()

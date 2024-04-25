@@ -17,14 +17,15 @@ namespace GnomeCrawler.Deckbuilding
         [BoxGroup("S/Stat Card Parameters")][SerializeField] private Stat _statToUpgrade;
         [BoxGroup("S/Stat Card Parameters")][SerializeField] private float _value;
         [BoxGroup("S/Stat Card Parameters")] public bool IsPercentUpgrade;
-        [BoxGroup("S/Stat Card Parameters")] public bool IsActivatableCard;
-        [ShowIf("IsActivatableCard")]
-        [BoxGroup("S/Stat Card Parameters")] public float ActiveDuration;
 
         [ShowIfGroup("A", Condition = "@Type == CardType.Ability || Type == CardType.StatAndAbility")]
         [InfoBox("This is case-sensitive and must exactly match the ability's class name.", InfoMessageType.Warning)]
         [BoxGroup("A/Ability Card Parameters")] public string AbilityClassName;
-        [BoxGroup("A/Ability Card Parameters")] public List<StringFloatPair> AbilityValues = new List<StringFloatPair>(); // could possibly change this to List<KeyValuePair<string, float>>. 
+        [BoxGroup("A/Ability Card Parameters")] public List<StringFloatPair> AbilityValues = new List<StringFloatPair>();
+
+        public bool IsActivatableCard;
+        [ShowIf("IsActivatableCard")]
+        public float ActiveDuration;
 
 
         [HideInInspector]

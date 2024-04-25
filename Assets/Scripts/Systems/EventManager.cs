@@ -15,6 +15,7 @@ namespace GnomeCrawler.Systems
         public static Action OnPlayerKilled;
         public static Action<GameState> OnGameStateChanged;
         public static Action<CardSO> OnCardActivated;
+        public static Action<CardSO> OnCardDeactivated;
         public static Action OnHandDrawn;
         public static Action<List<CardSO>> OnHandApproved;
 

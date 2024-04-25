@@ -44,6 +44,7 @@ namespace GnomeCrawler.Deckbuilding
             // Activatable cards
             foreach (CardSO card in _activeCards)
             {
+                if (card.Type == CardType.Ability) continue;
                 if (card.UpgradedStat.Key == stat)
                 {
                     // Flat stat addition

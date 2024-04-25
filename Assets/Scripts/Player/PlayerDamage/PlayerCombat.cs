@@ -125,15 +125,10 @@ namespace GnomeCrawler.Player
                         }
                         break;
                     case CardType.Ability:
-                        var abilityComponent = _abilitiesGO.GetComponent(card.AbilityClassName);
-                        foreach(Ability ability in _abilitiesGO.GetComponentsInChildren<Ability>())
-                        {
-                            if (ability == abilityComponent)
-                            {
-                                ability.InitialiseCard(card);
-                                ability.enabled = true;
-                            }
-                        }
+                        if (card.IsActivatableCard)
+                            continue;
+
+                        EnableAbility(card);
                         break;
                     case CardType.StatAndAbility:
                         _stats.AddCard(card);
@@ -147,15 +142,10 @@ namespace GnomeCrawler.Player
                             _healthbarSlider.transform.localScale = new Vector3(_maxHealth / 10, _healthbarSlider.transform.localScale.y, _healthbarSlider.transform.localScale.z);
                             _healthbarSlider.value = CurrentHealth;
                         }
-                        var abilityComponentBoth = _abilitiesGO.GetComponent(card.AbilityClassName);
-                        foreach (Ability ability in _abilitiesGO.GetComponentsInChildren<Ability>())
-                        {
-                            if (ability == abilityComponentBoth)
-                            {
-                                ability.InitialiseCard(card);
-                                ability.enabled = true;
-                            }
-                        }
+                        if (card.IsActivatableCard)
+                            continue;
+
+                        EnableAbility(card);
                         break;
                     default:
                         break;
@@ -164,6 +154,32 @@ namespace GnomeCrawler.Player
             }
 
             EventManager.OnHandDrawn?.Invoke();
+        }
+
+        private void EnableAbility(CardSO card)
+        {
+            var abilityComponent = _abilitiesGO.GetComponent(card.AbilityClassName);
+            foreach (Ability ability in _abilitiesGO.GetComponentsInChildren<Ability>())
+            {
+                if (ability == abilityComponent)
+                {
+                    ability.InitialiseCard(card);
+                    ability.enabled = true;
+                }
+            }
+        }
+
+        private void DisableAbility(CardSO card)
+        {
+            var abilityComponent = _abilitiesGO.GetComponent(card.AbilityClassName);
+            foreach (Ability ability in _abilitiesGO.GetComponentsInChildren<Ability>())
+            {
+                if (ability == abilityComponent)
+                {
+                    ability.InitialiseCard(card);
+                    ability.enabled = false;
+                }
+            }
         }
 
         private void OnApplicationQuit()
@@ -231,6 +247,8 @@ namespace GnomeCrawler.Player
             EventManager.GetPlayerStats += GetPlayerStats;
             EventManager.OnPlayerLifeSteal += HealPlayer;
             EventManager.OnPlayerHurtFromAbility += TakeDamageWithInvincibility;
+            EventManager.OnCardActivated += EnableAbility;
+            EventManager.OnCardDeactivated += DisableAbility;
         }
 
         private void OnDisable()
@@ -239,6 +257,8 @@ namespace GnomeCrawler.Player
             EventManager.GetPlayerStats -= GetPlayerStats;
             EventManager.OnPlayerLifeSteal -= HealPlayer;
             EventManager.OnPlayerHurtFromAbility -= TakeDamageWithInvincibility;
+            EventManager.OnCardActivated -= EnableAbility;
+            EventManager.OnCardDeactivated -= DisableAbility;
         }
 
         public void HealPlayer(float amount)

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e23a2925a638d254ea024d9c537e1fa8, type: 3}
-  m_Name: Floaties
+  m_Name: ActivatableLifeSteal
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -27,21 +27,23 @@ MonoBehaviour:
         Assembly-CSharp],[System.Single, mscorlib]], mscorlib
     - Name: 
       Entry: 3
-      Data: 0
+      Data: 3
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 20
     - Name: 
       Entry: 8
       Data: 
-  Type: 1
-  Name: Floaties
-  Description: Water is no longer your enemy
-  Category: 0
-  _statToUpgrade: 0
-  _value: 0
-  IsPercentUpgrade: 0
-  AbilityClassName: Swim
-  AbilityValues: []
-  IsActivatableCard: 0
-  ActiveDuration: 0
+  Type: 2
+  Name: Activatable Lifesteal
+  Description: buhbuhbuhbuh
+  Category: 1
+  _statToUpgrade: 3
+  _value: 20
+  IsPercentUpgrade: 1
+  AbilityClassName: LifeSteal
+  AbilityValues:
+  - valueName: Lifesteal Multiplier
+    value: 0.5
+  IsActivatableCard: 1
+  ActiveDuration: 8
