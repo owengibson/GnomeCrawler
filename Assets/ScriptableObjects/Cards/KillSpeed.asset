@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e23a2925a638d254ea024d9c537e1fa8, type: 3}
-  m_Name: StatsUpHealthDrain
+  m_Name: KillSpeed
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -27,25 +27,25 @@ MonoBehaviour:
         Assembly-CSharp],[System.Single, mscorlib]], mscorlib
     - Name: 
       Entry: 3
-      Data: 3
+      Data: 8
     - Name: 
       Entry: 4
-      Data: 100
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
   Type: 2
-  Name: Stat up health drain
-  Description: NEED TO ADD SPEED
+  Name: Adrenaline
+  Description: Gain a Burst of <B>speed</B> when you take down an enemy
   Category: 2
-  _statToUpgrade: 3
-  _value: 100
-  AbilityClassName: HealthDrain
-  AbilityValues:
-  - valueName: Damage Dealt
-    value: 1
-  - valueName: Damage tick time
-    value: 2
+  _statToUpgrade: 8
+  Value: 0
   IsPercentUpgrade: 1
+  AbilityClassName: SpeedDecay
+  AbilityValues:
+  - valueName: Speedgain %
+    value: 100
+  - valueName: Lifetime of speed
+    value: 5
   IsActivatableCard: 0
   ActiveDuration: 0

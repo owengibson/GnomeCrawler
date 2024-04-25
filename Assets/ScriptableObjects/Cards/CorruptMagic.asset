@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e23a2925a638d254ea024d9c537e1fa8, type: 3}
-  m_Name: ActivatableLifeSteal
+  m_Name: CorruptMagic
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -30,20 +30,22 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 4
-      Data: 0
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
-  Type: 1
-  Name: Activate Lifesteal
-  Description: The LIFESTEAL is REAL
+  Type: 2
+  Name: Corrupt Magic
+  Description: Deal Double Damage, take damage over time
   Category: 1
   _statToUpgrade: 3
-  Value: 0
+  Value: 100
   IsPercentUpgrade: 1
-  AbilityClassName: LifeSteal
+  AbilityClassName: HealthDrain
   AbilityValues:
-  - valueName: Lifesteal Multiplier
+  - valueName: Damage Dealt
     value: 1
-  IsActivatableCard: 1
-  ActiveDuration: 8
+  - valueName: Damage tick time
+    value: 2
+  IsActivatableCard: 0
+  ActiveDuration: 0

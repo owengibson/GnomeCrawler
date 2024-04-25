@@ -17,9 +17,9 @@ namespace GnomeCrawler.Deckbuilding
         [SerializeField] private TextMeshProUGUI _descriptionText;
         [SerializeField] private Image _backgroundImage;
 
-        private readonly Color _defenseColour = new Color32(165, 255, 140, 157);
-        private readonly Color _offenseColour = new Color32(255, 140, 140, 157);
-        private readonly Color _utilityColour = new Color32(140, 198, 255, 157);
+        private readonly Color _defenseColour = new Color32(165, 255, 140, 225);
+        private readonly Color _offenseColour = new Color32(255, 140, 140, 225);
+        private readonly Color _utilityColour = new Color32(140, 198, 255, 225);
 
         public void SetCard(CardSO card)
         {

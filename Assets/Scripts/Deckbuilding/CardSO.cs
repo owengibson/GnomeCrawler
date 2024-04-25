@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using System.Collections;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace GnomeCrawler.Deckbuilding
         [ShowIfGroup("S", Condition = "@Type == CardType.Stat || Type == CardType.StatAndAbility")]
         [BoxGroup("S/Stat Card Parameters")] public CardCategory Category;
         [BoxGroup("S/Stat Card Parameters")][SerializeField] private Stat _statToUpgrade;
-        [BoxGroup("S/Stat Card Parameters")][SerializeField] private float _value;
+        [BoxGroup("S/Stat Card Parameters")] public float Value;
         [BoxGroup("S/Stat Card Parameters")] public bool IsPercentUpgrade;
 
         [ShowIfGroup("A", Condition = "@Type == CardType.Ability || Type == CardType.StatAndAbility")]
@@ -33,7 +34,12 @@ namespace GnomeCrawler.Deckbuilding
 
         private void OnValidate()
         {
-            UpgradedStat = new KeyValuePair<Stat, float> (_statToUpgrade, _value);
+            ValidateStats();
+        }
+
+        public void ValidateStats()
+        {
+            UpgradedStat = new KeyValuePair<Stat, float>(_statToUpgrade, Value);
         }
     }
 
