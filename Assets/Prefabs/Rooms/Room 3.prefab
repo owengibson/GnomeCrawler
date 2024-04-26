@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 7135419582341631136}
   - component: {fileID: 5083412425628445012}
   - component: {fileID: 6333283720026989164}
+  - component: {fileID: 1053567921682169602}
   m_Layer: 9
   m_Name: Room 3 terrain
   m_TagString: Untagged
@@ -185,8 +186,24 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 13977b3b81ea4bf47b527f42af5754c9, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: afd49b57516f6294f8be0f5990ec907d, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &1053567921682169602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2217214423639296511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 100, y: 70, z: 100}
+  m_Center: {x: 50, y: 36.2, z: 50}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &6481046146334689832
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +476,7 @@ Transform:
   m_GameObject: {fileID: 7055795628995424024}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4583,7 +4600,7 @@ PrefabInstance:
     - target: {fileID: 1663377620108380835, guid: 2ba3015097fb5f44687550a37a3fe391,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.4
       objectReference: {fileID: 0}
     - target: {fileID: 1663377620108380835, guid: 2ba3015097fb5f44687550a37a3fe391,
         type: 3}

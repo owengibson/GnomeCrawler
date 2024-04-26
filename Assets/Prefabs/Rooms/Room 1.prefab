@@ -95,6 +95,9 @@ GameObject:
   - component: {fileID: 8963612487784840360}
   - component: {fileID: 6322972010720205520}
   - component: {fileID: 6500920294349881730}
+  - component: {fileID: 303351586434556094}
+  - component: {fileID: 6482167632319758415}
+  - component: {fileID: 1585550861313849963}
   m_Layer: 9
   m_Name: Room 1 Terrain
   m_TagString: Untagged
@@ -205,8 +208,56 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 9d146980d048d9d4f8e5cf6f541860c4, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: eb4993f35e422d8408f9cfe0bc01a670, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &303351586434556094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669798477330620797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 100, y: 30, z: 100}
+  m_Center: {x: 50, y: 15.5, z: 50}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
+--- !u!114 &6482167632319758415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669798477330620797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 22.26, y: 2, z: 10}
+  m_Center: {x: 11.37, y: 1, z: 48.94}
+  m_Area: 0
+  m_AffectedAgents: ffffffff
+--- !u!114 &1585550861313849963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669798477330620797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Size: {x: 22.26, y: 2, z: 10}
+  m_Center: {x: 88.4, y: 1, z: 53.7}
+  m_Area: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2489864125504279390
 GameObject:
   m_ObjectHideFlags: 0
@@ -3608,7 +3659,7 @@ PrefabInstance:
     - target: {fileID: 8516048869992419212, guid: 187a0b892bd0f494f8607e08a9aa20a1,
         type: 3}
       propertyPath: Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8516048869992419212, guid: 187a0b892bd0f494f8607e08a9aa20a1,
         type: 3}
