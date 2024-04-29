@@ -6,16 +6,14 @@ using UnityEngine;
 
 namespace GnomeCrawler
 {
-    public class LeaderboardManager : MonoBehaviour
+    public class LeaderboardManager : Singleton<LeaderboardManager>
     {
         [SerializeField] private List<TextMeshProUGUI> names;
         [SerializeField] private List<TextMeshProUGUI> scores;
 
-        private const string TOTAL_DEATHS_KEY = "3f8b9e1888cb3609908bfca91179658ccd692be562bedcb04a21906301276b03";
-
         public void GetLeaderboard()
         {
-            LeaderboardCreator.GetLeaderboard(TOTAL_DEATHS_KEY, (msg) =>
+            Leaderboards.TotalDeaths.GetEntries((msg) =>
             {
                 int loopLength = msg.Length < names.Count ? msg.Length : names.Count;
                 for (int i = 0; i < loopLength; i++)
@@ -28,10 +26,7 @@ namespace GnomeCrawler
 
         public void SetLeaderboardEntry(string username, int score)
         {
-            LeaderboardCreator.UploadNewEntry(TOTAL_DEATHS_KEY, username, score, msg =>
-            {
-                GetLeaderboard();
-            });
+            Leaderboards.TotalDeaths.UploadNewEntry(username, score, msg => GetLeaderboard());
         }
 
     }

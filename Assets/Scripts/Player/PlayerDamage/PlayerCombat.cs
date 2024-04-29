@@ -1,3 +1,4 @@
+using Dan.Main;
 using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
 using System.Collections;
@@ -189,6 +190,20 @@ namespace GnomeCrawler.Player
 
         public override void Die()
         {
+            // total deaths leaderboard
+            string uid = SystemInfo.deviceUniqueIdentifier;
+            int noOfDeaths = 0;
+            Leaderboards.TotalDeaths.GetEntries(msg =>
+            {
+                var entry = System.Array.Find(msg, x => x.Username == uid);
+                if (entry.Score == 0)
+                    return;
+
+                noOfDeaths = entry.Score;
+                noOfDeaths++;
+                LeaderboardManager.Instance.SetLeaderboardEntry(uid, noOfDeaths);
+            });
+
             EventManager.OnPlayerKilled?.Invoke();
             base.Die();
             Gamepad.current.SetMotorSpeeds(0f, 0f);

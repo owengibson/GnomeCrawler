@@ -587,7 +587,7 @@ PrefabInstance:
     - target: {fileID: 1729018966694134968, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.04990183
+      value: 0.049901824
       objectReference: {fileID: 0}
     - target: {fileID: 1729018966694134968, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
@@ -597,7 +597,7 @@ PrefabInstance:
     - target: {fileID: 1729018966694134968, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.025473082
+      value: 0.025473079
       objectReference: {fileID: 0}
     - target: {fileID: 3712955003221416495, guid: b26260dec19dc1d4cade873633d0c7c2,
         type: 3}
@@ -3502,6 +3502,52 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1922208371}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1968426649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1968426651}
+  - component: {fileID: 1968426650}
+  m_Layer: 0
+  m_Name: Leaderboard Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1968426650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968426649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e713ab4a8a6aab44da1b26c2879768a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  names: []
+  scores: []
+--- !u!4 &1968426651
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968426649}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1972930157
 GameObject:
   m_ObjectHideFlags: 0
@@ -4032,6 +4078,7 @@ SceneRoots:
   - {fileID: 1612576561}
   - {fileID: 308103056}
   - {fileID: 1659115618}
+  - {fileID: 1968426651}
   - {fileID: 361088704}
   - {fileID: 13790251}
   - {fileID: 1565363878}
