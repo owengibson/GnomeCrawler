@@ -11,6 +11,24 @@ namespace GnomeCrawler.Audio
         private List<EventInstance> _eventInstances = new List<EventInstance>();
         private List<StudioEventEmitter> _eventEmitters = new List<StudioEventEmitter>();
 
+        private EventInstance _musicEventInstance;
+
+        private void Start()
+        {
+            InitialiseMusic(FMODEvents.Instance.GetEventReference("Music"));
+        }
+
+        private void InitialiseMusic(EventReference musicEventReference)
+        {
+            _musicEventInstance = CreateEventInstance(musicEventReference);
+            _musicEventInstance.start();
+        }
+
+        public void SetMusicParameter(PlayerStatus status)
+        {
+            _musicEventInstance.setParameterByName("PLAYER_STATUS", (float)status);
+        }
+
         public void PlayOneShot(EventReference sound, Vector3 worldPos)
         {
             RuntimeManager.PlayOneShot(sound, worldPos);

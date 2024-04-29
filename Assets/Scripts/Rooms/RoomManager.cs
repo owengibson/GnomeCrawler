@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GnomeCrawler.Systems;
+using GnomeCrawler.Audio;
 
 namespace GnomeCrawler.Rooms
 {
@@ -26,6 +27,7 @@ namespace GnomeCrawler.Rooms
             if (_enemies.Count == 0)
             {
                 EventManager.OnRoomCleared?.Invoke();
+                AudioManager.Instance.SetMusicParameter(PlayerStatus.PostCombat);
             }
         }
 

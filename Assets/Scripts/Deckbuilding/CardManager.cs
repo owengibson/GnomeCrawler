@@ -135,6 +135,8 @@ namespace GnomeCrawler.Deckbuilding
 
             _handApproveButton.SetActive(false);
             InstantiateCards(_hand, false, _handQuickview.transform);
+
+            AudioManager.Instance.SetMusicParameter(PlayerStatus.Combat);
         }
 
         private void ToggleHandQuickview(UnityEngine.InputSystem.InputAction.CallbackContext ctx)

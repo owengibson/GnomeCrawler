@@ -10,15 +10,13 @@ namespace GnomeCrawler
     [CreateAssetMenu(fileName = "New Event References List", menuName = "Event References")]
     public class EventReferencesSO : SerializedScriptableObject
     {
-        [ShowInInspector] public List<NamedEventReference> Events { get; set; }
+        public List<NamedEventReference> Events;
     }
 
     [Serializable]
     public class NamedEventReference
     {
-        [ShowInInspector]
-        public string Name { get; set; }
-        [ShowInInspector]
-        public EventReference EventReference { get; set; }
+        public string Name;
+        public EventReference EventReference;
     }
 }
