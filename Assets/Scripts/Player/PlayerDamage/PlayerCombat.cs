@@ -26,7 +26,7 @@ namespace GnomeCrawler.Player
             _damagedGameObjects = new List<GameObject>();
             _healthbarSlider.maxValue = _maxHealth;
             _healthbarSlider.value = CurrentHealth;
-            Gamepad.current.SetMotorSpeeds(0, 0);
+            StartCoroutine(Rumble(0f, 0f));
             _stats.ResetCards();
         }
 
@@ -251,9 +251,13 @@ namespace GnomeCrawler.Player
 
         private IEnumerator Rumble(float time, float rumbleAmount)
         {
-            Gamepad.current.SetMotorSpeeds(rumbleAmount, rumbleAmount);
+            if (InputDeviceManager.Instance.isKeyboardAndMouse)
+            {
+                yield return null;
+            }
+            Gamepad.current?.SetMotorSpeeds(rumbleAmount, rumbleAmount);
             yield return new WaitForSeconds(time);
-            Gamepad.current.SetMotorSpeeds(0f, 0f);
+            Gamepad.current?.SetMotorSpeeds(0f, 0f);
         }
 
         private void OnEnable()
