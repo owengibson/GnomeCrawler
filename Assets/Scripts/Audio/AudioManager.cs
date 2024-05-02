@@ -1,5 +1,6 @@
 using FMOD.Studio;
 using FMODUnity;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace GnomeCrawler.Audio
 {
     public class AudioManager : Singleton<AudioManager>
     {
+
         [Header("Volume")]
         [Range(0f, 1f)] public float MasterVolume = 1f;
         [Range(0f, 1f)] public float MusicVolume = 1f;
