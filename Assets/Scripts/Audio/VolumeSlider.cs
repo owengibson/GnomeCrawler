@@ -1,11 +1,10 @@
-using GnomeCrawler.Audio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GnomeCrawler
+namespace GnomeCrawler.Audio
 {
     public class VolumeSlider : MonoBehaviour
     {
@@ -39,12 +38,18 @@ namespace GnomeCrawler
                     AudioManager.Instance.SfxVolume = value;
                     break;
             }
+
+            AudioManager.Instance.UpdateBuses();
         }
 
         private void Start()
         {
             _slider = GetComponentInChildren<Slider>();
+            InitialiseSliders();
+        }
 
+        private void InitialiseSliders()
+        {
             switch (type)
             {
                 case VolumeSliderType.Master:

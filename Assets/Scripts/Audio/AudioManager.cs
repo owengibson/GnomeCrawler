@@ -25,8 +25,10 @@ namespace GnomeCrawler.Audio
         private EventInstance _musicEventInstance;
         private EventInstance _ambienceEventInstance;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             _masterBus = RuntimeManager.GetBus("bus:/");
             _musicBus = RuntimeManager.GetBus("bus:/Music");
             _ambienceBus = RuntimeManager.GetBus("bus:/Ambience");
