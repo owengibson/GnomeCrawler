@@ -1,3 +1,4 @@
+using GnomeCrawler.Audio;
 using GnomeCrawler.Systems;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ namespace GnomeCrawler.Rooms
 {
     public class RoomDoorway : MonoBehaviour
     {
-        public enum DoorwayType { Entry, Exit };
+        public enum DoorwayType { Entry, Exit, HealingRoom };
         public BoxCollider Collider { get; private set; }
 
         public DoorwayType Type;
@@ -29,6 +30,13 @@ namespace GnomeCrawler.Rooms
         {
             if (!other.CompareTag("Player"))
                 return;
+
+            if (Type == DoorwayType.HealingRoom)
+            {
+                _otherDoorway.gameObject.SetActive(false);
+                AudioManager.Instance.SetMusicParameter(PlayerStatus.StartRoom);
+                return;
+            }
 
             if (!_hasExitBeenSet)
             {
