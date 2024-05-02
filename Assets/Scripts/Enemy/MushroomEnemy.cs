@@ -34,11 +34,11 @@ namespace GnomeCrawler
             if (currentDistance < 12 || _hasAggro) _hasAggro = true;
             else return;
 
-            if (currentDistance > 2)
+            if (currentDistance > 3)
             {
                 FollowPlayer();
             }
-            else if (currentDistance <= 2)
+            else if (currentDistance <= 3)
             {
                 Fart();
             }
