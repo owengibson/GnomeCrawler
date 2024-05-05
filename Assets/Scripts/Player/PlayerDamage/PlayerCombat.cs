@@ -196,12 +196,11 @@ namespace GnomeCrawler.Player
             Leaderboards.TotalDeaths.GetEntries(msg =>
             {
                 var entry = System.Array.Find(msg, x => x.Username == uid);
-                if (entry.Score == 0)
-                    return;
 
                 noOfDeaths = entry.Score;
                 noOfDeaths++;
                 LeaderboardManager.Instance.SetLeaderboardEntry(uid, noOfDeaths);
+                Debug.Log("Leaderboard set pog");
             });
 
             EventManager.OnPlayerKilled?.Invoke();

@@ -27,7 +27,6 @@ namespace GnomeCrawler
                 InputDevice lastDevice = receivedInputAction.activeControl.device;
 
                 isKeyboardAndMouse = lastDevice.name.Equals("Keyboard") || lastDevice.name.Equals("Mouse");
-                Debug.Log(isKeyboardAndMouse);
                 //If needed we could check for "XInputControllerWindows" or "DualShock4GamepadHID"
                 //Maybe if it Contains "controller" could be xbox layout and "gamepad" sony? More investigation needed
             }

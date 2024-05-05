@@ -8,19 +8,17 @@ namespace GnomeCrawler
 {
     public class LeaderboardManager : Singleton<LeaderboardManager>
     {
-        [SerializeField] private List<TextMeshProUGUI> names;
-        [SerializeField] private List<TextMeshProUGUI> scores;
-
+        [SerializeField] TextMeshProUGUI _totalDeathsTMP;
         public void GetLeaderboard()
         {
+            int totalDeaths = 0;
             Leaderboards.TotalDeaths.GetEntries((msg) =>
             {
-                int loopLength = msg.Length < names.Count ? msg.Length : names.Count;
-                for (int i = 0; i < loopLength; i++)
+                foreach (var entry in msg)
                 {
-                    names[i].text = msg[i].Username;
-                    scores[i].text = msg[i].Score.ToString();
+                    totalDeaths += entry.Score;
                 }
+                _totalDeathsTMP.text = totalDeaths + " \n other gnomes have met the same fate";
             });
         }
 
