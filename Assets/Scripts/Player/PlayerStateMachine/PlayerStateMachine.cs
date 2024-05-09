@@ -100,6 +100,7 @@ namespace GnomeCrawler.Player
 
         #region hash
         int _speedHash;
+        int _horizontalHash;
         int _isFallingHash;
         int _isJumpingHash;
         int _isAttackingHash;
@@ -173,6 +174,7 @@ namespace GnomeCrawler.Player
 
             // set parameter hash references
             _speedHash = Animator.StringToHash("speed");
+            _horizontalHash = Animator.StringToHash("horizontal");
             _isFallingHash = Animator.StringToHash("isFalling");
             _isJumpingHash = Animator.StringToHash("isJumping");
             _isAttackingHash = Animator.StringToHash("isAttacking");
@@ -290,10 +292,12 @@ namespace GnomeCrawler.Player
 
                 Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
                 transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, _rotationFactorPerFrame * Time.deltaTime);
+                Animator.SetFloat(_horizontalHash, CurrentMovementInput.x);
 
             }
             else
             {
+                Animator.SetFloat(_horizontalHash, 0);
                 positionToLookAt.x = _cameraRelativeMovement.x;
                 positionToLookAt.y = _zero;
                 positionToLookAt.z = _cameraRelativeMovement.z;
