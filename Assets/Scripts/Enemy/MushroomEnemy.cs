@@ -9,12 +9,15 @@ namespace GnomeCrawler
     public class MushroomEnemy : MonoBehaviour
     {
         [SerializeField] private GameObject _poisonCloudPrefab;
+        [SerializeField] private GameObject _poisonCloudLinePrefab;
 
         private Animator _animator;
         private NavMeshAgent _navMeshAgent;
         private GameObject _player;
         private GameObject fartCloud;
         private Coroutine _fartCloudCooldown;
+        private GameObject _fartLine;
+        private Coroutine _fartLineCooldown;
 
         private bool _hasAggro = false;
 
@@ -31,24 +34,34 @@ namespace GnomeCrawler
             if (_player == null) return;
             float currentDistance = Vector3.Distance(transform.position, _player.transform.position);
 
-            if (currentDistance < 12 || _hasAggro) _hasAggro = true;
+            if (currentDistance < 15 || _hasAggro) _hasAggro = true;
             else return;
 
-            if (currentDistance > 3)
+            if (currentDistance > 15 && _fartLineCooldown == null)
             {
-                FollowPlayer();
+                ThrowFartLine();
             }
             else if (currentDistance <= 3)
             {
                 Fart();
             }
+            else
+            {
+                FollowPlayer();
+            }
         }
 
         private void FollowPlayer() 
         {
-            _animator.SetBool("isChasing", true);
-            _animator.SetBool("isFarting", false);
+            _animator.SetTrigger("isChasing");
             _navMeshAgent.destination = _player.transform.position;
+        }
+
+        private void ThrowFartLine()
+        {
+            _navMeshAgent.destination = transform.position;
+            _animator.SetTrigger("isShootingLine");
+            _fartLineCooldown = StartCoroutine(CreateLineFart());
         }
 
         private void Fart()
@@ -56,8 +69,7 @@ namespace GnomeCrawler
             _navMeshAgent.destination = transform.position;
             if (_fartCloudCooldown == null && fartCloud == null)
             {
-                _animator.SetBool("isChasing", false);
-                _animator.SetBool("isFarting", true);
+                _animator.SetTrigger("isFarting");
                 _fartCloudCooldown = StartCoroutine(CreateFart());
             }
         }
@@ -72,10 +84,23 @@ namespace GnomeCrawler
             _fartCloudCooldown = null;
         }
 
+        private IEnumerator CreateLineFart()
+        {
+            yield return new WaitForSeconds(0.5f);
+            Vector3 playerPosition = _player.transform.position;
+            _fartLine = Instantiate(_poisonCloudLinePrefab, transform.position, Quaternion.identity);
+            while (_fartLine.transform.position != playerPosition)
+            {
+                _fartLine.transform.position = Vector3.MoveTowards(_fartLine.transform.position, playerPosition, Time.deltaTime * 20);
+                yield return null;
+            }
+            Destroy(_fartLine);
+            _fartLineCooldown = null;
+        }
+
         private IEnumerator CoolDown()
         {
-            _animator.SetBool("isChasing", true);
-            _animator.SetBool("isFarting", false);
+            _animator.SetTrigger("isChasing");
             yield return new WaitForSeconds(0.5f);
             _fartCloudCooldown = null;
         }

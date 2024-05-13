@@ -232,7 +232,7 @@ namespace GnomeCrawler.Player
                 if (PoisionTickTime <= 0)
                 {
                     TakeDamage(1);
-                    PoisionTickTime = 2.0f;
+                    PoisionTickTime = 1.0f;
                 }
             }
 
