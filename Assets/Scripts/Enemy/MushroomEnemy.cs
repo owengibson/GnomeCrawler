@@ -34,10 +34,10 @@ namespace GnomeCrawler
             if (_player == null) return;
             float currentDistance = Vector3.Distance(transform.position, _player.transform.position);
 
-            if (currentDistance < 15 || _hasAggro) _hasAggro = true;
+            if (currentDistance < 10 || _hasAggro) _hasAggro = true;
             else return;
 
-            if (currentDistance > 15 && _fartLineCooldown == null)
+            if (currentDistance > 12 && _fartLineCooldown == null)
             {
                 ThrowFartLine();
             }
@@ -88,13 +88,31 @@ namespace GnomeCrawler
         {
             yield return new WaitForSeconds(0.5f);
             Vector3 playerPosition = _player.transform.position;
-            _fartLine = Instantiate(_poisonCloudLinePrefab, transform.position, Quaternion.identity);
-            while (_fartLine.transform.position != playerPosition)
+            Vector3 enemyPosition = transform.position;
+            _fartLine = Instantiate(_poisonCloudLinePrefab, transform.position, Quaternion.LookRotation(playerPosition - enemyPosition));
+            CapsuleCollider capsuleCollider = _fartLine.GetComponent<CapsuleCollider>();
+            ParticleSystem particleSystem = _fartLine.GetComponentInChildren<ParticleSystem>();
+            var shapeModule = particleSystem.shape;
+            float speed = 10f;
+
+            float distanceCovered = 0f;
+            float journeyLength = Vector3.Distance(enemyPosition, playerPosition);
+
+            while (distanceCovered < journeyLength)
             {
-                _fartLine.transform.position = Vector3.MoveTowards(_fartLine.transform.position, playerPosition, Time.deltaTime * 20);
+
+                distanceCovered += speed * Time.deltaTime;
+                float fracJourney = distanceCovered / journeyLength;
+                _fartLine.transform.position = Vector3.Lerp(enemyPosition, playerPosition, fracJourney);
+                capsuleCollider.height = Mathf.Lerp(1f, journeyLength, fracJourney);
+                shapeModule.scale = new Vector3(0,0,capsuleCollider.height);
+                capsuleCollider.center = new Vector3(0 ,0 ,-capsuleCollider.height / 2 + 0.5f);
+                shapeModule.position = capsuleCollider.center;
                 yield return null;
             }
+            yield return new WaitForSeconds(3);
             Destroy(_fartLine);
+            yield return new WaitForSeconds(2);
             _fartLineCooldown = null;
         }
 
