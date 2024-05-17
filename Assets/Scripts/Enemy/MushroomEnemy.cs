@@ -10,6 +10,9 @@ namespace GnomeCrawler
     {
         [SerializeField] private GameObject _poisonCloudPrefab;
         [SerializeField] private GameObject _poisonCloudLinePrefab;
+        [SerializeField] private float _projectileSpeed = 10f;
+        [SerializeField] private float _projectileLinger = 3f;
+        [SerializeField] private float _projectileCooldown = 2f;
 
         private Animator _animator;
         private NavMeshAgent _navMeshAgent;
@@ -93,7 +96,7 @@ namespace GnomeCrawler
             CapsuleCollider capsuleCollider = _fartLine.GetComponent<CapsuleCollider>();
             ParticleSystem particleSystem = _fartLine.GetComponentInChildren<ParticleSystem>();
             var shapeModule = particleSystem.shape;
-            float speed = 10f;
+           
 
             float distanceCovered = 0f;
             float journeyLength = Vector3.Distance(enemyPosition, playerPosition);
@@ -101,7 +104,7 @@ namespace GnomeCrawler
             while (distanceCovered < journeyLength)
             {
 
-                distanceCovered += speed * Time.deltaTime;
+                distanceCovered += _projectileSpeed * Time.deltaTime;
                 float fracJourney = distanceCovered / journeyLength;
                 _fartLine.transform.position = Vector3.Lerp(enemyPosition, playerPosition, fracJourney);
                 capsuleCollider.height = Mathf.Lerp(1f, journeyLength, fracJourney);
@@ -110,9 +113,9 @@ namespace GnomeCrawler
                 shapeModule.position = capsuleCollider.center;
                 yield return null;
             }
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(_projectileLinger);
             Destroy(_fartLine);
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(_projectileCooldown);
             _fartLineCooldown = null;
         }
 
