@@ -22,6 +22,7 @@ namespace GnomeCrawler.Enemies
         [SerializeField] private bool _isInAttackZone;
         private Camera _camera;
         private Canvas _healthBarCanvas;
+        private float _currentDistance;
 
 
         public EnemyBaseState CurrentState { get => currentState; set => currentState = value; }
@@ -35,6 +36,7 @@ namespace GnomeCrawler.Enemies
         public bool NeedsBlockState { get => needsBlockState; set => needsBlockState = value; }
         public bool IsAttackFinished { get => _isAttackFinised; set => _isAttackFinised = value; }
         public bool IsInAttackZone { get => _isInAttackZone; set => _isInAttackZone = value; }
+        public float CurrentDistance { get => _currentDistance; set => _currentDistance = value; }
 
         void Start()
         {
@@ -61,6 +63,7 @@ namespace GnomeCrawler.Enemies
         {
             if (_playerCharacter == null)
                 return;
+            _currentDistance = Vector3.Distance(transform.position, PlayerCharacter.transform.position);
             currentState.UpdateState();
         }
 

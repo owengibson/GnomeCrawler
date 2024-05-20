@@ -11,51 +11,30 @@ namespace GnomeCrawler.Enemies
 
         public override void EnterState()
         {
-            // tool tip
-            Debug.Log("Chasing");
             ctx.EnemyAnimator.SetBool("isMoving", true);
-
             ctx.EnemyAnimator.SetBool("inCombat", false);
+            ctx.EnemyNavMeshAgent.speed = ctx.ChaseSpeed;
         }
 
         public override void UpdateState()
         {
             CheckSwitchState();
-            //Debug.Log("Now Chasing");
             Vector3 playerPos = ctx.PlayerCharacter.transform.position;
             playerPos.y = ctx.transform.position.y;
-            
+            ctx.EnemyNavMeshAgent.destination = playerPos;
         }
-        public override void FixedUpdateState()
-        {
-            ApproachPlayer();
-        }
+
+        public override void FixedUpdateState() { }
 
         public override void CheckSwitchState() 
         {
-            float currentDist = Vector3.Distance(ctx.transform.position, ctx.PlayerCharacter.transform.position);
-
-            if (currentDist < ctx.AttackingDistance)
-            {
-                ctx.IsInAttackZone = true;
-            }
-
-            if (ctx.NeedsBlockState)
-            {
-                SwitchStates(factory.BlockState());
-            }
-            else if (ctx.IsInAttackZone)
+            if (ctx.CurrentDistance < ctx.AttackingDistance)
             {
                 SwitchStates(factory.AttackState());
+                ctx.IsInAttackZone = true; 
             }
         }
 
         public override void ExitState() { }
-
-        public void ApproachPlayer()
-        {
-            ctx.EnemyNavMeshAgent.speed = ctx.ChaseSpeed;
-            ctx.EnemyNavMeshAgent.destination = ctx.PlayerCharacter.transform.position;
-        }
     }
 }

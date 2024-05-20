@@ -3,32 +3,22 @@ using UnityEngine;
 
 namespace GnomeCrawler.Enemies
 {
-    public class EnemyAttackState : EnemyBaseState
+    public class EnemyChargeState : EnemyBaseState
     {
-        public EnemyAttackState(EnemyStateManager stateManager, EnemyStateFactory stateFactory)
+        public EnemyChargeState(EnemyStateManager stateManager, EnemyStateFactory stateFactory)
             : base(stateManager, stateFactory) { }
 
         public override void EnterState()
         {
             ctx.EnemyNavMeshAgent.speed = 0;
             ctx.IsAttackFinished = false;
-            ctx.EnemyAnimator.SetBool("inCombat", true);
+            ctx.EnemyAnimator.SetBool("isMoving", true);
+            ctx.EnemyAnimator.SetBool("inCombat", false);
         }
 
         public override void UpdateState()
         {
             CheckSwitchState();
-
-            if (ctx.EnemyAnimator.GetBool("inCombat") && IsFacingPlayer())
-            {
-                ctx.EnemyAnimator.SetBool("inCombat", true);
-            }
-
-
-            else if (!ctx.EnemyAnimator.GetBool("inCombat") && !IsFacingPlayer())
-            {
-                RotateToFacePlayer();
-            }
         }
 
         public override void FixedUpdateState() { }
@@ -55,7 +45,7 @@ namespace GnomeCrawler.Enemies
         {
             Vector3 direction = (ctx.PlayerCharacter.transform.position - ctx.transform.position).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            float rotationSpeed = 10f;
+            float rotationSpeed = 1f;
             ctx.transform.rotation = Quaternion.Lerp(ctx.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
@@ -65,7 +55,7 @@ namespace GnomeCrawler.Enemies
 
             float angle = Vector3.Angle(ctx.transform.forward, directionToPlayer);
 
-            float thresholdAngle = 0f;
+            float thresholdAngle = 30f;
 
             if (angle <= thresholdAngle)
             {

@@ -21,9 +21,7 @@ namespace GnomeCrawler.Enemies
 
         public override void CheckSwitchState()
         {
-            float currentDist = Vector3.Distance(ctx.transform.position, ctx.PlayerCharacter.transform.position); 
-
-            if (currentDist < ctx.ChasingDistance)
+            if (ctx.CurrentDistance < ctx.ChasingDistance)
             {
                 SwitchStates(factory.ChaseState());
             }
