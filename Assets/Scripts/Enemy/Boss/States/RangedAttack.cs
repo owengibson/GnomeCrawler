@@ -7,9 +7,9 @@ namespace GnomeCrawler
 {
     public class RangedAttack : Attack
     {
-        public RangedAttack(Boss boss, NavMeshAgent navMeshAgent, Animator animator, string attackAnimName) : base(boss, navMeshAgent, animator, attackAnimName)
+        private static readonly int RangedAttackHash = Animator.StringToHash("RangedAttack");
+        public RangedAttack(Boss boss, NavMeshAgent navMeshAgent, Animator animator, int attackNumber) : base(boss, navMeshAgent, animator, attackNumber)
         {
-
         }
 
         public override void Tick()

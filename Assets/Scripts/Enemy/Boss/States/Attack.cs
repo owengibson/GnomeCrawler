@@ -7,18 +7,17 @@ namespace GnomeCrawler
 {
     public class Attack : IState
     {
-        private readonly Boss _boss;
-        private readonly NavMeshAgent _navMeshAgent;
-        private readonly Animator _animator;
+        protected readonly Boss _boss;
+        protected readonly NavMeshAgent _navMeshAgent;
+        protected readonly Animator _animator;
+        protected readonly int _attackNumber;
 
-        private readonly int AttackHash;
-
-        public Attack(Boss boss, NavMeshAgent navMeshAgent, Animator animator, string attackTransitionName)
+        public Attack(Boss boss, NavMeshAgent navMeshAgent, Animator animator, int attackNumber)
         {
             _boss = boss;
             _navMeshAgent = navMeshAgent;
             _animator = animator;
-            AttackHash = Animator.StringToHash(attackTransitionName);
+            _attackNumber = attackNumber;
         }
 
         public virtual void Tick()

@@ -7,7 +7,9 @@ namespace GnomeCrawler
 {
     public class MeleeAttack : Attack
     {
-        public MeleeAttack(Boss boss, NavMeshAgent navMeshAgent, Animator animator, string attackAnimName) : base(boss, navMeshAgent, animator, attackAnimName)
+        private static readonly int MeleeAttackHash = Animator.StringToHash("MeleeAttack");
+        private static readonly int MeleeAttackNumberHash = Animator.StringToHash("MeleeAttackNumber");
+        public MeleeAttack(Boss boss, NavMeshAgent navMeshAgent, Animator animator, int attackNumber) : base(boss, navMeshAgent, animator, attackNumber)
         {
 
         }
@@ -20,6 +22,9 @@ namespace GnomeCrawler
         public override void OnEnter()
         {
             base.OnEnter();
+            Debug.Log(_attackNumber);
+            _animator.SetInteger(MeleeAttackNumberHash, _attackNumber);
+            _animator.SetTrigger(MeleeAttackHash);
         }
 
         public override void OnExit()
