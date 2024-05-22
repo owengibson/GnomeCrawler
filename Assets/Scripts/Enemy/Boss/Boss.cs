@@ -9,10 +9,10 @@ namespace GnomeCrawler
 {
     public class Boss : MonoBehaviour
     {
-        public PlayerStateMachine Target;
+        public GameObject Target;
         public float _moveSpeed;
 
-        [SerializeField] private float _distanceForAttackOne;
+        [SerializeField] private float _distanceForMeleeRange;
 
         private StateMachine _stateMachine;
 
@@ -29,19 +29,26 @@ namespace GnomeCrawler
             var attack2 = new MeleeAttack(this, navMeshAgent, animator, "Attack02");
             var attack3 = new MeleeAttack(this, navMeshAgent, animator, "Attack03");
             var rangedAttack = new RangedAttack(this, navMeshAgent, animator, "RangedAttack01");
-            var charge = new Charge(this, navMeshAgent, animator, _moveSpeed);
-            var flee = new Flee(this, navMeshAgent, animator, _moveSpeed);
+            var idle = new Idle(this, navMeshAgent, animator);
+            var flee = new Flee(this, navMeshAgent, animator);
 
             //transitions
-            At(chase, attack, ReachedPlayer());
+            At(chase, attack, IsInMeleeRange());
+            //At(attack, attack2, )
+            //At(attack2, attack3, )
+            //At(attack3, )
 
             //any transitions
+            //_stateMachine.AddAnyTransition(flee, () => );
 
             _stateMachine.SetState(chase);
 
             void At(IState to, IState from, Func<bool> condition) => _stateMachine.AddTransition(to, from, condition);
-            Func<bool> HasTarget() => () => Target != null;
-            Func<bool> ReachedPlayer() => () => Target != null && Vector3.Distance(transform.position, Target.transform.position) > _distanceForAttackOne;
+            //Func<bool> HasTarget() => () => Target != null;
+            Func<bool> IsInMeleeRange() => () => Target != null && Vector3.Distance(transform.position, Target.transform.position) < _distanceForMeleeRange;
+            //Func<bool> Attack1Complete() => () => attack.
         }
+
+        private void Update() => _stateMachine.Tick();
     }
 }

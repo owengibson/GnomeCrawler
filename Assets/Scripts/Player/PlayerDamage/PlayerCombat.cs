@@ -251,9 +251,8 @@ namespace GnomeCrawler.Player
         private IEnumerator Rumble(float time, float rumbleAmount)
         {
             if (InputDeviceManager.Instance.isKeyboardAndMouse)
-            {
-                yield return null;
-            }
+                yield break;
+
             Gamepad.current?.SetMotorSpeeds(rumbleAmount, rumbleAmount);
             yield return new WaitForSeconds(time);
             Gamepad.current?.SetMotorSpeeds(0f, 0f);

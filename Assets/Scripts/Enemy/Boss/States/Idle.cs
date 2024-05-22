@@ -5,14 +5,15 @@ using UnityEngine.AI;
 
 namespace GnomeCrawler
 {
-    public class Flee : IState
+    public class Idle : IState
     {
         private readonly Boss _boss;
         private readonly NavMeshAgent _navMeshAgent;
         private readonly Animator _animator;
 
-        private static readonly int FleeHash = Animator.StringToHash("Flee");
-        public Flee(Boss boss, NavMeshAgent navMeshAgent, Animator animator)
+        private static readonly int IdleHash = Animator.StringToHash("Stagger");
+
+        public Idle(Boss boss, NavMeshAgent navMeshAgent, Animator animator)
         {
             _boss = boss;
             _navMeshAgent = navMeshAgent;
@@ -26,7 +27,8 @@ namespace GnomeCrawler
 
         public void OnEnter()
         {
-
+            _navMeshAgent.enabled = false;
+            _animator.SetTrigger(IdleHash);
         }
 
         public void OnExit()

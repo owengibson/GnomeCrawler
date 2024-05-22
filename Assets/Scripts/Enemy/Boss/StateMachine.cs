@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GnomeCrawler
 {
-    public class StateMachine : MonoBehaviour
+    public class StateMachine
     {
         private IState _currentState;
 
@@ -40,6 +40,7 @@ namespace GnomeCrawler
                 _currentTransitions = EmptyTransitions;
 
             _currentState.OnEnter();
+            Debug.Log(_currentState.GetType().ToString());
         }
 
         public void AddTransition(IState from, IState to, Func<bool> predicate)
