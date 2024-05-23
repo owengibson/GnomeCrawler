@@ -26,10 +26,10 @@ namespace GnomeCrawler.Enemies
                 SwitchStates(factory.ChaseState());
             }
 
-            else if (ctx.CurrentDistance < ctx.ChargeAttackRange && ctx.CurrentDistance > ctx.ChargeAttackDeadzone && IsFacingPlayer())
+            /*else if (ctx.CurrentDistance < ctx.ChargeAttackRange && ctx.CurrentDistance > ctx.ChargeAttackDeadzone && IsFacingPlayer())
             {
                 SwitchStates(factory.ChargeState());
-            }
+            }*/
         }
 
         public override void ExitState() { }

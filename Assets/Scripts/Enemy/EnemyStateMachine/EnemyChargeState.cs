@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GnomeCrawler.Enemies
@@ -23,7 +24,9 @@ namespace GnomeCrawler.Enemies
         {
             CheckSwitchState();
 
-            ctx.EnemyNavMeshAgent.destination = ctx.PlayerCharacter.transform.position;
+            Vector3 playerPos = ctx.PlayerCharacter.transform.position;
+            playerPos.y = ctx.transform.position.y;
+            ctx.EnemyNavMeshAgent.destination = playerPos;
         }
 
         public override void FixedUpdateState()
@@ -78,17 +81,25 @@ namespace GnomeCrawler.Enemies
 
         private void StartCharge()
         {
-            DOTween.To(() => ctx.EnemyNavMeshAgent.speed, x => ctx.EnemyNavMeshAgent.speed = x, 10f, 3f).SetEase(Ease.InExpo);
+            ctx.StartCoroutine(Charge());
         }
 
         private IEnumerator Charge()
         {
+            ctx.EnemyNavMeshAgent.angularSpeed = 10000f;
             ctx.EnemyNavMeshAgent.speed = 1f;
+            ctx.EnemyAnimator.SetFloat("Speed", 1f);
 
             float counter = 0f;
             while (counter < 3f)
             {
-                ctx.EnemyNavMeshAgent.speed *= 1.25f;
+                ctx.EnemyNavMeshAgent.speed *= 1.01f;
+
+                float animSpeed = ctx.EnemyAnimator.GetFloat("Speed");
+                animSpeed = Mathf.Clamp(ctx.EnemyNavMeshAgent.speed, 0f, 5f);
+                ctx.EnemyAnimator.SetFloat("Speed", animSpeed);
+
+                counter += Time.deltaTime;
             }
             yield return null;
         }

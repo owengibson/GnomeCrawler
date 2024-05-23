@@ -12,6 +12,7 @@ namespace GnomeCrawler.Enemies
         public override void EnterState()
         {
             ctx.EnemyAnimator.SetBool("isMoving", true);
+            ctx.EnemyAnimator.SetFloat("Speed", 1f);
             ctx.EnemyAnimator.SetBool("inCombat", false);
             ctx.EnemyNavMeshAgent.speed = ctx.ChaseSpeed;
         }
