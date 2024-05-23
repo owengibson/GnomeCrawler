@@ -54,6 +54,19 @@ namespace GnomeCrawler
             transitions.Add(new Transition(to, predicate));
         }
 
+        public void AddTransition(IState from, ref Action eventTrigger, IState to)
+        {
+            eventTrigger += () => SetStateConditional(from, to);
+        }
+
+        public void SetStateConditional(IState from, IState to)
+        {
+            if (_currentState == from)
+            {
+                SetState(to);
+            }
+        }
+
         public void AddAnyTransition(IState state, Func<bool> predicate)
         {
             _anyTransition.Add(new Transition(state, predicate));

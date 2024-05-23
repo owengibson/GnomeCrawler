@@ -23,6 +23,7 @@ namespace GnomeCrawler
         {
             base.OnEnter();
             Debug.Log(_attackNumber);
+            _boss.InMeleePhase = true;
             _animator.SetInteger(MeleeAttackNumberHash, _attackNumber);
             _animator.SetTrigger(MeleeAttackHash);
         }
@@ -30,6 +31,7 @@ namespace GnomeCrawler
         public override void OnExit()
         {
             base.OnExit();
+            _boss.InMeleePhase = false;
         }
     }
 }

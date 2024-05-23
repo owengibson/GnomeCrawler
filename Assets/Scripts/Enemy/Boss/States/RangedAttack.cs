@@ -20,6 +20,7 @@ namespace GnomeCrawler
         public override void OnEnter()
         {
             base.OnEnter();
+            _animator.SetTrigger(RangedAttackHash);
         }
 
         public override void OnExit()

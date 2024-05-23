@@ -29,13 +29,13 @@ namespace GnomeCrawler
         public void OnEnter()
         { 
             _navMeshAgent.enabled = true;
-            //_animator.SetFloat(SpeedHash, _moveSpeed);
+            _animator.SetFloat(SpeedHash, _moveSpeed);
         }
 
         public void OnExit()
         {
             _navMeshAgent.enabled = false;
-            //_animator.SetFloat(SpeedHash, 0f);
+            _animator.SetFloat(SpeedHash, 0f);
         }
     }
 }
