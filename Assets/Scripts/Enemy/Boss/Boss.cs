@@ -16,8 +16,11 @@ namespace GnomeCrawler
 
         [SerializeField] private float _distanceForMeleeRange;
 
+        private bool _canEnterPhase2 = false;
+        private bool _canEnterPhase3 = false ;
+
         private StateMachine _stateMachine;
-        private CombatBrain _combatBrain;
+        private BossCombatBrain _combatBrain;
         private Dictionary<int, int> fleeChance = new Dictionary<int, int>
         {
             { 0, 0 },
@@ -33,7 +36,7 @@ namespace GnomeCrawler
         {
             var navMeshAgent = GetComponent<NavMeshAgent>();
             var animator = GetComponent<Animator>();
-            _combatBrain = GetComponent<CombatBrain>();
+            _combatBrain = GetComponent<BossCombatBrain>();
 
             _stateMachine = new StateMachine();
 
@@ -45,6 +48,7 @@ namespace GnomeCrawler
             var rangedAttack = new RangedAttack(this, navMeshAgent, animator, 1);
             var idle = new Idle(this, navMeshAgent, animator);
             var flee = new Flee(this, navMeshAgent, animator);
+            var adds = new Adds(this, animator);
 
             //transitions
             At(chase, attack, IsInMeleeRangeAndChoseAttackNo(1));
@@ -58,9 +62,14 @@ namespace GnomeCrawler
             At(idle, rangedAttack, ChoseRangedAfterCooldown());
             At(flee, rangedAttack, FleeIsFinished());
             At(rangedAttack, chase, AttackComplete("RangedAttack"));
+            //need to add a way to leave adds phase
+            //maybe 2 adds states?
+
 
             //any transitions
             _stateMachine.AddAnyTransition(flee, () => WillFleeFromMelee()());
+            //_stateMachine.AddAnyTransition(adds, () => CanBossEnterPhase2()());
+            //_stateMachine.AddAnyTransition(adds, () => CanBossEnterPhase3()());
 
             _stateMachine.SetState(chase);
 
@@ -77,6 +86,9 @@ namespace GnomeCrawler
             Func<bool> ChoseRangedAfterCooldown() => () => CooldownAfterAttackFinished()() && IsPlayerOutOfMeleeRange()();
             Func<bool> FleeIsFinished() => () => flee.FleeTimer > 3;
             Func<bool> WillFleeFromMelee() => () => InMeleePhase == true && CheckSuccessByPercentage(fleeChance[_bossHitNumberInMeleePhase])();
+
+            Func<bool> CanBossEnterPhase2() => () => _canEnterPhase2 == true && !InMeleePhase;
+            Func<bool> CanBossEnterPhase3() => () => _canEnterPhase3 == true && !InMeleePhase;
         }
 
         private void Update() => _stateMachine.Tick();
@@ -84,11 +96,15 @@ namespace GnomeCrawler
         private void OnEnable()
         {
             _combatBrain.DamageTaken += BossHasTakenHit;
+            _combatBrain.ReachedPhase2Threshold += BossEnteredPhase2;
+            _combatBrain.ReachedPhase3Threshold += BossEnteredPhase3;
         }
 
         private void OnDisable()
         {
             _combatBrain.DamageTaken -= BossHasTakenHit;
+            _combatBrain.ReachedPhase2Threshold -= BossEnteredPhase2;
+            _combatBrain.ReachedPhase3Threshold -= BossEnteredPhase3;
         }
 
         private void BossHasTakenHit()
@@ -98,6 +114,8 @@ namespace GnomeCrawler
                 _bossHitNumberInMeleePhase += 1;
             }
         }
+        private void BossEnteredPhase2() => _canEnterPhase2 = true;
+        private void BossEnteredPhase3() => _canEnterPhase3 = true;
 
         private bool AnimatorIsFinished(Animator _animator){
             return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f;

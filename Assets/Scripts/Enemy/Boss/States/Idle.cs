@@ -38,7 +38,7 @@ namespace GnomeCrawler
 
         public void OnExit()
         {
-
+            TimeInIdle = 0;
         }
     }
 }
