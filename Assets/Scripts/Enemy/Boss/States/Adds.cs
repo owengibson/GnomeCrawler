@@ -7,6 +7,8 @@ namespace GnomeCrawler
 {
     public class Adds : IState
     {
+        public float AddsTestTimer;
+
         private readonly Boss _boss;
         private readonly Animator _animator;
 
@@ -18,14 +20,14 @@ namespace GnomeCrawler
         }
         public void Tick()
         {
-
+            AddsTestTimer += Time.deltaTime;
         }
 
         public void OnEnter()
         {
             _boss.gameObject.transform.position = new Vector3(_boss.gameObject.transform.position.x, 10, _boss.gameObject.transform.position.z);
             _animator.SetTrigger(PhaseShiftHash);
-
+            AddsTestTimer = 0;
         }
 
         public void OnExit()

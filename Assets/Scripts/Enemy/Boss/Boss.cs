@@ -1,6 +1,7 @@
 using GnomeCrawler.Player;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -62,14 +63,15 @@ namespace GnomeCrawler
             At(idle, rangedAttack, ChoseRangedAfterCooldown());
             At(flee, rangedAttack, FleeIsFinished());
             At(rangedAttack, chase, AttackComplete("RangedAttack"));
-            //need to add a way to leave adds phase
+            At(adds, chase, AddsPhaseOver());
+
             //maybe 2 adds states?
 
 
             //any transitions
             _stateMachine.AddAnyTransition(flee, () => WillFleeFromMelee()());
-            //_stateMachine.AddAnyTransition(adds, () => CanBossEnterPhase2()());
-            //_stateMachine.AddAnyTransition(adds, () => CanBossEnterPhase3()());
+            _stateMachine.AddAnyTransition(adds, () => CanBossEnterPhase2()());
+            _stateMachine.AddAnyTransition(adds, () => CanBossEnterPhase3()());
 
             _stateMachine.SetState(chase);
 
@@ -86,6 +88,7 @@ namespace GnomeCrawler
             Func<bool> ChoseRangedAfterCooldown() => () => CooldownAfterAttackFinished()() && IsPlayerOutOfMeleeRange()();
             Func<bool> FleeIsFinished() => () => flee.FleeTimer > 3;
             Func<bool> WillFleeFromMelee() => () => InMeleePhase == true && CheckSuccessByPercentage(fleeChance[_bossHitNumberInMeleePhase])();
+            Func<bool> AddsPhaseOver() => () => adds.AddsTestTimer > 3;
 
             Func<bool> CanBossEnterPhase2() => () => _canEnterPhase2 == true && !InMeleePhase;
             Func<bool> CanBossEnterPhase3() => () => _canEnterPhase3 == true && !InMeleePhase;
@@ -114,6 +117,7 @@ namespace GnomeCrawler
                 _bossHitNumberInMeleePhase += 1;
             }
         }
+
         private void BossEnteredPhase2() => _canEnterPhase2 = true;
         private void BossEnteredPhase3() => _canEnterPhase3 = true;
 
