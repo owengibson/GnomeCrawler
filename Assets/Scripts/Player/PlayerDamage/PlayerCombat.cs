@@ -259,6 +259,11 @@ namespace GnomeCrawler.Player
             Gamepad.current?.SetMotorSpeeds(0f, 0f);
         }
 
+        private void ChangeWeaponSize(float size)
+        {
+            _weaponSize = 1.05f * size;
+        }
+
         private void OnEnable()
         {
             EventManager.OnHandApproved += AddHandToStats;
@@ -267,6 +272,7 @@ namespace GnomeCrawler.Player
             EventManager.OnPlayerHurtFromAbility += TakeDamageWithInvincibility;
             EventManager.OnCardActivated += EnableAbility;
             EventManager.OnCardDeactivated += DisableAbility;
+            EventManager.OnWeaponSizeChanged += ChangeWeaponSize;
         }
 
         private void OnDisable()
@@ -277,6 +283,7 @@ namespace GnomeCrawler.Player
             EventManager.OnPlayerHurtFromAbility -= TakeDamageWithInvincibility;
             EventManager.OnCardActivated -= EnableAbility;
             EventManager.OnCardDeactivated -= DisableAbility;
+            EventManager.OnWeaponSizeChanged -= ChangeWeaponSize;
         }
 
         public void HealPlayer(float amount)
