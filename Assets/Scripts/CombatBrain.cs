@@ -1,11 +1,13 @@
 using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
+using System;
 using UnityEngine;
 
 namespace GnomeCrawler
 {
     public class CombatBrain : MonoBehaviour, IDamageable, IKillable
     {
+        public Action DamageTaken;
         public Transform _lockOnTransform;
 
         #region health
@@ -85,6 +87,7 @@ namespace GnomeCrawler
         {
             print(name + " has taken damage");
             CurrentHealth -= amount;
+            DamageTaken?.Invoke();
 
             if (CurrentHealth <= 0) Die();
         }
