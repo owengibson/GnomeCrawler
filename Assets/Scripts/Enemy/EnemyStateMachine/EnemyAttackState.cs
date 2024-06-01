@@ -19,11 +19,7 @@ namespace GnomeCrawler.Enemies
         {
             CheckSwitchState();
 
-            //if (ctx.EnemyAnimator.GetBool("inCombat") && IsFacingPlayer())
-            //{
-            //    ctx.EnemyAnimator.SetBool("inCombat", true);
-            //}
-            // only attacking again if i leave the area
+            Debug.Log("animator bool is set to " + ctx.EnemyAnimator.GetBool("inCombat"));
 
             if (!ctx.EnemyAnimator.GetBool("inCombat") && !IsFacingPlayer())
             {
@@ -70,6 +66,8 @@ namespace GnomeCrawler.Enemies
             if (angle <= thresholdAngle)
             {
                 ctx.EnemyAnimator.SetBool("inCombat", true);
+                Debug.Log("Facing Player is  " + IsFacingPlayer());
+
                 return true;
             }
             else
@@ -77,5 +75,6 @@ namespace GnomeCrawler.Enemies
                 return false;
             }
         }
+
     }
 }

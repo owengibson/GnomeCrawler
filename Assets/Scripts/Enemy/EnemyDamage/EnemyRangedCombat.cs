@@ -14,16 +14,14 @@ namespace GnomeCrawler.Enemies
 
         // Teleport Variables
         private float _playersCurrentDistance;
-        [SerializeField] private bool _currentlyTeleporting = false; 
+        private bool _currentlyTeleporting = false; 
         [SerializeField] private float _needToTeleportRadius;
-        [SerializeField] private float _minTeleArea;
-        [SerializeField] private float _maxTeleArea;
-        [SerializeField] private float _teleportTimer = 1f;
+        [SerializeField] private float _teleTimer = 1f;
         private Vector3 _teleRadius;
-        private float _teleRange = .5f;
+        [SerializeField] private float _teleRange = 5f;
 
 
-        private void Start()
+        private void Start() 
         {
             base.InitialiseVariables();
 
@@ -38,7 +36,6 @@ namespace GnomeCrawler.Enemies
 
         private void Update()
         {
-            Debug.Log(_chargingAttack);
             if (_chargingAttack == true)
             {
                 FacePlayer();
@@ -50,8 +47,7 @@ namespace GnomeCrawler.Enemies
 
             if(_playersCurrentDistance < _needToTeleportRadius)
             {
-                Debug.Log("Player Close enough");
-                Invoke("TeleportAway", _teleportTimer);
+                Invoke("TeleportAway", _teleTimer);
             }
         }
 
@@ -95,7 +91,6 @@ namespace GnomeCrawler.Enemies
 
             if (IsPositionOnNavMesh(transform.position, _teleRange, out point))
             {
-                Debug.Log("tried teleporting");
                 transform.position = point;
             }
             else 
@@ -112,22 +107,23 @@ namespace GnomeCrawler.Enemies
 
             while (retryCount < maxRetries)
             {
-                Vector3 randomDestination = new Vector3(Random.Range(_minTeleArea, _maxTeleArea), 0f, Random.Range(_minTeleArea, _maxTeleArea));
+                Vector3 randomDestination = Random.insideUnitSphere * _teleRange;
+
                 if (IsPositionOnNavMesh(randomDestination, _teleRange, out newTeleportPosition))
                 {
                     transform.position = newTeleportPosition;
                     break;
                 }
                 retryCount++;
-                Debug.Log(retryCount);
             }
         }
 
 
         private bool IsPositionOnNavMesh(Vector3 position, float range, out Vector3 result)
         {
-            _teleRadius = position + new Vector3(Random.Range(_minTeleArea, _maxTeleArea), y: 0f, Random.Range(_minTeleArea, _maxTeleArea)) * range;
-            
+            //_teleRadius = position + new Vector3(Random.Range(_minTeleArea, _maxTeleArea), y: 0f, Random.Range(_minTeleArea, _maxTeleArea)) * range;
+            _teleRadius = position + Random.insideUnitSphere * range;
+
             NavMeshHit hit;
             
             if (NavMesh.SamplePosition(_teleRadius, out hit, 0.1f, NavMesh.AllAreas))
@@ -155,7 +151,7 @@ namespace GnomeCrawler.Enemies
 
         private void AttackCharged()
         {
-            Debug.Log("charged");
+            //Debug.Log("charged");
             _chargingAttack = false;
         }
 
