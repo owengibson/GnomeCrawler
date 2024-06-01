@@ -20,13 +20,13 @@ namespace GnomeCrawler.Enemies
         {
             CheckSwitchState();
 
-            if (ctx.EnemyAnimator.GetBool("inCombat") && IsFacingPlayer())
-            {
-                ctx.EnemyAnimator.SetBool("inCombat", true);
-            }
+            //if (ctx.EnemyAnimator.GetBool("inCombat") && IsFacingPlayer())
+            //{
+            //    ctx.EnemyAnimator.SetBool("inCombat", true);
+            //}
+            // only attacking again if i leave the area
 
-
-            else if (!ctx.EnemyAnimator.GetBool("inCombat") && !IsFacingPlayer())
+            if (!ctx.EnemyAnimator.GetBool("inCombat") && !IsFacingPlayer())
             {
                 RotateToFacePlayer();
             }
