@@ -12,7 +12,7 @@ namespace GnomeCrawler.Enemies
 
         public EnemyBaseState ChaseState() { return new EnemyChaseState(context, this); }
         
-        public EnemyBaseState BlockState() { return new EnemyBlockState(context, this); }
+        public EnemyBaseState ChargeState() { return new EnemyChargeState(context, this); }
 
 
     }

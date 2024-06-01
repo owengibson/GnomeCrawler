@@ -7,21 +7,21 @@ namespace GnomeCrawler.Enemies
     public class EnemyStateManager : MonoBehaviour
     {
 
-        EnemyBaseState currentState;
-        EnemyStateFactory states;
-
+        private EnemyBaseState currentState;
+        private EnemyStateFactory states;
         private GameObject _playerCharacter;
+        private NavMeshAgent _enemyNavMeshAgent;
+        private bool _isAttackFinised;
+        private float _currentDistance;
+
         [SerializeField] private GameObject _currentEnemy;
         [SerializeField] private float _chasingDistance;
         [SerializeField] private float _attackingDistance;
         [SerializeField] private Animator _enemyAnimator;
         [SerializeField] private float _chaseSpeed;
-        private NavMeshAgent _enemyNavMeshAgent;
-        [SerializeField] private bool needsBlockState;
-        private bool _isAttackFinised;
         [SerializeField] private bool _isInAttackZone;
-        private Camera _camera;
-        private Canvas _healthBarCanvas;
+        [SerializeField] private float _chargeAttackRange = 60f;
+        [SerializeField] private float _chargeAttackDeadzone = 15f;
 
 
         public EnemyBaseState CurrentState { get => currentState; set => currentState = value; }
@@ -32,9 +32,11 @@ namespace GnomeCrawler.Enemies
         public Animator EnemyAnimator { get => _enemyAnimator; set => _enemyAnimator = value; }
         public NavMeshAgent EnemyNavMeshAgent { get => _enemyNavMeshAgent; set => _enemyNavMeshAgent = value; }
         public float ChaseSpeed { get => _chaseSpeed; set => _chaseSpeed = value; }
-        public bool NeedsBlockState { get => needsBlockState; set => needsBlockState = value; }
         public bool IsAttackFinished { get => _isAttackFinised; set => _isAttackFinised = value; }
         public bool IsInAttackZone { get => _isInAttackZone; set => _isInAttackZone = value; }
+        public float CurrentDistance { get => _currentDistance; set => _currentDistance = value; }
+        public float ChargeAttackRange { get => _chargeAttackRange; set => _chargeAttackRange = value; }
+        public float ChargeAttackDeadzone { get => _chargeAttackDeadzone; set => _chargeAttackDeadzone = value; }
 
         void Start()
         {
@@ -43,9 +45,6 @@ namespace GnomeCrawler.Enemies
             if (_playerCharacter != null)
             {
                 _enemyNavMeshAgent = GetComponent<NavMeshAgent>();
-                _camera = Camera.main;
-                _healthBarCanvas = GameObject.Find("Enemy Canvas").GetComponent<Canvas>();
-                gameObject.GetComponent<EnemyCombat>().SetUpHealthBar(_healthBarCanvas, _camera);
                 states = new EnemyStateFactory(this);
                 currentState = states.IdleState();
                 currentState.EnterState();
@@ -61,6 +60,7 @@ namespace GnomeCrawler.Enemies
         {
             if (_playerCharacter == null)
                 return;
+            _currentDistance = Vector3.Distance(transform.position, PlayerCharacter.transform.position);
             currentState.UpdateState();
         }
 

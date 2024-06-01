@@ -1,6 +1,8 @@
+using Dan.Main;
 using GnomeCrawler.Systems;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -11,6 +13,7 @@ namespace GnomeCrawler
     public class GameOverManager : MonoBehaviour
     {
         [SerializeField] private GameObject _button;
+
         private void ShowGameOverScreen()
         {
             GetComponent<Canvas>().enabled = true;

@@ -10,7 +10,6 @@ namespace GnomeCrawler.Enemies
 
         public override void EnterState()
         {
-            Debug.Log("Attacking");
             ctx.EnemyNavMeshAgent.speed = 0;
             ctx.IsAttackFinished = false;
             ctx.EnemyAnimator.SetBool("inCombat", true);
@@ -36,10 +35,7 @@ namespace GnomeCrawler.Enemies
 
         public override void CheckSwitchState()
         {
-
-            float currentDist = Vector3.Distance(ctx.transform.position, ctx.PlayerCharacter.transform.position);
-
-            if (currentDist > ctx.AttackingDistance)
+            if (ctx.CurrentDistance > ctx.AttackingDistance)
             {
                 ctx.IsInAttackZone = false;
             }
@@ -59,7 +55,7 @@ namespace GnomeCrawler.Enemies
         {
             Vector3 direction = (ctx.PlayerCharacter.transform.position - ctx.transform.position).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            float rotationSpeed = 1f;
+            float rotationSpeed = 10f;
             ctx.transform.rotation = Quaternion.Lerp(ctx.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
@@ -69,7 +65,7 @@ namespace GnomeCrawler.Enemies
 
             float angle = Vector3.Angle(ctx.transform.forward, directionToPlayer);
 
-            float thresholdAngle = 30f;
+            float thresholdAngle = 0f;
 
             if (angle <= thresholdAngle)
             {

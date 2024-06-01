@@ -544,6 +544,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: horizontal
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   - m_Name: isJumping
     m_Type: 4
     m_DefaultFloat: 0
@@ -1116,7 +1122,7 @@ BlendTree:
     m_Motion: {fileID: -203655887218126122, guid: d2f317bfc96f5394eb0dfc3ff428fdc0,
       type: 3}
     m_Threshold: 0.5
-    m_Position: {x: 0, y: 0}
+    m_Position: {x: 0, y: 0.5}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: speed
@@ -1125,7 +1131,7 @@ BlendTree:
     m_Motion: {fileID: -203655887218126122, guid: 86bc1b7195c1db3458211db7bee93813,
       type: 3}
     m_Threshold: 1
-    m_Position: {x: 0, y: 0}
+    m_Position: {x: 0, y: 1}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: speed
@@ -1134,18 +1140,36 @@ BlendTree:
     m_Motion: {fileID: -203655887218126122, guid: 86bc1b7195c1db3458211db7bee93813,
       type: 3}
     m_Threshold: 1.5
-    m_Position: {x: 0, y: 0}
+    m_Position: {x: 0, y: 1.5}
     m_TimeScale: 1.5
     m_CycleOffset: 0
     m_DirectBlendParameter: speed
     m_Mirror: 0
-  m_BlendParameter: speed
-  m_BlendParameterY: Blend
+  - serializedVersion: 2
+    m_Motion: {fileID: -203655887218126122, guid: 0346fcc250ff9ea4482932c0b739bccd,
+      type: 3}
+    m_Threshold: 2
+    m_Position: {x: -1, y: 1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: speed
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -203655887218126122, guid: ffe975e13d00e6f44becd73574e8ed01,
+      type: 3}
+    m_Threshold: 2.5
+    m_Position: {x: 1, y: 1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: speed
+    m_Mirror: 0
+  m_BlendParameter: horizontal
+  m_BlendParameterY: speed
   m_MinThreshold: 0
-  m_MaxThreshold: 1.5
+  m_MaxThreshold: 2.5
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
-  m_BlendType: 0
+  m_BlendType: 2
 --- !u!1101 &8986010377904210880
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

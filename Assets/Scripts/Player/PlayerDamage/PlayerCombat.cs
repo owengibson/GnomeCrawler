@@ -1,3 +1,4 @@
+using Dan.Main;
 using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
 using System.Collections;
@@ -25,7 +26,7 @@ namespace GnomeCrawler.Player
             _damagedGameObjects = new List<GameObject>();
             _healthbarSlider.maxValue = _maxHealth;
             _healthbarSlider.value = CurrentHealth;
-            Gamepad.current.SetMotorSpeeds(0, 0);
+            StartCoroutine(Rumble(0f, 0f));
             _stats.ResetCards();
         }
 
@@ -189,6 +190,19 @@ namespace GnomeCrawler.Player
 
         public override void Die()
         {
+            // total deaths leaderboard
+            string uid = SystemInfo.deviceUniqueIdentifier;
+            int noOfDeaths = 0;
+            Leaderboards.TotalDeaths.GetEntries(msg =>
+            {
+                var entry = System.Array.Find(msg, x => x.Username == uid);
+
+                noOfDeaths = entry.Score;
+                noOfDeaths++;
+                LeaderboardManager.Instance.SetLeaderboardEntry(uid, noOfDeaths);
+                Debug.Log("Leaderboard set pog");
+            });
+
             EventManager.OnPlayerKilled?.Invoke();
             base.Die();
             Gamepad.current.SetMotorSpeeds(0f, 0f);
@@ -218,7 +232,7 @@ namespace GnomeCrawler.Player
                 if (PoisionTickTime <= 0)
                 {
                     TakeDamage(1);
-                    PoisionTickTime = 2.0f;
+                    PoisionTickTime = 1.0f;
                 }
             }
 
@@ -236,9 +250,13 @@ namespace GnomeCrawler.Player
 
         private IEnumerator Rumble(float time, float rumbleAmount)
         {
-            Gamepad.current.SetMotorSpeeds(rumbleAmount, rumbleAmount);
+            if (InputDeviceManager.Instance.isKeyboardAndMouse)
+            {
+                yield return null;
+            }
+            Gamepad.current?.SetMotorSpeeds(rumbleAmount, rumbleAmount);
             yield return new WaitForSeconds(time);
-            Gamepad.current.SetMotorSpeeds(0f, 0f);
+            Gamepad.current?.SetMotorSpeeds(0f, 0f);
         }
 
         private void OnEnable()
