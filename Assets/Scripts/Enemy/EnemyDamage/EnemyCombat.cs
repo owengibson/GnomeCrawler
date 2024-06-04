@@ -1,4 +1,5 @@
 using GnomeCrawler.Deckbuilding;
+using GnomeCrawler.Systems;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -12,6 +13,8 @@ namespace GnomeCrawler.Enemies
         [SerializeField] protected Renderer _meshRenderer;
         protected List<Color> _originalColours = new List<Color>();
         protected int _originalColorIndex;
+
+        private bool _isUnflinchable = false;
 
         private void Start()
         {
@@ -77,8 +80,10 @@ namespace GnomeCrawler.Enemies
             {
                 mat.SetColor("_MainColor", Color.black);
             }
-            _enemyAnim.SetBool("isDamaged", true);
             Invoke("ResetColour", .15f);
+
+            if (_isUnflinchable) return;
+            _enemyAnim.SetBool("isDamaged", true);
         }
 
         private void EndHurtAnimation()
@@ -100,6 +105,21 @@ namespace GnomeCrawler.Enemies
                 _originalColorIndex++;
             }
             _originalColorIndex = 0;
+        }
+
+        private void ToggleUnflinchability(bool unflinchability)
+        {
+            _isUnflinchable = unflinchability;
+        }
+
+        private void OnEnable()
+        {
+            EventManager.OnAttackAbilityToggle += ToggleUnflinchability;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.OnAttackAbilityToggle -= ToggleUnflinchability;
         }
     }
 }
