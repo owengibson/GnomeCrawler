@@ -12,6 +12,13 @@ namespace GnomeCrawler.Rooms
         [SerializeField] private float numberOfEnemiesToSpawn;
         [SerializeField] private GameObject enemyToSpawn;
 
+        private RoomManager roomManager;
+
+        private void Awake()
+        {
+            roomManager = GetComponent<RoomManager>();
+        }
+
         void Start()
         {
             if (pbMesh == null)
@@ -26,10 +33,6 @@ namespace GnomeCrawler.Rooms
             for (int i = 0; i < numberOfEnemiesToSpawn; i++)
             {
                 Vector3 spawnPosition = GetRandomSpawnPosition(pbMesh, face);
-
-                /*GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                sphere.transform.position = pbMesh.transform.position + spawnPosition;
-                sphere.transform.localScale = Vector3.one * 3f;*/
 
                 GameObject enemy = Instantiate(enemyToSpawn, pbMesh.transform.position + spawnPosition, Quaternion.identity);
             }
