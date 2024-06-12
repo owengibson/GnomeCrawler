@@ -1,3 +1,4 @@
+using Autodesk.Fbx;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,36 +9,86 @@ namespace GnomeCrawler.Rooms
 {
     public class EnemySpawning : MonoBehaviour
     {
-        [SerializeField] private ProBuilderMesh pbMesh; 
+        [SerializeField] private List<ProBuilderMesh> pbMeshes; 
         [SerializeField] private float numberOfEnemiesToSpawn;
         [SerializeField] private GameObject enemyToSpawn;
 
-        private RoomManager roomManager;
-
-        private void Awake()
-        {
-            roomManager = GetComponent<RoomManager>();
-        }
-
         void Start()
         {
-            if (pbMesh == null)
+            if (pbMeshes == null)
             {
                 Debug.LogError("No mesh on the spawner");
                 return;
             }
 
-            Face face = pbMesh.faces[0];
-            pbMesh.SetFaceColor(face, Color.green);
+            List<(ProBuilderMesh mesh, Face face, float cumulativeArea)> meshAreas = CalculateMeshAreas();
+
+            float totalArea = meshAreas[meshAreas.Count - 1].cumulativeArea;
 
             for (int i = 0; i < numberOfEnemiesToSpawn; i++)
             {
-                Vector3 spawnPosition = GetRandomSpawnPosition(pbMesh, face);
+                float randomValue = Random.Range(0f, totalArea);
+                (ProBuilderMesh selectedMesh, Face selectedFace) = SelectMeshAndFace(meshAreas, randomValue);
 
-                GameObject enemy = Instantiate(enemyToSpawn, pbMesh.transform.position + spawnPosition, Quaternion.identity);
+                Vector3 spawnPosition = GetRandomSpawnPosition(selectedMesh, selectedFace);
+                Instantiate(enemyToSpawn, selectedMesh.transform.position + spawnPosition, Quaternion.identity);
+            }
+        }
+
+        List<(ProBuilderMesh mesh, Face face, float cumulativeArea)> CalculateMeshAreas()
+        {
+            List<(ProBuilderMesh, Face, float)> meshAreas = new List<(ProBuilderMesh, Face, float)>();
+            float cumulativeArea = 0f;
+
+            foreach (ProBuilderMesh pbMesh in pbMeshes)
+            {
+                if (pbMesh == null)
+                {
+                    Debug.LogWarning("One of the meshes is null, skipping.");
+                    continue;
+                }
+
+                foreach (Face face in pbMesh.faces)
+                {
+                    if (face.indexes.Count < 3)
+                    {
+                        Debug.LogWarning("Invalid face for spawning on mesh " + pbMesh.name + ". The face does not have enough vertices.");
+                        continue;
+                    }
+
+                    Vector3[] vertices = pbMesh.positions.ToArray();
+                    int[] indices = face.indexes.ToArray();
+
+                    int triangleCount = indices.Length / 3;
+
+                    for (int i = 0; i < triangleCount; i++)
+                    {
+                        Vector3 p0 = vertices[indices[i * 3]];
+                        Vector3 p1 = vertices[indices[i * 3 + 1]];
+                        Vector3 p2 = vertices[indices[i * 3 + 2]];
+
+                        float area = Vector3.Cross(p1 - p0, p2 - p0).magnitude / 2f;
+                        cumulativeArea += area;
+                    }
+
+                    meshAreas.Add((pbMesh, face, cumulativeArea));
+                }
             }
 
-            pbMesh.Refresh();
+            return meshAreas;
+        }
+
+        (ProBuilderMesh, Face) SelectMeshAndFace(List<(ProBuilderMesh mesh, Face face, float cumulativeArea)> meshAreas, float randomValue)
+        {
+            foreach (var meshArea in meshAreas)
+            {
+                if (randomValue <= meshArea.cumulativeArea)
+                {
+                    return (meshArea.mesh, meshArea.face);
+                }
+            }
+
+            return (meshAreas[meshAreas.Count - 1].mesh, meshAreas[meshAreas.Count - 1].face);
         }
 
         Vector3 GetRandomSpawnPosition(ProBuilderMesh mesh, Face face)
@@ -46,7 +97,6 @@ namespace GnomeCrawler.Rooms
             int[] indices = face.indexes.ToArray();
 
             int triangleCount = indices.Length / 3;
-
             float[] triangleAreas = new float[triangleCount];
             float totalArea = 0f;
 
@@ -62,18 +112,7 @@ namespace GnomeCrawler.Rooms
             }
 
             float randomValue = Random.Range(0f, totalArea);
-            float cumulativeArea = 0f;
-            int selectedTriangleIndex = 0;
-
-            for (int i = 0; i < triangleCount; i++)
-            {
-                cumulativeArea += triangleAreas[i];
-                if (randomValue <= cumulativeArea)
-                {
-                    selectedTriangleIndex = i;
-                    break;
-                }
-            }
+            int selectedTriangleIndex = GetTriangleIndexByArea(randomValue, triangleAreas);
 
             Vector3 pos0 = vertices[indices[selectedTriangleIndex * 3]];
             Vector3 pos1 = vertices[indices[selectedTriangleIndex * 3 + 1]];
@@ -82,6 +121,19 @@ namespace GnomeCrawler.Rooms
             return GetRandomPointOnTriangle(pos0, pos1, pos2);
         }
 
+        int GetTriangleIndexByArea(float randomValue, float[] triangleAreas)
+        {
+            float cumulativeArea = 0f;
+            for (int i = 0; i < triangleAreas.Length; i++)
+            {
+                cumulativeArea += triangleAreas[i];
+                if (randomValue <= cumulativeArea)
+                {
+                    return i;
+                }
+            }
+            return triangleAreas.Length - 1;
+        }
 
         Vector3 GetRandomPointOnTriangle(Vector3 v0, Vector3 v1, Vector3 v2)
         {
