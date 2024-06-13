@@ -159,8 +159,9 @@ MonoBehaviour:
   _attackingDistance: 15
   _enemyAnimator: {fileID: 8726041082167544185}
   _chaseSpeed: 3
-  needsBlockState: 0
   _isInAttackZone: 0
+  _chargeAttackRange: 60
+  _chargeAttackDeadzone: 15
 --- !u!114 &1291577082326061984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +180,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 64
-  _originTransform: {fileID: 8433178222604932702, guid: bb2138617fd3d2742afd27ea40cc8bc7,
+  _originTransform: {fileID: 7112719144464786455, guid: 8b2799ca6e0983f44906b52ddc1d9fec,
     type: 3}
   _stats: {fileID: 11400000, guid: 1e117c51492437e49af3940f951d42ad, type: 2}
   _healthBar: {fileID: 4732173929296998400}
@@ -189,11 +190,9 @@ MonoBehaviour:
     type: 3}
   _projectileSpeed: 10
   _handTransform: {fileID: 8715219384578333374}
-  _currentlyTeleporting: 0
   _needToTeleportRadius: 3
-  _minTeleArea: 1
-  _maxTeleArea: 2
-  _teleportTimer: 1
+  _teleTimer: 1.5
+  _teleRange: 5
 --- !u!95 &8726041082167544185
 Animator:
   serializedVersion: 5

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -14,7 +15,7 @@ namespace GnomeCrawler.Enemies
 
         // Teleport Variables
         private float _playersCurrentDistance;
-        private bool _currentlyTeleporting = false; 
+        private bool _canTele = true; 
         [SerializeField] private float _needToTeleportRadius;
         [SerializeField] private float _teleTimer = 1f;
         private Vector3 _teleRadius;
@@ -47,7 +48,7 @@ namespace GnomeCrawler.Enemies
 
             if(_playersCurrentDistance < _needToTeleportRadius)
             {
-                Invoke("TeleportAway", _teleTimer);
+                Invoke("TeleportAway", 1);
             }
         }
 
@@ -85,44 +86,25 @@ namespace GnomeCrawler.Enemies
 
         private void TeleportAway()
         {
-            _currentlyTeleporting = true;
-
             Vector3 point;
 
-            if (IsPositionOnNavMesh(transform.position, _teleRange, out point))
+            if (IsPositionOnNavMesh(transform.position, _teleRange, out point) && _canTele)
             {
+                _canTele = false;
                 transform.position = point;
-            }
-            else 
-            {
-                TeleportWithRetry(transform.position);
+                StartCoroutine(TeleportCoolDown());
             }
         }
 
-        private void TeleportWithRetry(Vector3 currentPosition)
+        private IEnumerator TeleportCoolDown()
         {
-            int maxRetries = 5; // Set a maximum number of retries
-            int retryCount = 0;
-            Vector3 newTeleportPosition = currentPosition;
-
-            while (retryCount < maxRetries)
-            {
-                Vector3 randomDestination = Random.insideUnitSphere * _teleRange;
-
-                if (IsPositionOnNavMesh(randomDestination, _teleRange, out newTeleportPosition))
-                {
-                    transform.position = newTeleportPosition;
-                    break;
-                }
-                retryCount++;
-            }
+            yield return new WaitForSeconds(_teleTimer);
+            _canTele = true; 
         }
-
 
         private bool IsPositionOnNavMesh(Vector3 position, float range, out Vector3 result)
         {
-            //_teleRadius = position + new Vector3(Random.Range(_minTeleArea, _maxTeleArea), y: 0f, Random.Range(_minTeleArea, _maxTeleArea)) * range;
-            _teleRadius = position + Random.insideUnitSphere * range;
+            _teleRadius = position + UnityEngine.Random.insideUnitSphere * range;
 
             NavMeshHit hit;
             
