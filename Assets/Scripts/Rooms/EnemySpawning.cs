@@ -11,7 +11,7 @@ namespace GnomeCrawler.Rooms
     {
         [SerializeField] private List<ProBuilderMesh> pbMeshes; 
         [SerializeField] private float numberOfEnemiesToSpawn;
-        [SerializeField] private GameObject enemyToSpawn;
+        [SerializeField] private List<GameObject> enemiesToSpawn;
 
         void Start()
         {
@@ -30,8 +30,9 @@ namespace GnomeCrawler.Rooms
                 float randomValue = Random.Range(0f, totalArea);
                 (ProBuilderMesh selectedMesh, Face selectedFace) = SelectMeshAndFace(meshAreas, randomValue);
 
+                int randomEnemyChoice = Random.Range(0, enemiesToSpawn.Count);
                 Vector3 spawnPosition = GetRandomSpawnPosition(selectedMesh, selectedFace);
-                Instantiate(enemyToSpawn, selectedMesh.transform.position + spawnPosition, Quaternion.identity);
+                Instantiate(enemiesToSpawn[randomEnemyChoice], selectedMesh.transform.position + spawnPosition, Quaternion.identity);
             }
         }
 
