@@ -159,8 +159,9 @@ MonoBehaviour:
   _attackingDistance: 15
   _enemyAnimator: {fileID: 8726041082167544185}
   _chaseSpeed: 3
-  needsBlockState: 0
   _isInAttackZone: 0
+  _chargeAttackRange: 60
+  _chargeAttackDeadzone: 15
 --- !u!114 &1291577082326061984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,7 +268,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2055257202721625741}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5

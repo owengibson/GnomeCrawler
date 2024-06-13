@@ -39,6 +39,5 @@ namespace GnomeCrawler.Rooms
         {
             EventManager.OnEnemyKilled -= RemoveEnemyFromList;
         }
-
     }
 }

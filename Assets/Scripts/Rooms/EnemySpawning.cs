@@ -13,7 +13,17 @@ namespace GnomeCrawler.Rooms
         [SerializeField] private float numberOfEnemiesToSpawn;
         [SerializeField] private List<GameObject> enemiesToSpawn;
 
+        private List<Vector3[]> debugTriangles = new List<Vector3[]>();
+
+        private RoomManager _room;
+
         void Start()
+        {
+
+            SpawnEnemies();
+        }
+
+        public void SpawnEnemies()
         {
             if (pbMeshes == null)
             {
@@ -25,14 +35,19 @@ namespace GnomeCrawler.Rooms
 
             float totalArea = meshAreas[meshAreas.Count - 1].cumulativeArea;
 
-            for (int i = 0; i < numberOfEnemiesToSpawn; i++)
+            if (transform.parent.TryGetComponent<RoomManager>(out _room))
             {
-                float randomValue = Random.Range(0f, totalArea);
-                (ProBuilderMesh selectedMesh, Face selectedFace) = SelectMeshAndFace(meshAreas, randomValue);
+                for (int i = 0; i < numberOfEnemiesToSpawn; i++)
+                {
+                    float randomValue = Random.Range(0f, totalArea);
+                    (ProBuilderMesh selectedMesh, Face selectedFace) = SelectMeshAndFace(meshAreas, randomValue);
 
-                int randomEnemyChoice = Random.Range(0, enemiesToSpawn.Count);
-                Vector3 spawnPosition = GetRandomSpawnPosition(selectedMesh, selectedFace);
-                Instantiate(enemiesToSpawn[randomEnemyChoice], selectedMesh.transform.position + spawnPosition, Quaternion.identity);
+                    int randomEnemyChoice = Random.Range(0, enemiesToSpawn.Count);
+                    Vector3 spawnPosition = GetRandomSpawnPosition(selectedMesh, selectedFace);
+                    GameObject newEnemy = Instantiate(enemiesToSpawn[randomEnemyChoice], selectedMesh.transform.position + spawnPosition, Quaternion.identity);
+                    newEnemy.transform.parent = transform;
+                    _room.AddEnemyToList(newEnemy);
+                }
             }
         }
 
@@ -70,6 +85,8 @@ namespace GnomeCrawler.Rooms
 
                         float area = Vector3.Cross(p1 - p0, p2 - p0).magnitude / 2f;
                         cumulativeArea += area;
+
+                        debugTriangles.Add(new Vector3[] { pbMesh.transform.position + p0, pbMesh.transform.position + p1, pbMesh.transform.position + p2 });
                     }
 
                     meshAreas.Add((pbMesh, face, cumulativeArea));
@@ -142,5 +159,16 @@ namespace GnomeCrawler.Rooms
             float r2 = Random.Range(0.0f, 1.0f);
             return (1 - Mathf.Sqrt(r1)) * v0 + (Mathf.Sqrt(r1) * (1 - r2)) * v1 + (Mathf.Sqrt(r1) * r2) * v2;
         }
+        void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            foreach (Vector3[] triangle in debugTriangles)
+            {
+                Gizmos.DrawLine(triangle[0], triangle[1]);
+                Gizmos.DrawLine(triangle[1], triangle[2]);
+                Gizmos.DrawLine(triangle[2], triangle[0]);
+            }
+        }
     }
+
 }
