@@ -19,6 +19,8 @@ namespace GnomeCrawler.Player
         [SerializeField] private Slider _healthbarSlider;
         [SerializeField] private GameObject _abilitiesGO;
 
+        [SerializeField] private Transform _spinWeaponOrigin;
+
         private void Start()
         {
             base.InitialiseVariables();
@@ -46,24 +48,44 @@ namespace GnomeCrawler.Player
         protected override void CheckForRaycastHit()
         {
             RaycastHit hit;
-
-            if (Physics.Raycast(_originTransform.position, -_originTransform.up, out hit, _weaponSize, _layerMask))
+            
+            if (!_stateMachine.IsAttackDisabled)
             {
-                if (hit.transform.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hit.transform.gameObject))
+                if (Physics.Raycast(_originTransform.position, -_originTransform.up, out hit, _weaponSize, _layerMask))
                 {
-                    //print("hit " + hit.transform.gameObject);
-                    float damage = _stats.GetStat(Stat.Damage);
-                    if (Random.Range(0, 100) <= _stats.GetStat(Stat.CritChance))
+                    if (hit.transform.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hit.transform.gameObject))
                     {
-                        damage *= _stats.GetStat(Stat.CritDamageMultiplier);
-                        Debug.Log(damage);
+                        DamageHitTarget(hit, damageable);
                     }
-                    damageable.TakeDamage(damage);
-                    EventManager.OnPlayerHit?.Invoke(damage);
-                    _damagedGameObjects.Add(hit.transform.gameObject);
-                    StartCoroutine(Rumble(0.1f, 0.1f));
                 }
             }
+            else
+            {
+                if (Physics.Raycast(_spinWeaponOrigin.position, _spinWeaponOrigin.up, out hit, _weaponSize, _layerMask))
+                {
+                    if (hit.transform.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hit.transform.gameObject))
+                    {
+                        DamageHitTarget(hit, damageable);
+                        Invoke("StartDealDamage", 0.25f);
+                    }
+                }
+            }
+            
+        }
+
+        private void DamageHitTarget(RaycastHit hit, IDamageable damageable)
+        {
+            //print("hit " + hit.transform.gameObject);
+            float damage = _stats.GetStat(Stat.Damage);
+            if (Random.Range(0, 100) <= _stats.GetStat(Stat.CritChance))
+            {
+                damage *= _stats.GetStat(Stat.CritDamageMultiplier);
+                Debug.Log(damage);
+            }
+            damageable.TakeDamage(damage);
+            EventManager.OnPlayerHit?.Invoke(damage);
+            _damagedGameObjects.Add(hit.transform.gameObject);
+            StartCoroutine(Rumble(0.1f, 0.1f));
         }
 
         public override void TakeDamage(float amount)
@@ -258,6 +280,16 @@ namespace GnomeCrawler.Player
             Gamepad.current?.SetMotorSpeeds(0f, 0f);
         }
 
+        private void ChangeWeaponSize(float size)
+        {
+            _weaponSize = 1.05f * size;
+        }
+
+        private void ChangeCanDealDamage(bool canDealDamage)
+        {
+            _canDealDamage = canDealDamage;
+        }
+
         private void OnEnable()
         {
             EventManager.OnHandApproved += AddHandToStats;
@@ -266,6 +298,8 @@ namespace GnomeCrawler.Player
             EventManager.OnPlayerHurtFromAbility += TakeDamageWithInvincibility;
             EventManager.OnCardActivated += EnableAbility;
             EventManager.OnCardDeactivated += DisableAbility;
+            EventManager.OnWeaponSizeChanged += ChangeWeaponSize;
+            EventManager.OnAttackAbilityToggle += ChangeCanDealDamage;
         }
 
         private void OnDisable()
@@ -276,6 +310,8 @@ namespace GnomeCrawler.Player
             EventManager.OnPlayerHurtFromAbility -= TakeDamageWithInvincibility;
             EventManager.OnCardActivated -= EnableAbility;
             EventManager.OnCardDeactivated -= DisableAbility;
+            EventManager.OnWeaponSizeChanged -= ChangeWeaponSize;
+            EventManager.OnAttackAbilityToggle -= ChangeCanDealDamage;
         }
 
         public void HealPlayer(float amount)
