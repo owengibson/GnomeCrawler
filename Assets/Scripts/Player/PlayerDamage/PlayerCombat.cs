@@ -21,6 +21,10 @@ namespace GnomeCrawler.Player
 
         [SerializeField] private Transform _spinWeaponOrigin;
 
+        [SerializeField] protected Renderer _meshRenderer;
+        protected List<Color> _originalColours = new List<Color>();
+        protected int _originalColorIndex;
+
         private void Start()
         {
             base.InitialiseVariables();
@@ -30,6 +34,11 @@ namespace GnomeCrawler.Player
             _healthbarSlider.value = CurrentHealth;
             StartCoroutine(Rumble(0f, 0f));
             _stats.ResetCards();
+
+            foreach (Material mat in _meshRenderer.materials)
+            {
+                _originalColours.Add(mat.GetColor("_MainColor"));
+            }
         }
 
         private void Update()
@@ -97,6 +106,12 @@ namespace GnomeCrawler.Player
             _stateMachine.IsFlinching = true;
             base.TakeDamage(amount);
             _healthbarSlider.value = CurrentHealth;
+
+            foreach (Material mat in _meshRenderer.materials)
+            {
+                mat.SetColor("_MainColor", Color.black);
+            }
+            Invoke("ResetColour", .15f);
         }
 
         public void TakeDamageWithInvincibility(float amount)
@@ -114,6 +129,22 @@ namespace GnomeCrawler.Player
                 StartCoroutine(Rumble(0.5f, amount / 4));
             }
             _healthbarSlider.value = CurrentHealth;
+
+            foreach (Material mat in _meshRenderer.materials)
+            {
+                mat.SetColor("_MainColor", Color.black);
+            }
+            Invoke("ResetColour", .15f);
+        }
+
+        private void ResetColour()
+        {
+            foreach (Material mat in _meshRenderer.materials)
+            {
+                mat.SetColor("_MainColor", _originalColours[_originalColorIndex]);
+                _originalColorIndex++;
+            }
+            _originalColorIndex = 0;
         }
 
         public override void StartDealDamage()
@@ -253,8 +284,8 @@ namespace GnomeCrawler.Player
 
                 if (PoisionTickTime <= 0)
                 {
-                    TakeDamage(1);
-                    PoisionTickTime = 1.0f;
+                    TakeDamageWithInvincibility(1);
+                    PoisionTickTime = 2.0f;
                 }
             }
 

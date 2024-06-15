@@ -8,22 +8,44 @@ namespace GnomeCrawler.Enemies
         [SerializeField] private GameObject _enemyProjectilePrefab;
         [SerializeField] private float _projectileSpeed = 5f;
         [SerializeField] private Transform _handTransform;
+        [SerializeField] private Renderer[] _renderers;
 
         private void Start()
         {
             base.InitialiseVariables();
 
-            foreach (Material mat in _meshRenderer.materials)
+            foreach (Renderer renderer in _renderers)
             {
+                Material mat = renderer.material;
                 _originalColours.Add(mat.GetColor("_MainColor"));
             }
+        }
+        protected override void DamageFeedback()
+        {
+            foreach (Renderer renderer in _renderers)
+            {
+                Material mat = renderer.material;
+                mat.SetColor("_MainColor", Color.black);
+            }
+            Invoke("ResetColour", .15f);
+            _enemyAnim.SetBool("isDamaged", true);
+        }
+
+        protected override void ResetColour()
+        {
+            foreach (Renderer renderer in _renderers)
+            {
+                Material mat = renderer.material;
+                mat.SetColor("_MainColor", _originalColours[_originalColorIndex]);
+                _originalColorIndex++;
+            }
+            _originalColorIndex = 0;
         }
 
         public override void TakeDamage(float amount)
         {
             base.TakeDamage(amount);
             _healthBar.SetProgress(CurrentHealth / _maxHealth);
-            /*hurtstate*/ DamageFeedback();
         }
 
         public override void Die()
@@ -36,13 +58,6 @@ namespace GnomeCrawler.Enemies
         {
             _canDealDamage = true;
             CreateBullet();
-        }
-
-        private void DamageFeedback() // move to hurtstate
-        {
-            _meshRenderer.material.color = Color.black;
-            _enemyAnim.SetBool("isDamaged", true);
-            Invoke("ResetColour", .15f);
         }
 
         private void EndHurtAnimation() // move to hurtstate
@@ -60,15 +75,6 @@ namespace GnomeCrawler.Enemies
 
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             rb.velocity = direction * _projectileSpeed;
-        }
-        private void ResetColour()
-        {
-            foreach (Material mat in _meshRenderer.materials)
-            {
-                mat.SetColor("_MainColor", _originalColours[_originalColorIndex]);
-                _originalColorIndex++;
-            }
-            _originalColorIndex = 0;
         }
     }
 }
