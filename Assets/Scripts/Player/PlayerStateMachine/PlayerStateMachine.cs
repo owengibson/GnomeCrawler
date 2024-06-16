@@ -91,6 +91,7 @@ namespace GnomeCrawler.Player
         bool _isFlinching = false;
         bool _isFlinchFinished = true;
         bool _isInvincible = false;
+        bool _isAttackDisabled = false;
         #endregion
 
         #region state variables
@@ -157,6 +158,7 @@ namespace GnomeCrawler.Player
         public bool IsFlinching { get => _isFlinching; set => _isFlinching = value; }
         public bool IsInvincible { get => _isInvincible; set => _isInvincible = value; }
         public bool IsFlinchFinished { get => _isFlinchFinished; set => _isFlinchFinished = value; }
+        public bool IsAttackDisabled { get => _isAttackDisabled; set => _isAttackDisabled = value; }
         #endregion
 
         private void Awake()
@@ -427,6 +429,7 @@ namespace GnomeCrawler.Player
         }
         private void OnAttack(InputAction.CallbackContext context)
         {
+            if (_isAttackDisabled) return;
             _isAttackPressed = context.ReadValueAsButton();
             string buttonName = context.action.name; // Added for Analytics
             analyticsScript.TrackButtonPress(buttonName); // Added for Analytics
@@ -510,14 +513,23 @@ namespace GnomeCrawler.Player
             }
         }
 
+        private void ToggleAttackAbility(bool isDisabled)
+        {
+            _isAttackDisabled = isDisabled;
+        }
+
         private void OnEnable()
         {
             _playerInput.Player.Enable();
+
+            EventManager.OnAttackAbilityToggle += ToggleAttackAbility;
         }
 
         private void OnDisable()
         {
             _playerInput.Player.Disable();
+
+            EventManager.OnAttackAbilityToggle -= ToggleAttackAbility;
         }
 
         public void AnimationFinished(string animName)

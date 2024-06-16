@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.ProBuilder;
 
 namespace GnomeCrawler.Rooms
@@ -14,24 +15,30 @@ namespace GnomeCrawler.Rooms
         [SerializeField] private List<GameObject> enemiesToSpawn;
 
         private List<Vector3[]> debugTriangles = new List<Vector3[]>();
+        private List<Vector3> debugSpawnPoints = new List<Vector3>();
 
         private RoomManager _room;
 
         void Start()
-        {
-
-            SpawnEnemies();
+        { 
+            Invoke("SpawnEnemies", 2);
         }
 
         public void SpawnEnemies()
         {
-            if (pbMeshes == null)
+            if (pbMeshes == null || pbMeshes.Count == 0)
             {
                 Debug.LogError("No mesh on the spawner");
                 return;
             }
 
             List<(ProBuilderMesh mesh, Face face, float cumulativeArea)> meshAreas = CalculateMeshAreas();
+
+            if (meshAreas.Count == 0)
+            {
+                Debug.LogError("No valid faces in meshes");
+                return;
+            }
 
             float totalArea = meshAreas[meshAreas.Count - 1].cumulativeArea;
 
@@ -44,9 +51,26 @@ namespace GnomeCrawler.Rooms
 
                     int randomEnemyChoice = Random.Range(0, enemiesToSpawn.Count);
                     Vector3 spawnPosition = GetRandomSpawnPosition(selectedMesh, selectedFace);
-                    GameObject newEnemy = Instantiate(enemiesToSpawn[randomEnemyChoice], selectedMesh.transform.position + spawnPosition, Quaternion.identity);
-                    newEnemy.transform.parent = transform;
-                    _room.AddEnemyToList(newEnemy);
+
+                    GameObject newEnemy = Instantiate(enemiesToSpawn[randomEnemyChoice]);
+                    NavMeshAgent newAgent = newEnemy.GetComponent<NavMeshAgent>();
+
+                    Vector3 worldSpawnPosition = selectedMesh.transform.TransformPoint(spawnPosition);
+
+                    NavMeshHit closestHit;
+                    if (NavMesh.SamplePosition(worldSpawnPosition, out closestHit, 1, NavMesh.AllAreas))
+                    {
+                        newEnemy.transform.position = closestHit.position;
+                        newEnemy.transform.parent = transform;
+                        newAgent.enabled = true;
+                        debugSpawnPoints.Add(closestHit.position);
+
+                        _room.AddEnemyToList(newEnemy);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Failed to sample NavMesh position near {worldSpawnPosition}");
+                    }
                 }
             }
         }
@@ -168,6 +192,13 @@ namespace GnomeCrawler.Rooms
                 Gizmos.DrawLine(triangle[1], triangle[2]);
                 Gizmos.DrawLine(triangle[2], triangle[0]);
             }
+
+            Gizmos.color = Color.red;
+
+            /*foreach (Vector3 point in debugSpawnPoints)
+            {
+                Gizmos.DrawSphere(point, 5f);
+            }*/
         }
     }
 
