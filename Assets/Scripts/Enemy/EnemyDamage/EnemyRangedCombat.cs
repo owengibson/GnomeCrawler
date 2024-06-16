@@ -158,6 +158,18 @@ namespace GnomeCrawler.Enemies
             transform.LookAt(playerTransform);
         }
 
+        public void EndOfAnimation(string aninName)
+        {
+            if (aninName == "Attack")
+            {
+                _enemyAnim.SetBool("inCombat", false);
+            }
+            Invoke("SetCombatToTrue", 1);
+        }
 
+        private void SetCombatToTrue()
+        {
+            _enemyAnim.SetBool("inCombat", true);
+        }
     }
 }

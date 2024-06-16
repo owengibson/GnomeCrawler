@@ -78,13 +78,7 @@ namespace GnomeCrawler.Enemies
                 _isAttackFinised = true;
                 _enemyAnimator.SetBool("inCombat", false);
             }
-            Invoke("SetCombatToTrue", 1);
         }
 
-        private void SetCombatToTrue()
-        {
-            _enemyAnimator.SetBool("inCombat", true);
-
-        }
     }
 }
