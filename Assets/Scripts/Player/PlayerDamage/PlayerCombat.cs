@@ -226,8 +226,8 @@ namespace GnomeCrawler.Player
             });
 
             EventManager.OnPlayerKilled?.Invoke();
-            base.Die();
             Gamepad.current.SetMotorSpeeds(0f, 0f);
+            IsDead = true;
         }
 
         public void StartIFrames()
