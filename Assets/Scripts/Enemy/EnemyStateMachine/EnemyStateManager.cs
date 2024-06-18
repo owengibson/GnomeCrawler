@@ -79,5 +79,6 @@ namespace GnomeCrawler.Enemies
                 _enemyAnimator.SetBool("inCombat", false);
             }
         }
+
     }
 }

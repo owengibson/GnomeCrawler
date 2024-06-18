@@ -1090,6 +1090,7 @@ Transform:
   - {fileID: 703833922213139837}
   - {fileID: 768515820145794447}
   - {fileID: 6181098993306633094}
+  - {fileID: 227613608223409739}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &2634034082188349558
@@ -2247,6 +2248,8 @@ GameObject:
   m_Component:
   - component: {fileID: 32660411810876865}
   - component: {fileID: 7264959126832133154}
+  - component: {fileID: 4114241028817400693}
+  - component: {fileID: 4744355847381429653}
   m_Layer: 0
   m_Name: pGnome
   m_TagString: Untagged
@@ -2357,6 +2360,60 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.010388434, y: 0.38865072, z: 0.069554895}
     m_Extent: {x: 1.0093436, y: 0.99580747, z: 0.34727064}
   m_DirtyAABB: 0
+--- !u!114 &4114241028817400693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7894913757772132773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5711ac80149b2e449032315bef115b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InsideMaterial: {fileID: 0}
+  OptimizeMaterialUsage: 1
+  FractureTemplate: {fileID: 100000, guid: bb85f1155c6bfa044bd2c250028a85b8, type: 3}
+  PiecesParent: {fileID: 0}
+  FractureType: 0
+  SlicePlanes: []
+  NumFracturePieces: 5
+  NumIterations: 2
+  EvenlySizedPieces: 1
+  NumGenerations: 1
+  FractureRadius: -3.4028235e+38
+  FractureSize:
+    Space: 0
+    Value: 0
+  UVScale: 1
+  UVBounds:
+    StartUV: {x: 0, y: 0}
+    EndUV: {x: 1, y: 1}
+  DistributeMass: 1
+  SeparateDisjointPieces: 1
+  RandomSeed: 0
+  OnFractureCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  _meshValidity: 3
+  SkipMeshCleaning: 1
+  GeneratedPieces: {fileID: 1996374780928029718}
+  EntireMeshBounds:
+    m_Center: {x: -0.00026098546, y: 0.019642692, z: 0.0012947978}
+    m_Extent: {x: 1.0093462, y: 0.9957833, z: 0.34725553}
+--- !u!114 &4744355847381429653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7894913757772132773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef29a6fada4d704785923ba6e86d750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8105717228595130596
 GameObject:
   m_ObjectHideFlags: 0
@@ -12435,6 +12492,86 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6435674880077784291, guid: 9253992c720deed46bbc1eadde39646a,
     type: 3}
   m_PrefabInstance: {fileID: 202009592448656260}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4581534629821060166
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 381020526712882754}
+    m_Modifications:
+    - target: {fileID: 2603200646125576272, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+        type: 3}
+      propertyPath: m_Name
+      value: pGnome - Fracture Root
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376447868443103757, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376447868443103757, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376447868443103757, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376447868443103757, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376447868443103757, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000003774895
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376447868443103757, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376447868443103757, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376447868443103757, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376447868443103757, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4376447868443103757, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 96391b7ce76bba94fa0f6d6a2ba5521e, type: 3}
+--- !u!4 &227613608223409739 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4376447868443103757, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4581534629821060166}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1996374780928029718 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2603200646125576272, guid: 96391b7ce76bba94fa0f6d6a2ba5521e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4581534629821060166}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4666552261977532191
 PrefabInstance:
