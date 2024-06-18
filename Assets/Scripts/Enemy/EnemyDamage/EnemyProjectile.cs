@@ -18,12 +18,12 @@ namespace GnomeCrawler
             Invoke("DestroyProjectile", _lifespan);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision collision)
         {
-            if (!other.gameObject.CompareTag("Player"))
+            if (!collision.gameObject.CompareTag("Player"))
                 return;
 
-            if (other.gameObject.TryGetComponent(out _damageable))
+            if (collision.gameObject.TryGetComponent(out _damageable))
             {
                 _damageable.TakeDamage(_stats.GetStat(Stat.Damage));
             }
