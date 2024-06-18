@@ -1,4 +1,3 @@
-using Autodesk.Fbx;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +20,7 @@ namespace GnomeCrawler.Rooms
 
         void Start()
         { 
-            Invoke("SpawnEnemies", 2);
+            Invoke("SpawnEnemies", 10);
         }
 
         public void SpawnEnemies()
