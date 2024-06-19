@@ -17,7 +17,7 @@ namespace GnomeCrawler
         [Button]
         public void RoomStarted()
         {
-            EventManager.OnRoomStarted?.Invoke();
+            EventManager.OnRoomStarted?.Invoke(0);
         }
     }
 }
