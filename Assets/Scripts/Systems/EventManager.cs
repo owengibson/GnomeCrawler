@@ -9,7 +9,7 @@ namespace GnomeCrawler.Systems
     public class EventManager
     {
         public static Action<CardSO> OnCardChosen;
-        public static Action OnRoomStarted;
+        public static Action<int> OnRoomStarted;
         public static Action OnRoomCleared;
         public static Action<GameObject> OnEnemyKilled;
         public static Action OnPlayerKilled;
