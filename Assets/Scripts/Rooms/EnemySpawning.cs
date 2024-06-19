@@ -1,3 +1,4 @@
+using GnomeCrawler.Systems;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,13 @@ namespace GnomeCrawler.Rooms
 
         void Start()
         { 
-            Invoke("SpawnEnemies", 10);
+            //Invoke("SpawnEnemies", 10);
         }
 
-        public void SpawnEnemies()
+        public void SpawnEnemies(int hashCode)
         {
+            if (hashCode != transform.parent.GetHashCode()) return;
+
             if (pbMeshes == null || pbMeshes.Count == 0)
             {
                 Debug.LogError("No mesh on the spawner");
@@ -198,6 +201,15 @@ namespace GnomeCrawler.Rooms
             {
                 Gizmos.DrawSphere(point, 5f);
             }*/
+        }
+
+        private void OnEnable()
+        {
+            EventManager.OnRoomStarted += SpawnEnemies;
+        }
+        private void OnDisable()
+        {
+            EventManager.OnRoomStarted -= SpawnEnemies;
         }
     }
 

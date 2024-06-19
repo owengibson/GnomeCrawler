@@ -41,7 +41,7 @@ namespace GnomeCrawler.Rooms
             if (!_hasExitBeenSet)
             {
                 _hasExitBeenSet = true;
-                EventManager.OnRoomStarted?.Invoke();
+                EventManager.OnRoomStarted?.Invoke(transform.parent.GetHashCode());
 
                 Type = DoorwayType.Entry;
                 _otherDoorway.Type = DoorwayType.Exit;

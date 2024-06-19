@@ -40,7 +40,7 @@ namespace GnomeCrawler.Deckbuilding
             _playerControls.Player.HandQuickview.canceled += ToggleHandQuickview;
         }
 
-        private void DrawAndDisplayNewHand()
+        private void DrawAndDisplayNewHand(int unused)
         {
             _hand = DrawCards(_deck, _handSize, true);
             EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
