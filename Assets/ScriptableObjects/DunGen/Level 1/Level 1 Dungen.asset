@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e228b45736a8cf4ea000616e628a4dd, type: 3}
+  m_Name: Level 1 Dungen
+  m_EditorClassIdentifier: 
+  globalPropGroupID_obsolete: 
+  globalPropRanges_obsolete: []
+  Length:
+    Min: 1
+    Max: 100
+  BranchMode: 0
+  BranchCount:
+    Min: 1
+    Max: 5
+  GlobalProps: []
+  KeyManager: {fileID: 0}
+  DoorwayConnectionChance: 0
+  RestrictConnectionToSameSection: 0
+  TileInjectionRules: []
+  TileTagConnectionMode: 0
+  TileConnectionTags: []
+  BranchTagPruneMode: 1
+  BranchPruneTags: []
+  Nodes:
+  - Graph: {fileID: 11400000}
+    TileSets:
+    - {fileID: 11400000, guid: 44b1c5fbc431bd84bbf4824c6ef7e2b5, type: 2}
+    NodeType: 1
+    Position: 0
+    Label: Start
+    Keys: []
+    Locks: []
+    LockPlacement: 0
+  - Graph: {fileID: 11400000}
+    TileSets:
+    - {fileID: 11400000, guid: 0576cc8a724081045ac9f3c9981b94e5, type: 2}
+    NodeType: 2
+    Position: 1
+    Label: Goal
+    Keys: []
+    Locks: []
+    LockPlacement: 0
+  - Graph: {fileID: 11400000}
+    TileSets:
+    - {fileID: 11400000, guid: 5d29dcf3ac67c0b4c8466a98fce00594, type: 2}
+    NodeType: 0
+    Position: 0.30769232
+    Label: Heal 1
+    Keys: []
+    Locks: []
+    LockPlacement: 0
+  - Graph: {fileID: 11400000}
+    TileSets:
+    - {fileID: 11400000, guid: 5d29dcf3ac67c0b4c8466a98fce00594, type: 2}
+    NodeType: 0
+    Position: 0.6948718
+    Label: Heal 2
+    Keys: []
+    Locks: []
+    LockPlacement: 0
+  Lines:
+  - Graph: {fileID: 11400000}
+    DungeonArchetypes:
+    - {fileID: 11400000, guid: 296336ae992b22d48a689d96bf5168df, type: 2}
+    Position: 0
+    Length: 1
+    Keys: []
+    Locks: []
+  currentFileVersion: 1
