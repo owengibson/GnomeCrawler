@@ -138,6 +138,7 @@ namespace GnomeCrawler
         private void OnDestroy()
         {
             if (fartCloud != null) Destroy(fartCloud);
+            if (_fartLine != null) Destroy(_fartLine);
         }
     }
 }
