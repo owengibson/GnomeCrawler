@@ -7,6 +7,9 @@ namespace GnomeCrawler
 {
     public class MainMenuNavigator : MonoBehaviour
     {
+        [SerializeField] private GameObject _volumePanel;
+        private bool _panelOpen = true;
+
         public void PlayGame()
         {
             SceneManager.LoadScene("Level Generation");
@@ -15,6 +18,11 @@ namespace GnomeCrawler
         public void QuitGame()
         {
             Application.Quit();
+        }
+
+        public void OpenSettings()
+        {
+            _volumePanel.SetActive(true);
         }
     }
 }
