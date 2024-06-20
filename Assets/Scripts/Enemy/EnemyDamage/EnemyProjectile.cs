@@ -13,6 +13,8 @@ namespace GnomeCrawler
 
         private IDamageable _damageable;
 
+        public GameObject Parent;
+
         private void Awake()
         {
             Invoke("DestroyProjectile", _lifespan);
@@ -25,7 +27,7 @@ namespace GnomeCrawler
 
             if (other.gameObject.TryGetComponent(out _damageable))
             {
-                _damageable.TakeDamage(_stats.GetStat(Stat.Damage));
+                _damageable.TakeDamage(_stats.GetStat(Stat.Damage), Parent);
             }
         }
 

@@ -82,21 +82,23 @@ namespace GnomeCrawler.Player
                 damage *= _stats.GetStat(Stat.CritDamageMultiplier);
                 Debug.Log(damage);
             }
-            damageable.TakeDamage(damage);
+            damageable.TakeDamage(damage, gameObject);
             EventManager.OnPlayerHit?.Invoke(damage);
             _damagedGameObjects.Add(hit.transform.gameObject);
             StartCoroutine(Rumble(0.1f, 0.1f));
         }
 
-        public override void TakeDamage(float amount)
+        public override void TakeDamage(float amount, GameObject damager)
         {
             if (_isInvincible) return;
             if (Random.Range(0,100) <= _stats.GetStat(Stat.BlockChance)) return;
 
             StartCoroutine(Rumble(0.5f, amount / 4));
             _stateMachine.IsFlinching = true;
-            base.TakeDamage(amount);
+            base.TakeDamage(amount, damager);
             _healthbarSlider.value = CurrentHealth;
+
+            EventManager.OnPlayerAttacked?.Invoke(amount, damager);
         }
 
         public void TakeDamageWithInvincibility(float amount)
@@ -247,17 +249,6 @@ namespace GnomeCrawler.Player
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.tag == "PoisonArea")
-            {
-                PoisionTickTime -= Time.deltaTime;
-
-                if (PoisionTickTime <= 0)
-                {
-                    TakeDamage(1);
-                    PoisionTickTime = 1.0f;
-                }
-            }
-
             if (other.gameObject.tag == "HealArea")
             {
                 _healTickTime -= Time.deltaTime;
