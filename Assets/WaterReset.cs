@@ -1,3 +1,4 @@
+using GnomeCrawler.Player;
 using GnomeCrawler.Rooms;
 using GnomeCrawler.Systems;
 using System.Collections;
@@ -34,32 +35,40 @@ namespace GnomeCrawler
 
         private void OnTriggerEnter(Collider other)
         {
-            StartCoroutine(RespawnPlayer(other));
+            if (other.TryGetComponent(out IDamageable component))
+            {
+                StartCoroutine(RespawnPlayer(other, component));
+            }
+            
             /*string triggerName = gameObject.name;
             analyticsScript.TrackTriggerEntry(triggerName);*/
         }
 
-        private IEnumerator RespawnPlayer(Collider other)
+        private IEnumerator RespawnPlayer(Collider playerCollider, IDamageable iDamageable)
         {
-            if (!other.TryGetComponent(out IDamageable component)) yield break;
-
-            Vector3 freezePos = other.transform.position;
-            freezePos.y = transform.position.y + 3;
-            other.transform.position = freezePos;
+            PlayerStateMachine stateMachine = playerCollider.gameObject.GetComponent<PlayerStateMachine>();
+            stateMachine.enabled = false;
+            Vector3 freezePos = playerCollider.transform.position;
+            freezePos.y = transform.position.y + 2;
+            playerCollider.transform.position = freezePos;
 
             yield return new WaitForSeconds(0.5f);
 
-            Vector3 position = other.transform.position;
-            position.y = transform.position.y + 3;
+            iDamageable.TakeDamage(1);
+            playerCollider.enabled = false;
 
             NavMeshHit hit;
-            if (NavMesh.SamplePosition(position, out hit, 5, NavMesh.AllAreas))
-            {
-                component.TakeDamage(1);
-                other.enabled = false;
-                other.transform.position = hit.position;
-                other.enabled = true;
+            if (NavMesh.SamplePosition(freezePos, out hit, 5, NavMesh.AllAreas))
+            {  
+                playerCollider.transform.position = hit.position; 
             }
+            else
+            {
+                playerCollider.transform.position = _resetTransform.position;
+            }
+
+            playerCollider.enabled = true;
+            stateMachine.enabled = true;
 
             yield return null;
         }
