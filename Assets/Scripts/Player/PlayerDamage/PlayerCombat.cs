@@ -3,6 +3,7 @@ using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -18,6 +19,7 @@ namespace GnomeCrawler.Player
         private PlayerStateMachine _stateMachine;
         [SerializeField] private Slider _healthbarSlider;
         [SerializeField] private GameObject _abilitiesGO;
+        
 
         [SerializeField] private Transform _spinWeaponOrigin;
 
@@ -126,6 +128,7 @@ namespace GnomeCrawler.Player
 
         private void AddHandToStats(List<CardSO> hand)
         {
+
             _stats.ResetCards();
             foreach (Ability abiltyComponent in _abilitiesGO.GetComponents<Ability>())
             {
@@ -145,7 +148,8 @@ namespace GnomeCrawler.Player
                             CurrentHealth = _maxHealth * currentHealthRatio;
 
                             _healthbarSlider.maxValue = _maxHealth;
-                            _healthbarSlider.transform.localScale = new Vector3(_maxHealth / 10, _healthbarSlider.transform.localScale.y, _healthbarSlider.transform.localScale.z);
+                            RectTransform rectTransform = _healthbarSlider.GetComponent<RectTransform>();
+                            rectTransform.sizeDelta = new Vector2(_maxHealth * 49.3f, rectTransform.sizeDelta.y);
                             _healthbarSlider.value = CurrentHealth;
                         }
                         break;
