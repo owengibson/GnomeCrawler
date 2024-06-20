@@ -37,15 +37,15 @@ namespace GnomeCrawler.Enemies
 
                 if (hitCollider.transform.TryGetComponent(out IDamageable damageable) && !_hasDealtDamage)
                 {
-                    damageable.TakeDamage(_stats.GetStat(Stat.Damage));
+                    damageable.TakeDamage(_stats.GetStat(Stat.Damage), gameObject);
                     _hasDealtDamage = true;
                 }
             }
         }
 
-        public override void TakeDamage(float amount)
+        public override void TakeDamage(float amount, GameObject damager)
         {
-            base.TakeDamage(amount);
+            base.TakeDamage(amount, damager);
             _healthBar.SetProgress(CurrentHealth / _maxHealth);
             DamageFeedback();
         }

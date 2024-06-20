@@ -29,7 +29,7 @@ namespace GnomeCrawler
         {
             if (other.TryGetComponent(out IDamageable component))
             {
-                component.TakeDamage(1);
+                component.TakeDamage(1, gameObject);
                 other.enabled = false;
                 other.transform.position = _resetTransform.position;
                 other.enabled = true;

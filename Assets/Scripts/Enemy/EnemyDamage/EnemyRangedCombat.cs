@@ -52,9 +52,9 @@ namespace GnomeCrawler.Enemies
             }
         }
 
-        public override void TakeDamage(float amount)
+        public override void TakeDamage(float amount, GameObject damager)
         {
-            base.TakeDamage(amount);
+            base.TakeDamage(amount, damager);
             _healthBar.SetProgress(CurrentHealth / _maxHealth);
             /*hurtstate*/ DamageFeedback();
         }
@@ -122,6 +122,7 @@ namespace GnomeCrawler.Enemies
         {
             Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // COULD USE REFACTORING  
             GameObject projectile = Instantiate(_enemyProjectilePrefab, _handTransform.position, Quaternion.identity);
+            projectile.GetComponent<EnemyProjectile>().Parent = gameObject;
 
             Vector3 direction = (playerTransform.position - _handTransform.position).normalized;
             Debug.DrawRay(transform.position + new Vector3(0, 1.5f, 0), direction);

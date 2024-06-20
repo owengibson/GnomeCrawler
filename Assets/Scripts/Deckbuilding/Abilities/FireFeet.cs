@@ -61,7 +61,7 @@ namespace GnomeCrawler
             if (_damagedTargets.Contains(target)) yield break;
 
             _damagedTargets.Add(target);
-            target.GetComponent<IDamageable>().TakeDamage(Card.AbilityValues[0].value);
+            target.GetComponent<IDamageable>().TakeDamage(Card.AbilityValues[0].value, gameObject);
             yield return new WaitForSeconds(1);
             _damagedTargets.Remove(target);
         }
