@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace GnomeCrawler.Enemies
 {
@@ -10,6 +11,17 @@ namespace GnomeCrawler.Enemies
         [SerializeField] private Transform _handTransform;
         [SerializeField] private Renderer[] _renderers;
 
+        private bool _chargingAttack = false;
+        private GameObject _playerCharacter;
+
+        // teleport variables
+        private float _playersCurrentDistance;
+        private bool _canTele = true;
+        [SerializeField] private float _needToTeleportRadius;
+        [SerializeField] private float _teleTimer = 1f;
+        private Vector3 _teleRadius;
+        [SerializeField] private float _teleRange = 5f;
+
         private void Start()
         {
             base.InitialiseVariables();
@@ -19,7 +31,27 @@ namespace GnomeCrawler.Enemies
                 Material mat = renderer.material;
                 _originalColours.Add(mat.GetColor("_MainColor"));
             }
+
+            _playerCharacter = GameObject.FindGameObjectWithTag("Player");
         }
+
+        private void Update()
+        {
+            if (_chargingAttack == true)
+            {
+                FacePlayer();
+            }
+
+            // suppress create bullet while teleporting
+
+            _playersCurrentDistance = Vector3.Distance(transform.position, _playerCharacter.transform.position);
+
+            if (_playersCurrentDistance < _needToTeleportRadius)
+            {
+                Invoke("TeleportAway", 1);
+            }
+        }
+
         protected override void DamageFeedback()
         {
             foreach (Renderer renderer in _renderers)
@@ -63,6 +95,57 @@ namespace GnomeCrawler.Enemies
         private void EndHurtAnimation() // move to hurtstate
         {
             _enemyAnim.SetBool("isDamaged", false);
+        }
+
+        private void AttackCharged()
+        {
+            //Debug.Log("charged");
+            _chargingAttack = false;
+        }
+
+        private void ChargingAttack()
+        {
+            _chargingAttack = true;
+        }
+
+        private void TeleportAway()
+        {
+            Vector3 point;
+
+            if (IsPositionOnNavMesh(transform.position, _teleRange, out point) && _canTele)
+            {
+                _canTele = false;
+                transform.position = point;
+                StartCoroutine(TeleportCoolDown());
+            }
+        }
+
+        private IEnumerator TeleportCoolDown()
+        {
+            yield return new WaitForSeconds(_teleTimer);
+            _canTele = true;
+        }
+
+        private bool IsPositionOnNavMesh(Vector3 position, float range, out Vector3 result)
+        {
+            _teleRadius = position + UnityEngine.Random.insideUnitSphere * range;
+
+            NavMeshHit hit;
+
+            if (NavMesh.SamplePosition(_teleRadius, out hit, 0.1f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
+
+            result = Vector3.zero;
+            return false;
+        }
+
+        private void FacePlayer()
+        {
+            Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            transform.LookAt(playerTransform);
         }
 
         private void CreateBullet()
