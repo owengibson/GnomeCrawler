@@ -66,7 +66,7 @@ namespace GnomeCrawler
 
                 if (hit.transform.TryGetComponent(out IDamageable damageable) && !_hasDealtDamage)
                 {
-                    damageable.TakeDamage(_stats.GetStat(Stat.Damage));
+                    damageable.TakeDamage(_stats.GetStat(Stat.Damage), gameObject);
                     _hasDealtDamage = true;
                 }
             }
@@ -83,7 +83,7 @@ namespace GnomeCrawler
             _canDealDamage = false;
         }
 
-        public virtual void TakeDamage(float amount)
+        public virtual void TakeDamage(float amount, GameObject damager)
         {
             print(name + " has taken damage");
             CurrentHealth -= amount;
