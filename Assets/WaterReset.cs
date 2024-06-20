@@ -54,7 +54,7 @@ namespace GnomeCrawler
 
             yield return new WaitForSeconds(0.5f);
 
-            iDamageable.TakeDamage(1);
+            iDamageable.TakeDamage(1, gameObject);
             playerCollider.enabled = false;
 
             NavMeshHit hit;
