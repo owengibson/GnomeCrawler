@@ -249,17 +249,6 @@ namespace GnomeCrawler.Player
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.tag == "PoisonArea")
-            {
-                PoisionTickTime -= Time.deltaTime;
-
-                if (PoisionTickTime <= 0)
-                {
-                    TakeDamage(1, gameObject);
-                    PoisionTickTime = 1.0f;
-                }
-            }
-
             if (other.gameObject.tag == "HealArea")
             {
                 _healTickTime -= Time.deltaTime;

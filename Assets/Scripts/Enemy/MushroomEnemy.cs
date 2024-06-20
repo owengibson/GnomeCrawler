@@ -81,6 +81,7 @@ namespace GnomeCrawler
         {
             yield return new WaitForSeconds(1f);
             fartCloud = Instantiate(_poisonCloudPrefab, transform.position, Quaternion.identity);
+            fartCloud.GetComponent<DamageOverTime>().ParentGO = gameObject;
             yield return new WaitForSeconds(4f);
             Destroy(fartCloud);
             yield return new WaitForSeconds(1f);
@@ -93,6 +94,7 @@ namespace GnomeCrawler
             Vector3 playerPosition = _player.transform.position;
             Vector3 enemyPosition = transform.position;
             _fartLine = Instantiate(_poisonCloudLinePrefab, transform.position, Quaternion.LookRotation(playerPosition - enemyPosition));
+            _fartLine.GetComponent<DamageOverTime>().ParentGO = gameObject;
             CapsuleCollider capsuleCollider = _fartLine.GetComponent<CapsuleCollider>();
             ParticleSystem particleSystem = _fartLine.GetComponentInChildren<ParticleSystem>();
             var shapeModule = particleSystem.shape;
