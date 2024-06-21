@@ -1,3 +1,4 @@
+using GnomeCrawler.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,12 +15,12 @@ namespace GnomeCrawler
         {
             if (!other.gameObject.CompareTag("Player")) return;
 
-            IDamageable iDawmagabwe = other.gameObject.GetComponent<IDamageable>();
+            PlayerCombat playerCombat = other.gameObject.GetComponent<PlayerCombat>();
             _poisionTickTime -= Time.deltaTime;
 
             if (_poisionTickTime <= 0)
             {
-                iDawmagabwe.TakeDamage(1, ParentGO);
+                playerCombat.TakeDamageNoStun(1, ParentGO);
                 _poisionTickTime = _poisonResetTimer;
             }
         }
