@@ -75,7 +75,7 @@ namespace GnomeCrawler.Enemies
             }
         }
 
-        private void DamageFeedback()
+        protected virtual void DamageFeedback()
         {
             foreach(Material mat in _meshRenderer.materials)
             {
@@ -98,7 +98,7 @@ namespace GnomeCrawler.Enemies
             Gizmos.DrawSphere(_originTransform.position, _weaponSize);
         }
 
-        private void ResetColour()
+        protected virtual void ResetColour()
         {
             foreach (Material mat in _meshRenderer.materials)
             {

@@ -10,8 +10,10 @@ namespace GnomeCrawler.Enemies
         [SerializeField] private GameObject _enemyProjectilePrefab;
         [SerializeField] private float _projectileSpeed = 5f;
         [SerializeField] private Transform _handTransform;
+        [SerializeField] private Renderer[] _renderers;
         private bool _chargingAttack = false;
         private GameObject _playerCharacter;
+
 
         // Teleport Variables
         private float _playersCurrentDistance;
@@ -26,8 +28,9 @@ namespace GnomeCrawler.Enemies
         {
             base.InitialiseVariables();
 
-            foreach (Material mat in _meshRenderer.materials)
+            foreach (Renderer renderer in _renderers)
             {
+                Material mat = renderer.material;
                 _originalColours.Add(mat.GetColor("_MainColor"));
             }
 
@@ -71,12 +74,28 @@ namespace GnomeCrawler.Enemies
             CreateBullet();
         }
 
-        private void DamageFeedback() 
+        protected override void DamageFeedback()
         {
-            _meshRenderer.material.color = Color.black;
-            _enemyAnim.SetBool("isDamaged", true);
+            foreach (Renderer renderer in _renderers)
+            {
+                Material mat = renderer.material;
+                mat.SetColor("_MainColor", Color.black);
+            }
             Invoke("ResetColour", .15f);
+            _enemyAnim.SetBool("isDamaged", true);
         }
+
+        protected override void ResetColour()
+        {
+            foreach (Renderer renderer in _renderers)
+            {
+                Material mat = renderer.material;
+                mat.SetColor("_MainColor", _originalColours[_originalColorIndex]);
+                _originalColorIndex++;
+            }
+            _originalColorIndex = 0;
+        }
+
 
         private void EndHurtAnimation() 
         {
@@ -141,16 +160,6 @@ namespace GnomeCrawler.Enemies
         private void ChargingAttack()
         {
             _chargingAttack = true;
-        }
-
-        private void ResetColour()
-        {
-            foreach (Material mat in _meshRenderer.materials)
-            {
-                mat.SetColor("_MainColor", _originalColours[_originalColorIndex]);
-                _originalColorIndex++;
-            }
-            _originalColorIndex = 0;
         }
 
         private void FacePlayer()
