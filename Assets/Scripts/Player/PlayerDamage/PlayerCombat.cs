@@ -64,7 +64,7 @@ namespace GnomeCrawler.Player
             }
             else
             {
-                if (Physics.Raycast(_spinWeaponOrigin.position, _spinWeaponOrigin.up, out hit, _weaponSize, _layerMask))
+                if (Physics.Raycast(_spinWeaponOrigin.position, -_spinWeaponOrigin.up, out hit, _weaponSize, _layerMask))
                 {
                     if (hit.transform.TryGetComponent(out IDamageable damageable) && !_damagedGameObjects.Contains(hit.transform.gameObject))
                     {
@@ -73,7 +73,7 @@ namespace GnomeCrawler.Player
                     }
                 }
             }
-            
+
         }
 
         private void DamageHitTarget(RaycastHit hit, IDamageable damageable)
