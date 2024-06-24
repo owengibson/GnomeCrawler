@@ -9,8 +9,10 @@ namespace GnomeCrawler
 {
     public class SwordSpin : Ability
     {
-        [SerializeField] private GameObject _regularWeapon;
-        [SerializeField] private GameObject _spinWeapon;
+        [SerializeField] private Transform _weapon;
+        [SerializeField] private Transform _regularWeaponParent;
+        [SerializeField] private Transform _spinWeaponParent;
+        [SerializeField] private Transform _spinWeaponRoot;
 
         Tween _spinTween;
 
@@ -18,19 +20,25 @@ namespace GnomeCrawler
         {
             EventManager.OnAttackAbilityToggle?.Invoke(true);
 
-            _regularWeapon.SetActive(false);
-            _spinWeapon.SetActive(true);
+            _regularWeaponParent.gameObject.SetActive(false);
+            _spinWeaponRoot.gameObject.SetActive(true);
+            _weapon.parent = _spinWeaponParent;
+            _weapon.localPosition = Vector3.zero;
+            _weapon.localEulerAngles = Vector3.zero;
 
-            _spinTween = _spinWeapon.transform.DORotate(new Vector3(0, 360, 0), 0.5f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
+            _spinTween = _spinWeaponRoot.DORotate(new Vector3(0, 360, 0), 0.5f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
         }
 
         private void OnDisable()
         {
             EventManager.OnAttackAbilityToggle?.Invoke(false);
+            _weapon.parent = _regularWeaponParent;
+            _weapon.localPosition = Vector3.zero;
+            _weapon.localEulerAngles = Vector3.zero;
 
             _spinTween.Kill();
-            _spinWeapon?.SetActive(false);
-            _regularWeapon.SetActive(true);
+            _spinWeaponRoot.gameObject.SetActive(false);
+            _regularWeaponParent.gameObject.SetActive(true);
         }
     }
 }

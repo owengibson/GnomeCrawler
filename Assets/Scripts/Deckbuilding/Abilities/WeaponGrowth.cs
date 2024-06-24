@@ -8,7 +8,7 @@ namespace GnomeCrawler.Deckbuilding
 {
     public class WeaponGrowth : Ability
     {
-        [SerializeField] private Transform _weaponHolder;
+        [SerializeField] private Transform _weapon;
 
         private void OnEnable()
         {
@@ -34,11 +34,11 @@ namespace GnomeCrawler.Deckbuilding
         private IEnumerator ChangeWeaponSize(float growthAmount, float time)
         {
             float counter = 0f;
-            Vector3 startingScale = _weaponHolder.localScale;
+            Vector3 startingScale = _weapon.parent.localScale;
 
             while (counter < time)
             {
-                _weaponHolder.localScale = Vector3.Lerp(_weaponHolder.localScale, Vector3.one * growthAmount, counter / time);
+                _weapon.parent.localScale = Vector3.Lerp(startingScale, Vector3.one * growthAmount, counter / time);
                 counter += Time.deltaTime;
 
                 yield return null;
