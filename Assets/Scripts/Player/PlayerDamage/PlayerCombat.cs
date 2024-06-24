@@ -300,6 +300,8 @@ namespace GnomeCrawler.Player
 
         private void OnEnable()
         {
+            EventManager.OnRoomStarted += PerRoomHeal;
+
             EventManager.OnHandApproved += AddHandToStats;
             EventManager.GetPlayerStats += GetPlayerStats;
             EventManager.OnPlayerLifeSteal += HealPlayer;
@@ -312,6 +314,8 @@ namespace GnomeCrawler.Player
 
         private void OnDisable()
         {
+            EventManager.OnRoomStarted -= PerRoomHeal;
+
             EventManager.OnHandApproved -= AddHandToStats;
             EventManager.GetPlayerStats -= GetPlayerStats;
             EventManager.OnPlayerLifeSteal -= HealPlayer;
@@ -327,6 +331,11 @@ namespace GnomeCrawler.Player
             CurrentHealth += amount;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, _stats.GetStat(Stat.Health));
             _healthbarSlider.value = CurrentHealth;
+        }
+
+        private void PerRoomHeal(int unUsed)
+        {
+            HealPlayer(2);
         }
     }
 }
