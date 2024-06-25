@@ -1,11 +1,10 @@
-using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GnomeCrawler
+namespace GnomeCrawler.Deckbuilding
 {
     public class Thorns : Ability
     {

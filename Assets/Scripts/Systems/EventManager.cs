@@ -29,5 +29,6 @@ namespace GnomeCrawler.Systems
 
         public static Func<CardSO> GetSelectedActivatableCard;
         public static Func<StatsSO> GetPlayerStats;
+        public static Func<bool> IsPlayerTargetable;
     }
 }

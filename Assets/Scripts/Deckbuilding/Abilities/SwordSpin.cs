@@ -1,11 +1,10 @@
 using DG.Tweening;
-using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GnomeCrawler
+namespace GnomeCrawler.Deckbuilding
 {
     public class SwordSpin : Ability
     {

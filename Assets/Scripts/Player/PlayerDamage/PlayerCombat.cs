@@ -84,6 +84,10 @@ namespace GnomeCrawler.Player
                 damage *= _stats.GetStat(Stat.CritDamageMultiplier);
                 Debug.Log(damage);
             }
+            bool? nullableIsPlayerTargetable = EventManager.IsPlayerTargetable?.Invoke();
+            bool isPlayerTargetable = nullableIsPlayerTargetable == true || nullableIsPlayerTargetable == null;
+            if (!isPlayerTargetable) damage *= 2;
+
             damageable.TakeDamage(damage, gameObject);
             EventManager.OnPlayerHit?.Invoke(damage);
             _damagedGameObjects.Add(hit.transform.gameObject);
