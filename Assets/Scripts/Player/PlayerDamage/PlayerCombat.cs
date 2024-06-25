@@ -100,11 +100,17 @@ namespace GnomeCrawler.Player
             if (Random.Range(0,100) <= _stats.GetStat(Stat.BlockChance)) return;
 
             StartCoroutine(Rumble(0.5f, amount / 4));
-            _stateMachine.IsFlinching = true;
-            base.TakeDamage(amount, damager);
-            _healthbarSlider.value = CurrentHealth;
-
             EventManager.OnPlayerAttacked?.Invoke(amount, damager);
+
+            if (EventManager.IsShieldActive?.Invoke() == true)
+            {
+                EventManager.OnShieldHit?.Invoke(amount);
+                return;
+            }
+
+            base.TakeDamage(amount, damager);
+            _stateMachine.IsFlinching = true;
+            _healthbarSlider.value = CurrentHealth;
         }
 
         public void TakeDamageWithInvincibility(float amount)
