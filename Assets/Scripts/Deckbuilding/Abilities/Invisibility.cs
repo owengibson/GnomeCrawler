@@ -9,7 +9,8 @@ namespace GnomeCrawler.Deckbuilding
 {
     public class Invisibility : Ability
     {
-        [SerializeField] private GameObject _invisText;
+        [SerializeField] private GameObject _regularGnome;
+        [SerializeField] private GameObject _invisibleGnome;
 
         private bool _isPlayerTargetable = true;
 
@@ -19,7 +20,8 @@ namespace GnomeCrawler.Deckbuilding
             EventManager.OnPlayerHit += EndInvisibility;
 
             _isPlayerTargetable = false;
-            _invisText?.SetActive(true);
+            _invisibleGnome.SetActive(true);
+            _regularGnome.SetActive(false);
         }
 
         private void EndInvisibility(float unused)
@@ -27,7 +29,8 @@ namespace GnomeCrawler.Deckbuilding
             if (_isPlayerTargetable) return;
 
             _isPlayerTargetable = true;
-            _invisText?.SetActive(false);
+            _regularGnome.SetActive(true);
+            _invisibleGnome.SetActive(false);
 
             enabled = false;
         }

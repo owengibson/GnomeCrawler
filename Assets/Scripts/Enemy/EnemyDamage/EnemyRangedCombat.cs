@@ -1,3 +1,4 @@
+using GnomeCrawler.Systems;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -37,6 +38,10 @@ namespace GnomeCrawler.Enemies
 
         private void Update()
         {
+            bool? nullableIsPlayerTargetable = EventManager.IsPlayerTargetable?.Invoke();
+            bool isPlayerTargetable = nullableIsPlayerTargetable == true || nullableIsPlayerTargetable == null;
+            if (!isPlayerTargetable) return;
+
             if (_chargingAttack == true)
             {
                 FacePlayer();
