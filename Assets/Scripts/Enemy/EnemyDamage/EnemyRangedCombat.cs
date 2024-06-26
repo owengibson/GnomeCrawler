@@ -124,7 +124,8 @@ namespace GnomeCrawler.Enemies
             GameObject projectile = Instantiate(_enemyProjectilePrefab, _handTransform.position, Quaternion.identity);
             projectile.GetComponent<EnemyProjectile>().Parent = gameObject;
 
-            Vector3 direction = (playerTransform.position - _handTransform.position).normalized;
+            //Vector3 direction = (playerTransform.position - _handTransform.position).normalized;
+            Vector3 direction = transform.forward;
             Debug.DrawRay(transform.position + new Vector3(0, 1.5f, 0), direction);
 
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
