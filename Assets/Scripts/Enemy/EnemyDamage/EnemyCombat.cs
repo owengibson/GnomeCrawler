@@ -4,7 +4,6 @@ using GnomeCrawler.Systems;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using DinoFracture;
 
 namespace GnomeCrawler.Enemies
 {
@@ -17,10 +16,6 @@ namespace GnomeCrawler.Enemies
         protected int _originalColorIndex;
 
         private bool _isUnflinchable = false;
-
-        [SerializeField] private bool _isPotPlant = false;
-        [SerializeField] private PreFracturedGeometry _potFractureGeo;
-        [SerializeField] private GameObject _fraturedPot;
 
         private void Start()
         {
@@ -67,12 +62,6 @@ namespace GnomeCrawler.Enemies
 
         public override void Die()
         {
-            if (_isPotPlant)
-            {
-                _fraturedPot.transform.parent = null;
-                _potFractureGeo.FractureAndForget();
-            }
-
             base.Die();
             Destroy(_healthBar.gameObject);
         }
@@ -86,7 +75,7 @@ namespace GnomeCrawler.Enemies
             }
         }
 
-        private void DamageFeedback()
+        protected virtual void DamageFeedback()
         {
             foreach(Material mat in _meshRenderer.materials)
             {
@@ -109,7 +98,7 @@ namespace GnomeCrawler.Enemies
             Gizmos.DrawSphere(_originTransform.position, _weaponSize);
         }
 
-        private void ResetColour()
+        protected virtual void ResetColour()
         {
             foreach (Material mat in _meshRenderer.materials)
             {
