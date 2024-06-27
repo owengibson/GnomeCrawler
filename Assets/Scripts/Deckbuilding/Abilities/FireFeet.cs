@@ -1,4 +1,3 @@
-using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
 using Sirenix.Utilities;
 using System.Collections;
@@ -6,7 +5,7 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 
-namespace GnomeCrawler
+namespace GnomeCrawler.Deckbuilding
 {
     public class FireFeet : Ability
     {

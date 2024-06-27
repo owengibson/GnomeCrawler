@@ -1,3 +1,4 @@
+using GnomeCrawler.Systems;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -35,7 +36,12 @@ namespace GnomeCrawler
         void Update()
         {
             if (_player == null) return;
+
             float currentDistance = Vector3.Distance(transform.position, _player.transform.position);
+
+            bool? nullableIsPlayerTargetable = EventManager.IsPlayerTargetable?.Invoke();
+            bool isPlayerTargetable = nullableIsPlayerTargetable == true || nullableIsPlayerTargetable == null;
+            if (!isPlayerTargetable) return;
 
             if (currentDistance < 10 || _hasAggro) _hasAggro = true;
             else return;

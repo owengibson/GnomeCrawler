@@ -1,3 +1,4 @@
+using GnomeCrawler.Systems;
 using UnityEngine;
 
 namespace GnomeCrawler.Enemies
@@ -23,6 +24,10 @@ namespace GnomeCrawler.Enemies
         {
             if (ctx.CurrentDistance < ctx.ChasingDistance)
             {
+                bool? nullableIsPlayerTargetable = EventManager.IsPlayerTargetable?.Invoke();
+                bool isPlayerTargetable = nullableIsPlayerTargetable == true || nullableIsPlayerTargetable == null;
+                if (!isPlayerTargetable) return;
+
                 SwitchStates(factory.ChaseState());
             }
 
