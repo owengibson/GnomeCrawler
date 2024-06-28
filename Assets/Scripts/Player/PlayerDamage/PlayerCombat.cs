@@ -1,4 +1,3 @@
-using Cinemachine.Utility;
 using Dan.Main;
 using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
@@ -129,18 +128,6 @@ namespace GnomeCrawler.Player
                 StartCoroutine(Rumble(0.5f, amount / 4));
             }
             _healthbarSlider.value = CurrentHealth;
-        }
-
-        public void TakeDamageNoStun(float amount, GameObject damager)
-        {
-            if (_isInvincible) return;
-            if (Random.Range(0, 100) <= _stats.GetStat(Stat.BlockChance)) return;
-
-            StartCoroutine(Rumble(0.5f, amount / 4));
-            base.TakeDamage(amount, damager);
-            _healthbarSlider.value = CurrentHealth;
-
-            EventManager.OnPlayerAttacked?.Invoke(amount, damager);
         }
 
         public override void StartDealDamage()
@@ -310,8 +297,6 @@ namespace GnomeCrawler.Player
 
         private void OnEnable()
         {
-            EventManager.OnRoomStarted += PerRoomHeal;
-
             EventManager.OnHandApproved += AddHandToStats;
             EventManager.GetPlayerStats += GetPlayerStats;
             EventManager.OnPlayerLifeSteal += HealPlayer;
@@ -324,8 +309,6 @@ namespace GnomeCrawler.Player
 
         private void OnDisable()
         {
-            EventManager.OnRoomStarted -= PerRoomHeal;
-
             EventManager.OnHandApproved -= AddHandToStats;
             EventManager.GetPlayerStats -= GetPlayerStats;
             EventManager.OnPlayerLifeSteal -= HealPlayer;
@@ -341,11 +324,6 @@ namespace GnomeCrawler.Player
             CurrentHealth += amount;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, _stats.GetStat(Stat.Health));
             _healthbarSlider.value = CurrentHealth;
-        }
-
-        private void PerRoomHeal(int unUsed)
-        {
-            HealPlayer(2);
         }
     }
 }

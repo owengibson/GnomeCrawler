@@ -49,7 +49,7 @@ namespace GnomeCrawler
             PlayerStateMachine stateMachine = playerCollider.gameObject.GetComponent<PlayerStateMachine>();
             stateMachine.enabled = false;
             Vector3 freezePos = playerCollider.transform.position;
-            freezePos.y = transform.position.y + 5;
+            freezePos.y = transform.position.y + 2;
             playerCollider.transform.position = freezePos;
 
             yield return new WaitForSeconds(0.5f);

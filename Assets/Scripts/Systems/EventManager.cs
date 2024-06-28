@@ -28,9 +28,6 @@ namespace GnomeCrawler.Systems
         public static Action<float, GameObject> OnPlayerAttacked;
         public static Action<float> OnShieldHit;
 
-        public static Action<int> OnTutoialPopupQuery;
-        public static Action<Objective, int> OnObjectiveChange;
-
         public static Func<CardSO> GetSelectedActivatableCard;
         public static Func<StatsSO> GetPlayerStats;
         public static Func<bool> IsPlayerTargetable;

@@ -23,7 +23,7 @@ namespace GnomeCrawler.Player
             Ctx.AppliedMovementZ = dir.y;
             yield return new WaitForSeconds(Ctx.PlayerStats.GetStat(Deckbuilding.Stat.AttackMoveTime));
             Ctx.AppliedMovementX = 0;
-            Ctx.AppliedMovementZ = 0.1f;
+            Ctx.AppliedMovementZ = 0;
             Ctx.CanMoveWhileAttacking = false;
         }
 
