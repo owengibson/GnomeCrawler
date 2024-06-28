@@ -13,6 +13,11 @@ namespace GnomeCrawler.Systems
 
         private int _currentPopupIndex = -1;
 
+        private void Start()
+        {
+            ShowTutorialPopup(0);
+        }
+
         private void ChangeObjectiveText(Objective objective, int enemiesRemaining)
         {
             switch (objective)
@@ -38,6 +43,7 @@ namespace GnomeCrawler.Systems
 
         private void ShowTutorialPopup(int index)
         {
+            if (index <= _currentPopupIndex || index >= _currentPopupIndex + 2) return;
             if (_currentPopupIndex >= 0)
             {
                 _popUps[_currentPopupIndex].SetActive(false);

@@ -201,6 +201,8 @@ namespace GnomeCrawler.Player
             _playerInput.Player.SeekLeftLockOnTagret.performed += LeftLockOnSwap;
             _playerInput.Player.SeekRightLockOnTagret.performed += RightLockOnSwap;
 
+            _playerInput.Player.Look.started += OnLookInput;
+
             SetupJumpVariables();
         }
 
@@ -411,10 +413,26 @@ namespace GnomeCrawler.Player
             _avaliableTargets.Clear();
         }
 
+        void OnLookInput(InputAction.CallbackContext context)
+        {
+            float y = context.ReadValue<Vector2>().normalized.y;
+            if (y > 0)
+            {
+                Debug.Log("Natural");
+                EventManager.OnTutoialPopupQuery?.Invoke(1);
+            }
+            else if (y < 0)
+            {
+                Debug.Log("Goofy");
+                EventManager.OnTutoialPopupQuery?.Invoke(1);
+            }
+        }
+
         void OnMovementInput(InputAction.CallbackContext context)
         {
             _currentMovementInput = context.ReadValue<Vector2>();
             _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
+            EventManager.OnTutoialPopupQuery?.Invoke(2);
         }
 
         void OnJump(InputAction.CallbackContext context)
@@ -433,10 +451,12 @@ namespace GnomeCrawler.Player
             _isAttackPressed = context.ReadValueAsButton();
             string buttonName = context.action.name; // Added for Analytics
             analyticsScript.TrackButtonPress(buttonName); // Added for Analytics
+            EventManager.OnTutoialPopupQuery?.Invoke(5);
         }
         private void OnDodge(InputAction.CallbackContext context)
         {
             _isDodgePressed = context.ReadValueAsButton();
+            EventManager.OnTutoialPopupQuery?.Invoke(3);
         }
 
         private void CameraLockOn(InputAction.CallbackContext context)
@@ -456,6 +476,7 @@ namespace GnomeCrawler.Player
                 {
                     _currentLockOnTarget = _nearestLockOnTarget;
                     SetLockOnStatus(true);
+                    EventManager.OnTutoialPopupQuery?.Invoke(4);
                 } 
             }
         }
@@ -578,7 +599,5 @@ namespace GnomeCrawler.Player
             Debug.Log("dodge reset");
             _dodgeNumber = 0;
         }
-
     }
-
 }
