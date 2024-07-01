@@ -53,8 +53,8 @@ namespace GnomeCrawler
 
             //transitions
             At(chase, attack, IsInMeleeRangeAndChoseAttackNo(1));
-            At(chase, attack2 , IsInMeleeRangeAndChoseAttackNo(2));
-            At(chase, attack3 , IsInMeleeRangeAndChoseAttackNo(3));
+            //At(chase, attack2 , IsInMeleeRangeAndChoseAttackNo(2));
+            //At(chase, attack3 , IsInMeleeRangeAndChoseAttackNo(3));
             At(attack, attack2, AttackComplete("Attack01"));
             At(attack2, attack3, AttackComplete("Attack02"));
             At(attack3, idle, AttackComplete("Attack03"));

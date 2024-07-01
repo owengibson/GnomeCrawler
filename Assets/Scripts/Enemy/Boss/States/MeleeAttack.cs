@@ -26,6 +26,22 @@ namespace GnomeCrawler
             _boss.InMeleePhase = true;
             _animator.SetInteger(MeleeAttackNumberHash, _attackNumber);
             _animator.SetTrigger(MeleeAttackHash);
+
+            if (_attackNumber == 1)
+            {
+                //HeadButt Attack
+                
+            }
+            else if (_attackNumber == 2)
+            {
+                //stomp attack
+
+            }
+            else if (_attackNumber == 3 )
+            {
+                //buttslam attack
+
+            }
         }
 
         public override void OnExit()

@@ -1,3 +1,4 @@
+using GnomeCrawler.Deckbuilding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,22 @@ namespace GnomeCrawler
             base.InitialiseVariables();
         }
 
+        protected override void CheckForRaycastHit()
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(_originTransform.position, _weaponSize, _layerMask);
+
+            if (hitColliders.Length <= 0) return;
+
+            foreach (var collider in hitColliders)
+            {
+                if (collider.transform.TryGetComponent(out IDamageable damageable) && !_hasDealtDamage)
+                {
+                    damageable.TakeDamage(_stats.GetStat(Stat.Damage), gameObject);
+                    _hasDealtDamage = true;
+                }
+            }
+        }
+
         private void Update()
         {
             base.InternalUpdate();
@@ -42,6 +59,10 @@ namespace GnomeCrawler
             base.Die();
         }
 
-        
+        protected override void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(_originTransform.position, _weaponSize);
+        }
     }
 }
