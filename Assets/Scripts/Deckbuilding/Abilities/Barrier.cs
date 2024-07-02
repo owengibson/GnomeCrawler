@@ -74,7 +74,7 @@ namespace GnomeCrawler.Deckbuilding
         private IEnumerator DamageFeedback()
         {
             _barrierRenderer.material.color = _barrierDamageColor;
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.15f);
             _barrierRenderer.material.color = _barrierColor;
         }
 
