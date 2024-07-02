@@ -14,6 +14,7 @@ namespace GnomeCrawler
         public float _moveSpeed;
         public bool InMeleePhase;
         public int _bossHitNumberInMeleePhase;
+        [HideInInspector] public BossCombatBrain _combatBrain;
 
         [SerializeField] private float _distanceForMeleeRange;
 
@@ -21,7 +22,6 @@ namespace GnomeCrawler
         private bool _canEnterPhase3 = false ;
 
         private StateMachine _stateMachine;
-        private BossCombatBrain _combatBrain;
         private Dictionary<int, int> fleeChance = new Dictionary<int, int>
         {
             { 0, 0 },
@@ -76,13 +76,13 @@ namespace GnomeCrawler
             _stateMachine.SetState(chase);
 
             void At(IState from, IState to, Func<bool> condition) => _stateMachine.AddTransition(from, to, condition);
-            void Aet(IState from, ref Action eventTrigger, IState to) => _stateMachine.AddTransition(from, ref eventTrigger, to);
+            //void Aet(IState from, ref Action eventTrigger, IState to) => _stateMachine.AddTransition(from, ref eventTrigger, to);
             Func<bool> IsPlayerInMeleeRange() => () => Vector3.Distance(transform.position, Target.transform.position) < _distanceForMeleeRange;
             Func<bool> IsPlayerOutOfMeleeRange() => () => !IsPlayerInMeleeRange()();
             Func<bool> CheckSuccessByPercentage(int percentage) => () => Random.Range(1, 101) <= percentage;
             Func<bool> IsInMeleeRangeAndChoseAttackNo(int attackNumber) => () => IsPlayerInMeleeRange()() && Random.Range(1, 4) == attackNumber;
             Func<bool> AttackComplete(string stateName) => () => AnimatorIsFinished(animator, stateName);
-            Func<bool> CooldownAfterAttackFinished() => () => idle.TimeInIdle > 3;
+            Func<bool> CooldownAfterAttackFinished() => () => idle.TimeInIdle > 1.5f;
             Func<bool> ChoseFleeAfterCooldown() => () => CooldownAfterAttackFinished()() && CheckSuccessByPercentage(35)();
             Func<bool> ChoseChaseAfterCooldown() => () => CooldownAfterAttackFinished()() && !ChoseFleeAfterCooldown()();
             Func<bool> ChoseRangedAfterCooldown() => () => CooldownAfterAttackFinished()() && IsPlayerOutOfMeleeRange()();

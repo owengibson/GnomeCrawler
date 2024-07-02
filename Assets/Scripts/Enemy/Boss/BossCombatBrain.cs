@@ -11,6 +11,9 @@ namespace GnomeCrawler
         public Action ReachedPhase2Threshold;
         public Action ReachedPhase3Threshold;
 
+        [SerializeField] private Transform[] _weaponTransforms;
+        [SerializeField] private float[] _weaponHitboxSizes;
+
         [SerializeField] private float _phase2HealthThresholdPercentage = .65f;
         [SerializeField] private float _phase3HealthThresholdPercentage = .35f;
 
@@ -20,6 +23,8 @@ namespace GnomeCrawler
         private void Start()
         {
             base.InitialiseVariables();
+            _originTransform = _weaponTransforms[0];
+            _weaponSize = _weaponHitboxSizes[0];
         }
 
         protected override void CheckForRaycastHit()
@@ -52,6 +57,17 @@ namespace GnomeCrawler
                 ReachedPhase3Threshold?.Invoke();
             }
 
+        }
+
+        public void ChangeWeaponOrigin(int index)
+        {
+            _originTransform = _weaponTransforms[index];
+            _weaponSize = _weaponHitboxSizes[index];
+        }
+
+        public void ExpandOverlapSphere()
+        {
+            _weaponSize += 0.5f * Time.deltaTime;
         }
 
         public override void Die()
