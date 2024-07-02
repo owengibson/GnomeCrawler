@@ -33,12 +33,12 @@ namespace GnomeCrawler
             Debug.Log(_attackNumber);
             _boss.InMeleePhase = true;
 
+            StartRotating();
+
             _boss._combatBrain.ChangeWeaponOrigin(_attackNumber - 1);
 
             _animator.SetInteger(MeleeAttackNumberHash, _attackNumber);
             _animator.SetTrigger(MeleeAttackHash);
-
-            StartRotating();
         }
 
         public override void OnExit()
@@ -53,25 +53,28 @@ namespace GnomeCrawler
             {
                 _boss.StopCoroutine( _lookCoroutine );
             }
-            _lookCoroutine = _boss.StartCoroutine(LookAt());
+            _lookCoroutine = _boss.StartCoroutine(LookAt(0.5f));
         }
 
-        private IEnumerator LookAt()
+        private IEnumerator LookAt(float duration)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.1f);
 
+            Quaternion startRotation = _boss.transform.rotation;
             Quaternion lookRotation = Quaternion.LookRotation(_boss.Target.transform.position - _boss.transform.position);
 
             float time = 0;
 
-            while (time < 1)
+            while (time < duration)
             {
-                _boss.transform.rotation = Quaternion.Slerp(_boss.transform.rotation, lookRotation, time);
+                _boss.transform.rotation = Quaternion.Slerp(startRotation, lookRotation, time / duration);
 
-                time += Time.deltaTime * 1f;
+                time += Time.deltaTime;
 
                 yield return null;
             }
+
+            _boss.transform.rotation = lookRotation;
         }
     }
 }
