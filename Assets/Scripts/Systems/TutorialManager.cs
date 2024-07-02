@@ -13,6 +13,11 @@ namespace GnomeCrawler.Systems
 
         private int _currentPopupIndex = -1;
 
+        private void Start()
+        {
+            ShowTutorialPopup(0);
+        }
+
         private void ChangeObjectiveText(Objective objective, int enemiesRemaining)
         {
             switch (objective)
@@ -20,16 +25,16 @@ namespace GnomeCrawler.Systems
                 case Objective.Undefined:
                     break;
                 case Objective.KillEnemies:
-
+                    _objectiveTextBox.text = $"{objective} \n {enemiesRemaining}";
                     break;
                 case Objective.FindExit:
-
+                    _objectiveTextBox.text = $"{objective} \n {enemiesRemaining}";
                     break;
                 case Objective.Heal:
-
+                    _objectiveTextBox.text = $"{objective} \n {enemiesRemaining}";
                     break;
                 case Objective.KillBoss:
-
+                    _objectiveTextBox.text = $"{objective} \n {enemiesRemaining}";
                     break;
                 default:
                     break;
@@ -38,6 +43,7 @@ namespace GnomeCrawler.Systems
 
         private void ShowTutorialPopup(int index)
         {
+            if (index <= _currentPopupIndex || index >= _currentPopupIndex + 2) return;
             if (_currentPopupIndex >= 0)
             {
                 _popUps[_currentPopupIndex].SetActive(false);
