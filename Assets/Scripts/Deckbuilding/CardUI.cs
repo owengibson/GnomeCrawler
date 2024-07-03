@@ -18,6 +18,8 @@ namespace GnomeCrawler.Deckbuilding
         [SerializeField] private TextMeshProUGUI _descriptionText;
         [SerializeField] private Image _backgroundImage;
 
+        public GameObject ButtonGraphic;
+
         private readonly Color _defenseColour = new Color32(165, 255, 140, 225);
         private readonly Color _offenseColour = new Color32(255, 140, 140, 225);
         private readonly Color _utilityColour = new Color32(140, 198, 255, 225);
@@ -35,7 +37,7 @@ namespace GnomeCrawler.Deckbuilding
             _titleText.text = card.Name;
             _descriptionText.text = card.Description;
 
-            switch (card.Category)
+            /*switch (card.Category)
             {
                 case CardCategory.Defense:
                     _backgroundImage.color = _defenseColour;
@@ -48,7 +50,7 @@ namespace GnomeCrawler.Deckbuilding
                     break;
                 default:
                     break;
-            }
+            }*/
         }
 
         public void ChooseCard()

@@ -62,6 +62,7 @@ namespace GnomeCrawler.Deckbuilding
                 if (!isSelection)
                 {
                     newCardGO.GetComponent<Button>().enabled = false;
+                    newCard.ButtonGraphic.SetActive(false);
                 }
             }
 
