@@ -13,8 +13,10 @@ namespace GnomeCrawler.Enemies
         [SerializeField] protected ProgressBar _healthBar;
         [SerializeField] protected Animator _enemyAnim;
         [SerializeField] protected Renderer _meshRenderer;
+        [SerializeField] protected List<GameObject> _particleSystems = new List<GameObject>();
         protected List<Color> _originalColours = new List<Color>();
         protected int _originalColorIndex;
+
 
         private bool _isUnflinchable = false;
 
