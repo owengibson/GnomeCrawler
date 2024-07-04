@@ -24,7 +24,6 @@ namespace GnomeCrawler
         public void Tick()
         {
             _navMeshAgent.SetDestination(_boss.Target.transform.position);
-            _animator.SetLookAtPosition(_boss.Target.transform.position);
         }
 
         public void OnEnter()

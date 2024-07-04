@@ -1,4 +1,5 @@
 using GnomeCrawler.Deckbuilding;
+using GnomeCrawler.Player;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace GnomeCrawler
 
         [SerializeField] private Transform[] _weaponTransforms;
         [SerializeField] private float[] _weaponHitboxSizes;
+        [SerializeField] private GameObject _projectileGO;
+        [SerializeField] private GameObject _player;
 
         [SerializeField] private float _phase2HealthThresholdPercentage = .65f;
         [SerializeField] private float _phase3HealthThresholdPercentage = .35f;
@@ -56,7 +59,6 @@ namespace GnomeCrawler
                 _phase3Activated = true;
                 ReachedPhase3Threshold?.Invoke();
             }
-
         }
 
         public void ChangeWeaponOrigin(int index)
@@ -68,6 +70,33 @@ namespace GnomeCrawler
         public void ExpandOverlapSphere()
         {
             _weaponSize += 0.5f * Time.deltaTime;
+        }
+
+        public void ChargeProjectile()
+        {
+            _projectileGO.SetActive(true);
+            _projectileGO.transform.parent = _weaponTransforms[0].transform;
+            _projectileGO.transform.localPosition = new Vector3(0,1,-1);
+        }
+
+        public void ShootProjectile()
+        {
+            _projectileGO.transform.parent = null;
+            StartCoroutine(ProjectileTravel(_player.transform.position, 5f));
+        }
+
+        private IEnumerator ProjectileTravel(Vector3 finalPosition, float speed)
+        {
+            Vector3 direction = finalPosition - _projectileGO.transform.position;
+            direction.Normalize();
+
+            while (Vector3.Distance(_projectileGO.transform.position, finalPosition) > 0.1f)
+            {
+                _projectileGO.transform.position += direction * speed * Time.deltaTime;
+                yield return null;
+            }
+
+            _projectileGO.transform.position = finalPosition;
         }
 
         public override void Die()

@@ -61,7 +61,7 @@ namespace GnomeCrawler
             At(idle, chase, ChoseChaseAfterCooldown());
             At(idle, flee, ChoseFleeAfterCooldown());
             At(idle, rangedAttack, ChoseRangedAfterCooldown());
-            At(flee, rangedAttack, FleeIsFinished());
+            At(flee, rangedAttack, AttackComplete("Flee"));
             At(rangedAttack, chase, AttackComplete("RangedAttack"));
             At(adds, chase, AddsPhaseOver());
 
@@ -86,7 +86,6 @@ namespace GnomeCrawler
             Func<bool> ChoseFleeAfterCooldown() => () => CooldownAfterAttackFinished()() && CheckSuccessByPercentage(35)();
             Func<bool> ChoseChaseAfterCooldown() => () => CooldownAfterAttackFinished()() && !ChoseFleeAfterCooldown()();
             Func<bool> ChoseRangedAfterCooldown() => () => CooldownAfterAttackFinished()() && IsPlayerOutOfMeleeRange()();
-            Func<bool> FleeIsFinished() => () => flee.FleeTimer > 3;
             Func<bool> WillFleeFromMelee() => () => InMeleePhase == true && CheckSuccessByPercentage(fleeChance[_bossHitNumberInMeleePhase])();
             Func<bool> AddsPhaseOver() => () => adds.AddsTestTimer > 3;
 

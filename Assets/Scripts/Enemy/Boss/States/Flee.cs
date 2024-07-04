@@ -7,11 +7,11 @@ namespace GnomeCrawler
 {
     public class Flee : IState
     {
-        public float FleeTimer;
-
         private readonly Boss _boss;
         private readonly NavMeshAgent _navMeshAgent;
         private readonly Animator _animator;
+
+        private Coroutine _lookCoroutine;
 
         private static readonly int FleeHash = Animator.StringToHash("Flee");
         private float _cachedSpeed;
@@ -27,7 +27,7 @@ namespace GnomeCrawler
 
         public void Tick()
         {
-            FleeTimer += Time.deltaTime;
+
         }
 
         private Vector3 GetFleePosition()
@@ -54,7 +54,6 @@ namespace GnomeCrawler
         public void OnEnter()
         {
             _navMeshAgent.enabled = true;
-            FleeTimer = 0;
             _boss._bossHitNumberInMeleePhase = 0;
             _animator.SetTrigger(FleeHash);
             _cachedSpeed = _navMeshAgent.speed;
@@ -62,6 +61,7 @@ namespace GnomeCrawler
             _navMeshAgent.speed = FLEE_SPEED;
             _navMeshAgent.angularSpeed = FLEE_ROTATION;
             _navMeshAgent.SetDestination(GetFleePosition());
+            StartRotating();
         }
 
         public void OnExit()
@@ -69,6 +69,36 @@ namespace GnomeCrawler
             _navMeshAgent.enabled = false;
             _navMeshAgent.speed = _cachedSpeed;
             _navMeshAgent.angularSpeed = _cachedRotation;
+        }
+
+        private void StartRotating()
+        {
+            if (_lookCoroutine != null)
+            {
+                _boss.StopCoroutine(_lookCoroutine);
+            }
+            _lookCoroutine = _boss.StartCoroutine(LookAt(1f));
+        }
+
+        private IEnumerator LookAt(float duration)
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            Quaternion startRotation = _boss.transform.rotation;
+            Quaternion lookRotation = Quaternion.LookRotation(_boss.Target.transform.position - _boss.transform.position);
+
+            float time = 0;
+
+            while (time < duration)
+            {
+                _boss.transform.rotation = Quaternion.Slerp(startRotation, lookRotation, time / duration);
+
+                time += Time.deltaTime;
+
+                yield return null;
+            }
+
+            _boss.transform.rotation = lookRotation;
         }
     }
 }
