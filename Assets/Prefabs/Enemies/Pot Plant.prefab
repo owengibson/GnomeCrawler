@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2.562}
+  m_AnchoredPosition: {x: 0, y: 2.7}
   m_SizeDelta: {x: 1.1428, y: 0.2665}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6472859957027303428
@@ -585,7 +585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lockOnTransform: {fileID: 2341045515234972630}
-  _weaponSize: 1
+  _weaponSize: 0.75
   _canDealDamage: 0
   _layerMask:
     serializedVersion: 2
@@ -595,6 +595,8 @@ MonoBehaviour:
   _healthBar: {fileID: 1983906179242212170}
   _enemyAnim: {fileID: 3435974055141672251}
   _meshRenderer: {fileID: 1456602639450950651}
+  _particleSystems:
+  - {fileID: 2907660679823405734, guid: 8953fdc6cff4ab24494ff250a5d07e37, type: 3}
   _isPotPlant: 1
   _potFractureGeo: {fileID: 5192498245261555213}
   _fraturedPot: {fileID: 1134243486810269103}
