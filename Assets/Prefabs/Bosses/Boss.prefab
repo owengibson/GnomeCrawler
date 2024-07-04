@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8352555401385625275
 Transform:
   m_ObjectHideFlags: 0
@@ -84,8 +84,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _combatBrain: {fileID: 0}
-  _currentEnemies: []
+  _currentEnemiesNo: 0
   _distanceForMeleeRange: 4
+  _distanceForConstantRange: 20
+  _canEnterPhase2: 0
+  _canEnterPhase3: 0
 --- !u!114 &387827963758863880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +109,10 @@ MonoBehaviour:
     m_Bits: 64
   _originTransform: {fileID: 637270950499476662}
   _stats: {fileID: 11400000, guid: da0ba63910b6d8c4fa2b8c55feab3b02, type: 2}
+  _renderers:
+  - {fileID: 6816792749839250431}
+  - {fileID: 3267745907515419899}
+  - {fileID: 8825273627186202304}
   _weaponTransforms:
   - {fileID: 637270950499476662}
   - {fileID: 3135297130494542651}
@@ -116,7 +123,7 @@ MonoBehaviour:
   - 2
   _projectileGO: {fileID: 5257622109782102270}
   _shockwaveGO: {fileID: 6385498796990185647}
-  _projectileSpeed: 40
+  _projectileSpeed: 60
   _phase2HealthThresholdPercentage: 65
   _phase3HealthThresholdPercentage: 35
 --- !u!195 &3781305429836956907
@@ -295,7 +302,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -5757,6 +5764,24 @@ Transform:
 --- !u!4 &1389160211228722721 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6965861048372242775, guid: dc2aa933336cd0d4dbf5c8b5f8d110d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 870043081287651464}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3267745907515419899 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2398833124661181555, guid: dc2aa933336cd0d4dbf5c8b5f8d110d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 870043081287651464}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6816792749839250431 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -3276052683629288585, guid: dc2aa933336cd0d4dbf5c8b5f8d110d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 870043081287651464}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &8825273627186202304 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -690554833733593528, guid: dc2aa933336cd0d4dbf5c8b5f8d110d3,
     type: 3}
   m_PrefabInstance: {fileID: 870043081287651464}
   m_PrefabAsset: {fileID: 0}

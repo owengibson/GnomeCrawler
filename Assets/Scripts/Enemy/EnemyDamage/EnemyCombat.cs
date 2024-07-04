@@ -13,7 +13,7 @@ namespace GnomeCrawler.Enemies
         [SerializeField] protected ProgressBar _healthBar;
         [SerializeField] protected Animator _enemyAnim;
         [SerializeField] protected Renderer _meshRenderer;
-        [SerializeField] protected List<GameObject> _particleSystems = new List<GameObject>();
+        [SerializeField] protected List<ParticleSystem> _particleSystems = new List<ParticleSystem>();
         protected List<Color> _originalColours = new List<Color>();
         protected int _originalColorIndex;
 
@@ -65,6 +65,11 @@ namespace GnomeCrawler.Enemies
         public override void EndDealDamage()
         {
             _canDealDamage = false;
+        }
+
+        public void HitGround()
+        {
+            _particleSystems[0].Play();
         }
 
         public override void Die()

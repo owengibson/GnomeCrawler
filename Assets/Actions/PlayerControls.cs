@@ -1002,6 +1002,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Developer"",
+            ""id"": ""f884a0be-7485-40af-b631-4dc05b433353"",
+            ""actions"": [
+                {
+                    ""name"": ""JumpToBoss"",
+                    ""type"": ""Button"",
+                    ""id"": ""1945ee46-77d3-4b16-aea1-cca72e68d325"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""06568b0f-44bf-493a-af1f-52ddf2d413a4"",
+                    ""path"": ""<Keyboard>/backslash"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""JumpToBoss"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -1034,6 +1062,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // Developer
+        m_Developer = asset.FindActionMap("Developer", throwIfNotFound: true);
+        m_Developer_JumpToBoss = m_Developer.FindAction("JumpToBoss", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1359,6 +1390,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Developer
+    private readonly InputActionMap m_Developer;
+    private List<IDeveloperActions> m_DeveloperActionsCallbackInterfaces = new List<IDeveloperActions>();
+    private readonly InputAction m_Developer_JumpToBoss;
+    public struct DeveloperActions
+    {
+        private @PlayerControls m_Wrapper;
+        public DeveloperActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @JumpToBoss => m_Wrapper.m_Developer_JumpToBoss;
+        public InputActionMap Get() { return m_Wrapper.m_Developer; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DeveloperActions set) { return set.Get(); }
+        public void AddCallbacks(IDeveloperActions instance)
+        {
+            if (instance == null || m_Wrapper.m_DeveloperActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DeveloperActionsCallbackInterfaces.Add(instance);
+            @JumpToBoss.started += instance.OnJumpToBoss;
+            @JumpToBoss.performed += instance.OnJumpToBoss;
+            @JumpToBoss.canceled += instance.OnJumpToBoss;
+        }
+
+        private void UnregisterCallbacks(IDeveloperActions instance)
+        {
+            @JumpToBoss.started -= instance.OnJumpToBoss;
+            @JumpToBoss.performed -= instance.OnJumpToBoss;
+            @JumpToBoss.canceled -= instance.OnJumpToBoss;
+        }
+
+        public void RemoveCallbacks(IDeveloperActions instance)
+        {
+            if (m_Wrapper.m_DeveloperActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IDeveloperActions instance)
+        {
+            foreach (var item in m_Wrapper.m_DeveloperActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_DeveloperActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public DeveloperActions @Developer => new DeveloperActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -1388,5 +1465,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface IDeveloperActions
+    {
+        void OnJumpToBoss(InputAction.CallbackContext context);
     }
 }

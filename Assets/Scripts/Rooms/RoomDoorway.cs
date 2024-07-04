@@ -8,13 +8,14 @@ namespace GnomeCrawler.Rooms
 {
     public class RoomDoorway : MonoBehaviour
     {
-        public enum DoorwayType { Entry, Exit, HealingRoom };
+        public enum DoorwayType { Entry, Exit, HealingRoom, BossRoom };
         public BoxCollider Collider { get; private set; }
 
         public DoorwayType Type;
 
         [SerializeField] private RoomDoorway _otherDoorway;
         [SerializeField] private GameObject _doorParticles; 
+        [SerializeField] private ParticleSystem _beacon; 
 
         private bool _hasExitBeenSet = false;
 
@@ -35,6 +36,13 @@ namespace GnomeCrawler.Rooms
             {
                 _otherDoorway.gameObject.SetActive(false);
                 AudioManager.Instance.SetMusicParameter(PlayerStatus.StartRoom);
+                return;
+            }
+
+            if (Type == DoorwayType.BossRoom)
+            {
+                EventManager.OnEnteredBossRoom?.Invoke();
+                EventManager.OnRoomStarted?.Invoke(transform.parent.GetHashCode());
                 return;
             }
 
@@ -60,6 +68,13 @@ namespace GnomeCrawler.Rooms
                 Collider.isTrigger = false;
                 _doorParticles.SetActive(true);
             }
+
+            if (Type == DoorwayType.BossRoom)
+            {
+                Collider.isTrigger = false;
+                _doorParticles.SetActive(true);
+                return;
+            }
         }
 
         private void OpenRoomExit()
@@ -69,15 +84,23 @@ namespace GnomeCrawler.Rooms
 
             Collider.enabled = false;
             _doorParticles.SetActive(false);
+            _beacon.Play();
+        }
+
+        private void ClearBeaconParticles(int unused)
+        {
+            _beacon.Stop();
         }
 
         private void OnEnable()
         {
             EventManager.OnRoomCleared += OpenRoomExit;
+            EventManager.OnRoomStarted += ClearBeaconParticles;
         }
         private void OnDisable()
         {
             EventManager.OnRoomCleared -= OpenRoomExit;
+            EventManager.OnRoomStarted -= ClearBeaconParticles;
         }
     }
 }

@@ -37,7 +37,7 @@ namespace GnomeCrawler
             {
                 _boss.StopCoroutine(_lookCoroutine);
             }
-            _lookCoroutine = _boss.StartCoroutine(LookAt(0.5f));
+            _lookCoroutine = _boss.StartCoroutine(LookAt(1f));
         }
 
         private IEnumerator LookAt(float duration)

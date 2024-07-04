@@ -12,6 +12,7 @@ namespace GnomeCrawler
         public Action ReachedPhase2Threshold;
         public Action ReachedPhase3Threshold;
 
+        [SerializeField] private Renderer[] _renderers;
         [SerializeField] private Transform[] _weaponTransforms;
         [SerializeField] private float[] _weaponHitboxSizes;
         [SerializeField] private GameObject _projectileGO;
@@ -24,11 +25,20 @@ namespace GnomeCrawler
         private bool _phase2Activated = false;
         private bool _phase3Activated = false;
 
+        private List<Color> _originalColours = new List<Color>();
+        private int _originalColorIndex;
+
         private void Start()
         {
             base.InitialiseVariables();
             _originTransform = _weaponTransforms[0];
             _weaponSize = _weaponHitboxSizes[0];
+
+            foreach (Renderer renderer in _renderers)
+            {
+                Material mat = renderer.material;
+                _originalColours.Add(mat.GetColor("_MainColor"));
+            }
         }
 
         protected override void CheckForRaycastHit()
@@ -79,7 +89,7 @@ namespace GnomeCrawler
             _projectileGO.transform.parent = _weaponTransforms[0].transform;
             _projectileGO.transform.localPosition = new Vector3(0,1,-1);
             _projectileGO.transform.localScale = Vector3.zero;
-            StartCoroutine(ScaleProjectile(Vector3.one * 3, 1.0f));
+            StartCoroutine(ScaleProjectile(Vector3.one * 4, 1.0f));
         }
 
         private IEnumerator ScaleProjectile(Vector3 targetScale, float duration)
@@ -94,7 +104,6 @@ namespace GnomeCrawler
                 yield return null;
             }
 
-            // Ensure final scale is exactly the target scale
             _projectileGO.transform.localScale = targetScale;
         }
 
@@ -115,13 +124,11 @@ namespace GnomeCrawler
 
                 _projectileGO.transform.position = Vector3.MoveTowards(_projectileGO.transform.position, finalPosition, step);
 
-                //Debug.Log($"Moving to {finalPosition}, current position: {_projectileGO.transform.position}");
-
                 yield return null;
             }
             _projectileGO.transform.position = finalPosition;
             
-            yield return StartCoroutine(ScaleProjectile(Vector3.one * 10, 0.5f));
+            yield return StartCoroutine(ScaleProjectile(Vector3.one * 15, 0.5f));
             _projectileGO.SetActive(false);
             Debug.Log("Projectile reached the final position");
         }
@@ -129,6 +136,34 @@ namespace GnomeCrawler
         public void StartShockwave()
         {
             _shockwaveGO.SetActive(true);
+        }
+
+        public override void TakeDamage(float amount, GameObject damager)
+        {
+            base.TakeDamage(amount, damager);
+
+            DamageFeedback();
+        }
+
+        private void DamageFeedback()
+        {
+            foreach (Renderer renderer in _renderers)
+            {
+                Material mat = renderer.material;
+                mat.SetColor("_MainColor", Color.black);
+            }
+            Invoke("ResetColour", .15f);
+        }
+
+        private void ResetColour()
+        {
+            foreach (Renderer renderer in _renderers)
+            {
+                Material mat = renderer.material;
+                mat.SetColor("_MainColor", _originalColours[_originalColorIndex]);
+                _originalColorIndex++;
+            }
+            _originalColorIndex = 0;
         }
 
         public override void Die()

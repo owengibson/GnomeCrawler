@@ -1,3 +1,4 @@
+using GnomeCrawler.Player;
 using GnomeCrawler.Systems;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace GnomeCrawler
         [HideInInspector] public float _currentEnemiesNo;
 
         [SerializeField] private float _distanceForMeleeRange;
+        [SerializeField] private float _distanceForConstantRange;
 
         [HideInInspector] public bool _canEnterPhase2 = false;
         [HideInInspector] public bool _canEnterPhase3 = false ;
@@ -38,6 +40,8 @@ namespace GnomeCrawler
 
         private void Awake()
         {
+            Target = PlayerStateMachine.instance.gameObject;
+
             var navMeshAgent = GetComponent<NavMeshAgent>();
             var animator = GetComponent<Animator>();
             var collider = GetComponent<Collider>();
@@ -57,17 +61,18 @@ namespace GnomeCrawler
 
             //transitions
             At(chase, attack, IsInMeleeRangeAndChoseAttackNo(1));
-            //At(chase, attack2 , IsInMeleeRangeAndChoseAttackNo(2));
-            //At(chase, attack3 , IsInMeleeRangeAndChoseAttackNo(3));
+            At(chase, attack2 , IsInMeleeRangeAndChoseAttackNo(2));
+            At(chase, attack3 , IsInMeleeRangeAndChoseAttackNo(3));
             At(attack, attack2, AttackComplete("Attack01"));
             At(attack2, attack3, AttackComplete("Attack02"));
             At(attack3, idle, AttackComplete("Attack03"));
+            At(idle, rangedAttack, ChoseRangedAfterCooldown());
             At(idle, chase, ChoseChaseAfterCooldown());
             At(idle, flee, ChoseFleeAfterCooldown());
-            At(idle, rangedAttack, ChoseRangedAfterCooldown());
             At(flee, rangedAttack, AttackComplete("Flee"));
             At(rangedAttack, chase, AttackComplete("RangedAttack"));
             At(adds, chase, AddsPhaseOver());
+            At(chase, rangedAttack, IsPlayerAtRangedRange());
 
             //maybe 2 adds states?
 
@@ -82,14 +87,14 @@ namespace GnomeCrawler
             void At(IState from, IState to, Func<bool> condition) => _stateMachine.AddTransition(from, to, condition);
             //void Aet(IState from, ref Action eventTrigger, IState to) => _stateMachine.AddTransition(from, ref eventTrigger, to);
             Func<bool> IsPlayerInMeleeRange() => () => Vector3.Distance(transform.position, Target.transform.position) < _distanceForMeleeRange;
-            Func<bool> IsPlayerOutOfMeleeRange() => () => !IsPlayerInMeleeRange()();
+            Func<bool> IsPlayerAtRangedRange() => () => Vector3.Distance(transform.position, Target.transform.position) > _distanceForConstantRange;
             Func<bool> CheckSuccessByPercentage(int percentage) => () => Random.Range(1, 101) <= percentage;
             Func<bool> IsInMeleeRangeAndChoseAttackNo(int attackNumber) => () => IsPlayerInMeleeRange()() && Random.Range(1, 4) == attackNumber;
             Func<bool> AttackComplete(string stateName) => () => AnimatorIsFinished(animator, stateName);
             Func<bool> CooldownAfterAttackFinished() => () => idle.TimeInIdle > 1.5f;
             Func<bool> ChoseFleeAfterCooldown() => () => CooldownAfterAttackFinished()() && CheckSuccessByPercentage(35)();
-            Func<bool> ChoseChaseAfterCooldown() => () => CooldownAfterAttackFinished()() && !ChoseFleeAfterCooldown()();
-            Func<bool> ChoseRangedAfterCooldown() => () => CooldownAfterAttackFinished()() && IsPlayerOutOfMeleeRange()();
+            Func<bool> ChoseChaseAfterCooldown() => () => CooldownAfterAttackFinished()() && CheckSuccessByPercentage(65)();
+            Func<bool> ChoseRangedAfterCooldown() => () => CooldownAfterAttackFinished()() && IsPlayerAtRangedRange()();
             Func<bool> WillFleeFromMelee() => () => InMeleePhase == true && CheckSuccessByPercentage(fleeChance[_bossHitNumberInMeleePhase])();
             Func<bool> AddsPhaseOver() => () => _currentEnemiesNo == 0;
 

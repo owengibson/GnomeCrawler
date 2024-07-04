@@ -30,6 +30,7 @@ namespace GnomeCrawler.Systems
 
         public static Action<int> OnTutoialPopupQuery;
         public static Action<Objective, int> OnObjectiveChange;
+        public static Action OnEnteredBossRoom;
 
         public static Func<CardSO> GetSelectedActivatableCard;
         public static Func<StatsSO> GetPlayerStats;
