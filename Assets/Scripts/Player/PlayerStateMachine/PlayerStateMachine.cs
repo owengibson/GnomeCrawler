@@ -14,6 +14,7 @@ namespace GnomeCrawler.Player
     public class PlayerStateMachine : MonoBehaviour
     {
         public Analytics analyticsScript;
+        public static PlayerStateMachine instance;
 
         #region constants
         const float _rotationFactorPerFrame = 15.0f;
@@ -163,6 +164,8 @@ namespace GnomeCrawler.Player
 
         private void Awake()
         {
+            instance = this;
+
             // initialised reference variables
             _playerInput = new PlayerControls();
             _characterController = GetComponent<CharacterController>();
@@ -233,6 +236,8 @@ namespace GnomeCrawler.Player
             _cameraRelativeMovement.x = _cameraRelativeMovement.x * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity;
             _cameraRelativeMovement.z = _cameraRelativeMovement.z * _playerStats.GetStat(Stat.MoveSpeed) * _dodgeVelocity;
             _characterController.Move(_cameraRelativeMovement * Time.deltaTime);
+
+            if (_isDodgePressed && _isMovementPressed) EventManager.OnTutoialPopupQuery?.Invoke(3);
         }
 
         private void HandleLockOnStatus()
@@ -246,6 +251,12 @@ namespace GnomeCrawler.Player
                 }
 
                 if (_currentLockOnTarget.IsDead)
+                {
+                    SetLockOnStatus(false);
+                    return;
+                }
+
+                if (!_currentLockOnTarget.IsLockable)
                 {
                     SetLockOnStatus(false);
                     return;

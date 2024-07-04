@@ -66,7 +66,7 @@ namespace GnomeCrawler.Enemies
             if (angle <= thresholdAngle)
             {
                 ctx.EnemyAnimator.SetBool("inCombat", true);
-                Debug.Log("Facing Player is  " + IsFacingPlayer());
+                Debug.Log("Facing Player is true");
 
                 return true;
             }

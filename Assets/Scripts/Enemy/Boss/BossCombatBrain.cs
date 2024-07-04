@@ -15,7 +15,8 @@ namespace GnomeCrawler
         [SerializeField] private Transform[] _weaponTransforms;
         [SerializeField] private float[] _weaponHitboxSizes;
         [SerializeField] private GameObject _projectileGO;
-        [SerializeField] private GameObject _player;
+        [SerializeField] private GameObject _shockwaveGO;
+        [SerializeField] private float _projectileSpeed;
 
         [SerializeField] private float _phase2HealthThresholdPercentage = .65f;
         [SerializeField] private float _phase3HealthThresholdPercentage = .35f;
@@ -77,12 +78,30 @@ namespace GnomeCrawler
             _projectileGO.SetActive(true);
             _projectileGO.transform.parent = _weaponTransforms[0].transform;
             _projectileGO.transform.localPosition = new Vector3(0,1,-1);
+            _projectileGO.transform.localScale = Vector3.zero;
+            StartCoroutine(ScaleProjectile(Vector3.one * 3, 1.0f));
+        }
+
+        private IEnumerator ScaleProjectile(Vector3 targetScale, float duration)
+        {
+            Vector3 initialScale = _projectileGO.transform.localScale;
+            float elapsedTime = 0;
+
+            while (elapsedTime < duration)
+            {
+                _projectileGO.transform.localScale = Vector3.Lerp(initialScale, targetScale, elapsedTime / duration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            // Ensure final scale is exactly the target scale
+            _projectileGO.transform.localScale = targetScale;
         }
 
         public void ShootProjectile()
         {
             _projectileGO.transform.parent = null;
-            StartCoroutine(ProjectileTravel(_player.transform.position, 5f));
+            StartCoroutine(ProjectileTravel(PlayerStateMachine.instance.transform.position, _projectileSpeed));
         }
 
         private IEnumerator ProjectileTravel(Vector3 finalPosition, float speed)
@@ -92,11 +111,24 @@ namespace GnomeCrawler
 
             while (Vector3.Distance(_projectileGO.transform.position, finalPosition) > 0.1f)
             {
-                _projectileGO.transform.position += direction * speed * Time.deltaTime;
+                float step = speed * Time.deltaTime;
+
+                _projectileGO.transform.position = Vector3.MoveTowards(_projectileGO.transform.position, finalPosition, step);
+
+                //Debug.Log($"Moving to {finalPosition}, current position: {_projectileGO.transform.position}");
+
                 yield return null;
             }
-
             _projectileGO.transform.position = finalPosition;
+            
+            yield return StartCoroutine(ScaleProjectile(Vector3.one * 10, 0.5f));
+            _projectileGO.SetActive(false);
+            Debug.Log("Projectile reached the final position");
+        }
+
+        public void StartShockwave()
+        {
+            _shockwaveGO.SetActive(true);
         }
 
         public override void Die()

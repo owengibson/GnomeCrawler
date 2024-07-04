@@ -1,4 +1,4 @@
-using GnomeCrawler.Player;
+using GnomeCrawler.Systems;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -14,12 +14,14 @@ namespace GnomeCrawler
         public float _moveSpeed;
         public bool InMeleePhase;
         public int _bossHitNumberInMeleePhase;
+        public Transform[] _addsSpawnPoints;
         [HideInInspector] public BossCombatBrain _combatBrain;
+        [HideInInspector] public float _currentEnemiesNo;
 
         [SerializeField] private float _distanceForMeleeRange;
 
-        private bool _canEnterPhase2 = false;
-        private bool _canEnterPhase3 = false ;
+        [HideInInspector] public bool _canEnterPhase2 = false;
+        [HideInInspector] public bool _canEnterPhase3 = false ;
 
         private StateMachine _stateMachine;
         private Dictionary<int, int> fleeChance = new Dictionary<int, int>
@@ -27,16 +29,18 @@ namespace GnomeCrawler
             { 0, 0 },
             { 1, 0 },
             { 2, 0 },
-            { 3, 50 },
-            { 4, 65 },
-            { 5, 80 },
-            { 6, 100 },
+            { 3, 10 },
+            { 4, 30 },
+            { 5, 65 },
+            { 6, 80 },
+            { 7, 100 }
         };
 
         private void Awake()
         {
             var navMeshAgent = GetComponent<NavMeshAgent>();
             var animator = GetComponent<Animator>();
+            var collider = GetComponent<Collider>();
             _combatBrain = GetComponent<BossCombatBrain>();
 
             _stateMachine = new StateMachine();
@@ -48,8 +52,8 @@ namespace GnomeCrawler
             var attack3 = new MeleeAttack(this, navMeshAgent, animator, 3);
             var rangedAttack = new RangedAttack(this, navMeshAgent, animator, 1);
             var idle = new Idle(this, navMeshAgent, animator);
-            var flee = new Flee(this, navMeshAgent, animator);
-            var adds = new Adds(this, animator);
+            var flee = new Flee(this, navMeshAgent, animator, collider);
+            var adds = new Adds(this, animator, collider);
 
             //transitions
             At(chase, attack, IsInMeleeRangeAndChoseAttackNo(1));
@@ -87,16 +91,21 @@ namespace GnomeCrawler
             Func<bool> ChoseChaseAfterCooldown() => () => CooldownAfterAttackFinished()() && !ChoseFleeAfterCooldown()();
             Func<bool> ChoseRangedAfterCooldown() => () => CooldownAfterAttackFinished()() && IsPlayerOutOfMeleeRange()();
             Func<bool> WillFleeFromMelee() => () => InMeleePhase == true && CheckSuccessByPercentage(fleeChance[_bossHitNumberInMeleePhase])();
-            Func<bool> AddsPhaseOver() => () => adds.AddsTestTimer > 3;
+            Func<bool> AddsPhaseOver() => () => _currentEnemiesNo == 0;
 
             Func<bool> CanBossEnterPhase2() => () => _canEnterPhase2 == true && !InMeleePhase;
             Func<bool> CanBossEnterPhase3() => () => _canEnterPhase3 == true && !InMeleePhase;
+
+
+            _currentEnemiesNo = -1;
         }
 
         private void Update() => _stateMachine.Tick();
 
         private void OnEnable()
         {
+            EventManager.OnEnemyKilled += EnemyKilled;
+
             _combatBrain.DamageTaken += BossHasTakenHit;
             _combatBrain.ReachedPhase2Threshold += BossEnteredPhase2;
             _combatBrain.ReachedPhase3Threshold += BossEnteredPhase3;
@@ -107,6 +116,11 @@ namespace GnomeCrawler
             _combatBrain.DamageTaken -= BossHasTakenHit;
             _combatBrain.ReachedPhase2Threshold -= BossEnteredPhase2;
             _combatBrain.ReachedPhase3Threshold -= BossEnteredPhase3;
+        }
+
+        private void EnemyKilled(GameObject obj)
+        {
+            _currentEnemiesNo--;
         }
 
         private void BossHasTakenHit()

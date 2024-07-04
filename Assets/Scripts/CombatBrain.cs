@@ -28,6 +28,7 @@ namespace GnomeCrawler
         [SerializeField] protected StatsSO _stats;
         public float CurrentHealth { get; set; }
         public bool IsDead { get; set; }
+        public bool IsLockable { get; set; }
 
         private void Start()
         {
@@ -55,6 +56,7 @@ namespace GnomeCrawler
             _canDealDamage = false;
             _hasDealtDamage = false;
             IsDead = false;
+            IsLockable = true;
         }
 
         protected virtual void CheckForRaycastHit()

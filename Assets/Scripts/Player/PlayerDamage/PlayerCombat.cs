@@ -14,7 +14,7 @@ namespace GnomeCrawler.Player
     public class PlayerCombat : CombatBrain
     {
         private float _healTickTime;
-        public float PoisionTickTime;
+        [HideInInspector] public float PoisionTickTime;
         private List<GameObject> _damagedGameObjects;
         private bool _isInvincible = false;
         private PlayerStateMachine _stateMachine;

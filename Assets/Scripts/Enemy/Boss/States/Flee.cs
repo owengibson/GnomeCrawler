@@ -10,19 +10,21 @@ namespace GnomeCrawler
         private readonly Boss _boss;
         private readonly NavMeshAgent _navMeshAgent;
         private readonly Animator _animator;
+        private readonly Collider _collider;
 
         private Coroutine _lookCoroutine;
 
         private static readonly int FleeHash = Animator.StringToHash("Flee");
         private float _cachedSpeed;
         private float _cachedRotation;
-        private const float FLEE_SPEED = 15;
+        private const float FLEE_SPEED = 20;
         private const float FLEE_ROTATION = 0;
-        public Flee(Boss boss, NavMeshAgent navMeshAgent, Animator animator)
+        public Flee(Boss boss, NavMeshAgent navMeshAgent, Animator animator, Collider collider)
         {
             _boss = boss;
             _navMeshAgent = navMeshAgent;
             _animator = animator;
+            _collider = collider;
         }
 
         public void Tick()
@@ -54,6 +56,7 @@ namespace GnomeCrawler
         public void OnEnter()
         {
             _navMeshAgent.enabled = true;
+            _collider.enabled = false;
             _boss._bossHitNumberInMeleePhase = 0;
             _animator.SetTrigger(FleeHash);
             _cachedSpeed = _navMeshAgent.speed;
@@ -67,6 +70,7 @@ namespace GnomeCrawler
         public void OnExit()
         {
             _navMeshAgent.enabled = false;
+            _collider.enabled = true;
             _navMeshAgent.speed = _cachedSpeed;
             _navMeshAgent.angularSpeed = _cachedRotation;
         }
