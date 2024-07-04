@@ -993,6 +993,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "InvertCam",
+                    "type": "Button",
+                    "id": "74bcb1d6-18a0-435e-8990-bd2f889d3df7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1004,6 +1013,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "JumpToBoss",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9a9be177-d34b-432b-bf6e-5dccf8ff01e7",
+                    "path": "<Keyboard>/rightBracket",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InvertCam",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

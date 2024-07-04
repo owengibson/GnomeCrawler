@@ -114,6 +114,8 @@ namespace GnomeCrawler.Player
         // gravity
         float _gravity = -9.8f;
 
+        private bool _looked = false;
+
         #region getters and setters
         public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
         public Animator Animator { get { return _animator; } }
@@ -427,16 +429,20 @@ namespace GnomeCrawler.Player
         void OnLookInput(InputAction.CallbackContext context)
         {
             float y = context.ReadValue<Vector2>().normalized.y;
+            if (_looked) return;
             if (y > 0)
             {
                 Debug.Log("Natural");
                 EventManager.OnTutoialPopupQuery?.Invoke(1);
+                EventManager.OnChooseInversion?.Invoke(false);
             }
             else if (y < 0)
             {
                 Debug.Log("Goofy");
                 EventManager.OnTutoialPopupQuery?.Invoke(1);
+                EventManager.OnChooseInversion?.Invoke(true);
             }
+            _looked = true;
         }
 
         void OnMovementInput(InputAction.CallbackContext context)

@@ -1015,6 +1015,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InvertCam"",
+                    ""type"": ""Button"",
+                    ""id"": ""74bcb1d6-18a0-435e-8990-bd2f889d3df7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1026,6 +1035,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""JumpToBoss"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a9be177-d34b-432b-bf6e-5dccf8ff01e7"",
+                    ""path"": ""<Keyboard>/rightBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InvertCam"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1065,6 +1085,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // Developer
         m_Developer = asset.FindActionMap("Developer", throwIfNotFound: true);
         m_Developer_JumpToBoss = m_Developer.FindAction("JumpToBoss", throwIfNotFound: true);
+        m_Developer_InvertCam = m_Developer.FindAction("InvertCam", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1395,11 +1416,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Developer;
     private List<IDeveloperActions> m_DeveloperActionsCallbackInterfaces = new List<IDeveloperActions>();
     private readonly InputAction m_Developer_JumpToBoss;
+    private readonly InputAction m_Developer_InvertCam;
     public struct DeveloperActions
     {
         private @PlayerControls m_Wrapper;
         public DeveloperActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @JumpToBoss => m_Wrapper.m_Developer_JumpToBoss;
+        public InputAction @InvertCam => m_Wrapper.m_Developer_InvertCam;
         public InputActionMap Get() { return m_Wrapper.m_Developer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1412,6 +1435,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @JumpToBoss.started += instance.OnJumpToBoss;
             @JumpToBoss.performed += instance.OnJumpToBoss;
             @JumpToBoss.canceled += instance.OnJumpToBoss;
+            @InvertCam.started += instance.OnInvertCam;
+            @InvertCam.performed += instance.OnInvertCam;
+            @InvertCam.canceled += instance.OnInvertCam;
         }
 
         private void UnregisterCallbacks(IDeveloperActions instance)
@@ -1419,6 +1445,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @JumpToBoss.started -= instance.OnJumpToBoss;
             @JumpToBoss.performed -= instance.OnJumpToBoss;
             @JumpToBoss.canceled -= instance.OnJumpToBoss;
+            @InvertCam.started -= instance.OnInvertCam;
+            @InvertCam.performed -= instance.OnInvertCam;
+            @InvertCam.canceled -= instance.OnInvertCam;
         }
 
         public void RemoveCallbacks(IDeveloperActions instance)
@@ -1469,5 +1498,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IDeveloperActions
     {
         void OnJumpToBoss(InputAction.CallbackContext context);
+        void OnInvertCam(InputAction.CallbackContext context);
     }
 }
