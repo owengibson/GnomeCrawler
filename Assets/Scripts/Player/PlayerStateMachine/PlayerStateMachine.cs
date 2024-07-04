@@ -461,8 +461,7 @@ namespace GnomeCrawler.Player
             if (_isAttackDisabled) return;
             _isAttackPressed = context.ReadValueAsButton();
             string buttonName = context.action.name; // Added for Analytics
-            analyticsScript.TrackButtonPress(buttonName); // Added for Analytics
-            EventManager.OnTutoialPopupQuery?.Invoke(5);
+            analyticsScript.TrackButtonPress(buttonName); // Added for Analyti
         }
         private void OnDodge(InputAction.CallbackContext context)
         {
@@ -572,6 +571,7 @@ namespace GnomeCrawler.Player
             {
                 _isAttackFinished = true;
                 ResetChainAttackCoroutine = StartCoroutine(ResetChainAttack());
+                EventManager.OnTutoialPopupQuery?.Invoke(5);
             }
             if (animName == "Flinch")
             {
