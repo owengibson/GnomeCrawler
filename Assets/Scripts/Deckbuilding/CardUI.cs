@@ -14,6 +14,7 @@ namespace GnomeCrawler.Deckbuilding
         [SerializeField] private CardSO _card;
         [Space]
 
+        [SerializeField] private Image _icon;
         [SerializeField] private TextMeshProUGUI _titleText;
         [SerializeField] private TextMeshProUGUI _descriptionText;
         [SerializeField] private Image _backgroundImage;
@@ -33,6 +34,9 @@ namespace GnomeCrawler.Deckbuilding
         public void Initialise(CardSO card)
         {
             if (card == null) return;
+
+            if (_icon != null)
+                _icon.sprite = card.Icon;
 
             _titleText.text = card.Name;
             _descriptionText.text = card.Description;
