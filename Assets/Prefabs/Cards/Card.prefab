@@ -260,6 +260,7 @@ GameObject:
   - component: {fileID: -6087799891312080704}
   - component: {fileID: -6620514902721115574}
   - component: {fileID: 4171130436578276064}
+  - component: {fileID: 4190163846264561293}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -475,8 +476,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0.5411765}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.5647059}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 0}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 0.80784315}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 0.5411765}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0}
@@ -510,6 +511,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4190163846264561293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5833114791070407867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba258861e0db015439be730dda7f624a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _verticalMoveAmount: 30
+  _moveTime: 0.1
+  _scaleAmount: 1.1
 --- !u!1 &6158396778107469338
 GameObject:
   m_ObjectHideFlags: 0

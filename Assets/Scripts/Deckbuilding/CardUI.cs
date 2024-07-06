@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using GnomeCrawler.Systems;
 using Sirenix.OdinInspector;
 using GnomeCrawler.Audio;
+using UnityEngine.EventSystems;
 
 namespace GnomeCrawler.Deckbuilding
 {

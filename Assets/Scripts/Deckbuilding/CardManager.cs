@@ -17,10 +17,11 @@ namespace GnomeCrawler.Deckbuilding
         [Space]
 
         [Header("GameObject/Prefab References")]
-        [SerializeField] private Transform _cardUIContainer;
+        [SerializeField] private GameObject[] _cardGOs;
         [SerializeField] private GameObject _cardPrefab;
         [SerializeField] private GameObject _handApproveButton;
         [SerializeField] private GameObject _handQuickview;
+        [SerializeField] private GameObject[] _quickviewCards;
         [Space]
 
         [Header("Parameters")]
@@ -44,31 +45,46 @@ namespace GnomeCrawler.Deckbuilding
         {
             _hand = DrawCards(_deck, _handSize, true);
             EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
-            InstantiateCards(_hand, false, _cardUIContainer);
+            InstantiateCards(_hand, false);
             _handApproveButton.SetActive(true);
             EventSystem.current.SetSelectedGameObject(_handApproveButton);
         }
 
-        private void InstantiateCards(List<CardSO> cards, bool isSelection, Transform container)
+        private void InstantiateCards(List<CardSO> cards, bool isSelection)
         {
-            foreach(Transform child in container)
-                Destroy(child.gameObject);
-
-            foreach (CardSO card in cards)
+            for (int i = 0; i < cards.Count; i++)
             {
-                GameObject newCardGO = Instantiate(_cardPrefab, container);
-                CardUI newCard = newCardGO.GetComponent<CardUI>();
-                newCard.SetCard(card);
+                CardSO card = cards[i];
+                CardUI cardUI = _cardGOs[i].GetComponent<CardUI>();
+                cardUI.SetCard(card);
                 if (!isSelection)
                 {
-                    newCardGO.GetComponent<Button>().enabled = false;
-                    newCard.ButtonGraphic.SetActive(false);
+                    _cardGOs[i].GetComponent<Button>().enabled = false;
+                    cardUI.ButtonGraphic.SetActive(false);
                 }
+                else
+                {
+                    _cardGOs[i].GetComponent<Button>().enabled = true;
+                    cardUI.ButtonGraphic.SetActive(true);
+                }
+                _cardGOs[i].SetActive(true);
             }
 
             if (isSelection)
-                Debug.Log(EventSystem.current.gameObject);
-                EventSystem.current.SetSelectedGameObject(_cardUIContainer.GetChild(0).gameObject);
+            {
+                Button cardButton = _cardGOs[0].GetComponent<Button>();
+                cardButton.Select();
+                cardButton.OnSelect(null);
+                //StartCoroutine(SetSelectedGameObject());
+            }
+        }
+
+        private IEnumerator SetSelectedGameObject()
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            yield return null;
+            EventSystem.current.SetSelectedGameObject(_cardGOs[0]);
+            Debug.Log(EventSystem.current.currentSelectedGameObject.name);
         }
 
         private List<CardSO> DrawCards(List<CardSO> pool, int noOfCardsToDraw, bool isDrawingFromDeck)
@@ -102,7 +118,7 @@ namespace GnomeCrawler.Deckbuilding
         public void DrawAndDisplayCards()
         {
             EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
-            InstantiateCards(DrawCards(_allCards, _numberOfCardsToDraw, false), true, _cardUIContainer);
+            InstantiateCards(DrawCards(_allCards, _numberOfCardsToDraw, false), true);
         }
 
         private void AddCardToDeck(CardSO card)
@@ -129,15 +145,29 @@ namespace GnomeCrawler.Deckbuilding
         {
             EventManager.OnHandApproved?.Invoke(_hand);
 
-            foreach (Transform child in _cardUIContainer)
-                Destroy(child.gameObject);
+            foreach (var card in _cardGOs)
+            {
+                card.SetActive(false);
+            }
 
             EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
 
             _handApproveButton.SetActive(false);
-            InstantiateCards(_hand, false, _handQuickview.transform);
+            SetUpQuickview();
 
             AudioManager.Instance.SetMusicParameter(PlayerStatus.Combat);
+        }
+
+        private void SetUpQuickview()
+        {
+            for (int i = 0; i < _hand.Count; i++)
+            {
+                CardSO card = _hand[i];
+                CardUI cardUI = _quickviewCards[i].GetComponent<CardUI>();
+                cardUI.SetCard(card);
+                _quickviewCards[i].GetComponent<Button>().enabled = false;
+                cardUI.ButtonGraphic.SetActive(false);
+            }
         }
 
         private void ToggleHandQuickview(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
