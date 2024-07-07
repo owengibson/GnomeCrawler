@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using GnomeCrawler.Systems;
 using UnityEngine.UI;
 using GnomeCrawler.Audio;
+using GnomeCrawler.UI;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -41,6 +42,11 @@ namespace GnomeCrawler.Deckbuilding
             _playerControls.Player.HandQuickview.canceled += ToggleHandQuickview;
         }
 
+        /*private void Update()
+        {
+            Debug.Log(EventSystem.current.currentSelectedGameObject);
+        }*/
+
         private void DrawAndDisplayNewHand(int unused)
         {
             _hand = DrawCards(_deck, _handSize, true);
@@ -59,11 +65,13 @@ namespace GnomeCrawler.Deckbuilding
                 cardUI.SetCard(card);
                 if (!isSelection)
                 {
+                    _cardGOs[i].GetComponent<UISelectionHandler>().enabled = false;
                     _cardGOs[i].GetComponent<Button>().enabled = false;
                     cardUI.ButtonGraphic.SetActive(false);
                 }
                 else
                 {
+                    _cardGOs[i].GetComponent<UISelectionHandler>().enabled = true;
                     _cardGOs[i].GetComponent<Button>().enabled = true;
                     cardUI.ButtonGraphic.SetActive(true);
                 }
@@ -72,19 +80,15 @@ namespace GnomeCrawler.Deckbuilding
 
             if (isSelection)
             {
-                Button cardButton = _cardGOs[0].GetComponent<Button>();
-                cardButton.Select();
-                cardButton.OnSelect(null);
-                //StartCoroutine(SetSelectedGameObject());
+                StartCoroutine(SetSelectedGameObject());
             }
         }
 
         private IEnumerator SetSelectedGameObject()
         {
-            EventSystem.current.SetSelectedGameObject(null);
             yield return null;
+            EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(_cardGOs[0]);
-            Debug.Log(EventSystem.current.currentSelectedGameObject.name);
         }
 
         private List<CardSO> DrawCards(List<CardSO> pool, int noOfCardsToDraw, bool isDrawingFromDeck)
@@ -165,6 +169,7 @@ namespace GnomeCrawler.Deckbuilding
                 CardSO card = _hand[i];
                 CardUI cardUI = _quickviewCards[i].GetComponent<CardUI>();
                 cardUI.SetCard(card);
+                _quickviewCards[i].GetComponent<UISelectionHandler>().enabled = false;
                 _quickviewCards[i].GetComponent<Button>().enabled = false;
                 cardUI.ButtonGraphic.SetActive(false);
             }

@@ -65,7 +65,7 @@ namespace GnomeCrawler.Deckbuilding
             EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
 
             AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("CardChosen"));
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         public void CardChosen(CardSO card)
@@ -74,7 +74,7 @@ namespace GnomeCrawler.Deckbuilding
             if (card == _card) return;
 
             // Probably put an animation or something in here for when this card is not chosen
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         [Button]

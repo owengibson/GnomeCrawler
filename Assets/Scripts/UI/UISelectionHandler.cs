@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace GnomeCrawler.UI
 {
-    public class UISelectionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class UISelectionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
     {
         [SerializeField] private float _verticalMoveAmount = 30f;
         [SerializeField] private float _moveTime = 0.1f;
@@ -17,39 +18,39 @@ namespace GnomeCrawler.UI
 
         private void OnEnable()
         {
-            Debug.Log(transform.position);
             _startPos = transform.position;
             _startScale = transform.localScale;
         }
 
         private IEnumerator MoveUI(bool isStartingAnimation)
         {
-            Debug.Log("moveui called");
             Vector3 startPos = transform.position;
             Vector3 startScale = transform.localScale;
 
             Vector3 endPosition;
             Vector3 endScale;
 
+            if (isStartingAnimation)
+            {
+                endPosition = _startPos + new Vector3(0f, _verticalMoveAmount, 0f);
+                endScale = _startScale * _scaleAmount;
+            }
+            else
+            {
+                endPosition = _startPos;
+                endScale = _startScale;
+            }
+
             float counter = 0f;
             while (counter < _moveTime)
             {
                 counter += Time.fixedDeltaTime;
 
-                if (isStartingAnimation)
-                {
-                    endPosition = _startPos + new Vector3(0f, _verticalMoveAmount, 0f);
-                    endScale = _startScale * _scaleAmount;
-                }
-                else
-                {
-                    endPosition = _startPos;
-                    endScale = _startScale;
-                }
-
+                // Calculate new position/scale
                 Vector3 lerpedPos = Vector3.Lerp(startPos, endPosition, counter / _moveTime);
                 Vector3 lerpedScale = Vector3.Lerp(startScale, endScale, counter / _moveTime);
 
+                // Apply calculated pos/scale
                 transform.position = lerpedPos;
                 transform.localScale = lerpedScale;
 
@@ -59,12 +60,22 @@ namespace GnomeCrawler.UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            StartCoroutine(MoveUI(true));
+            eventData.selectedObject = gameObject;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            StartCoroutine(MoveUI(false));
+            eventData.selectedObject = null;
+        }
+
+        public void OnSelect(BaseEventData eventData)
+        {
+            StartCoroutine(MoveUI(true));
+        }
+
+        public void OnDeselect(BaseEventData eventData)
+        {
+            StartCoroutine (MoveUI(false));
         }
     }
 }
