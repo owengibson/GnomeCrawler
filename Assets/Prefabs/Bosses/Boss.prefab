@@ -86,7 +86,7 @@ MonoBehaviour:
   _combatBrain: {fileID: 0}
   _currentEnemiesNo: 0
   _distanceForMeleeRange: 4
-  _distanceForConstantRange: 20
+  _distanceForRangedAttack: 20
   _canEnterPhase2: 0
   _canEnterPhase3: 0
 --- !u!114 &387827963758863880
@@ -118,9 +118,9 @@ MonoBehaviour:
   - {fileID: 3135297130494542651}
   - {fileID: 2780492994732923925}
   _weaponHitboxSizes:
+  - 1.3
+  - 0.9
   - 1.5
-  - 1
-  - 2
   _projectileGO: {fileID: 5257622109782102270}
   _shockwaveGO: {fileID: 6385498796990185647}
   _projectileSpeed: 60
@@ -627,7 +627,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.5
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2

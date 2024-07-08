@@ -11,7 +11,7 @@ namespace GnomeCrawler.Player
 
         public override void EnterState()
         {
-            Debug.Log("start flinch");
+            //Debug.Log("start flinch");
             Ctx.IsFlinchFinished = false;
             Ctx.Animator.SetTrigger(Ctx.FlinchHash);
             Ctx.AppliedMovementX = 0;

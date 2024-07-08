@@ -19,11 +19,6 @@ namespace GnomeCrawler
         public override void Tick()
         {
             base.Tick();
-
-            if (_attackNumber == 3)
-            {
-                _boss._combatBrain.ExpandOverlapSphere();
-            }
         }
 
         public override void OnEnter()
