@@ -22,6 +22,9 @@ namespace GnomeCrawler.Deckbuilding
         private void ActivateSelectedCard(InputAction.CallbackContext context)
         {
             ActivateCard(EventManager.GetSelectedActivatableCard?.Invoke());
+            if (TutorialManager.StaticPopupIndex != 7) return;
+            EventManager.OnRemoveTutoialPopupQuery?.Invoke(7);
+            EventManager.OnTutoialPopupQuery?.Invoke(8);
         }
 
         private void ActivateCard(CardSO card)
