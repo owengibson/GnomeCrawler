@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using GnomeCrawler.Systems;
 using Sirenix.OdinInspector;
 using GnomeCrawler.Audio;
+using UnityEngine.EventSystems;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -14,9 +15,12 @@ namespace GnomeCrawler.Deckbuilding
         [SerializeField] private CardSO _card;
         [Space]
 
+        [SerializeField] private Image _icon;
         [SerializeField] private TextMeshProUGUI _titleText;
         [SerializeField] private TextMeshProUGUI _descriptionText;
         [SerializeField] private Image _backgroundImage;
+
+        public GameObject ButtonGraphic;
 
         private readonly Color _defenseColour = new Color32(165, 255, 140, 225);
         private readonly Color _offenseColour = new Color32(255, 140, 140, 225);
@@ -32,10 +36,13 @@ namespace GnomeCrawler.Deckbuilding
         {
             if (card == null) return;
 
+            if (_icon != null)
+                _icon.sprite = card.Icon;
+
             _titleText.text = card.Name;
             _descriptionText.text = card.Description;
 
-            switch (card.Category)
+            /*switch (card.Category)
             {
                 case CardCategory.Defense:
                     _backgroundImage.color = _defenseColour;
@@ -48,7 +55,7 @@ namespace GnomeCrawler.Deckbuilding
                     break;
                 default:
                     break;
-            }
+            }*/
         }
 
         public void ChooseCard()
@@ -58,7 +65,7 @@ namespace GnomeCrawler.Deckbuilding
             EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
 
             AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("CardChosen"));
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         public void CardChosen(CardSO card)
@@ -67,7 +74,7 @@ namespace GnomeCrawler.Deckbuilding
             if (card == _card) return;
 
             // Probably put an animation or something in here for when this card is not chosen
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         [Button]
