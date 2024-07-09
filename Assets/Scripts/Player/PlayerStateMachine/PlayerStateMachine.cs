@@ -32,9 +32,9 @@ namespace GnomeCrawler.Player
 
         #region lock on
         [Header("Lock On")]
-        [SerializeField] CinemachineVirtualCamera lockOnCam;
-        [SerializeField] CinemachineFreeLook followCam;
-        [SerializeField] Animator camAnimator;
+        [SerializeField] CinemachineVirtualCamera _lockOnCam;
+        CinemachineFreeLook _playerCam;
+        [SerializeField] Animator _camAnimator;
         [SerializeField] LayerMask _targetLayers;
         [SerializeField] LayerMask _environmentLayers;
         [SerializeField] Transform _playerLockTransform;
@@ -114,8 +114,6 @@ namespace GnomeCrawler.Player
         // gravity
         float _gravity = -9.8f;
 
-        private bool _looked = false;
-
         #region getters and setters
         public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
         public Animator Animator { get { return _animator; } }
@@ -164,6 +162,12 @@ namespace GnomeCrawler.Player
         public bool IsAttackDisabled { get => _isAttackDisabled; set => _isAttackDisabled = value; }
         #endregion
 
+        #region tutorial
+        private bool _looked = false;
+        private float _camYSpeed;
+        private float _camXSpeed;
+        #endregion
+
         private void Awake()
         {
             instance = this;
@@ -173,6 +177,7 @@ namespace GnomeCrawler.Player
             _characterController = GetComponent<CharacterController>();
             _animator = GetComponent<Animator>();
             _mainCam = Camera.main;
+            _playerCam = _camAnimator.transform.GetComponentInChildren<CinemachineFreeLook>();
 
             // Setup States
             _states = new PlayerStateFactory(this);
@@ -207,6 +212,8 @@ namespace GnomeCrawler.Player
             _playerInput.Player.SeekRightLockOnTagret.performed += RightLockOnSwap;
 
             _playerInput.Player.Look.started += OnLookInput;
+            _playerInput.Player.Look.performed += OnLookInput;
+            _playerInput.Player.Look.canceled += OnLookInput;
 
             SetupJumpVariables();
         }
@@ -222,6 +229,8 @@ namespace GnomeCrawler.Player
         {
             transform.parent = transform.root;
             _characterController.Move(_appliedMovement * _playerStats.GetStat(Stat.MoveSpeed) * Time.deltaTime);
+
+            LockCamera();
         }
 
         private void Update()
@@ -428,28 +437,48 @@ namespace GnomeCrawler.Player
 
         void OnLookInput(InputAction.CallbackContext context)
         {
-            float y = context.ReadValue<Vector2>().normalized.y;
+            if (DialogueManager.IsDialogueRunning) return;
+            float y = context.ReadValue<Vector2>().y;
+            float x = context.ReadValue<Vector2>().x;
             if (_looked) return;
-            if (y > 0)
+            if (TutorialManager.StaticPopupIndex == 0)
             {
-                Debug.Log("Natural");
-                EventManager.OnTutoialPopupQuery?.Invoke(1);
-                EventManager.OnChooseInversion?.Invoke(false);
+                if (y > 0.4)
+                {
+                    Debug.Log("Natural");
+                    _playerCam.m_YAxis.m_MaxSpeed = _camYSpeed;
+                    EventManager.OnRemoveTutoialPopupQuery?.Invoke(0);
+                    EventManager.OnTutoialPopupQuery?.Invoke(1);
+                    EventManager.OnChooseInversion?.Invoke(false);
+                }
+                else if (y < -0.4)
+                {
+                    Debug.Log("Goofy");
+                    _playerCam.m_YAxis.m_MaxSpeed = _camYSpeed;
+                    EventManager.OnRemoveTutoialPopupQuery?.Invoke(0);
+                    EventManager.OnTutoialPopupQuery?.Invoke(1);
+                    EventManager.OnChooseInversion?.Invoke(true);
+                }
             }
-            else if (y < 0)
+            else if (TutorialManager.StaticPopupIndex == 1)
             {
-                Debug.Log("Goofy");
-                EventManager.OnTutoialPopupQuery?.Invoke(1);
-                EventManager.OnChooseInversion?.Invoke(true);
+                if (x > 0.4 || x < -0.4)
+                {
+                    _playerCam.m_XAxis.m_MaxSpeed = _camXSpeed;
+                    EventManager.OnRemoveTutoialPopupQuery?.Invoke(1);
+                    EventManager.OnTutoialPopupQuery?.Invoke(2);
+                    _looked = true;
+                }
             }
-            _looked = true;
         }
 
         void OnMovementInput(InputAction.CallbackContext context)
         {
+            if (TutorialManager.StaticPopupIndex > 1)
             _currentMovementInput = context.ReadValue<Vector2>();
             _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
-            EventManager.OnTutoialPopupQuery?.Invoke(2);
+            EventManager.OnRemoveTutoialPopupQuery?.Invoke(2);
+            EventManager.OnTutoialPopupQuery?.Invoke(3);
         }
 
         void OnJump(InputAction.CallbackContext context)
@@ -472,6 +501,7 @@ namespace GnomeCrawler.Player
         private void OnDodge(InputAction.CallbackContext context)
         {
             _isDodgePressed = context.ReadValueAsButton();
+            EventManager.OnRemoveTutoialPopupQuery?.Invoke(2);
             EventManager.OnTutoialPopupQuery?.Invoke(3);
         }
 
@@ -492,6 +522,7 @@ namespace GnomeCrawler.Player
                 {
                     _currentLockOnTarget = _nearestLockOnTarget;
                     SetLockOnStatus(true);
+                    EventManager.OnRemoveTutoialPopupQuery?.Invoke(3);
                     EventManager.OnTutoialPopupQuery?.Invoke(4);
                 } 
             }
@@ -508,7 +539,7 @@ namespace GnomeCrawler.Player
                 {
                     print("right target exists");
                     _currentLockOnTarget = _rightLockOnTarget;
-                    lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
+                    _lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
                 }
             }
         }
@@ -524,7 +555,7 @@ namespace GnomeCrawler.Player
                 {
                     print("left target exists");
                     _currentLockOnTarget = _leftLockOnTarget;
-                    lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
+                    _lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
                 }
             }
         }
@@ -533,19 +564,19 @@ namespace GnomeCrawler.Player
         {
             if (isLocked)
             {
-                followCam.gameObject.SetActive(false);
+                _playerCam.gameObject.SetActive(false);
 
-                lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
+                _lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
                 //followCam.LookAt = _currentLockOnTarget._lockOnTransform;
-                camAnimator.Play("LockCam");
+                _camAnimator.Play("LockCam");
                 _isLockedOn = true;
             }
             else if (!isLocked)
             {
-                followCam.transform.position = lockOnCam.transform.position;
-                followCam.gameObject.SetActive(true);
+                _playerCam.transform.position = _lockOnCam.transform.position;
+                _playerCam.gameObject.SetActive(true);
                 //followCam.LookAt = _playerLockTransform;
-                camAnimator.Play("FollowCam");
+                _camAnimator.Play("FollowCam");
                 _isLockedOn = false;
             }
         }
@@ -553,6 +584,14 @@ namespace GnomeCrawler.Player
         private void ToggleAttackAbility(bool isDisabled)
         {
             _isAttackDisabled = isDisabled;
+        }
+
+        private void LockCamera()
+        {
+            _camYSpeed = _playerCam.m_YAxis.m_MaxSpeed;
+            _camXSpeed = _playerCam.m_XAxis.m_MaxSpeed;
+            _playerCam.m_XAxis.m_MaxSpeed = 0;
+            _playerCam.m_YAxis.m_MaxSpeed = 0;
         }
 
         private void OnEnable()
@@ -577,7 +616,7 @@ namespace GnomeCrawler.Player
             {
                 _isAttackFinished = true;
                 ResetChainAttackCoroutine = StartCoroutine(ResetChainAttack());
-                EventManager.OnTutoialPopupQuery?.Invoke(5);
+                EventManager.OnRemoveTutoialPopupQuery?.Invoke(4);
             }
             if (animName == "Flinch")
             {
