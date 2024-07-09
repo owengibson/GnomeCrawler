@@ -6,6 +6,9 @@ using GnomeCrawler.Systems;
 using UnityEngine.UI;
 using GnomeCrawler.Audio;
 using GnomeCrawler.UI;
+using DG.Tweening;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -30,9 +33,19 @@ namespace GnomeCrawler.Deckbuilding
         [SerializeField] private int _numberOfCardsToDraw = 3;
         [Space]
 
+        [Header("Animation")]
+        [SerializeField] private GameObject[] _animationCards;
+        [SerializeField] private float _handToScreenAnimDuration;
+        [SerializeField] private float _quickviewAnimDuration;
+
         [SerializeField] private List<CardSO> _hand;
 
         private PlayerControls _playerControls;
+
+        // Animation default values
+        private Vector3[] _animCardPos;
+        private Vector3[] _animCardScales;
+        private Vector3[] _animCardRots;
 
 
         private void Awake()
@@ -40,6 +53,16 @@ namespace GnomeCrawler.Deckbuilding
             _playerControls = new PlayerControls();
             _playerControls.Player.HandQuickview.performed += ToggleHandQuickview;
             _playerControls.Player.HandQuickview.canceled += ToggleHandQuickview;
+
+            _animCardPos = new Vector3[3];
+            _animCardScales = new Vector3[3];
+            _animCardRots = new Vector3[3];
+            for (int i = 0; i < _animationCards.Length; i++)
+            {
+                _animCardPos[i] = _animationCards[i].transform.position;
+                _animCardScales[i] = _animationCards[i].transform.localScale;
+                _animCardRots[i] = _animationCards[i].transform.eulerAngles;
+            }
         }
 
         /*private void Update()
@@ -75,8 +98,8 @@ namespace GnomeCrawler.Deckbuilding
                     CardGOs[i].GetComponent<Button>().enabled = true;
                     cardUI.ButtonGraphic.SetActive(true);
                 }
-                CardGOs[i].SetActive(true);
             }
+            AnimateBetweenHandAndScreen(true, _handToScreenAnimDuration, CardGOs, null);
 
             if (isSelection)
             {
@@ -96,12 +119,12 @@ namespace GnomeCrawler.Deckbuilding
             List<CardSO> output = new List<CardSO>();
             for (int i = 0; i < noOfCardsToDraw; i++)
             {
-                int randomNum = Random.Range(0, pool.Count);
+                int randomNum = UnityEngine.Random.Range(0, pool.Count);
                 if (isDrawingFromDeck)
                 {
                     while (output.Contains(pool[randomNum]))
                     {
-                        randomNum = Random.Range(0, pool.Count);
+                        randomNum = UnityEngine.Random.Range(0, pool.Count);
                     }
                     output.Add(pool[randomNum]);
                 }
@@ -109,7 +132,7 @@ namespace GnomeCrawler.Deckbuilding
                 {
                     while (output.Contains(pool[randomNum]) || _deck.Contains(pool[randomNum]))
                     {
-                        randomNum = Random.Range(0, pool.Count);
+                        randomNum = UnityEngine.Random.Range(0, pool.Count);
                     }
                     output.Add(pool[randomNum]);
                 }
@@ -129,7 +152,7 @@ namespace GnomeCrawler.Deckbuilding
         {
             _deck.Add(card);
 
-            if (Random.Range(0f, 100f) <= EventManager.GetPlayerStats?.Invoke().GetStat(Stat.Luck))
+            if (UnityEngine.Random.Range(0f, 100f) <= EventManager.GetPlayerStats?.Invoke().GetStat(Stat.Luck))
             {
                 _deck.Add(DrawLuckCard());
             }
@@ -137,10 +160,10 @@ namespace GnomeCrawler.Deckbuilding
 
         private CardSO DrawLuckCard()
         {
-            int randomNum = Random.Range(0, _allCards.Count);
+            int randomNum = UnityEngine.Random.Range(0, _allCards.Count);
             while (_deck.Contains(_allCards[randomNum]) || _allCards[randomNum].IsActivatableCard)
             {
-                randomNum = Random.Range(0, _allCards.Count);
+                randomNum = UnityEngine.Random.Range(0, _allCards.Count);
             }
             return _allCards[randomNum];
         }
@@ -149,12 +172,13 @@ namespace GnomeCrawler.Deckbuilding
         {
             EventManager.OnHandApproved?.Invoke(_hand);
 
-            foreach (var card in CardGOs)
+            AnimateBetweenHandAndScreen(false, _handToScreenAnimDuration, CardGOs, () => EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay));
+            /*foreach (var card in CardGOs)
             {
                 card.SetActive(false);
-            }
+            }*/
 
-            EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
+            
 
             _handApproveButton.SetActive(false);
             SetUpQuickview();
@@ -178,9 +202,80 @@ namespace GnomeCrawler.Deckbuilding
         private void ToggleHandQuickview(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
         {
             if (ctx.performed)
-                _handQuickview.SetActive(true);
+                //_handQuickview.SetActive(true);
+                AnimateBetweenHandAndScreen(true, _quickviewAnimDuration, _quickviewCards, null);
             else if (ctx.canceled)
-                _handQuickview.SetActive(false);
+                AnimateBetweenHandAndScreen(false, _quickviewAnimDuration, _quickviewCards, null);
+                //_handQuickview.SetActive(false);
+        }
+
+        private void AnimateBetweenHandAndScreen(bool isOpening, float duration, GameObject[] cards, Action callback)
+        {
+            Sequence animation = DOTween.Sequence();
+
+            // Card flip close
+            if (!isOpening)
+            {
+                Sequence cardFlip = DOTween.Sequence();
+                for (int i = 0; i < _animationCards.Length; i++)
+                {
+                    // Rotate actual card
+                    cardFlip.Insert((duration * 0.5f) * i, CardGOs[i].transform.DORotate(new Vector3(0, 90, 0), duration * 0.25f));
+                    // Rotate anim card
+                    cardFlip.Append(_animationCards[i].transform.DORotate(Vector3.zero, duration * 0.25f));
+                    
+                   cardFlip.AppendCallback(() => CardGOs[i].SetActive(false));
+                }
+                animation.Append(cardFlip);
+            }
+
+            // Anim card move, scale, rotate
+            Sequence cardMoveScaleRot = DOTween.Sequence();
+            for (int i = 0; i < _animationCards.Length; i++)
+            {
+                Vector3 endPos, endScale, endRot;
+                if (isOpening)
+                {
+                    endPos = cards[i].transform.position;
+                    endScale = Vector3.one * 7;
+                    endRot = Vector3.zero;
+                }
+                else
+                {
+                    endPos = _animCardPos[i];
+                    endScale = _animCardScales[i];
+                    endRot = _animCardRots[i];
+                }
+
+                // Move
+                cardMoveScaleRot.Insert(0, _animationCards[i].transform.DOMove(endPos, duration));
+                //Scale
+                cardMoveScaleRot.Insert(0, _animationCards[i].transform.DOScale(endScale, duration));
+                // Rotation
+                cardMoveScaleRot.Insert(0, _animationCards[i].transform.DORotate(endRot, duration));
+                // Time offset
+                /*if (i != 2)
+                    cardMoveScaleRot.AppendInterval(0.5f);*/
+            }
+            animation.Append(cardMoveScaleRot);
+
+            // Card flip open
+            if (isOpening)
+            {
+                Sequence cardFlip = DOTween.Sequence();
+                for (int i = 0; i < _animationCards.Length; i++)
+                {
+                    CardGOs[i].transform.eulerAngles = new Vector3(0, 90, 0);
+                    CardGOs[i].SetActive(true);
+                    // Rotate anim card
+                    cardFlip.Insert((duration * 0.5f) * i, _animationCards[i].transform.DORotate(new Vector3(0, 90, 0), duration * 0.25f));
+                    // Rotate actual card
+                    cardFlip.Append(CardGOs[i].transform.DORotate(Vector3.zero, duration * 0.25f));
+                }
+                animation.Append(cardFlip);
+            }
+            animation.SetUpdate(true);
+            animation.Play().OnComplete(() => callback?.Invoke());
         }
 
         private void OnEnable()

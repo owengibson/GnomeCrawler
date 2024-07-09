@@ -11,6 +11,7 @@ namespace GnomeCrawler
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.F12)) RoomCleared();
+            if (Input.GetKeyDown(KeyCode.F11)) RoomStarted();
         }
 
         [Button]
