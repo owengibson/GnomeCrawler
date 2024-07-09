@@ -106,6 +106,7 @@ namespace GnomeCrawler.Player
             if (EventManager.IsShieldActive?.Invoke() == true)
             {
                 EventManager.OnShieldHit?.Invoke(amount);
+                Debug.Log("shield hit");
                 return;
             }
 
@@ -137,6 +138,12 @@ namespace GnomeCrawler.Player
             if (Random.Range(0, 100) <= _stats.GetStat(Stat.BlockChance)) return;
 
             StartCoroutine(Rumble(0.5f, amount / 4));
+            if (EventManager.IsShieldActive?.Invoke() == true)
+            {
+                EventManager.OnShieldHit?.Invoke(amount);
+                Debug.Log("shield hit");
+                return;
+            }
             base.TakeDamage(amount, damager);
             _healthbarSlider.value = CurrentHealth;
 
