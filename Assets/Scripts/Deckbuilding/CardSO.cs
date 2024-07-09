@@ -10,11 +10,11 @@ namespace GnomeCrawler.Deckbuilding
     public class CardSO : SerializedScriptableObject
     {
         public CardType Type;
+        public Sprite Icon;
         public string Name;
         [Multiline] public string Description;
 
         [ShowIfGroup("S", Condition = "@Type == CardType.Stat || Type == CardType.StatAndAbility")]
-        [BoxGroup("S/Stat Card Parameters")] public CardCategory Category;
         [BoxGroup("S/Stat Card Parameters")][SerializeField] private Stat _statToUpgrade;
         [BoxGroup("S/Stat Card Parameters")] public float Value;
         [BoxGroup("S/Stat Card Parameters")] public bool IsPercentUpgrade;
