@@ -18,7 +18,7 @@ namespace GnomeCrawler.Deckbuilding
         [Space]
 
         [Header("GameObject/Prefab References")]
-        [SerializeField] private GameObject[] _cardGOs;
+        public GameObject[] CardGOs;
         [SerializeField] private GameObject _cardPrefab;
         [SerializeField] private GameObject _handApproveButton;
         [SerializeField] private GameObject _handQuickview;
@@ -61,21 +61,21 @@ namespace GnomeCrawler.Deckbuilding
             for (int i = 0; i < cards.Count; i++)
             {
                 CardSO card = cards[i];
-                CardUI cardUI = _cardGOs[i].GetComponent<CardUI>();
+                CardUI cardUI = CardGOs[i].GetComponent<CardUI>();
                 cardUI.SetCard(card);
                 if (!isSelection)
                 {
-                    _cardGOs[i].GetComponent<UISelectionHandler>().enabled = false;
-                    _cardGOs[i].GetComponent<Button>().enabled = false;
+                    CardGOs[i].GetComponent<CardSelectionHandler>().enabled = false;
+                    CardGOs[i].GetComponent<Button>().enabled = false;
                     cardUI.ButtonGraphic.SetActive(false);
                 }
                 else
                 {
-                    _cardGOs[i].GetComponent<UISelectionHandler>().enabled = true;
-                    _cardGOs[i].GetComponent<Button>().enabled = true;
+                    CardGOs[i].GetComponent<CardSelectionHandler>().enabled = true;
+                    CardGOs[i].GetComponent<Button>().enabled = true;
                     cardUI.ButtonGraphic.SetActive(true);
                 }
-                _cardGOs[i].SetActive(true);
+                CardGOs[i].SetActive(true);
             }
 
             if (isSelection)
@@ -88,7 +88,7 @@ namespace GnomeCrawler.Deckbuilding
         {
             yield return null;
             EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(_cardGOs[0]);
+            EventSystem.current.SetSelectedGameObject(CardGOs[0]);
         }
 
         private List<CardSO> DrawCards(List<CardSO> pool, int noOfCardsToDraw, bool isDrawingFromDeck)
@@ -149,7 +149,7 @@ namespace GnomeCrawler.Deckbuilding
         {
             EventManager.OnHandApproved?.Invoke(_hand);
 
-            foreach (var card in _cardGOs)
+            foreach (var card in CardGOs)
             {
                 card.SetActive(false);
             }
@@ -169,7 +169,7 @@ namespace GnomeCrawler.Deckbuilding
                 CardSO card = _hand[i];
                 CardUI cardUI = _quickviewCards[i].GetComponent<CardUI>();
                 cardUI.SetCard(card);
-                _quickviewCards[i].GetComponent<UISelectionHandler>().enabled = false;
+                _quickviewCards[i].GetComponent<CardSelectionHandler>().enabled = false;
                 _quickviewCards[i].GetComponent<Button>().enabled = false;
                 cardUI.ButtonGraphic.SetActive(false);
             }

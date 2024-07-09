@@ -1,3 +1,4 @@
+using GnomeCrawler.Deckbuilding;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace GnomeCrawler.UI
 {
-    public class UISelectionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
+    public class CardSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
     {
         [SerializeField] private float _verticalMoveAmount = 30f;
         [SerializeField] private float _moveTime = 0.1f;
@@ -71,6 +72,16 @@ namespace GnomeCrawler.UI
         public void OnSelect(BaseEventData eventData)
         {
             StartCoroutine(MoveUI(true));
+
+            CardSelectionManager.Instance.LastSelected = gameObject;
+            for (int i = 0; i < CardSelectionManager.Instance.Cards.Length; i++)
+            {
+                if (CardSelectionManager.Instance.Cards[i] == gameObject)
+                {
+                    CardSelectionManager.Instance.LastSelectedIndex = i;
+                    return;
+                }
+            }
         }
 
         public void OnDeselect(BaseEventData eventData)
