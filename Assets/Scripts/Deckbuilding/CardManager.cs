@@ -9,6 +9,7 @@ using GnomeCrawler.UI;
 using DG.Tweening;
 using System;
 using System.Runtime.CompilerServices;
+using Sirenix.OdinInspector;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -59,7 +60,7 @@ namespace GnomeCrawler.Deckbuilding
             _animCardRots = new Vector3[3];
             for (int i = 0; i < _animationCards.Length; i++)
             {
-                _animCardPos[i] = _animationCards[i].transform.position;
+                _animCardPos[i] = _animationCards[i].transform.localPosition;
                 _animCardScales[i] = _animationCards[i].transform.localScale;
                 _animCardRots[i] = _animationCards[i].transform.eulerAngles;
             }
@@ -172,18 +173,14 @@ namespace GnomeCrawler.Deckbuilding
         {
             EventManager.OnHandApproved?.Invoke(_hand);
 
-            AnimateBetweenHandAndScreen(false, _handToScreenAnimDuration, CardGOs, () => EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay));
-            /*foreach (var card in CardGOs)
+            AnimateBetweenHandAndScreen(false, _handToScreenAnimDuration, CardGOs, () =>
             {
-                card.SetActive(false);
-            }*/
-
-            
+                EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
+                AudioManager.Instance.SetMusicParameter(PlayerStatus.Combat);
+            });
 
             _handApproveButton.SetActive(false);
             SetUpQuickview();
-
-            AudioManager.Instance.SetMusicParameter(PlayerStatus.Combat);
         }
 
         private void SetUpQuickview()
@@ -248,7 +245,14 @@ namespace GnomeCrawler.Deckbuilding
                 }
 
                 // Move
-                cardMoveScaleRot.Insert(0, _animationCards[i].transform.DOMove(endPos, duration));
+                if (isOpening)
+                {
+                    cardMoveScaleRot.Insert(0, _animationCards[i].transform.DOMove(endPos, duration));
+                }
+                else
+                {
+                    cardMoveScaleRot.Insert(0, _animationCards[i].transform.DOLocalMove(endPos, duration));
+                }
                 //Scale
                 cardMoveScaleRot.Insert(0, _animationCards[i].transform.DOScale(endScale, duration));
                 // Rotation
