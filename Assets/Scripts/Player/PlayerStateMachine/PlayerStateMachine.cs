@@ -163,7 +163,7 @@ namespace GnomeCrawler.Player
         #endregion
 
         #region tutorial
-        private bool _looked = false;
+        private bool _hasLooked = false;
         private float _camYSpeed;
         private float _camXSpeed;
         #endregion
@@ -227,6 +227,17 @@ namespace GnomeCrawler.Player
 
         private void Start()
         {
+            if (TutorialManager.instance == null)
+            {
+                TutorialManager tutorialManager = gameObject.AddComponent<TutorialManager>();
+                _hasLooked = true;
+                tutorialManager._currentPopupIndex = 10;
+            }
+            else
+            {
+                EventManager.OnTutoialPopupQuery?.Invoke(0);
+            }
+
             transform.parent = transform.root;
             _characterController.Move(_appliedMovement * _playerStats.GetStat(Stat.MoveSpeed) * Time.deltaTime);
 
@@ -440,7 +451,7 @@ namespace GnomeCrawler.Player
             if (DialogueManager.IsDialogueRunning) return;
             float y = context.ReadValue<Vector2>().y;
             float x = context.ReadValue<Vector2>().x;
-            if (_looked) return;
+            if (_hasLooked) return;
             if (TutorialManager.StaticPopupIndex == 0)
             {
                 if (y > 0.4)
@@ -467,14 +478,14 @@ namespace GnomeCrawler.Player
                     _playerCam.m_XAxis.m_MaxSpeed = _camXSpeed;
                     EventManager.OnRemoveTutoialPopupQuery?.Invoke(1);
                     EventManager.OnTutoialPopupQuery?.Invoke(2);
-                    _looked = true;
+                    _hasLooked = true;
                 }
             }
         }
 
         void OnMovementInput(InputAction.CallbackContext context)
         {
-            if (TutorialManager.StaticPopupIndex > 1)
+            if (TutorialManager.StaticPopupIndex < 2) return;
             _currentMovementInput = context.ReadValue<Vector2>();
             _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
             EventManager.OnRemoveTutoialPopupQuery?.Invoke(2);
@@ -489,20 +500,28 @@ namespace GnomeCrawler.Player
 
         void OnRun(InputAction.CallbackContext context)
         {
+            if (TutorialManager.StaticPopupIndex < 3) return;
             _isRunPressed = context.ReadValueAsButton();
+            EventManager.OnRemoveTutoialPopupQuery?.Invoke(3);
+            EventManager.OnTutoialPopupQuery?.Invoke(4);
         }
         private void OnAttack(InputAction.CallbackContext context)
         {
+            if (TutorialManager.StaticPopupIndex < 5) return;
             if (_isAttackDisabled) return;
             _isAttackPressed = context.ReadValueAsButton();
             string buttonName = context.action.name; // Added for Analytics
             analyticsScript.TrackButtonPress(buttonName); // Added for Analyti
+
+            EventManager.OnRemoveTutoialPopupQuery?.Invoke(5);
+            EventManager.OnTutoialPopupQuery?.Invoke(6);
         }
         private void OnDodge(InputAction.CallbackContext context)
         {
+            if (TutorialManager.StaticPopupIndex < 4) return;
             _isDodgePressed = context.ReadValueAsButton();
-            EventManager.OnRemoveTutoialPopupQuery?.Invoke(2);
-            EventManager.OnTutoialPopupQuery?.Invoke(3);
+            EventManager.OnRemoveTutoialPopupQuery?.Invoke(4);
+            EventManager.OnTutoialPopupQuery?.Invoke(5);
         }
 
         private void CameraLockOn(InputAction.CallbackContext context)
@@ -522,8 +541,8 @@ namespace GnomeCrawler.Player
                 {
                     _currentLockOnTarget = _nearestLockOnTarget;
                     SetLockOnStatus(true);
-                    EventManager.OnRemoveTutoialPopupQuery?.Invoke(3);
-                    EventManager.OnTutoialPopupQuery?.Invoke(4);
+                    EventManager.OnRemoveTutoialPopupQuery?.Invoke(6);
+                    EventManager.OnTutoialPopupQuery?.Invoke(7);
                 } 
             }
         }
