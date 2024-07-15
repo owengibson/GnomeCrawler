@@ -7,17 +7,18 @@ namespace GnomeCrawler.Systems
 {
     public class TutorialManager : MonoBehaviour
     {
-        //[SerializeField] private TextMeshProUGUI _objectiveTextBox;
-        [SerializeField] private GameObject[] _popUps;
-        [SerializeField] private string[] _objectives;
-
-        public int _currentPopupIndex = -1;
-        
+        public static TutorialManager instance;
         public static int StaticPopupIndex = -1;
 
-        private void Start()
+        //[SerializeField] private TextMeshProUGUI _objectiveTextBox;
+        [SerializeField] private GameObject[] _popUps;
+        //[SerializeField] private string[] _objectives;
+
+        public int _currentPopupIndex = -1;
+
+        private void Awake()
         {
-            ShowTutorialPopup(0);
+            instance = this;
         }
 
         private void Update()

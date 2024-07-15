@@ -227,6 +227,17 @@ namespace GnomeCrawler.Player
 
         private void Start()
         {
+            if (TutorialManager.instance == null)
+            {
+                TutorialManager tutorialManager = gameObject.AddComponent<TutorialManager>();
+                _hasLooked = true;
+                tutorialManager._currentPopupIndex = 10;
+            }
+            else
+            {
+                EventManager.OnTutoialPopupQuery?.Invoke(0);
+            }
+
             transform.parent = transform.root;
             _characterController.Move(_appliedMovement * _playerStats.GetStat(Stat.MoveSpeed) * Time.deltaTime);
 
