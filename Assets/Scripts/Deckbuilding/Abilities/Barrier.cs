@@ -87,7 +87,7 @@ namespace GnomeCrawler.Deckbuilding
         private void OnDisable()
         {
             //_shieldText.gameObject?.SetActive(false);
-            
+            _barrier.SetActive(false);
 
             EventManager.IsShieldActive -= IsShieldActive;
             EventManager.OnShieldHit -= TakeDamage;

@@ -18,7 +18,6 @@ namespace GnomeCrawler
         {
             _particleSystem = GetComponent<ParticleSystem>();
             _shockwaveSpeed = _particleSystem.main.startSpeed.constant;
-            _shockwaveSize = 1f;
             gameObject.SetActive(false);
         }
 
@@ -42,7 +41,7 @@ namespace GnomeCrawler
             {
                 if (collider.transform.TryGetComponent(out IDamageable damageable) && !_hasDealtDamage)
                 {
-                    if (Vector3.Distance(collider.transform.position, transform.position) < _shockwaveSize - 1) return;
+                    if (Vector3.Distance(collider.transform.position, transform.position) < _shockwaveSize - 0.5f) return;
 
                     damageable.TakeDamage(2f, gameObject);
                     _hasDealtDamage = true;
@@ -58,13 +57,21 @@ namespace GnomeCrawler
         private void OnEnable()
         {
             _hasDealtDamage = false;
-            _shockwaveSize = 1f;
+            _shockwaveSize = 0.5f;
         }
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.yellow;
+            Color color1 = Color.yellow;
+            Color color2 = Color.red;
+            color1.a = 0.5f;
+            color2.a = 0.5f;
+
+            Gizmos.color = color1;
             Gizmos.DrawSphere(transform.position, _shockwaveSize);
+
+            Gizmos.color = color2;
+            Gizmos.DrawSphere(transform.position, _shockwaveSize - 0.5f);
         }
     }
 }

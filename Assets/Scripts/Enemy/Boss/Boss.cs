@@ -11,7 +11,7 @@ namespace GnomeCrawler
 {
     public class Boss : MonoBehaviour
     {
-        public GameObject Target;
+        [HideInInspector] public GameObject Target;
         public float _moveSpeed;
         public bool InMeleePhase;
         public int _bossHitNumberInMeleePhase;
@@ -20,7 +20,7 @@ namespace GnomeCrawler
         [HideInInspector] public float _currentEnemiesNo;
 
         [SerializeField] private float _distanceForMeleeRange;
-        [SerializeField] private float _distanceForConstantRange;
+        [SerializeField] private float _distanceForRangedAttack;
 
         [HideInInspector] public bool _canEnterPhase2 = false;
         [HideInInspector] public bool _canEnterPhase3 = false ;
@@ -87,7 +87,7 @@ namespace GnomeCrawler
             void At(IState from, IState to, Func<bool> condition) => _stateMachine.AddTransition(from, to, condition);
             //void Aet(IState from, ref Action eventTrigger, IState to) => _stateMachine.AddTransition(from, ref eventTrigger, to);
             Func<bool> IsPlayerInMeleeRange() => () => Vector3.Distance(transform.position, Target.transform.position) < _distanceForMeleeRange;
-            Func<bool> IsPlayerAtRangedRange() => () => Vector3.Distance(transform.position, Target.transform.position) > _distanceForConstantRange;
+            Func<bool> IsPlayerAtRangedRange() => () => Vector3.Distance(transform.position, Target.transform.position) > _distanceForRangedAttack && Vector3.Distance(transform.position, Target.transform.position) < 50;
             Func<bool> CheckSuccessByPercentage(int percentage) => () => Random.Range(1, 101) <= percentage;
             Func<bool> IsInMeleeRangeAndChoseAttackNo(int attackNumber) => () => IsPlayerInMeleeRange()() && Random.Range(1, 4) == attackNumber;
             Func<bool> AttackComplete(string stateName) => () => AnimatorIsFinished(animator, stateName);
@@ -139,12 +139,28 @@ namespace GnomeCrawler
         private void BossEnteredPhase2() => _canEnterPhase2 = true;
         private void BossEnteredPhase3() => _canEnterPhase3 = true;
 
-        private bool AnimatorIsFinished(Animator _animator){
-            return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f;
+        private bool AnimatorIsFinished(Animator animator)
+        {
+            if (animator == null)
+            {
+                Debug.LogError("Animator is null!");
+                return false;
+            }
+
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            return stateInfo.normalizedTime >= 1f && !animator.IsInTransition(0);
         }
 
-        private bool AnimatorIsFinished(Animator _animator, string stateName) { 
-            return AnimatorIsFinished(_animator) && _animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+        private bool AnimatorIsFinished(Animator animator, string stateName)
+        {
+            if (animator == null)
+            {
+                Debug.LogError("Animator is null!");
+                return false;
+            }
+
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            return AnimatorIsFinished(animator) && stateInfo.IsName(stateName);
         }
     }
 }
