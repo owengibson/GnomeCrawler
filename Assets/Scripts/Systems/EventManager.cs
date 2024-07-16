@@ -37,5 +37,8 @@ namespace GnomeCrawler.Systems
         public static Func<StatsSO> GetPlayerStats;
         public static Func<bool> IsPlayerTargetable;
         public static Func<bool> IsShieldActive;
+
+        public static Action<Dialogue> OnDialogueStarted;
+        public static Action OnDialogueFinished;
     }
 }
