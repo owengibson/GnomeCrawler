@@ -7,18 +7,51 @@ namespace GnomeCrawler.Systems
 {
     public class TutorialManager : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI _objectiveTextBox;
+        public static TutorialManager instance;
+        public static int StaticPopupIndex = -1;
+
+        //[SerializeField] private TextMeshProUGUI _objectiveTextBox;
         [SerializeField] private GameObject[] _popUps;
-        [SerializeField] private string[] _objectives;
+        //[SerializeField] private string[] _objectives;
 
-        private int _currentPopupIndex = -1;
+        public int _currentPopupIndex = -1;
 
-        private void Start()
+        private void Awake()
         {
-            ShowTutorialPopup(0);
+            instance = this;
         }
 
-        private void ChangeObjectiveText(Objective objective, int enemiesRemaining)
+        private void Update()
+        {
+            StaticPopupIndex = _currentPopupIndex;
+        }
+
+        private void ShowTutorialPopup(int indexToShow)
+        {
+            if (indexToShow <= _currentPopupIndex || indexToShow > _currentPopupIndex + 1) return;
+            _popUps[indexToShow].SetActive(true);
+            _currentPopupIndex = indexToShow;
+        }
+
+        private void HideTutorialPopup(int indexToHide)
+        {
+            if (_currentPopupIndex != indexToHide) return;
+            _popUps[_currentPopupIndex].SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            EventManager.OnTutoialPopupQuery += ShowTutorialPopup;
+            EventManager.OnRemoveTutoialPopupQuery += HideTutorialPopup;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.OnTutoialPopupQuery -= ShowTutorialPopup;
+            EventManager.OnRemoveTutoialPopupQuery -= HideTutorialPopup;
+        }
+
+        /*private void ChangeObjectiveText(Objective objective, int enemiesRemaining)
         {
             switch (objective)
             {
@@ -39,29 +72,6 @@ namespace GnomeCrawler.Systems
                 default:
                     break;
             }
-        }
-
-        private void ShowTutorialPopup(int index)
-        {
-            if (index <= _currentPopupIndex || index >= _currentPopupIndex + 2) return;
-            if (_currentPopupIndex >= 0)
-            {
-                _popUps[_currentPopupIndex].SetActive(false);
-            }
-            _popUps[index].SetActive(true);
-            _currentPopupIndex = index;
-        }
-
-        private void OnEnable()
-        {
-            EventManager.OnTutoialPopupQuery += ShowTutorialPopup;
-            EventManager.OnObjectiveChange += ChangeObjectiveText;
-        }
-
-        private void OnDisable()
-        {
-            EventManager.OnTutoialPopupQuery -= ShowTutorialPopup;
-            EventManager.OnObjectiveChange -= ChangeObjectiveText;
-        }
+        }*/
     }
 }

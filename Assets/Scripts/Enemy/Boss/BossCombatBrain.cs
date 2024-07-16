@@ -78,17 +78,12 @@ namespace GnomeCrawler
             _weaponSize = _weaponHitboxSizes[index];
         }
 
-        public void ExpandOverlapSphere()
-        {
-            _weaponSize += 0.5f * Time.deltaTime;
-        }
-
         public void ChargeProjectile()
         {
+            _projectileGO.transform.localScale = Vector3.zero;
             _projectileGO.SetActive(true);
             _projectileGO.transform.parent = _weaponTransforms[0].transform;
             _projectileGO.transform.localPosition = new Vector3(0,1,-1);
-            _projectileGO.transform.localScale = Vector3.zero;
             StartCoroutine(ScaleProjectile(Vector3.one * 4, 1.0f));
         }
 
@@ -110,14 +105,21 @@ namespace GnomeCrawler
         public void ShootProjectile()
         {
             _projectileGO.transform.parent = null;
-            StartCoroutine(ProjectileTravel(PlayerStateMachine.instance.transform.position, _projectileSpeed));
+            Vector3 playerPos = PlayerStateMachine.instance.transform.position;
+            Vector3 dir = (PlayerStateMachine.instance.transform.position - _originTransform.position).normalized;
+
+            RaycastHit hit;
+            float distanceToPlayer = Vector3.Distance(_originTransform.position, playerPos);
+            if (Physics.SphereCast(_originTransform.position, 2, dir, out hit, distanceToPlayer, LayerMask.GetMask("Obstacles")))
+            {
+                playerPos = hit.point;
+            }
+
+            StartCoroutine(ProjectileTravel(playerPos, _projectileSpeed));
         }
 
         private IEnumerator ProjectileTravel(Vector3 finalPosition, float speed)
         {
-            Vector3 direction = finalPosition - _projectileGO.transform.position;
-            direction.Normalize();
-
             while (Vector3.Distance(_projectileGO.transform.position, finalPosition) > 0.1f)
             {
                 float step = speed * Time.deltaTime;
@@ -128,9 +130,10 @@ namespace GnomeCrawler
             }
             _projectileGO.transform.position = finalPosition;
             
-            yield return StartCoroutine(ScaleProjectile(Vector3.one * 15, 0.5f));
+            yield return StartCoroutine(ScaleProjectile(Vector3.one * 13.5f, 0.5f));
+
             _projectileGO.SetActive(false);
-            Debug.Log("Projectile reached the final position");
+
         }
 
         public void StartShockwave()

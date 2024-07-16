@@ -40,6 +40,8 @@ namespace GnomeCrawler.Deckbuilding
                 _galleryIndex = 0;
             }
             RenderGalleryAtIndex(_galleryIndex);
+
+            EventManager.OnRemoveTutoialPopupQuery?.Invoke(8);
         }
 
         private void CheckHandForActivatableCards(List<CardSO> hand)

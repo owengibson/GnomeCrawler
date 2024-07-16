@@ -8,6 +8,11 @@ namespace GnomeCrawler
 {
     public class TestRoomEvents : MonoBehaviour
     {
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F12)) RoomCleared();
+        }
+
         [Button]
         public void RoomCleared()
         {

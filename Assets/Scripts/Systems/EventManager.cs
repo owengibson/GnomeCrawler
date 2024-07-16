@@ -29,7 +29,7 @@ namespace GnomeCrawler.Systems
         public static Action<float> OnShieldHit;
 
         public static Action<int> OnTutoialPopupQuery;
-        public static Action<Objective, int> OnObjectiveChange;
+        public static Action<int> OnRemoveTutoialPopupQuery;
         public static Action OnEnteredBossRoom;
         public static Action<bool> OnChooseInversion;
 
@@ -37,5 +37,8 @@ namespace GnomeCrawler.Systems
         public static Func<StatsSO> GetPlayerStats;
         public static Func<bool> IsPlayerTargetable;
         public static Func<bool> IsShieldActive;
+
+        public static Action<Dialogue> OnDialogueStarted;
+        public static Action OnDialogueFinished;
     }
 }
