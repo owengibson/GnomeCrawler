@@ -236,12 +236,12 @@ namespace GnomeCrawler.Player
             else
             {
                 EventManager.OnTutoialPopupQuery?.Invoke(0);
+
+                LockCamera();
             }
 
             transform.parent = transform.root;
             _characterController.Move(_appliedMovement * _playerStats.GetStat(Stat.MoveSpeed) * Time.deltaTime);
-
-            LockCamera();
         }
 
         private void Update()
@@ -448,7 +448,6 @@ namespace GnomeCrawler.Player
 
         void OnLookInput(InputAction.CallbackContext context)
         {
-            if (DialogueManager.IsDialogueRunning) return;
             float y = context.ReadValue<Vector2>().y;
             float x = context.ReadValue<Vector2>().x;
             if (_hasLooked) return;
@@ -618,6 +617,8 @@ namespace GnomeCrawler.Player
             _playerInput.Player.Enable();
 
             EventManager.OnAttackAbilityToggle += ToggleAttackAbility;
+            EventManager.OnDialogueStarted += DeactivatePlayerControls;
+            EventManager.OnDialogueFinished += ActivatePlayerControls;
         }
 
         private void OnDisable()
@@ -625,6 +626,18 @@ namespace GnomeCrawler.Player
             _playerInput.Player.Disable();
 
             EventManager.OnAttackAbilityToggle -= ToggleAttackAbility;
+            EventManager.OnDialogueStarted -= DeactivatePlayerControls;
+            EventManager.OnDialogueFinished -= ActivatePlayerControls;
+        }
+
+        private void ActivatePlayerControls()
+        {
+            _playerInput.Enable();
+        }
+
+        private void DeactivatePlayerControls(Dialogue obj)
+        {
+            _playerInput.Disable();
         }
 
         public void AnimationFinished(string animName)
