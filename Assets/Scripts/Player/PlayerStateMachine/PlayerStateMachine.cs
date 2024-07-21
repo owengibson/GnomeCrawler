@@ -235,8 +235,6 @@ namespace GnomeCrawler.Player
             }
             else
             {
-                EventManager.OnTutoialPopupQuery?.Invoke(0);
-
                 LockCamera();
             }
 

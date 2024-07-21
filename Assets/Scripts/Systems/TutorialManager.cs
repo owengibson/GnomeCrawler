@@ -50,28 +50,5 @@ namespace GnomeCrawler.Systems
             EventManager.OnTutoialPopupQuery -= ShowTutorialPopup;
             EventManager.OnRemoveTutoialPopupQuery -= HideTutorialPopup;
         }
-
-        /*private void ChangeObjectiveText(Objective objective, int enemiesRemaining)
-        {
-            switch (objective)
-            {
-                case Objective.Undefined:
-                    break;
-                case Objective.KillEnemies:
-                    _objectiveTextBox.text = $"{objective} \n {enemiesRemaining}";
-                    break;
-                case Objective.FindExit:
-                    _objectiveTextBox.text = $"{objective} \n {enemiesRemaining}";
-                    break;
-                case Objective.Heal:
-                    _objectiveTextBox.text = $"{objective} \n {enemiesRemaining}";
-                    break;
-                case Objective.KillBoss:
-                    _objectiveTextBox.text = $"{objective} \n {enemiesRemaining}";
-                    break;
-                default:
-                    break;
-            }
-        }*/
     }
 }
