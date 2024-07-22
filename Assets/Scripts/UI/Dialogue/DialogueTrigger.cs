@@ -11,27 +11,50 @@ namespace GnomeCrawler
     {
         public Dialogue _dialogue;
 
+        [SerializeField] private bool _canListenForPopup;
+        [SerializeField] private int _popupToListenFor;
         [SerializeField] private bool _doesTriggerPopup;
-        [SerializeField] private int _popupNumber;
+        [SerializeField] private int _popupToTrigger;
         [SerializeField] private UnityEvent onPlayerEnterTrigger;
+        [SerializeField] private UnityEvent onDialogueFinished;
 
-        private bool _canShowPopup = false;
+        private bool _isCurrentDialogue = false;
 
         private void OnEnable()
         {
             EventManager.OnDialogueFinished += DialogueFinished;
+            EventManager.OnTutorialPopupComplete += CheckForPopupListening;
         }
 
         private void OnDisable()
         {
             EventManager.OnDialogueFinished -= DialogueFinished;
+            EventManager.OnTutorialPopupComplete -= CheckForPopupListening;
         }
 
-        public void DialogueFinished() => _canShowPopup = true;
+        public void DialogueFinished()
+        {
+            if (!_isCurrentDialogue) return;
+            onDialogueFinished?.Invoke();
+            _isCurrentDialogue = false;
+
+            if (!_doesTriggerPopup) return;
+            EventManager.OnTutoialPopupQuery?.Invoke(_popupToTrigger);
+        }
+
+        public void CheckForPopupListening(int popupNumber)
+        {
+            if (!_canListenForPopup) return;
+            if (popupNumber != _popupToListenFor) return;
+
+            TriggerDialogue();
+        }
 
         public void TriggerDialogue()
         {
             EventManager.OnDialogueStarted(_dialogue);
+
+            _isCurrentDialogue = true;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -43,17 +66,5 @@ namespace GnomeCrawler
                 onPlayerEnterTrigger?.Invoke();
             }
         }
-
-        private void OnTriggerStay(Collider other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                if (_doesTriggerPopup && _canShowPopup)
-                {
-                    EventManager.OnTutoialPopupQuery?.Invoke(_popupNumber);
-                }
-            }
-        }
-
     }
 }

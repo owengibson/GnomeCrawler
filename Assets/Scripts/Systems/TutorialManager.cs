@@ -37,6 +37,7 @@ namespace GnomeCrawler.Systems
         {
             if (_currentPopupIndex != indexToHide) return;
             _popUps[_currentPopupIndex].SetActive(false);
+            EventManager.OnTutorialPopupComplete?.Invoke(indexToHide);
         }
 
         private void OnEnable()

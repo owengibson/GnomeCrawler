@@ -456,7 +456,6 @@ namespace GnomeCrawler.Player
                     Debug.Log("Natural");
                     _playerCam.m_YAxis.m_MaxSpeed = _camYSpeed;
                     EventManager.OnRemoveTutoialPopupQuery?.Invoke(0);
-                    EventManager.OnTutoialPopupQuery?.Invoke(1);
                     EventManager.OnChooseInversion?.Invoke(false);
                 }
                 else if (y < -0.4)
@@ -464,7 +463,6 @@ namespace GnomeCrawler.Player
                     Debug.Log("Goofy");
                     _playerCam.m_YAxis.m_MaxSpeed = _camYSpeed;
                     EventManager.OnRemoveTutoialPopupQuery?.Invoke(0);
-                    EventManager.OnTutoialPopupQuery?.Invoke(1);
                     EventManager.OnChooseInversion?.Invoke(true);
                 }
             }
@@ -474,7 +472,6 @@ namespace GnomeCrawler.Player
                 {
                     _playerCam.m_XAxis.m_MaxSpeed = _camXSpeed;
                     EventManager.OnRemoveTutoialPopupQuery?.Invoke(1);
-                    EventManager.OnTutoialPopupQuery?.Invoke(2);
                     _hasLooked = true;
                 }
             }
