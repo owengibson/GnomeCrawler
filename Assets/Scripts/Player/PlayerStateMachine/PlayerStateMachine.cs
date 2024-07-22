@@ -497,7 +497,6 @@ namespace GnomeCrawler.Player
             if (TutorialManager.StaticPopupIndex < 3) return;
             _isRunPressed = context.ReadValueAsButton();
             EventManager.OnRemoveTutoialPopupQuery?.Invoke(3);
-            EventManager.OnTutoialPopupQuery?.Invoke(4);
         }
         private void OnAttack(InputAction.CallbackContext context)
         {
@@ -506,16 +505,12 @@ namespace GnomeCrawler.Player
             _isAttackPressed = context.ReadValueAsButton();
             string buttonName = context.action.name; // Added for Analytics
             analyticsScript.TrackButtonPress(buttonName); // Added for Analyti
-
-            EventManager.OnRemoveTutoialPopupQuery?.Invoke(5);
-            EventManager.OnTutoialPopupQuery?.Invoke(6);
         }
         private void OnDodge(InputAction.CallbackContext context)
         {
             if (TutorialManager.StaticPopupIndex < 4) return;
             _isDodgePressed = context.ReadValueAsButton();
             EventManager.OnRemoveTutoialPopupQuery?.Invoke(4);
-            EventManager.OnTutoialPopupQuery?.Invoke(5);
         }
 
         private void CameraLockOn(InputAction.CallbackContext context)
@@ -643,7 +638,7 @@ namespace GnomeCrawler.Player
             {
                 _isAttackFinished = true;
                 ResetChainAttackCoroutine = StartCoroutine(ResetChainAttack());
-                EventManager.OnRemoveTutoialPopupQuery?.Invoke(4);
+                EventManager.OnRemoveTutoialPopupQuery?.Invoke(5);
             }
             if (animName == "Flinch")
             {
