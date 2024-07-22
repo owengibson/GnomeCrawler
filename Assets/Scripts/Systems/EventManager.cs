@@ -30,6 +30,7 @@ namespace GnomeCrawler.Systems
 
         public static Action<int> OnTutoialPopupQuery;
         public static Action<int> OnRemoveTutoialPopupQuery;
+        public static Action<int> OnTutorialPopupComplete;
         public static Action OnEnteredBossRoom;
         public static Action<bool> OnChooseInversion;
 

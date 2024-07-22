@@ -235,8 +235,6 @@ namespace GnomeCrawler.Player
             }
             else
             {
-                EventManager.OnTutoialPopupQuery?.Invoke(0);
-
                 LockCamera();
             }
 
@@ -458,7 +456,6 @@ namespace GnomeCrawler.Player
                     Debug.Log("Natural");
                     _playerCam.m_YAxis.m_MaxSpeed = _camYSpeed;
                     EventManager.OnRemoveTutoialPopupQuery?.Invoke(0);
-                    EventManager.OnTutoialPopupQuery?.Invoke(1);
                     EventManager.OnChooseInversion?.Invoke(false);
                 }
                 else if (y < -0.4)
@@ -466,7 +463,6 @@ namespace GnomeCrawler.Player
                     Debug.Log("Goofy");
                     _playerCam.m_YAxis.m_MaxSpeed = _camYSpeed;
                     EventManager.OnRemoveTutoialPopupQuery?.Invoke(0);
-                    EventManager.OnTutoialPopupQuery?.Invoke(1);
                     EventManager.OnChooseInversion?.Invoke(true);
                 }
             }
@@ -476,7 +472,6 @@ namespace GnomeCrawler.Player
                 {
                     _playerCam.m_XAxis.m_MaxSpeed = _camXSpeed;
                     EventManager.OnRemoveTutoialPopupQuery?.Invoke(1);
-                    EventManager.OnTutoialPopupQuery?.Invoke(2);
                     _hasLooked = true;
                 }
             }
@@ -502,7 +497,6 @@ namespace GnomeCrawler.Player
             if (TutorialManager.StaticPopupIndex < 3) return;
             _isRunPressed = context.ReadValueAsButton();
             EventManager.OnRemoveTutoialPopupQuery?.Invoke(3);
-            EventManager.OnTutoialPopupQuery?.Invoke(4);
         }
         private void OnAttack(InputAction.CallbackContext context)
         {
@@ -511,16 +505,12 @@ namespace GnomeCrawler.Player
             _isAttackPressed = context.ReadValueAsButton();
             string buttonName = context.action.name; // Added for Analytics
             analyticsScript.TrackButtonPress(buttonName); // Added for Analyti
-
-            EventManager.OnRemoveTutoialPopupQuery?.Invoke(5);
-            EventManager.OnTutoialPopupQuery?.Invoke(6);
         }
         private void OnDodge(InputAction.CallbackContext context)
         {
             if (TutorialManager.StaticPopupIndex < 4) return;
             _isDodgePressed = context.ReadValueAsButton();
             EventManager.OnRemoveTutoialPopupQuery?.Invoke(4);
-            EventManager.OnTutoialPopupQuery?.Invoke(5);
         }
 
         private void CameraLockOn(InputAction.CallbackContext context)
@@ -648,7 +638,7 @@ namespace GnomeCrawler.Player
             {
                 _isAttackFinished = true;
                 ResetChainAttackCoroutine = StartCoroutine(ResetChainAttack());
-                EventManager.OnRemoveTutoialPopupQuery?.Invoke(4);
+                EventManager.OnRemoveTutoialPopupQuery?.Invoke(5);
             }
             if (animName == "Flinch")
             {
