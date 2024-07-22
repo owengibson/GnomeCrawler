@@ -43,6 +43,8 @@ namespace GnomeCrawler
             }
             else
             {
+                StopCoroutine(_typingCoroutine);
+                _typingCoroutine = null;
                 dialogueText.text = _currentSentence;
             }
         }
@@ -84,7 +86,7 @@ namespace GnomeCrawler
             foreach (char letter in sentence.ToCharArray())
             {
                 dialogueText.text += letter;
-                yield return null;
+                yield return new WaitForSeconds(0.01f);
             }
             _typingCoroutine = null;
         }

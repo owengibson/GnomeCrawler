@@ -231,7 +231,7 @@ namespace GnomeCrawler.Player
             {
                 TutorialManager tutorialManager = gameObject.AddComponent<TutorialManager>();
                 _hasLooked = true;
-                tutorialManager._currentPopupIndex = 10;
+                tutorialManager._currentPopupIndex = 100;
             }
             else
             {
@@ -531,7 +531,6 @@ namespace GnomeCrawler.Player
                     _currentLockOnTarget = _nearestLockOnTarget;
                     SetLockOnStatus(true);
                     EventManager.OnRemoveTutoialPopupQuery?.Invoke(6);
-                    EventManager.OnTutoialPopupQuery?.Invoke(7);
                 } 
             }
         }
