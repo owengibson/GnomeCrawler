@@ -2,6 +2,7 @@ using GnomeCrawler.Deckbuilding;
 using GnomeCrawler.Systems;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GnomeCrawler
 {
@@ -26,6 +27,7 @@ namespace GnomeCrawler
         #endregion
 
         [SerializeField] protected StatsSO _stats;
+        [SerializeField] private UnityEvent OnDamaged;
         public float CurrentHealth { get; set; }
         public bool IsDead { get; set; }
         public bool IsLockable { get; set; }
@@ -90,6 +92,7 @@ namespace GnomeCrawler
             print(name + " has taken damage");
             CurrentHealth -= amount;
             DamageTaken?.Invoke();
+            OnDamaged?.Invoke();
 
             if (CurrentHealth <= 0) Die();
         }
