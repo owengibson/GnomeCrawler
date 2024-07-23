@@ -360,7 +360,7 @@ namespace GnomeCrawler.Player
                 if (lockOnTarget != null)
                 {
                     Vector3 lockOnTargetDirection = lockOnTarget.transform.position - transform.position;
-                    float distanceFromTarget = Vector3.Distance(transform.position, lockOnTarget.transform.position);
+                    //float distanceFromTarget = Vector3.Distance(transform.position, lockOnTarget.transform.position);
                     float viewableAngle = Vector3.Angle(lockOnTargetDirection, _mainCam.transform.forward);
 
                     if (lockOnTarget.IsDead)
