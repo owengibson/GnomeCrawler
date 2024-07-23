@@ -13,7 +13,7 @@ namespace GnomeCrawler.Enemies
         [SerializeField] private Transform _handTransform;
         [SerializeField] private Renderer[] _renderers;
         private bool _chargingAttack = false;
-        private GameObject _playerCharacter;
+        [SerializeField] private GameObject _playerCharacter;
 
 
         // Teleport Variables
@@ -35,8 +35,7 @@ namespace GnomeCrawler.Enemies
                 _originalColours.Add(mat.GetColor("_MainColor"));
             }
 
-            _playerCharacter = GameObject.FindGameObjectWithTag("Player");
-
+            _playerCharacter = GameObject.Find("PlayerFollowTarget");
         }
 
         private void Update()
@@ -144,11 +143,10 @@ namespace GnomeCrawler.Enemies
 
         private void CreateBullet()
         {
-            Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // COULD USE REFACTORING  
             GameObject projectile = Instantiate(_enemyProjectilePrefab, _handTransform.position, Quaternion.identity);
             projectile.GetComponent<EnemyProjectile>().Parent = gameObject;
 
-            Vector3 direction = (playerTransform.position - _handTransform.position).normalized;
+            Vector3 direction = transform.forward.normalized;
             Debug.DrawRay(transform.position + new Vector3(0, 1.5f, 0), direction);
 
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
@@ -167,11 +165,18 @@ namespace GnomeCrawler.Enemies
             _chargingAttack = true;
         }
 
+
         private void FacePlayer()
         {
-            Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-            transform.LookAt(playerTransform);
+            Vector3 targetPosition = _playerCharacter.transform.position;
+            targetPosition.y = transform.position.y; 
+            transform.LookAt(targetPosition);
         }
+
+        //private void FacePlayer()
+        //{
+        //    transform.LookAt(_playerCharacter.transform);
+        //}
 
         public void EndOfAnimation(string aninName)
         {
