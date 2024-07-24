@@ -142,7 +142,7 @@ namespace GnomeCrawler.Enemies
             return false;
         }
 
-        private void CreateBullet()
+        public virtual void CreateBullet()
         {
             Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // COULD USE REFACTORING  
             GameObject projectile = Instantiate(_enemyProjectilePrefab, _handTransform.position, Quaternion.identity);
