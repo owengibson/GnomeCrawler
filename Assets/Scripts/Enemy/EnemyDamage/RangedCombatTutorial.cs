@@ -18,7 +18,7 @@ namespace GnomeCrawler
         private void Start()
         {
             animator.SetBool("isMoving", true);
-            InvokeRepeating("CreateBullet", 1, 2);
+            InvokeRepeating("CreateBullet", 1, 4);
         }
 
         public void CreateBullet()
