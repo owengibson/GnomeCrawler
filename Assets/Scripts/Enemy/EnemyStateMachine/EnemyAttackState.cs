@@ -49,11 +49,14 @@ namespace GnomeCrawler.Enemies
 
         private void RotateToFacePlayer()
         {
-            Vector3 direction = (ctx.PlayerCharacter.transform.position - ctx.transform.position).normalized;
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            float rotationSpeed = 10f;
-            ctx.transform.rotation = Quaternion.Lerp(ctx.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            ctx.transform.LookAt(ctx.PlayerCharacter.transform);
         }
+        //{
+        //    Vector3 direction = (ctx.PlayerCharacter.transform.position - ctx.transform.position).normalized;
+        //    Quaternion targetRotation = Quaternion.LookRotation(direction);
+        //    float rotationSpeed = 10f;
+        //    ctx.transform.rotation = Quaternion.Lerp(ctx.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        //}
 
         public bool IsFacingPlayer()
         {
