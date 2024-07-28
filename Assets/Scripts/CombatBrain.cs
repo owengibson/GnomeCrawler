@@ -27,7 +27,9 @@ namespace GnomeCrawler
         #endregion
 
         [SerializeField] protected StatsSO _stats;
+        [SerializeField] private UnityEvent OnDamageConnected;
         [SerializeField] private UnityEvent OnDamaged;
+        [SerializeField] private UnityEvent OnDeath;
         public float CurrentHealth { get; set; }
         public bool IsDead { get; set; }
         public bool IsLockable { get; set; }
@@ -101,6 +103,7 @@ namespace GnomeCrawler
         {
             Debug.Log(gameObject + " killed");
             EventManager.OnEnemyKilled?.Invoke(gameObject);
+            OnDeath?.Invoke();
             IsDead = true;
             Destroy(gameObject);
         }
