@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GnomeCrawler.Player
@@ -12,7 +13,7 @@ namespace GnomeCrawler.Player
 
         public override void EnterState()
         {
-
+            Ctx.OnRunStart?.Invoke();
         }
 
         public override void UpdateState()
@@ -23,7 +24,10 @@ namespace GnomeCrawler.Player
             CheckSwitchStates();
         }
 
-        public override void ExitState() { }
+        public override void ExitState() 
+        {
+            Ctx.OnRunStop?.Invoke();
+        }
 
         public override void InitialiseSubState() { }
 
