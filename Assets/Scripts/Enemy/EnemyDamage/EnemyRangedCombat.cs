@@ -141,7 +141,7 @@ namespace GnomeCrawler.Enemies
             return false;
         }
 
-        private void CreateBullet()
+        public virtual void CreateBullet()
         {
             GameObject projectile = Instantiate(_enemyProjectilePrefab, _handTransform.position, Quaternion.identity);
             projectile.GetComponent<EnemyProjectile>().Parent = gameObject;

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
@@ -109,6 +110,16 @@ namespace GnomeCrawler.Player
         int _isDodgingHash;
         int _attackNumberHash;
         int _flinchHash;
+        #endregion
+
+        #region feedbacks
+        public UnityEvent OnRoll;
+        public UnityEvent OnRunStart;
+        public UnityEvent OnRunStop;
+        public UnityEvent OnCamLockOn;
+        public UnityEvent OnCamUnlock;
+        public UnityEvent OnCamLockSwap;
+        public UnityEvent OnLockOnFailed;
         #endregion
 
         // gravity
@@ -519,6 +530,7 @@ namespace GnomeCrawler.Player
             {
                 ClearLockOnTargets();
                 SetLockOnStatus(false);
+                OnCamUnlock?.Invoke();
                 return;
             }
             if (!_isLockedOn)
@@ -531,7 +543,12 @@ namespace GnomeCrawler.Player
                     _currentLockOnTarget = _nearestLockOnTarget;
                     SetLockOnStatus(true);
                     EventManager.OnRemoveTutoialPopupQuery?.Invoke(6);
-                } 
+                    OnCamLockOn?.Invoke();
+                }
+                else
+                {
+                    OnLockOnFailed?.Invoke();
+                }
             }
         }
 
@@ -563,6 +580,7 @@ namespace GnomeCrawler.Player
                     print("left target exists");
                     _currentLockOnTarget = _leftLockOnTarget;
                     _lockOnCam.LookAt = _currentLockOnTarget._lockOnTransform;
+                    OnCamLockSwap?.Invoke();
                 }
             }
         }

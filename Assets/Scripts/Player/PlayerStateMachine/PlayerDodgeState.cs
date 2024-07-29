@@ -86,6 +86,7 @@ namespace GnomeCrawler.Player
         private void HandleDodge()
         {
             if (Ctx.ResetDodgeCoroutine != null) Ctx.StopCoroutine(Ctx.ResetDodgeCoroutine);
+            Ctx.OnRoll?.Invoke();
             Ctx.Animator.SetBool(Ctx.IsDodgingHash, true);
             Ctx.DodgeVelocity = Ctx.DodgeForce;
             Ctx.IsDodging = true;
