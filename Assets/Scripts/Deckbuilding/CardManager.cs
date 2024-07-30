@@ -8,8 +8,6 @@ using GnomeCrawler.Audio;
 using GnomeCrawler.UI;
 using DG.Tweening;
 using System;
-using System.Runtime.CompilerServices;
-using Sirenix.OdinInspector;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -36,6 +34,11 @@ namespace GnomeCrawler.Deckbuilding
 
         [Header("Animation")]
         [SerializeField] private GameObject[] _animationCards;
+        [SerializeField] private GameObject _deckIcon;
+        [SerializeField] private GameObject _animCardPrefab;
+
+        [Space]
+        [SerializeField] private float _handDrawAnimDuration;
         [SerializeField] private float _handToScreenAnimDuration;
         [SerializeField] private float _quickviewAnimDuration;
 
@@ -47,6 +50,11 @@ namespace GnomeCrawler.Deckbuilding
         private Vector3[] _animCardPos;
         private Vector3[] _animCardScales;
         private Vector3[] _animCardRots;
+
+        private bool _hasFirstHandBeenDrawn = false;
+
+        private enum CardAnimationStatus { Closed, Quickview, HandReview, Choice }
+        private CardAnimationStatus _animationStatus = CardAnimationStatus.Closed;
 
 
         private void Awake()
@@ -76,8 +84,6 @@ namespace GnomeCrawler.Deckbuilding
             _hand = DrawCards(_deck, _handSize, true);
             EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
             InstantiateCards(_hand, false);
-            _handApproveButton.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(_handApproveButton);
         }
 
         private void InstantiateCards(List<CardSO> cards, bool isSelection)
@@ -100,7 +106,18 @@ namespace GnomeCrawler.Deckbuilding
                     cardUI.ButtonGraphic.SetActive(true);
                 }
             }
-            AnimateBetweenHandAndScreen(true, _handToScreenAnimDuration, CardGOs, null);
+            //AnimateQuickview(true, _handToScreenAnimDuration, CardGOs, null);
+            if (!isSelection)
+            {
+                AnimateDrawHand(_handDrawAnimDuration, () =>
+                {
+                    _handApproveButton.transform.localScale = Vector3.zero;
+                    _handApproveButton.SetActive(true);
+                    _handApproveButton.transform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack).SetUpdate(true);
+                    EventSystem.current.SetSelectedGameObject(_handApproveButton);
+                });
+            }
+
 
             if (isSelection)
             {
@@ -173,13 +190,13 @@ namespace GnomeCrawler.Deckbuilding
         {
             EventManager.OnHandApproved?.Invoke(_hand);
 
-            AnimateBetweenHandAndScreen(false, _handToScreenAnimDuration, CardGOs, () =>
+            AnimateCardsBetweenScreenAndHand(false, _handToScreenAnimDuration, CardGOs, () =>
             {
                 EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
                 AudioManager.Instance.SetMusicParameter(PlayerStatus.Combat);
             });
 
-            _handApproveButton.SetActive(false);
+            _handApproveButton.transform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack).SetUpdate(true).OnComplete(()=> _handApproveButton.SetActive(false));
             SetUpQuickview();
         }
 
@@ -194,20 +211,35 @@ namespace GnomeCrawler.Deckbuilding
                 _quickviewCards[i].GetComponent<Button>().enabled = false;
                 cardUI.ButtonGraphic.SetActive(false);
             }
+            _hasFirstHandBeenDrawn = true;
         }
 
         private void ToggleHandQuickview(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
         {
+            if (!_hasFirstHandBeenDrawn) return;
             if (ctx.performed)
+            {
                 //_handQuickview.SetActive(true);
-                AnimateBetweenHandAndScreen(true, _quickviewAnimDuration, _quickviewCards, null);
+                _animationStatus = CardAnimationStatus.Quickview;
+                AnimateCardsBetweenScreenAndHand(true, _quickviewAnimDuration, _quickviewCards, null);
+            }
             else if (ctx.canceled)
-                AnimateBetweenHandAndScreen(false, _quickviewAnimDuration, _quickviewCards, null);
+                AnimateCardsBetweenScreenAndHand(false, _quickviewAnimDuration, _quickviewCards, () => _animationStatus = CardAnimationStatus.Closed);
                 //_handQuickview.SetActive(false);
         }
 
-        private void AnimateBetweenHandAndScreen(bool isOpening, float duration, GameObject[] cards, Action callback)
+        private void AnimateCardsBetweenScreenAndHand(bool isOpening, float duration, GameObject[] cards, Action callback)
         {
+            if (isOpening && _animationStatus != CardAnimationStatus.Closed) return;
+            if (!isOpening && _animationStatus == CardAnimationStatus.Closed) return;
+            if (!_animationCards[0].activeSelf)
+            {
+                foreach (var card in _animationCards)
+                {
+                    card.SetActive(true);
+                }
+            }
+
             Sequence animation = DOTween.Sequence();
 
             // Card flip close
@@ -226,7 +258,7 @@ namespace GnomeCrawler.Deckbuilding
                 animation.Append(cardFlip);
             }
 
-            // Anim card move, scale, rotate
+            // Anim card move, scale, rotate 
             Sequence cardMoveScaleRot = DOTween.Sequence();
             for (int i = 0; i < _animationCards.Length; i++)
             {
@@ -236,12 +268,20 @@ namespace GnomeCrawler.Deckbuilding
                     endPos = cards[i].transform.position;
                     endScale = Vector3.one * 7;
                     endRot = Vector3.zero;
+
+                    _animationCards[i].transform.localPosition = _animCardPos[i];
+                    _animationCards[i].transform.localScale = _animCardScales[i];
+                    _animationCards[i].transform.eulerAngles = _animCardRots[i];
                 }
                 else
                 {
                     endPos = _animCardPos[i];
                     endScale = _animCardScales[i];
                     endRot = _animCardRots[i];
+
+                    _animationCards[i].transform.localPosition = cards[i].transform.localPosition;
+                    _animationCards[i].transform.localScale = Vector3.one * 7;
+                    _animationCards[i].transform.eulerAngles = new Vector3(0, 90, 0);
                 }
 
                 // Move
@@ -280,6 +320,48 @@ namespace GnomeCrawler.Deckbuilding
             }
             animation.SetUpdate(true);
             animation.Play().OnComplete(() => callback?.Invoke());
+        }
+
+        private void AnimateDrawHand(float duration, Action callback)
+        {
+            _animationStatus = CardAnimationStatus.HandReview;
+
+            Sequence animation = DOTween.Sequence();
+
+            // Deck icon scale
+            _deckIcon.transform.localScale = Vector3.zero;
+            _deckIcon.SetActive(true);
+            animation.Append(_deckIcon.transform.DOScale(1, duration * 0.25f).SetEase(Ease.OutBack));
+
+            // Card drawing (instantiate, scale, move, flip)
+            Sequence cardDraw = DOTween.Sequence();
+            for (int i = 0; i < _handSize; i++)
+            {
+                GameObject card = Instantiate(_animCardPrefab, _deckIcon.transform.position, Quaternion.identity, transform);
+                card.transform.localScale = Vector3.zero;
+                // Scale
+                cardDraw.Insert(duration * 0.2f * i, card.transform.DOScale(Vector3.one * 7, duration));
+                // Move
+                cardDraw.Insert(duration * 0.2f * i, card.transform.DOMove(CardGOs[i].transform.position, duration));
+
+                // Flip
+                Sequence cardFlip = DOTween.Sequence();
+                CardGOs[i].transform.eulerAngles = new Vector3(0, 90, 0);
+                CardGOs[i].SetActive(true);
+                // Rotate anim card
+                cardFlip.Insert(duration * 0.005f * i, card.transform.DORotate(new Vector3(0, 90, 0), duration * 0.15f));
+                // Rotate actual card
+                cardFlip.Append(CardGOs[i].transform.DORotate(Vector3.zero, duration * 0.15f));
+                cardFlip.AppendCallback(() => Destroy(card));
+                cardDraw.Append(cardFlip);
+            }
+            // Deck icon hide
+            cardDraw.Insert(duration * 0.25f * _handSize, _deckIcon.transform.DOScale(0, duration * 0.25f).SetEase(Ease.InBack));
+
+            animation.Append(cardDraw);
+            animation.SetUpdate(true);
+            animation.Play().OnComplete(() => callback?.Invoke());
+            
         }
 
         private void OnEnable()
