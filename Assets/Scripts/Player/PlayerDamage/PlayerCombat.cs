@@ -91,6 +91,7 @@ namespace GnomeCrawler.Player
 
             damageable.TakeDamage(damage, gameObject);
             EventManager.OnPlayerHit?.Invoke(damage);
+            OnDamageConnected?.Invoke();
             _damagedGameObjects.Add(hit.transform.gameObject);
             StartCoroutine(Rumble(0.1f, 0.1f));
         }
