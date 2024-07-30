@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -20,7 +21,8 @@ namespace GnomeCrawler.Player
         private PlayerStateMachine _stateMachine;
         [SerializeField] private Slider _healthbarSlider;
         [SerializeField] private GameObject _abilitiesGO;
-        
+
+        [SerializeField] private UnityEvent OnDamagedNoStun;
 
         [SerializeField] private Transform _spinWeaponOrigin;
 
@@ -31,7 +33,6 @@ namespace GnomeCrawler.Player
             _damagedGameObjects = new List<GameObject>();
             _healthbarSlider.maxValue = _maxHealth;
             _healthbarSlider.value = CurrentHealth;
-            StartCoroutine(Rumble(0f, 0f));
             _stats.ResetCards();
         }
 
@@ -91,8 +92,8 @@ namespace GnomeCrawler.Player
 
             damageable.TakeDamage(damage, gameObject);
             EventManager.OnPlayerHit?.Invoke(damage);
+            OnDamageConnected?.Invoke();
             _damagedGameObjects.Add(hit.transform.gameObject);
-            StartCoroutine(Rumble(0.1f, 0.1f));
         }
 
         public override void TakeDamage(float amount, GameObject damager)
@@ -100,7 +101,6 @@ namespace GnomeCrawler.Player
             if (_isInvincible) return;
             if (Random.Range(0,100) <= _stats.GetStat(Stat.BlockChance)) return;
 
-            StartCoroutine(Rumble(0.5f, amount / 4));
             EventManager.OnPlayerAttacked?.Invoke(amount, damager);
 
             if (EventManager.IsShieldActive?.Invoke() == true)
@@ -115,20 +115,19 @@ namespace GnomeCrawler.Player
             _healthbarSlider.value = CurrentHealth;
         }
 
-        public void TakeDamageWithInvincibility(float amount)
+        public void TakeDamageNoDeath(float amount)
         {
             float healthAfterDamage = CurrentHealth - amount;
             if (CurrentHealth == 1) return;
             else if (healthAfterDamage <= 0)
             {
                 CurrentHealth = 1;
-                StartCoroutine(Rumble(0.5f, amount / 4));
             }
             else if (healthAfterDamage >= 1)
             {
                 CurrentHealth -= amount;
-                StartCoroutine(Rumble(0.5f, amount / 4));
             }
+            OnDamagedNoStun?.Invoke();
             _healthbarSlider.value = CurrentHealth;
         }
 
@@ -137,7 +136,7 @@ namespace GnomeCrawler.Player
             if (_isInvincible) return;
             if (Random.Range(0, 100) <= _stats.GetStat(Stat.BlockChance)) return;
 
-            StartCoroutine(Rumble(0.5f, amount / 4));
+            OnDamagedNoStun?.Invoke();
             if (EventManager.IsShieldActive?.Invoke() == true)
             {
                 EventManager.OnShieldHit?.Invoke(amount);
@@ -295,16 +294,6 @@ namespace GnomeCrawler.Player
             }
         }
 
-        private IEnumerator Rumble(float time, float rumbleAmount)
-        {
-            if (InputDeviceManager.Instance.isKeyboardAndMouse)
-                yield break;
-
-            Gamepad.current?.SetMotorSpeeds(rumbleAmount, rumbleAmount);
-            yield return new WaitForSeconds(time);
-            Gamepad.current?.SetMotorSpeeds(0f, 0f);
-        }
-
         private void ChangeWeaponSize(float size)
         {
             _weaponSize = 1.05f * size;
@@ -322,7 +311,7 @@ namespace GnomeCrawler.Player
             EventManager.OnHandApproved += AddHandToStats;
             EventManager.GetPlayerStats += GetPlayerStats;
             EventManager.OnPlayerLifeSteal += HealPlayer;
-            EventManager.OnPlayerHurtFromAbility += TakeDamageWithInvincibility;
+            EventManager.OnPlayerHurtFromAbility += TakeDamageNoDeath;
             EventManager.OnCardActivated += EnableAbility;
             EventManager.OnCardDeactivated += DisableAbility;
             EventManager.OnWeaponSizeChanged += ChangeWeaponSize;
@@ -336,7 +325,7 @@ namespace GnomeCrawler.Player
             EventManager.OnHandApproved -= AddHandToStats;
             EventManager.GetPlayerStats -= GetPlayerStats;
             EventManager.OnPlayerLifeSteal -= HealPlayer;
-            EventManager.OnPlayerHurtFromAbility -= TakeDamageWithInvincibility;
+            EventManager.OnPlayerHurtFromAbility -= TakeDamageNoDeath;
             EventManager.OnCardActivated -= EnableAbility;
             EventManager.OnCardDeactivated -= DisableAbility;
             EventManager.OnWeaponSizeChanged -= ChangeWeaponSize;

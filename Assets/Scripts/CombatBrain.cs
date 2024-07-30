@@ -27,7 +27,7 @@ namespace GnomeCrawler
         #endregion
 
         [SerializeField] protected StatsSO _stats;
-        [SerializeField] private UnityEvent OnDamageConnected;
+        public UnityEvent OnDamageConnected;
         [SerializeField] private UnityEvent OnDamaged;
         [SerializeField] private UnityEvent OnDeath;
         public float CurrentHealth { get; set; }
