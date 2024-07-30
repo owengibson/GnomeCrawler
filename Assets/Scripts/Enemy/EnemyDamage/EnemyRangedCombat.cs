@@ -2,26 +2,30 @@ using GnomeCrawler.Systems;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.AI;
 
 namespace GnomeCrawler.Enemies
 {
     public class EnemyRangedCombat : EnemyCombat
     {
+
         [SerializeField] private GameObject _enemyProjectilePrefab;
         [SerializeField] private float _projectileSpeed = 5f;
         [SerializeField] private Transform _handTransform;
         [SerializeField] private Renderer[] _renderers;
-        private bool _chargingAttack = false;
         [SerializeField] private GameObject _playerCharacter;
 
-
-        // Teleport Variables
+        private bool _chargingAttack = false;
         private float _playersCurrentDistance;
-        private bool _canTele = true; 
+        private bool _canTele = true;
+        private Vector3 _teleRadius;
+
+        [SerializeField] private UnityEvent OnTeleport;
+        [SerializeField] private UnityEvent OnTeleportCharge;
+
         [SerializeField] private float _needToTeleportRadius;
         [SerializeField] private float _teleTimer = 1f;
-        private Vector3 _teleRadius;
         [SerializeField] private float _teleRange = 5f;
 
 
@@ -53,9 +57,13 @@ namespace GnomeCrawler.Enemies
 
             _playersCurrentDistance = Vector3.Distance(transform.position, _playerCharacter.transform.position);
 
-            if(_playersCurrentDistance < _needToTeleportRadius)
+            if (_canTele)
             {
-                Invoke("TeleportAway", 1);
+                if (_playersCurrentDistance < _needToTeleportRadius)
+                {
+                    OnTeleportCharge?.Invoke();
+                    Invoke("TeleportAway", _teleTimer);
+                }
             }
         }
 
@@ -111,8 +119,9 @@ namespace GnomeCrawler.Enemies
         {
             Vector3 point;
 
-            if (IsPositionOnNavMesh(transform.position, _teleRange, out point) && _canTele)
+            if (IsPositionOnNavMesh(transform.position, _teleRange, out point))
             {
+                OnTeleport?.Invoke();
                 _canTele = false;
                 transform.position = point;
                 StartCoroutine(TeleportCoolDown());
@@ -173,10 +182,6 @@ namespace GnomeCrawler.Enemies
             transform.LookAt(targetPosition);
         }
 
-        //private void FacePlayer()
-        //{
-        //    transform.LookAt(_playerCharacter.transform);
-        //}
 
         public void EndOfAnimation(string aninName)
         {

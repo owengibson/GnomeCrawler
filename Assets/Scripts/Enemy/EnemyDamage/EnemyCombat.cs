@@ -10,20 +10,20 @@ namespace GnomeCrawler.Enemies
 {
     public class EnemyCombat : CombatBrain
     {
+        [SerializeField] private bool _isPotPlant = false;
+        [SerializeField] private PreFracturedGeometry _potFractureGeo;
+        [SerializeField] private GameObject _fraturedPot;
         [SerializeField] protected ProgressBar _healthBar;
         [SerializeField] protected Animator _enemyAnim;
         [SerializeField] protected Renderer _meshRenderer;
         [SerializeField] protected List<ParticleSystem> _particleSystems = new List<ParticleSystem>();
+
         protected List<Color> _originalColours = new List<Color>();
         protected int _originalColorIndex;
 
-
         private bool _isUnflinchable = false;
 
-        [SerializeField] private bool _isPotPlant = false;
-        [SerializeField] private PreFracturedGeometry _potFractureGeo;
-        [SerializeField] private GameObject _fraturedPot;
-
+  
         private void Start()
         {
             base.InitialiseVariables();
