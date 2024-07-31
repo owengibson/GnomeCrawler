@@ -8,6 +8,7 @@ using GnomeCrawler.Audio;
 using GnomeCrawler.UI;
 using DG.Tweening;
 using System;
+using UnityEngine.Rendering;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -34,10 +35,12 @@ namespace GnomeCrawler.Deckbuilding
 
         [Header("Animation")]
         [SerializeField] private GameObject[] _animationCards;
+        [SerializeField] private GameObject[] _choiceAnimationCards;
         [SerializeField] private GameObject _deckIcon;
         [SerializeField] private GameObject _animCardPrefab;
 
         [Space]
+        [SerializeField] private float _cardChoiceAnimDuration;
         [SerializeField] private float _handDrawAnimDuration;
         [SerializeField] private float _handToScreenAnimDuration;
         [SerializeField] private float _quickviewAnimDuration;
@@ -106,7 +109,7 @@ namespace GnomeCrawler.Deckbuilding
                     cardUI.ButtonGraphic.SetActive(true);
                 }
             }
-            //AnimateQuickview(true, _handToScreenAnimDuration, CardGOs, null);
+
             if (!isSelection)
             {
                 AnimateDrawHand(_handDrawAnimDuration, () =>
@@ -118,10 +121,10 @@ namespace GnomeCrawler.Deckbuilding
                 });
             }
 
-
-            if (isSelection)
+            else
             {
-                StartCoroutine(SetSelectedGameObject());
+                // Draw new card to add to deck
+                AnimateCardChoicePresentation(_cardChoiceAnimDuration, () => StartCoroutine(SetSelectedGameObject()));
             }
         }
 
@@ -196,7 +199,11 @@ namespace GnomeCrawler.Deckbuilding
                 AudioManager.Instance.SetMusicParameter(PlayerStatus.Combat);
             });
 
-            _handApproveButton.transform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack).SetUpdate(true).OnComplete(()=> _handApproveButton.SetActive(false));
+            _handApproveButton.transform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack).SetUpdate(true).OnComplete(()=>
+            {
+                _handApproveButton.SetActive(false);
+                _animationStatus = CardAnimationStatus.Closed;
+            });
             SetUpQuickview();
         }
 
@@ -324,6 +331,10 @@ namespace GnomeCrawler.Deckbuilding
 
         private void AnimateDrawHand(float duration, Action callback)
         {
+            if (_animationStatus != CardAnimationStatus.Closed)
+            {
+                ForceCloseCardsOnScreen();
+            }
             _animationStatus = CardAnimationStatus.HandReview;
 
             Sequence animation = DOTween.Sequence();
@@ -362,6 +373,64 @@ namespace GnomeCrawler.Deckbuilding
             animation.SetUpdate(true);
             animation.Play().OnComplete(() => callback?.Invoke());
             
+        }
+
+        private void AnimateCardChoicePresentation(float duration, Action callback)
+        {
+            if (_animationStatus != CardAnimationStatus.Closed)
+            {
+                ForceCloseCardsOnScreen();
+            }
+            _animationStatus = CardAnimationStatus.Choice;
+
+            Sequence animation = DOTween.Sequence();
+            for (int i = 0; i < _numberOfCardsToDraw; i++)
+            {
+                // Prime UI elements
+                _choiceAnimationCards[i].transform.localScale = Vector3.zero;
+                _choiceAnimationCards[i].SetActive(true);
+                CardGOs[i].transform.eulerAngles = new Vector3(0, 90, 0);
+                CardGOs[i].SetActive(true);
+
+                // Scale anim cards
+                animation.Insert(duration * 0.15f * i, _choiceAnimationCards[i].transform.DOScale(Vector3.one, duration).SetEase(Ease.OutBack));
+
+                // Flip
+                animation.Insert(duration * 0.15f * i + duration, _choiceAnimationCards[i].transform.DORotate(new Vector3(0, 90, 0), duration * 0.25f));
+                animation.Append(CardGOs[i].transform.DORotate(Vector3.zero, duration * 0.25f));
+
+                animation.AppendCallback(() =>
+                {
+                    _choiceAnimationCards[i].SetActive(false);
+                    _choiceAnimationCards[i].transform.eulerAngles = Vector3.zero;
+                });
+            }
+            
+            animation.SetUpdate(true);
+            animation.Play().OnComplete(() => callback?.Invoke());
+        }
+
+        private void ForceCloseCardsOnScreen()
+        {
+            switch (_animationStatus)
+            {
+                case CardAnimationStatus.Closed:
+                    break;
+
+                case CardAnimationStatus.Quickview:
+                    AnimateCardsBetweenScreenAndHand(false, _quickviewAnimDuration, _quickviewCards, ()=>_animationStatus = CardAnimationStatus.Closed);
+                    break;
+
+                case CardAnimationStatus.HandReview:
+                    ApproveHand();
+                    break;
+
+                case CardAnimationStatus.Choice:
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         private void OnEnable()
