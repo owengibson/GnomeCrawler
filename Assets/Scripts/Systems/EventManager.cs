@@ -9,6 +9,7 @@ namespace GnomeCrawler.Systems
     public class EventManager
     {
         public static Action<CardSO> OnCardChosen;
+        public static Action<GameObject, float> OnCardChosenAnimation;
         public static Action<int> OnRoomStarted;
         public static Action OnRoomCleared;
         public static Action<GameObject> OnEnemyKilled;
@@ -34,11 +35,12 @@ namespace GnomeCrawler.Systems
         public static Action OnEnteredBossRoom;
         public static Action<bool> OnChooseInversion;
 
+        public static Action<CardAnimationStatus> OnCardAnimationStatusChange;
+
         public static Func<CardSO> GetSelectedActivatableCard;
         public static Func<StatsSO> GetPlayerStats;
         public static Func<bool> IsPlayerTargetable;
         public static Func<bool> IsShieldActive;
-
         public static Action<Dialogue> OnDialogueStarted;
         public static Action OnDialogueFinished;
     }
