@@ -227,8 +227,8 @@ namespace GnomeCrawler.Deckbuilding
             if (ctx.performed)
             {
                 //_handQuickview.SetActive(true);
-                _animationStatus = CardAnimationStatus.Quickview;
                 AnimateCardsBetweenScreenAndHand(true, _quickviewAnimDuration, _quickviewCards, null);
+                _animationStatus = CardAnimationStatus.Quickview;
             }
             else if (ctx.canceled)
                 AnimateCardsBetweenScreenAndHand(false, _quickviewAnimDuration, _quickviewCards, () => _animationStatus = CardAnimationStatus.Closed);
@@ -237,6 +237,7 @@ namespace GnomeCrawler.Deckbuilding
 
         private void AnimateCardsBetweenScreenAndHand(bool isOpening, float duration, GameObject[] cards, Action callback)
         {
+            DOTween.KillAll();
             if (isOpening && _animationStatus != CardAnimationStatus.Closed) return;
             if (!isOpening && _animationStatus == CardAnimationStatus.Closed) return;
             if (!_animationCards[0].activeSelf)
@@ -397,7 +398,7 @@ namespace GnomeCrawler.Deckbuilding
 
                 // Flip
                 animation.Insert(duration * 0.15f * i + duration, _choiceAnimationCards[i].transform.DORotate(new Vector3(0, 90, 0), duration * 0.25f));
-                animation.Append(CardGOs[i].transform.DORotate(Vector3.zero, duration * 0.25f));
+                animation.Insert(duration * 0.15f * i + duration + duration * 0.25f, CardGOs[i].transform.DORotate(Vector3.zero, duration * 0.25f));
 
                 animation.AppendCallback(() =>
                 {
