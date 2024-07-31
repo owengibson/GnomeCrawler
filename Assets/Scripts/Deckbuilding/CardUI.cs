@@ -7,6 +7,7 @@ using GnomeCrawler.Systems;
 using Sirenix.OdinInspector;
 using GnomeCrawler.Audio;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -19,6 +20,12 @@ namespace GnomeCrawler.Deckbuilding
         [SerializeField] private TextMeshProUGUI _titleText;
         [SerializeField] private TextMeshProUGUI _descriptionText;
         [SerializeField] private Image _backgroundImage;
+        [Space]
+
+        [Header("Animation")]
+        [SerializeField] private GameObject _animCardPrefab;
+        [SerializeField] private float _notChosenAnimDuration;
+        [SerializeField] private float _chosenAnimDuration;
 
         public GameObject ButtonGraphic;
 
@@ -65,7 +72,9 @@ namespace GnomeCrawler.Deckbuilding
             EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
 
             AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("CardChosen"));
-            gameObject.SetActive(false);
+
+            // Animation
+            EventManager.OnCardChosenAnimation?.Invoke(gameObject, _chosenAnimDuration);
         }
 
         public void CardChosen(CardSO card)
@@ -74,8 +83,47 @@ namespace GnomeCrawler.Deckbuilding
             if (card == _card) return;
 
             // Probably put an animation or something in here for when this card is not chosen
-            gameObject.SetActive(false);
+            transform.DOScale(Vector3.zero, _notChosenAnimDuration).SetEase(Ease.InBack).OnComplete(()=> gameObject.SetActive(false));
         }
+
+/*        private void AnimateChoosingCard(float duration)
+        {
+            Sequence animation = DOTween.Sequence();
+
+            Vector3 sideOn = new Vector3(0, 90, 0);
+
+            GameObject animCard = Instantiate(_animCardPrefab, transform.position, Quaternion.identity, transform.parent);
+            animCard.transform.eulerAngles = sideOn;
+            animCard.transform.localScale = transform.localScale;
+            animCard.GetComponent<RectTransform>().sizeDelta = GetComponent<RectTransform>().sizeDelta;
+            // Scale
+            animation.Append(transform.DOScale(Vector3.zero, duration).SetEase(Ease.InBack));
+            animation.Insert(0, animCard.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InBack));
+
+            // Flips
+            Sequence flips = DOTween.Sequence();
+            float flipDuration = duration * 0.15f;
+            for (int i = 0; i < 1; i++)
+            {
+                flips.Append(transform.DORotate(sideOn, flipDuration));
+                flips.Append(animCard.transform.DORotate(Vector3.zero, flipDuration));
+                flips.Append(animCard.transform.DORotate(sideOn, flipDuration));
+                flips.Append(transform.DORotate(Vector3.zero, flipDuration));
+            }
+            flips.Append(transform.DORotate(sideOn, flipDuration));
+            flips.Append(animCard.transform.DORotate(Vector3.zero, flipDuration));
+            flips.SetEase(Ease.InOutQuad);
+
+            animation.Insert(0, flips);
+            animation.SetUpdate(true);
+            animation.Play().OnComplete(() =>
+            {
+                Destroy(animCard);
+                EventManager.OnCardAnimationStatusChange?.Invoke(CardAnimationStatus.Closed);
+                gameObject.SetActive(false);
+            });
+
+        }*/
 
         [Button]
         private void ResetCardUI()

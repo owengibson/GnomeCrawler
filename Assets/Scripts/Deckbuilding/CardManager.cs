@@ -9,6 +9,7 @@ using GnomeCrawler.UI;
 using DG.Tweening;
 using System;
 using UnityEngine.Rendering;
+using System.Xml.Serialization;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -56,7 +57,6 @@ namespace GnomeCrawler.Deckbuilding
 
         private bool _hasFirstHandBeenDrawn = false;
 
-        private enum CardAnimationStatus { Closed, Quickview, HandReview, Choice }
         private CardAnimationStatus _animationStatus = CardAnimationStatus.Closed;
 
 
@@ -124,6 +124,7 @@ namespace GnomeCrawler.Deckbuilding
             else
             {
                 // Draw new card to add to deck
+                _animationStatus = CardAnimationStatus.Choice;
                 AnimateCardChoicePresentation(_cardChoiceAnimDuration, () => StartCoroutine(SetSelectedGameObject()));
             }
         }
@@ -411,6 +412,59 @@ namespace GnomeCrawler.Deckbuilding
             animation.Play().OnComplete(() => callback?.Invoke());
         }
 
+        private void AnimateCardChosen(GameObject card, float duration)
+        {
+            Sequence animation = DOTween.Sequence();
+
+            Vector3 sideOn = new Vector3(0, 90, 0);
+            Vector3 cardStartPos = card.transform.position;
+
+            GameObject animCard = Instantiate(_animCardPrefab, card.transform.position, Quaternion.identity, transform);
+            animCard.transform.eulerAngles = sideOn;
+            animCard.transform.localScale = card.transform.localScale;
+            animCard.GetComponent<RectTransform>().sizeDelta = card.GetComponent<RectTransform>().sizeDelta;
+            // Scale
+            animation.Append(card.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InOutQuad));
+            animation.Insert(0, animCard.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InOutQuad));
+
+            // Move
+            animation.Insert(0, card.transform.DOMove(_deckIcon.transform.position, duration));
+            animation.Insert(0, animCard.transform.DOMove(_deckIcon.transform.position, duration));
+
+            // Deck icon appear
+            _deckIcon.transform.localScale = Vector3.zero;
+            _deckIcon.SetActive(true);
+            animation.Insert(0, _deckIcon.transform.DOScale(1, duration * 0.25f).SetEase(Ease.OutBack));
+
+            // Flips
+            Sequence flips = DOTween.Sequence();
+            float flipDuration = duration * 0.15f;
+            for (int i = 0; i < 1; i++)
+            {
+                flips.Append(card.transform.DORotate(sideOn, flipDuration));
+                flips.Append(animCard.transform.DORotate(Vector3.zero, flipDuration));
+                flips.Append(animCard.transform.DORotate(sideOn, flipDuration));
+                flips.Append(transform.DORotate(Vector3.zero, flipDuration));
+            }
+            flips.Append(card.transform.DORotate(sideOn, flipDuration));
+            flips.Append(animCard.transform.DORotate(Vector3.zero, flipDuration));
+            flips.SetEase(Ease.InOutQuad);
+
+            animation.Insert(0, flips);
+
+            // Deck icon disappear
+            animation.Append(_deckIcon.transform.DOScale(0, duration * 0.25f).SetEase(Ease.InBack));
+
+            animation.SetUpdate(true);
+            animation.Play().OnComplete(() =>
+            {
+                Destroy(animCard);
+                EventManager.OnCardAnimationStatusChange?.Invoke(CardAnimationStatus.Closed);
+                card.transform.position = cardStartPos;
+                card.gameObject.SetActive(false);
+            });
+        }
+
         private void ForceCloseCardsOnScreen()
         {
             switch (_animationStatus)
@@ -434,11 +488,15 @@ namespace GnomeCrawler.Deckbuilding
             }
         }
 
+        private void SetCardAnimationStatus(CardAnimationStatus status) => _animationStatus = status;
+
         private void OnEnable()
         {
             EventManager.OnRoomStarted += DrawAndDisplayNewHand;
             EventManager.OnRoomCleared += DrawAndDisplayCards;
             EventManager.OnCardChosen += AddCardToDeck;
+            EventManager.OnCardAnimationStatusChange += SetCardAnimationStatus;
+            EventManager.OnCardChosenAnimation += AnimateCardChosen;
 
             _playerControls.Enable();
         }
@@ -447,6 +505,8 @@ namespace GnomeCrawler.Deckbuilding
             EventManager.OnRoomStarted -= DrawAndDisplayNewHand;
             EventManager.OnRoomCleared -= DrawAndDisplayCards;
             EventManager.OnCardChosen -= AddCardToDeck;
+            EventManager.OnCardAnimationStatusChange += SetCardAnimationStatus;
+            EventManager.OnCardChosenAnimation -= AnimateCardChosen;
 
             _playerControls.Disable();
         }
