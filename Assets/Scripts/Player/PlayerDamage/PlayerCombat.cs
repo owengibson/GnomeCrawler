@@ -266,7 +266,8 @@ namespace GnomeCrawler.Player
             });
 
             EventManager.OnPlayerKilled?.Invoke();
-            Gamepad.current.SetMotorSpeeds(0f, 0f);
+            gameObject.GetComponent<CharacterController>().enabled = false;
+            _stateMachine.enabled = false;
             IsDead = true;
         }
 
