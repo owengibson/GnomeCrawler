@@ -17,7 +17,7 @@ namespace GnomeCrawler.Player
         private float _healTickTime;
         [HideInInspector] public float PoisionTickTime;
         private List<GameObject> _damagedGameObjects;
-        private bool _isInvincible = false;
+        public bool _isInvincible = false;
         private PlayerStateMachine _stateMachine;
         [SerializeField] private Slider _healthbarSlider;
         [SerializeField] private GameObject _abilitiesGO;
