@@ -111,7 +111,6 @@ namespace GnomeCrawler.Player
             }
 
             base.TakeDamage(amount, damager);
-            StartCoroutine(DamagedInvincibility());
             _stateMachine.IsFlinching = true;
             _healthbarSlider.value = CurrentHealth;
         }
@@ -348,16 +347,6 @@ namespace GnomeCrawler.Player
         private void PerRoomHeal(int unUsed)
         {
             HealPlayer(2);
-        }
-
-        private IEnumerator DamagedInvincibility()
-        {
-            _isInvincible = true;
-            yield return new WaitForSeconds(0.5f);
-            if (_isInvincible )
-            {
-                _isInvincible = false;
-            }
         }
     }
 }
