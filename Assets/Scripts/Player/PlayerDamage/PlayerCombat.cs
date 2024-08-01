@@ -347,7 +347,7 @@ namespace GnomeCrawler.Player
 
         private void PerRoomHeal(int unUsed)
         {
-            HealPlayer(2);
+            HealPlayer(4);
         }
     }
 }

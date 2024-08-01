@@ -35,6 +35,7 @@ namespace GnomeCrawler.Player
 
         public override void EnterState()
         {
+            Ctx.OnPlayerSwing?.Invoke();
             Ctx.Animator.SetBool(Ctx.IsAttackingHash, true);
             Ctx.AppliedMovementX = Ctx.CurrentMovementInput.x;
             Ctx.AppliedMovementZ = Ctx.CurrentMovementInput.y;

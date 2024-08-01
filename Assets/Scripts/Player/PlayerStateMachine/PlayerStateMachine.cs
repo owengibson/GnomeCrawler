@@ -112,7 +112,7 @@ namespace GnomeCrawler.Player
         int _flinchHash;
         #endregion
 
-        #region feedbacks
+        #region feedback Events
         public UnityEvent OnRoll;
         public UnityEvent OnRunStart;
         public UnityEvent OnRunStop;
@@ -120,6 +120,7 @@ namespace GnomeCrawler.Player
         public UnityEvent OnCamUnlock;
         public UnityEvent OnCamLockSwap;
         public UnityEvent OnLockOnFailed;
+        public UnityEvent OnPlayerSwing;
         #endregion
 
         // gravity
