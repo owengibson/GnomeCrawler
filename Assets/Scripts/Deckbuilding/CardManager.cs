@@ -89,7 +89,13 @@ namespace GnomeCrawler.Deckbuilding
             InstantiateCards(_hand, false);
         }
 
-        private void InstantiateCards(List<CardSO> cards, bool isSelection)
+        public void SetCurrentHand(List<CardSO> hand)
+        {
+            _hand.Clear();
+            _hand = hand;
+        }
+
+        public void InstantiateCards(List<CardSO> cards, bool isSelection)
         {
             for (int i = 0; i < cards.Count; i++)
             {
@@ -439,13 +445,13 @@ namespace GnomeCrawler.Deckbuilding
             // Flips
             Sequence flips = DOTween.Sequence();
             float flipDuration = duration * 0.15f;
-            for (int i = 0; i < 1; i++)
+/*            for (int i = 0; i < 1; i++)
             {
                 flips.Append(card.transform.DORotate(sideOn, flipDuration));
                 flips.Append(animCard.transform.DORotate(Vector3.zero, flipDuration));
                 flips.Append(animCard.transform.DORotate(sideOn, flipDuration));
                 flips.Append(transform.DORotate(Vector3.zero, flipDuration));
-            }
+            }*/
             flips.Append(card.transform.DORotate(sideOn, flipDuration));
             flips.Append(animCard.transform.DORotate(Vector3.zero, flipDuration));
             flips.SetEase(Ease.InOutQuad);
