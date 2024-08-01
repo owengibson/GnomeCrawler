@@ -480,11 +480,11 @@ MonoBehaviour:
         EventOriginTransform: {fileID: 0}
         EventName:
           Guid:
-            Data1: -329641479
-            Data2: 1310349250
-            Data3: 543157436
-            Data4: 1160877430
-          Path: event:/SFX/Enemies/PotPlant/PotPlantHurt
+            Data1: 917888008
+            Data2: 1218077376
+            Data3: 668572347
+            Data4: -1060222168
+          Path: event:/SFX/Enemies/PotPlant/PotPlantAttackHit
 --- !u!1 &3553762204815260613
 GameObject:
   m_ObjectHideFlags: 0
@@ -1625,7 +1625,19 @@ MonoBehaviour:
   _stats: {fileID: 11400000, guid: 5fc78514bb599f44e9f37bba29a9b7f2, type: 2}
   OnDamageConnected:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6868150745987104471}
+        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Feedbacks
+        m_MethodName: PlayFeedbacks
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDamaged:
     m_PersistentCalls:
       m_Calls:

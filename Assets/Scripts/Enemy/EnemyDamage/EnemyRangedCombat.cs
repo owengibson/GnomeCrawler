@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.AI;
+using GnomeCrawler.Player;
 
 namespace GnomeCrawler.Enemies
 {
@@ -39,7 +40,7 @@ namespace GnomeCrawler.Enemies
                 _originalColours.Add(mat.GetColor("_MainColor"));
             }
 
-            _playerCharacter = GameObject.Find("PlayerFollowTarget");
+            _playerCharacter = PlayerStateMachine.instance.gameObject;
         }
 
         private void Update()
@@ -61,6 +62,7 @@ namespace GnomeCrawler.Enemies
             {
                 if (_playersCurrentDistance < _needToTeleportRadius)
                 {
+                    _canTele = false;
                     OnTeleportCharge?.Invoke();
                     Invoke("TeleportAway", _teleTimer);
                 }
@@ -122,7 +124,7 @@ namespace GnomeCrawler.Enemies
             if (IsPositionOnNavMesh(transform.position, _teleRange, out point))
             {
                 OnTeleport?.Invoke();
-                _canTele = false;
+                
                 transform.position = point;
                 StartCoroutine(TeleportCoolDown());
             }

@@ -44,6 +44,7 @@ namespace GnomeCrawler.Enemies
 
                 if (hitCollider.transform.TryGetComponent(out IDamageable damageable) && !_hasDealtDamage)
                 {
+                    OnDamageConnected?.Invoke();
                     damageable.TakeDamage(_stats.GetStat(Stat.Damage), gameObject);
                     _hasDealtDamage = true;
                 }
