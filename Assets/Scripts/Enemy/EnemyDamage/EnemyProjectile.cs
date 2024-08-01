@@ -8,7 +8,7 @@ namespace GnomeCrawler
 {
     public class EnemyProjectile : MonoBehaviour
     {
-        [SerializeField] private StatsSO _stats;
+        public StatsSO _stats;
         public float _lifespan = 4f;
 
         private IDamageable _damageable;

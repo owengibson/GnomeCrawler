@@ -3,6 +3,7 @@ using GnomeCrawler.Systems;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace GnomeCrawler.Rooms
 {
@@ -12,6 +13,8 @@ namespace GnomeCrawler.Rooms
         public BoxCollider Collider { get; private set; }
 
         public DoorwayType Type;
+
+        public UnityEvent OnDoorwayEntered;
 
         [SerializeField] private RoomDoorway _otherDoorway;
         [SerializeField] private GameObject _doorParticles; 
@@ -50,6 +53,7 @@ namespace GnomeCrawler.Rooms
             {
                 _hasExitBeenSet = true;
                 EventManager.OnRoomStarted?.Invoke(transform.parent.GetHashCode());
+                OnDoorwayEntered?.Invoke();
 
                 Type = DoorwayType.Entry;
                 _otherDoorway.Type = DoorwayType.Exit;

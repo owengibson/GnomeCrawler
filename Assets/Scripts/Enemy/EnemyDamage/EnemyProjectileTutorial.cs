@@ -9,10 +9,6 @@ namespace GnomeCrawler
 {
     public class EnemyProjectileTutorial : EnemyProjectile
     {
-        [SerializeField] private StatsSO _stats;
-      
-
-      
 
         private void Awake()
         {
