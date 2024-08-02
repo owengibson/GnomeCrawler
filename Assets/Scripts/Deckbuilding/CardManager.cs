@@ -366,6 +366,7 @@ namespace GnomeCrawler.Deckbuilding
                 // Flip
                 Sequence cardFlip = DOTween.Sequence();
                 CardGOs[i].transform.eulerAngles = new Vector3(0, 90, 0);
+                CardGOs[i].transform.localScale = Vector3.one;
                 CardGOs[i].SetActive(true);
                 // Rotate anim card
                 cardFlip.Insert(duration * 0.005f * i, card.transform.DORotate(new Vector3(0, 90, 0), duration * 0.15f));
