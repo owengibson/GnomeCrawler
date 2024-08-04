@@ -9,6 +9,10 @@ namespace GnomeCrawler
     public class LeaderboardManager : Singleton<LeaderboardManager>
     {
         [SerializeField] TextMeshProUGUI _totalDeathsTMP;
+        private void Start()
+        {
+            GetLeaderboard();
+        }
         public void GetLeaderboard()
         {
             int totalDeaths = 0;

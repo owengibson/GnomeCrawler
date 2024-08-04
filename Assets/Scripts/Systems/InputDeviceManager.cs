@@ -17,6 +17,12 @@ namespace GnomeCrawler
                 isKeyboardAndMouse = inputDevice.name.Equals("Keyboard") || inputDevice.name.Equals("Mouse");
             }
         }
+
+        private void OnDisable()
+        {
+            InputSystem.onActionChange -= InputActionChangeCallback;
+        }
+
         private void InputActionChangeCallback(object obj, InputActionChange change)
         {
             if (change == InputActionChange.ActionPerformed)
@@ -27,9 +33,23 @@ namespace GnomeCrawler
                 InputDevice lastDevice = receivedInputAction.activeControl.device;
 
                 isKeyboardAndMouse = lastDevice.name.Equals("Keyboard") || lastDevice.name.Equals("Mouse");
-                //If needed we could check for "XInputControllerWindows" or "DualShock4GamepadHID"
-                //Maybe if it Contains "controller" could be xbox layout and "gamepad" sony? More investigation needed
+                SwapControlSchemeSettings(isKeyboardAndMouse);
+            }
+        }
+
+        private void SwapControlSchemeSettings(bool isKeyboard)
+        {
+            if (!isKeyboard)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
         }
     }
 }
+    

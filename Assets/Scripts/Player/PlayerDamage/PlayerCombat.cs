@@ -266,6 +266,7 @@ namespace GnomeCrawler.Player
             });
 
             EventManager.OnPlayerKilled?.Invoke();
+            OnDeath?.Invoke();
             gameObject.GetComponent<CharacterController>().enabled = false;
             _stateMachine.enabled = false;
             IsDead = true;

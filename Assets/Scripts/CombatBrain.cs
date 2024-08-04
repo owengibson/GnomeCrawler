@@ -28,8 +28,9 @@ namespace GnomeCrawler
 
         [SerializeField] protected StatsSO _stats;
         public UnityEvent OnDamageConnected;
-        [SerializeField] private UnityEvent OnDamaged;
-        [SerializeField] private UnityEvent OnDeath;
+        [SerializeField] protected UnityEvent OnDamaged;
+        [SerializeField] protected UnityEvent OnDeath;
+        [SerializeField] protected UnityEvent OnStartDealDamage;
         public float CurrentHealth { get; set; }
         public bool IsDead { get; set; }
         public bool IsLockable { get; set; }
@@ -80,6 +81,7 @@ namespace GnomeCrawler
 
         public virtual void StartDealDamage()
         {
+            OnStartDealDamage?.Invoke();
             _canDealDamage = true;
             _hasDealtDamage = false;
         }
@@ -101,7 +103,6 @@ namespace GnomeCrawler
 
         public virtual void Die()
         {
-            Debug.Log(gameObject + " killed");
             EventManager.OnEnemyKilled?.Invoke(gameObject);
             OnDeath?.Invoke();
             IsDead = true;

@@ -16,6 +16,14 @@ namespace GnomeCrawler
         [SerializeField] private float _gameOverDelay = 1.5f;
         [SerializeField] private GameObject _button;
 
+        private CanvasGroup _canvasGroup;
+
+        private void Start()
+        {
+            _canvasGroup = GetComponent<CanvasGroup>();
+            _canvasGroup.alpha = 0;
+        }
+
         private void ShowGameOverScreen()
         {
             StartCoroutine(WaitForGameOverScreen());
@@ -25,9 +33,8 @@ namespace GnomeCrawler
         {
             yield return new WaitForSecondsRealtime(_gameOverDelay);
             GetComponent<Canvas>().enabled = true;
-            CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
             _button.SetActive(true);
-            canvasGroup.DOFade(1, 1);
+            _canvasGroup.DOFade(1, 1);
             EventSystem.current.SetSelectedGameObject(_button);
         }
 
