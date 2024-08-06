@@ -1,4 +1,5 @@
 using GnomeCrawler.Systems;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,13 +13,26 @@ namespace GnomeCrawler
         public Dialogue _dialogue;
 
         [SerializeField] private bool _canListenForPopup;
-        [SerializeField] private int _popupToListenFor;
+        [ShowIfGroup("a", Condition = "_canListenForPopup")]
+        [SerializeField, BoxGroup("a/PopupEvents")] private int _popupToListenFor;
+        [SerializeField, BoxGroup("a/PopupEvents")] private bool _delayDialogue;
+        [ShowIf("_delayDialogue")]
+        [SerializeField, BoxGroup("a/PopupEvents")] private int _dialogueDelayAmount;
+
         [SerializeField] private bool _doesTriggerPopup;
-        [SerializeField] private int _popupToTrigger;
+        [ShowIfGroup("b", Condition = "_doesTriggerPopup")]
+        [SerializeField, BoxGroup("b/PopupEmit")] private int _popupToTrigger;
+        [SerializeField, BoxGroup("b/PopupEmit")] private bool _delayPopup;
+        [ShowIf("_delayPopup")]
+        [SerializeField, BoxGroup("b/PopupEmit")] private int _popupDelayAmount;
+
         [SerializeField] private UnityEvent onPlayerEnterTrigger;
         [SerializeField] private UnityEvent onDialogueFinished;
 
         private bool _isCurrentDialogue = false;
+
+        private Coroutine _dialogueDelayCO = null;
+        private Coroutine _popupDelayCO = null;
 
         private void OnEnable()
         {
@@ -39,6 +53,12 @@ namespace GnomeCrawler
             _isCurrentDialogue = false;
 
             if (!_doesTriggerPopup) return;
+            if (_delayPopup && _popupDelayCO == null)
+            {
+                _popupDelayCO = StartCoroutine(DelayShowPopup());
+                return;
+            }
+
             EventManager.OnTutoialPopupQuery?.Invoke(_popupToTrigger);
         }
 
@@ -46,6 +66,12 @@ namespace GnomeCrawler
         {
             if (!_canListenForPopup) return;
             if (popupNumber != _popupToListenFor) return;
+
+            if (_delayDialogue && _dialogueDelayCO == null)
+            {
+                _dialogueDelayCO = StartCoroutine(DelayShowDialogue());
+                return;
+            }
 
             TriggerDialogue();
         }
@@ -65,6 +91,20 @@ namespace GnomeCrawler
 
                 onPlayerEnterTrigger?.Invoke();
             }
+        }
+
+        private IEnumerator DelayShowDialogue()
+        {
+            yield return new WaitForSeconds(_dialogueDelayAmount);
+            TriggerDialogue();
+            _dialogueDelayCO = null;
+        }
+
+        private IEnumerator DelayShowPopup()
+        {
+            yield return new WaitForSeconds(_popupDelayAmount);
+            EventManager.OnTutoialPopupQuery?.Invoke(_popupToTrigger);
+            _popupDelayCO = null;
         }
     }
 }
