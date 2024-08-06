@@ -1,3 +1,4 @@
+using DG.Tweening;
 using GnomeCrawler.Systems;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,8 +11,9 @@ namespace GnomeCrawler
 {
     public class MenuManager : MonoBehaviour
     {
-        [SerializeField] private GameObject _volumePanel;
-        [SerializeField] private GameObject _volumeSlider;
+        [SerializeField] private GameObject _settingsPanel;
+        [SerializeField] private GameObject _firstSelectable;
+        [SerializeField] private float _animDuration = 0.5f;
 
         private bool _canOpenMenu = true;
 
@@ -29,23 +31,50 @@ namespace GnomeCrawler
             {
                 return;
             }
-            if (_volumePanel.activeInHierarchy)
+            if (_settingsPanel.activeInHierarchy)
             {
-                _volumePanel.SetActive(false);
-                EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
+                CloseSettingsPanel();
             }
             else
             {
-                _volumePanel.SetActive(true);
-                EventSystem.current.SetSelectedGameObject(_volumeSlider);
-                EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
+                OpenSettingsPanel();
             }
+        }
+
+        private void OpenSettingsPanel()
+        {
+            EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
+            _settingsPanel.transform.localScale = Vector3.zero;
+            _settingsPanel.SetActive(true);
+            _settingsPanel.transform.DOScale(Vector3.one, _animDuration).SetEase(Ease.OutBack).SetUpdate(true);
+            EventSystem.current.SetSelectedGameObject(_firstSelectable);
+        }
+
+        private void CloseSettingsPanel()
+        {
+            _settingsPanel.transform.DOScale(Vector3.zero, _animDuration).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
+            {
+                _settingsPanel.SetActive(false);
+                EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
+            });
         }
 
         private void StopMenus()
         {
-            _volumePanel.SetActive(false);
+            _settingsPanel.SetActive(false);
             _canOpenMenu = false;
+        }
+
+        public void ToggleSettingsPanel(bool activate)
+        {
+            if (activate)
+            {
+                OpenSettingsPanel();
+            }
+            else
+            {
+                CloseSettingsPanel();
+            }
         }
 
         private void OnEnable()
