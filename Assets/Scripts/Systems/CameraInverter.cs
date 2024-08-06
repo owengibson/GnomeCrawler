@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace GnomeCrawler
 {
-    public class Inverter : MonoBehaviour
+    public class CameraInverter : MonoBehaviour
     {
         private CinemachineFreeLook _camera;
         private PlayerControls _playerInput;
@@ -29,17 +29,21 @@ namespace GnomeCrawler
 
         private void InvertCamera(bool isInverted)
         {
-            _camera.m_YAxis.m_InvertInput = isInverted ? false : true;
+            _camera.m_YAxis.m_InvertInput = !isInverted;
         }
+
+        private bool IsCameraInverted() => _camera.m_YAxis.m_InvertInput;
 
         private void OnEnable()
         {
             EventManager.OnChooseInversion += InvertCamera;
+            EventManager.IsCameraInverted += IsCameraInverted;
         }
 
         private void OnDisable()
         {
             EventManager.OnChooseInversion -= InvertCamera;
+            EventManager.IsCameraInverted -= IsCameraInverted;
         }
 
         private void OnDestroy()
