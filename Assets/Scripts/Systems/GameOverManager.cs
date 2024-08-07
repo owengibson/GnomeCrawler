@@ -21,7 +21,6 @@ namespace GnomeCrawler
         private void Start()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
-            _canvasGroup.alpha = 0;
         }
 
         private void ShowGameOverScreen()
