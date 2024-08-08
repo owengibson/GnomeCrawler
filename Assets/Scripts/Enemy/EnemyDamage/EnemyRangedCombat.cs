@@ -160,6 +160,8 @@ namespace GnomeCrawler.Enemies
             Vector3 direction = transform.forward.normalized;
             Debug.DrawRay(transform.position + new Vector3(0, 1.5f, 0), direction);
 
+            projectile.transform.rotation = Quaternion.LookRotation(direction);
+
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             rb.velocity = direction * _projectileSpeed;
 
