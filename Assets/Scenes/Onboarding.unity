@@ -442,6 +442,7 @@ Transform:
   - {fileID: 1701675860}
   - {fileID: 1964152631}
   - {fileID: 1022156972}
+  - {fileID: 1182870420}
   - {fileID: 2129706352}
   - {fileID: 1319468709}
   - {fileID: 737989135}
@@ -2211,8 +2212,12 @@ MonoBehaviour:
       it for yourself!
   _canListenForPopup: 0
   _popupToListenFor: 0
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
   _doesTriggerPopup: 0
   _popupToTrigger: 0
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -2397,8 +2402,12 @@ MonoBehaviour:
     - Very good, now let move on!
   _canListenForPopup: 0
   _popupToListenFor: 0
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
   _doesTriggerPopup: 0
   _popupToTrigger: 0
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -3202,46 +3211,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 272382623}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &280392604
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthHeightRadius: {r: 504.1715, g: 712.72144, b: 34.84, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &295014312
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3384,6 +3353,46 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 312207690}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &333630317
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
+    - _WidthHeightRadius: {r: 504.1715, g: 712.7215, b: 34.84, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1001 &340644036
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3784,46 +3793,6 @@ Terrain:
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
---- !u!21 &351625726
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthHeightRadius: {r: 504.1715, g: 712.7215, b: 34.84, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &354882997
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4152,8 +4121,12 @@ MonoBehaviour:
       gnome glue and SHOW GNOME MERCY!!!!
   _canListenForPopup: 0
   _popupToListenFor: 0
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
   _doesTriggerPopup: 0
   _popupToTrigger: 0
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -4550,8 +4523,12 @@ MonoBehaviour:
     - Now have a crack at your neck and look around!
   _canListenForPopup: 1
   _popupToListenFor: 0
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
   _doesTriggerPopup: 1
   _popupToTrigger: 1
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -4571,46 +4548,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!21 &399073771
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthHeightRadius: {r: 504.1715, g: 712.7215, b: 34.84, a: 0}
-  m_BuildTextureStacks: []
---- !u!21 &403671945
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -4790,8 +4727,12 @@ MonoBehaviour:
 '
   _canListenForPopup: 1
   _popupToListenFor: 1
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
   _doesTriggerPopup: 1
   _popupToTrigger: 2
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -5242,8 +5183,12 @@ MonoBehaviour:
     - Here is an active card. Try using it now
   _canListenForPopup: 0
   _popupToListenFor: 0
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
   _doesTriggerPopup: 1
   _popupToTrigger: 7
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -5475,8 +5420,12 @@ MonoBehaviour:
       see how it  feels.
   _canListenForPopup: 0
   _popupToListenFor: 0
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
   _doesTriggerPopup: 1
   _popupToTrigger: 5
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -7090,6 +7039,46 @@ Transform:
   - {fileID: 375160283}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &705538745
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
+    - _WidthHeightRadius: {r: 504.1715, g: 712.72144, b: 34.84, a: 0}
+  m_BuildTextureStacks: []
 --- !u!4 &706606747 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3260103939731783016, guid: 82c80b6e78490cf4d8720bf925b4dd4b,
@@ -7311,8 +7300,12 @@ MonoBehaviour:
 '
   _canListenForPopup: 0
   _popupToListenFor: 0
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
   _doesTriggerPopup: 1
   _popupToTrigger: 0
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -7943,7 +7936,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 376455620}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &796073245
+--- !u!21 &800175414
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -7981,7 +7974,7 @@ Material:
     - _UseUIAlphaClip: 0
     m_Colors:
     - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthHeightRadius: {r: 504.1714, g: 712.72144, b: 34.84, a: 0}
+    - _WidthHeightRadius: {r: 504.1715, g: 712.7215, b: 34.84, a: 0}
   m_BuildTextureStacks: []
 --- !u!1001 &802738549
 PrefabInstance:
@@ -7991,17 +7984,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1563156674}
     m_Modifications:
-    - target: {fileID: 2857311292850165491, guid: ba011f321aed5114c9ce0d478a0cda31,
-        type: 3}
-      propertyPath: m_Type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857311292850165491, guid: ba011f321aed5114c9ce0d478a0cda31,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: e338661f492c6ad44877126d7f7a1748,
-        type: 3}
     - target: {fileID: 4487394071341634994, guid: ba011f321aed5114c9ce0d478a0cda31,
         type: 3}
       propertyPath: m_Pivot.x
@@ -8539,6 +8521,46 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 858940753}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &859104594
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
+    - _WidthHeightRadius: {r: 504.1714, g: 712.72144, b: 34.84, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &860443892 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2055257202721625741, guid: 2ade1af0db6f0e94889b5fd2ee5fc990,
@@ -10038,6 +10060,46 @@ Transform:
   - {fileID: 549899965}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &989927963
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
+    - _WidthHeightRadius: {r: 504.1715, g: 712.72144, b: 34.84, a: 0}
+  m_BuildTextureStacks: []
 --- !u!4 &1011120737 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3759619920376128262, guid: 6659f12b95219c6448bb7ed66a72b7cf,
@@ -10356,46 +10418,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1029475490}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1033308158
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthHeightRadius: {r: 504.1715, g: 712.7215, b: 34.84, a: 0}
-  m_BuildTextureStacks: []
 --- !u!4 &1041296989 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6101461607645243060, guid: 64b3feaa90f18854a8e12dd79745acea,
@@ -11509,6 +11531,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1180118892}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1182870416 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7309995283912557684, guid: c9a503d1965f0a843883f2833fa65e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1362998107}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1182870420 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+    type: 3}
+  m_PrefabInstance: {fileID: 1362998107}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1192144718 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5677453526399955631, guid: fd12d9bb5540c2a4ab5186227ba3144b,
@@ -11767,8 +11801,12 @@ MonoBehaviour:
       to hop straight into getting that gnome glue.
   _canListenForPopup: 1
   _popupToListenFor: 3
+  _delayDialogue: 1
+  _dialogueDelayAmount: 2
   _doesTriggerPopup: 0
   _popupToTrigger: 0
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -11776,6 +11814,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1205448765}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1182870416}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -12737,8 +12787,12 @@ MonoBehaviour:
       see and attack your target.
   _canListenForPopup: 1
   _popupToListenFor: 5
+  _delayDialogue: 1
+  _dialogueDelayAmount: 2
   _doesTriggerPopup: 1
   _popupToTrigger: 6
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -13194,6 +13248,89 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1360974881}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1362998107
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 25602850}
+    m_Modifications:
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 7.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 85.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 42.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7303643
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.6724947
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.1142337
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.03563108
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -82.085
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 59.736
+      objectReference: {fileID: 0}
+    - target: {fileID: 3265258813543889191, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -47.541
+      objectReference: {fileID: 0}
+    - target: {fileID: 7309995283912557684, guid: c9a503d1965f0a843883f2833fa65e24,
+        type: 3}
+      propertyPath: m_Name
+      value: Rock_6 (8)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c9a503d1965f0a843883f2833fa65e24, type: 3}
 --- !u!1001 &1380856580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16987,6 +17124,46 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c52a962af3502145852561d8a9261e3, type: 3}
+--- !u!21 &1716447848
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
+    - _WidthHeightRadius: {r: 504.1715, g: 712.7215, b: 34.84, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1001 &1717172244
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18727,8 +18904,12 @@ MonoBehaviour:
       your hand. \r"
   _canListenForPopup: 0
   _popupToListenFor: 0
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
   _doesTriggerPopup: 0
   _popupToTrigger: 0
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls:
@@ -19098,46 +19279,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1922410910}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1923579673
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthHeightRadius: {r: 504.1715, g: 712.7215, b: 34.84, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &1935266533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19359,7 +19500,7 @@ Transform:
   m_GameObject: {fileID: 1950083262}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.98, y: 11.11, z: -84.17}
+  m_LocalPosition: {x: -21.98, y: 11.11, z: -81.59}
   m_LocalScale: {x: 7.52, y: 1.78, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19385,8 +19526,12 @@ MonoBehaviour:
       I'll just send you back to the start!
   _canListenForPopup: 0
   _popupToListenFor: 0
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
   _doesTriggerPopup: 1
   _popupToTrigger: 4
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls: []
@@ -19476,46 +19621,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1950083262}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!21 &1954668992
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthHeightRadius: {r: 504.1715, g: 712.72144, b: 34.84, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &1958152826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20847,6 +20952,46 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2092439234}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &2094959739
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
+    - _WidthHeightRadius: {r: 504.1715, g: 712.7215, b: 34.84, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1001 &2103305908
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21155,8 +21300,12 @@ MonoBehaviour:
       the way will disappear and a beacon will show up to lead you to the next room.
   _canListenForPopup: 0
   _popupToListenFor: 0
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
   _doesTriggerPopup: 0
   _popupToTrigger: 0
+  _delayPopup: 0
+  _popupDelayAmount: 0
   onPlayerEnterTrigger:
     m_PersistentCalls:
       m_Calls: []
