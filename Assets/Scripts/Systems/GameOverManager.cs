@@ -1,6 +1,7 @@
 using Dan.Main;
 using DG.Tweening;
 using GnomeCrawler.Systems;
+using MoreMountains.Feedbacks;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,7 @@ namespace GnomeCrawler
     {
         [SerializeField] private float _gameOverDelay = 1.5f;
         [SerializeField] private GameObject _button;
+        [SerializeField] private GameObject _feedbacks;
 
         private CanvasGroup _canvasGroup;
 
@@ -25,6 +27,7 @@ namespace GnomeCrawler
 
         private void ShowGameOverScreen()
         {
+            _feedbacks.SetActive(true);
             StartCoroutine(WaitForGameOverScreen());
         }
 
