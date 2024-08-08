@@ -1,3 +1,4 @@
+using DG.Tweening;
 using GnomeCrawler.Systems;
 using Sirenix.OdinInspector;
 using System.Collections;
@@ -19,6 +20,27 @@ namespace GnomeCrawler.Deckbuilding
         [SerializeField] private GameObject[] _animCards;
         [SerializeField] private GameObject[] _choiceAnimCards;
 
+        private PlayerControls _playerControls;
+
+        #region Enable/Disable
+
+        private void OnEnable()
+        {
+            _playerControls = new PlayerControls();
+            _playerControls.Player.HandQuickview.performed += ToggleHandQuickview;
+            _playerControls.Player.HandQuickview.canceled += ToggleHandQuickview;
+            Debug.Log(_playerControls);
+        }
+
+        private void OnDisable()
+        {
+            _playerControls.Player.HandQuickview.performed -= ToggleHandQuickview;
+            _playerControls.Player.HandQuickview.canceled -= ToggleHandQuickview;
+            _playerControls.Disable();
+        }
+
+        #endregion
+
         private void Awake()
         {
             _onboardingCardManager = GetComponent<CardManager>();
@@ -38,19 +60,30 @@ namespace GnomeCrawler.Deckbuilding
             gameObject.SetActive(false);
         }
 
-/*#if UNITY_EDITOR
-        // Dev testing
-        private void Update()
+        private void ToggleHandQuickview(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
         {
-            if (Input.GetKeyDown(KeyCode.Keypad1))
+            Debug.Log("Quick View");
+            if (ctx.performed)
             {
-                DrawCard(0);
+                _onboardingCardManager.handQuickView.SetActive(true);
             }
-            else if (Input.GetKeyDown(KeyCode.Keypad2))
-            {
-                DrawCard(1);
-            }
+            else if (ctx.canceled)
+                _onboardingCardManager.handQuickView.SetActive(false);
         }
-#endif*/
+
+        /*#if UNITY_EDITOR
+                // Dev testing
+                private void Update()
+                {
+                    if (Input.GetKeyDown(KeyCode.Keypad1))
+                    {
+                        DrawCard(0);
+                    }
+                    else if (Input.GetKeyDown(KeyCode.Keypad2))
+                    {
+                        DrawCard(1);
+                    }
+                }
+        #endif*/
     }
 }

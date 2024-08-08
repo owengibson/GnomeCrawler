@@ -59,6 +59,8 @@ namespace GnomeCrawler.Deckbuilding
 
         private CardAnimationStatus _animationStatus = CardAnimationStatus.Closed;
 
+        public GameObject handQuickView => _handQuickview;
+
 
         private void Awake()
         {
