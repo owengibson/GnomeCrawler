@@ -21,10 +21,10 @@ namespace GnomeCrawler.Enemies
 
             Debug.Log("animator bool is set to " + ctx.EnemyAnimator.GetBool("inCombat"));
 
-            if (!ctx.EnemyAnimator.GetBool("inCombat") && !IsFacingPlayer())
-            {
-                RotateToFacePlayer();
-            }
+            //if (!ctx.EnemyAnimator.GetBool("inCombat") && !IsFacingPlayer())
+            //{
+            //    RotateToFacePlayer();
+            //}
         }
 
         public override void FixedUpdateState() { }
@@ -47,10 +47,11 @@ namespace GnomeCrawler.Enemies
             ctx.EnemyAnimator.SetBool("inCombat", false);
         }
 
-        private void RotateToFacePlayer()
-        {
-            ctx.transform.LookAt(ctx.PlayerCharacter.transform);
-        }
+        //private void RotateToFacePlayer()
+        //{
+        //    return;
+        //    //ctx.transform.LookAt(ctx.PlayerCharacter.transform);
+        //}
 
 
         public bool IsFacingPlayer()
