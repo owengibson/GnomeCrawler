@@ -123,6 +123,7 @@ namespace GnomeCrawler.Deckbuilding
                     _handApproveButton.transform.localScale = Vector3.zero;
                     _handApproveButton.SetActive(true);
                     _handApproveButton.transform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack).SetUpdate(true);
+                    AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("Pop"));
                     EventSystem.current.SetSelectedGameObject(_handApproveButton);
                 });
             }
@@ -263,6 +264,7 @@ namespace GnomeCrawler.Deckbuilding
                 Sequence cardFlip = DOTween.Sequence();
                 for (int i = 0; i < _animationCards.Length; i++)
                 {
+                    cardFlip.InsertCallback((duration * 0.5f) * i, () => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("FlipCard")));
                     // Rotate actual card
                     cardFlip.Insert((duration * 0.5f) * i, CardGOs[i].transform.DORotate(new Vector3(0, 90, 0), duration * 0.25f));
                     // Rotate anim card
@@ -351,6 +353,7 @@ namespace GnomeCrawler.Deckbuilding
             _deckIcon.transform.localScale = Vector3.zero;
             _deckIcon.SetActive(true);
             animation.Append(_deckIcon.transform.DOScale(1, duration * 0.25f).SetEase(Ease.OutBack));
+            animation.InsertCallback(0, () => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("Appear")));
 
             // Card drawing (instantiate, scale, move, flip)
             Sequence cardDraw = DOTween.Sequence();
@@ -358,6 +361,7 @@ namespace GnomeCrawler.Deckbuilding
             {
                 GameObject card = Instantiate(_animCardPrefab, _deckIcon.transform.position, Quaternion.identity, transform);
                 card.transform.localScale = Vector3.zero;
+                cardDraw.InsertCallback(duration * 0.2f * i, () => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("DealCard")));
                 // Scale
                 cardDraw.Insert(duration * 0.2f * i, card.transform.DOScale(Vector3.one * 7, duration));
                 // Move
@@ -370,6 +374,7 @@ namespace GnomeCrawler.Deckbuilding
                 CardGOs[i].SetActive(true);
                 // Rotate anim card
                 cardFlip.Insert(duration * 0.005f * i, card.transform.DORotate(new Vector3(0, 90, 0), duration * 0.15f));
+                cardFlip.InsertCallback(duration * 0.005f * i, () => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("FlipCard")));
                 // Rotate actual card
                 cardFlip.Append(CardGOs[i].transform.DORotate(Vector3.zero, duration * 0.15f));
                 cardFlip.AppendCallback(() => Destroy(card));
@@ -377,6 +382,7 @@ namespace GnomeCrawler.Deckbuilding
             }
             // Deck icon hide
             cardDraw.Insert(duration * 0.25f * _handSize, _deckIcon.transform.DOScale(0, duration * 0.25f).SetEase(Ease.InBack));
+            cardDraw.InsertCallback(duration * 0.25f * _handSize, () => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("Dissapear")));
 
             animation.Append(cardDraw);
             animation.SetUpdate(true);
@@ -407,6 +413,7 @@ namespace GnomeCrawler.Deckbuilding
                 // Flip
                 animation.Insert(duration * 0.15f * i + duration, _choiceAnimationCards[i].transform.DORotate(new Vector3(0, 90, 0), duration * 0.25f));
                 animation.Insert(duration * 0.15f * i + duration + duration * 0.25f, CardGOs[i].transform.DORotate(Vector3.zero, duration * 0.25f));
+                animation.InsertCallback(duration * 0.15f * i + duration, () => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("FlipCard")));
 
                 animation.AppendCallback(() =>
                 {
@@ -442,6 +449,7 @@ namespace GnomeCrawler.Deckbuilding
             _deckIcon.transform.localScale = Vector3.zero;
             _deckIcon.SetActive(true);
             animation.Insert(0, _deckIcon.transform.DOScale(1, duration * 0.25f).SetEase(Ease.OutBack));
+            animation.InsertCallback(0, () => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("Appear")));
 
             // Flips
             Sequence flips = DOTween.Sequence();
@@ -461,6 +469,8 @@ namespace GnomeCrawler.Deckbuilding
 
             // Deck icon disappear
             animation.Append(_deckIcon.transform.DOScale(0, duration * 0.25f).SetEase(Ease.InBack));
+
+            animation.InsertCallback(animation.Duration() - duration * 0.25f, () => AudioManager.Instance.PlayOneShot(FMODEvents.Instance.GetEventReference("Dissapear")));
 
             animation.SetUpdate(true);
             animation.Play().OnComplete(() =>
