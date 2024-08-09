@@ -59,6 +59,11 @@ namespace GnomeCrawler
             });
         }
 
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
+
         private void StopMenus()
         {
             _settingsPanel.SetActive(false);

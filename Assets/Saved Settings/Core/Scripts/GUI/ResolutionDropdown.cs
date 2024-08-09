@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,14 +8,14 @@ namespace SavedSettings.GUI
     /// <summary>
     /// Syncs the scroll rect with the resolution setting.
     /// </summary>
-    [RequireComponent(typeof(ScrollRect))]
-    [RequireComponent(typeof(AutoScrollDropDown))]
+    //[RequireComponent(typeof(ScrollRect))]
+    //[RequireComponent(typeof(AutoScrollDropDown))]
     public class ResolutionDropdown : BaseUILoadSetting
     {
         void Start()
         {
-            Dropdown dropdown = GetComponent<Dropdown>();
-            List<Dropdown.OptionData> options = new List<Dropdown.OptionData>();
+            TMP_Dropdown dropdown = GetComponent<TMP_Dropdown>();
+            List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
             Resolution[] resolutions = Screen.resolutions;
             Resolution res = Screen.currentResolution;
             int index = 0;
@@ -30,7 +31,7 @@ namespace SavedSettings.GUI
                 {
                     index = i;
                 }
-                options.Add(new Dropdown.OptionData(str));
+                options.Add(new TMP_Dropdown.OptionData(str));
             }
             dropdown.options = options;
             dropdown.value = index;
@@ -44,7 +45,7 @@ namespace SavedSettings.GUI
 
         public override void LoadValue()
         {
-            Dropdown dropdown = GetComponent<Dropdown>();
+            TMP_Dropdown dropdown = GetComponent<TMP_Dropdown>();
             Resolution[] resolutions = Screen.resolutions;
             Resolution res = Screen.currentResolution;
             int index = -1;

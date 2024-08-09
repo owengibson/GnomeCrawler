@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -7,11 +8,11 @@ namespace SavedSettings.GUI
     /// <summary>
     /// Causes a dropdown list to auto-scroll to match keycode/joystick input.
     /// </summary>
-    [RequireComponent(typeof(Dropdown))]
+    [RequireComponent(typeof(TMP_Dropdown))]
     public class AutoScrollDropDown : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         bool mouseOver;
-        Dropdown dropdown;
+        TMP_Dropdown dropdown;
         const string ITEM_NAME = "Item ";
 
         /// <summary>
@@ -19,7 +20,7 @@ namespace SavedSettings.GUI
         /// </summary>
         void Awake()
         {
-            dropdown = GetComponent<Dropdown>();
+            dropdown = GetComponent<TMP_Dropdown>();
         }
 
         /// <summary>
