@@ -183,7 +183,7 @@ namespace GnomeCrawler.Player
 
                             _healthbarSlider.maxValue = _maxHealth;
                             RectTransform rectTransform = _healthbarSlider.GetComponent<RectTransform>();
-                            rectTransform.sizeDelta = new Vector2(_maxHealth * 49.3f, rectTransform.sizeDelta.y);
+                            rectTransform.sizeDelta = new Vector2(_maxHealth * 60, rectTransform.sizeDelta.y);
                             _healthbarSlider.value = CurrentHealth;
                         }
                         break;
@@ -202,7 +202,8 @@ namespace GnomeCrawler.Player
                             CurrentHealth = _maxHealth * currentHealthRatio;
 
                             _healthbarSlider.maxValue = _maxHealth;
-                            _healthbarSlider.transform.localScale = new Vector3(_maxHealth / 10, _healthbarSlider.transform.localScale.y, _healthbarSlider.transform.localScale.z);
+                            RectTransform rectTransform = _healthbarSlider.GetComponent<RectTransform>();
+                            rectTransform.sizeDelta = new Vector2(_maxHealth * 60, rectTransform.sizeDelta.y);
                             _healthbarSlider.value = CurrentHealth;
                         }
                         if (card.IsActivatableCard)
@@ -342,7 +343,7 @@ namespace GnomeCrawler.Player
         public void HealPlayer(float amount)
         {
             CurrentHealth += amount;
-            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, _stats.GetStat(Stat.Health));
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, _maxHealth);
             _healthbarSlider.value = CurrentHealth;
         }
 
