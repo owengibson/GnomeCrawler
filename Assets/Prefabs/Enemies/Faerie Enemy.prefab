@@ -163,6 +163,9 @@ MonoBehaviour:
   _isInAttackZone: 0
   _chargeAttackRange: 60
   _chargeAttackDeadzone: 15
+  _startAttack:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1291577082326061984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +192,19 @@ MonoBehaviour:
       m_Calls: []
   OnDamaged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9158156536617086270}
+        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Feedbacks
+        m_MethodName: PlayFeedbacks
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnDeath:
     m_PersistentCalls:
       m_Calls:
@@ -219,7 +234,19 @@ MonoBehaviour:
         m_CallState: 2
   OnStartDealDamage:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6051948369576702676}
+        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Feedbacks
+        m_MethodName: PlayFeedbacks
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _isPotPlant: 0
   _potFractureGeo: {fileID: 0}
   _fraturedPot: {fileID: 0}
@@ -227,6 +254,9 @@ MonoBehaviour:
   _enemyAnim: {fileID: 8726041082167544185}
   _meshRenderer: {fileID: 3875178350779489871}
   _particleSystems: []
+  _finishAttack:
+    m_PersistentCalls:
+      m_Calls: []
   _enemyProjectilePrefab: {fileID: 698099331267389149, guid: 8b2799ca6e0983f44906b52ddc1d9fec,
     type: 3}
   _projectileSpeed: 10
@@ -259,6 +289,21 @@ MonoBehaviour:
   OnTeleportCharge:
     m_PersistentCalls:
       m_Calls: []
+  OnAttackCharging:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 52088334626246251}
+        m_TargetAssemblyTypeName: MoreMountains.Feedbacks.MMF_Player, MoreMountains.Feedbacks
+        m_MethodName: PlayFeedbacks
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _needToTeleportRadius: 3
   _teleTimer: 3
   _teleRange: 5
@@ -623,11 +668,11 @@ MonoBehaviour:
         EventOriginTransform: {fileID: 0}
         EventName:
           Guid:
-            Data1: -2084513478
-            Data2: 1148207859
-            Data3: -818908226
-            Data4: 1896141191
-          Path: event:/SFX/Enemies/Faerie/Projectile
+            Data1: -1097250194
+            Data2: 1203377832
+            Data3: 1737249459
+            Data4: -474865878
+          Path: event:/SFX/Enemies/Faerie/ShootProjectile
 --- !u!1 &4373510463200766847
 GameObject:
   m_ObjectHideFlags: 0

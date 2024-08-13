@@ -24,6 +24,7 @@ namespace GnomeCrawler.Enemies
 
         [SerializeField] private UnityEvent OnTeleport;
         [SerializeField] private UnityEvent OnTeleportCharge;
+        [SerializeField] private UnityEvent OnAttackCharging;
 
         [SerializeField] private float _needToTeleportRadius;
         [SerializeField] private float _teleTimer = 1f;
@@ -176,6 +177,7 @@ namespace GnomeCrawler.Enemies
         private void ChargingAttack()
         {
             _chargingAttack = true;
+            OnAttackCharging?.Invoke();
         }
 
 

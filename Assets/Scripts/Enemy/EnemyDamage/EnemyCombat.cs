@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using DinoFracture;
+using UnityEngine.Events;
 
 namespace GnomeCrawler.Enemies
 {
@@ -17,6 +18,8 @@ namespace GnomeCrawler.Enemies
         [SerializeField] protected Animator _enemyAnim;
         [SerializeField] protected Renderer _meshRenderer;
         [SerializeField] protected List<ParticleSystem> _particleSystems = new List<ParticleSystem>();
+
+        [SerializeField] private UnityEvent _finishAttack;
 
         protected List<Color> _originalColours = new List<Color>();
         protected int _originalColorIndex;
@@ -71,6 +74,7 @@ namespace GnomeCrawler.Enemies
         public void HitGround()
         {
             _particleSystems[0].Play();
+            _finishAttack?.Invoke();
         }
 
         public override void Die()

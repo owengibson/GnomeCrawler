@@ -67,6 +67,8 @@ namespace GnomeCrawler.Deckbuilding
             _playerControls = new PlayerControls();
             _playerControls.Player.HandQuickview.performed += ToggleHandQuickview;
             _playerControls.Player.HandQuickview.canceled += ToggleHandQuickview;
+            _playerControls.Enable();
+
 
             _animCardPos = new Vector3[3];
             _animCardScales = new Vector3[3];
@@ -531,8 +533,6 @@ namespace GnomeCrawler.Deckbuilding
             EventManager.OnCardChosen += AddCardToDeck;
             EventManager.OnCardAnimationStatusChange += SetCardAnimationStatus;
             EventManager.OnCardChosenAnimation += AnimateCardChosen;
-
-            _playerControls.Enable();
         }
         private void OnDisable()
         {

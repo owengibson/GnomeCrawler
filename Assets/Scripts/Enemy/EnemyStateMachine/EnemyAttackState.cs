@@ -13,13 +13,12 @@ namespace GnomeCrawler.Enemies
             ctx.EnemyNavMeshAgent.speed = 0;
             ctx.IsAttackFinished = false;
             ctx.EnemyAnimator.SetBool("inCombat", true);
+            ctx._startAttack?.Invoke();
         }
 
         public override void UpdateState()
         {
             CheckSwitchState();
-
-            Debug.Log("animator bool is set to " + ctx.EnemyAnimator.GetBool("inCombat"));
 
             //if (!ctx.EnemyAnimator.GetBool("inCombat") && !IsFacingPlayer())
             //{

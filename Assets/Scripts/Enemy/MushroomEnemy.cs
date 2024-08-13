@@ -25,9 +25,9 @@ namespace GnomeCrawler
         private NavMeshAgent _navMeshAgent;
         private GameObject _player;
         private GameObject fartCloud;
-        private Coroutine _fartCloudCooldown;
+        private Coroutine _fartCloudCO;
         private GameObject _fartLine;
-        private Coroutine _fartLineCooldown;
+        private Coroutine _fartLineCO;
 
         private bool _hasAggro = false;
 
@@ -52,7 +52,7 @@ namespace GnomeCrawler
             if (currentDistance < 10 || _hasAggro) _hasAggro = true;
             else return;
 
-            if (currentDistance > 12 && _fartLineCooldown == null)
+            if (currentDistance > 12 && _fartLineCO == null)
             {
                 ThrowFartLine();
             }
@@ -76,16 +76,16 @@ namespace GnomeCrawler
         {
             _navMeshAgent.destination = transform.position;
             _animator.SetTrigger("isShootingLine");
-            _fartLineCooldown = StartCoroutine(CreateLineFart());
+            _fartLineCO = StartCoroutine(CreateLineFart());
         }
 
         private void Fart()
         {
             _navMeshAgent.destination = transform.position;
-            if (_fartCloudCooldown == null && fartCloud == null)
+            if (_fartCloudCO == null && fartCloud == null)
             {
                 _animator.SetTrigger("isFarting");
-                _fartCloudCooldown = StartCoroutine(CreateFart());
+                _fartCloudCO = StartCoroutine(CreateFart());
             }
         }
 
@@ -97,9 +97,9 @@ namespace GnomeCrawler
             fartCloud = Instantiate(_poisonCloudPrefab, transform.position, Quaternion.identity);
             fartCloud.GetComponent<DamageOverTime>().ParentGO = gameObject;
             yield return new WaitForSeconds(4f);
-            Destroy(fartCloud);
+            fartCloud.GetComponent<DamageOverTime>().DestroyParticles();
             yield return new WaitForSeconds(1f);
-            _fartCloudCooldown = null;
+            _fartCloudCO = null;
         }
 
         private IEnumerator CreateLineFart()
@@ -133,28 +133,28 @@ namespace GnomeCrawler
             yield return new WaitForSeconds(_projectileLinger);
             Destroy(_fartLine);
             yield return new WaitForSeconds(_projectileCooldown);
-            _fartLineCooldown = null;
+            _fartLineCO = null;
         }
 
         private IEnumerator CoolDown()
         {
             _animator.SetTrigger("isChasing");
             yield return new WaitForSeconds(0.5f);
-            _fartCloudCooldown = null;
+            _fartCloudCO = null;
         }
 
         public void StopFart()
         {
-            if (_fartCloudCooldown != null)
+            if (_fartCloudCO != null)
             {
-                StopCoroutine(_fartCloudCooldown);
+                StopCoroutine(_fartCloudCO);
                 StartCoroutine(CoolDown());
             }
         }
 
         private void OnDestroy()
         {
-            if (fartCloud != null) Destroy(fartCloud);
+            if (fartCloud != null) fartCloud.GetComponent<DamageOverTime>().DestroyParticles();
             if (_fartLine != null) Destroy(_fartLine);
         }
     }

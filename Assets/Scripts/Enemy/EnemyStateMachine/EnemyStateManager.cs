@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 namespace GnomeCrawler.Enemies
 {
@@ -22,6 +23,8 @@ namespace GnomeCrawler.Enemies
         [SerializeField] private bool _isInAttackZone;
         [SerializeField] private float _chargeAttackRange = 60f;
         [SerializeField] private float _chargeAttackDeadzone = 15f;
+
+        public UnityEvent _startAttack;
 
 
         public EnemyBaseState CurrentState { get => currentState; set => currentState = value; }
