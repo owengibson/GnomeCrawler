@@ -1,9 +1,11 @@
+using GnomeCrawler.Player;
 using GnomeCrawler.Systems;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 namespace GnomeCrawler
 {
@@ -14,6 +16,10 @@ namespace GnomeCrawler
         [SerializeField] private float _projectileSpeed = 10f;
         [SerializeField] private float _projectileLinger = 3f;
         [SerializeField] private float _projectileCooldown = 2f;
+
+        [SerializeField] private UnityEvent OnChargeFart;
+        [SerializeField] private UnityEvent OnFart;
+        [SerializeField] private UnityEvent OnRangedAttack;
 
         private Animator _animator;
         private NavMeshAgent _navMeshAgent;
@@ -30,7 +36,7 @@ namespace GnomeCrawler
         {
             _animator = GetComponent<Animator>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
-            _player = GameObject.FindWithTag("Player");
+            _player = PlayerStateMachine.instance.gameObject;
         }
 
         void Update()
@@ -85,7 +91,9 @@ namespace GnomeCrawler
 
         private IEnumerator CreateFart()
         {
+            OnChargeFart?.Invoke();
             yield return new WaitForSeconds(1f);
+            OnFart?.Invoke();
             fartCloud = Instantiate(_poisonCloudPrefab, transform.position, Quaternion.identity);
             fartCloud.GetComponent<DamageOverTime>().ParentGO = gameObject;
             yield return new WaitForSeconds(4f);
@@ -96,6 +104,7 @@ namespace GnomeCrawler
 
         private IEnumerator CreateLineFart()
         {
+            OnRangedAttack?.Invoke();
             yield return new WaitForSeconds(0.5f);
             Vector3 playerPosition = _player.transform.position;
             Vector3 enemyPosition = transform.position;
