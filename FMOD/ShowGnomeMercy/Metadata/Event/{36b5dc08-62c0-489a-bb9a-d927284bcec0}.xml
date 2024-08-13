@@ -5,7 +5,7 @@
 			<value>PotPlantAttackHit</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{485a7eb8-7522-4ac9-970e-19d44b6a4e63}</destination>
@@ -116,6 +116,7 @@
 	<object class="MixerBusEffectChain" id="{fe33e3ea-8dfa-421b-b8f7-47620e2b8822}">
 		<relationship name="effects">
 			<destination>{586f84e1-a5a1-42a1-a909-269a5f11610f}</destination>
+			<destination>{690e586c-a5de-468f-9f8c-89627cd29834}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{c9380efa-99b1-4911-9a82-dc7c0598e04f}" />
@@ -127,5 +128,6 @@
 	</object>
 	<object class="MixerBusPanner" id="{c297ecb5-f14e-4906-94ed-fe090eb350e8}" />
 	<object class="MixerBusFader" id="{586f84e1-a5a1-42a1-a909-269a5f11610f}" />
+	<object class="SpatialiserEffect" id="{690e586c-a5de-468f-9f8c-89627cd29834}" />
 	<object class="MixerBusFader" id="{9444f32e-e853-4b76-aef5-0587126a7f2b}" />
 </objects>

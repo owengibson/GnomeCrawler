@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4934232894319657800}
   - component: {fileID: 8160998329887124292}
   - component: {fileID: 1094841038893406181}
+  - component: {fileID: 715392667219835}
   m_Layer: 0
   m_Name: FaerieProjectile
   m_TagString: Untagged
@@ -101,6 +102,37 @@ CapsuleCollider:
   m_Height: 2.4788134
   m_Direction: 2
   m_Center: {x: -0.058605194, y: -0.028220177, z: 1.21113}
+--- !u!114 &715392667219835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698099331267389149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -2084513478
+      Data2: 1148207859
+      Data3: -818908226
+      Data4: 1896141191
+    Path: event:/SFX/Enemies/Faerie/Projectile
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &4217561456924340776
 PrefabInstance:
   m_ObjectHideFlags: 0

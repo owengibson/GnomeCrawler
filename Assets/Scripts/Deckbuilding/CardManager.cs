@@ -8,8 +8,6 @@ using GnomeCrawler.Audio;
 using GnomeCrawler.UI;
 using DG.Tweening;
 using System;
-using UnityEngine.Rendering;
-using System.Xml.Serialization;
 
 namespace GnomeCrawler.Deckbuilding
 {
@@ -55,6 +53,8 @@ namespace GnomeCrawler.Deckbuilding
         private Vector3[] _animCardScales;
         private Vector3[] _animCardRots;
 
+        private Vector3[] _initialCardPos;
+
         private bool _hasFirstHandBeenDrawn = false;
 
         private CardAnimationStatus _animationStatus = CardAnimationStatus.Closed;
@@ -67,6 +67,8 @@ namespace GnomeCrawler.Deckbuilding
             _playerControls = new PlayerControls();
             _playerControls.Player.HandQuickview.performed += ToggleHandQuickview;
             _playerControls.Player.HandQuickview.canceled += ToggleHandQuickview;
+            _playerControls.Enable();
+
 
             _animCardPos = new Vector3[3];
             _animCardScales = new Vector3[3];
@@ -77,12 +79,26 @@ namespace GnomeCrawler.Deckbuilding
                 _animCardScales[i] = _animationCards[i].transform.localScale;
                 _animCardRots[i] = _animationCards[i].transform.eulerAngles;
             }
+
+            _initialCardPos = new Vector3[3];
+            for (int i = 0; i < CardGOs.Length; i++)
+            {
+                _initialCardPos[i] = CardGOs[i].transform.localPosition;
+            }
         }
 
         /*private void Update()
         {
             Debug.Log(EventSystem.current.currentSelectedGameObject);
         }*/
+
+        private void ResetCardPositions()
+        {
+            for (int i = 0; i < CardGOs.Length; i++)
+            {
+                CardGOs[i].transform.localPosition = _initialCardPos[i];
+            }
+        }
 
         private void DrawAndDisplayNewHand(int unused)
         {
@@ -257,6 +273,7 @@ namespace GnomeCrawler.Deckbuilding
                     card.SetActive(true);
                 }
             }
+            ResetCardPositions();
 
             Sequence animation = DOTween.Sequence();
 
@@ -329,6 +346,7 @@ namespace GnomeCrawler.Deckbuilding
                 for (int i = 0; i < _animationCards.Length; i++)
                 {
                     CardGOs[i].transform.eulerAngles = new Vector3(0, 90, 0);
+                    CardGOs[i].transform.localScale = Vector3.one;
                     CardGOs[i].SetActive(true);
                     // Rotate anim card
                     cardFlip.Insert((duration * 0.5f) * i, _animationCards[i].transform.DORotate(new Vector3(0, 90, 0), duration * 0.25f));
@@ -349,6 +367,7 @@ namespace GnomeCrawler.Deckbuilding
             }
             _animationStatus = CardAnimationStatus.HandReview;
 
+            ResetCardPositions();
             Sequence animation = DOTween.Sequence();
 
             // Deck icon scale
@@ -516,8 +535,6 @@ namespace GnomeCrawler.Deckbuilding
             EventManager.OnCardChosen += AddCardToDeck;
             EventManager.OnCardAnimationStatusChange += SetCardAnimationStatus;
             EventManager.OnCardChosenAnimation += AnimateCardChosen;
-
-            _playerControls.Enable();
         }
         private void OnDisable()
         {
