@@ -424,6 +424,7 @@ namespace GnomeCrawler.Deckbuilding
             {
                 // Prime UI elements
                 _choiceAnimationCards[i].transform.localScale = Vector3.zero;
+                _choiceAnimationCards[i].transform.eulerAngles = Vector3.zero;
                 _choiceAnimationCards[i].SetActive(true);
                 CardGOs[i].transform.eulerAngles = new Vector3(0, 90, 0);
                 CardGOs[i].SetActive(true);
