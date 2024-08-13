@@ -271,6 +271,7 @@ namespace GnomeCrawler.Deckbuilding
                     card.SetActive(true);
                 }
             }
+            ResetCardPositions();
 
             Sequence animation = DOTween.Sequence();
 
@@ -343,6 +344,7 @@ namespace GnomeCrawler.Deckbuilding
                 for (int i = 0; i < _animationCards.Length; i++)
                 {
                     CardGOs[i].transform.eulerAngles = new Vector3(0, 90, 0);
+                    CardGOs[i].transform.localScale = Vector3.one;
                     CardGOs[i].SetActive(true);
                     // Rotate anim card
                     cardFlip.Insert((duration * 0.5f) * i, _animationCards[i].transform.DORotate(new Vector3(0, 90, 0), duration * 0.25f));

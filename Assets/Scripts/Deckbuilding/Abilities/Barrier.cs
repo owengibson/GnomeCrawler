@@ -65,8 +65,13 @@ namespace GnomeCrawler.Deckbuilding
                         }
                     }
                 }
-                _fracturedBarrier.transform.parent = null;
-                _barrier.GetComponent<PreFracturedGeometry>().FractureAndForget();
+                var fractureGeo = _barrier.GetComponent<PreFracturedGeometry>();
+                fractureGeo.FractureAndForget();
+                fractureGeo.GeneratedPieces.transform.parent = null;
+                foreach(Transform t in fractureGeo.GeneratedPieces.transform)
+                {
+                    t.gameObject.layer = LayerMask.NameToLayer("Walkthrough");
+                }
             }
 
         }
