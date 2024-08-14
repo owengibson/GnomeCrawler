@@ -49,10 +49,10 @@ namespace GnomeCrawler
             bool isPlayerTargetable = nullableIsPlayerTargetable == true || nullableIsPlayerTargetable == null;
             if (!isPlayerTargetable) return;
 
-            if (currentDistance < 10 || _hasAggro) _hasAggro = true;
+            if (currentDistance < 12 || _hasAggro) _hasAggro = true;
             else return;
 
-            if (currentDistance > 12 && _fartLineCO == null)
+            if (currentDistance > 8 && _fartLineCO == null)
             {
                 ThrowFartLine();
             }

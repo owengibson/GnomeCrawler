@@ -17,7 +17,7 @@ namespace GnomeCrawler.Deckbuilding
         [SerializeField] private GameObject _emptyElement;
         [SerializeField] private GameObject _cardElement;
 
-        private List<CardSO> _activatableCards = new List<CardSO>();
+        [SerializeField] private List<CardSO> _activatableCards = new List<CardSO>();
         [SerializeField] private int _galleryIndex = 0;
         private PlayerControls _playerControls;
 
@@ -46,6 +46,8 @@ namespace GnomeCrawler.Deckbuilding
 
         private void CheckHandForActivatableCards(List<CardSO> hand)
         {
+            _activatableCards.Clear();
+
             foreach (CardSO card in hand)
             {
                 if (card.IsActivatableCard)
