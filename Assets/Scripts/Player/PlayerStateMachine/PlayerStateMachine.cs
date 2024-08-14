@@ -46,7 +46,7 @@ namespace GnomeCrawler.Player
         CombatBrain _nearestLockOnTarget;
         CombatBrain _leftLockOnTarget;
         CombatBrain _rightLockOnTarget;
-        float _lockOnRadius = 45.0f;
+        float _lockOnRadius = 20.0f;
         float _minimumViewableAngle = -60.0f;
         float _maximumViewableAngle = 60.0f;
         bool _isLockedOn = false;
@@ -363,86 +363,69 @@ namespace GnomeCrawler.Player
             float shortestDistanceOfRightTarget = Mathf.Infinity;
             float shortestDistanceOfLeftTarget = -Mathf.Infinity;
 
-            Collider[] colliders = Physics.OverlapSphere(transform.position, _lockOnRadius, _targetLayers);
+            _avaliableTargets.Clear();
 
-            for (int i = 0; i < colliders.Length; i++)
+            Collider[] colliders = Physics.OverlapSphere(_mainCam.transform.position, _lockOnRadius, _targetLayers);
+
+            foreach (var collider in colliders)
             {
-                CombatBrain lockOnTarget = colliders[i]?.GetComponent<CombatBrain>();
+                CombatBrain lockOnTarget = collider?.GetComponent<CombatBrain>();
 
-                if (lockOnTarget != null)
+                if (lockOnTarget == null || lockOnTarget.IsDead || lockOnTarget.transform == transform)
                 {
-                    Vector3 lockOnTargetDirection = lockOnTarget.transform.position - transform.position;
-                    //float distanceFromTarget = Vector3.Distance(transform.position, lockOnTarget.transform.position);
-                    float viewableAngle = Vector3.Angle(lockOnTargetDirection, _mainCam.transform.forward);
+                    continue;
+                }
 
-                    if (lockOnTarget.IsDead)
+                Vector3 lockOnTargetDirection = lockOnTarget.transform.position - _mainCam.transform.position;
+                float viewableAngle = Vector3.Angle(lockOnTargetDirection, _mainCam.transform.forward);
+
+                if (viewableAngle > _minimumViewableAngle && viewableAngle < _maximumViewableAngle)
+                {
+                    if (Physics.Linecast(_mainCam.transform.position, lockOnTarget._lockOnTransform.position, out RaycastHit hit, _environmentLayers))
                     {
                         continue;
                     }
-
-                    if (lockOnTarget.transform == transform)
+                    else
                     {
-                        continue;
-                    }
-
-                    if (viewableAngle > _minimumViewableAngle && viewableAngle < _maximumViewableAngle)
-                    {
-                        RaycastHit hit;
-
-                        if (Physics.Linecast(_playerLockTransform.position, lockOnTarget._lockOnTransform.position, out hit, _environmentLayers))
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            _avaliableTargets.Add(lockOnTarget);
-                        }
+                        _avaliableTargets.Add(lockOnTarget);
                     }
                 }
             }
 
-            for (int k = 0; k < _avaliableTargets.Count; k++)
+            foreach (var target in _avaliableTargets)
             {
-                if (_avaliableTargets[k] != null)
-                {
-                    float distanceFromTarget = Vector3.Distance(transform.position, _avaliableTargets[k].transform.position);
-
-                    if (distanceFromTarget < shortestDistance)
-                    {
-                        shortestDistance = distanceFromTarget;
-                        _nearestLockOnTarget = _avaliableTargets[k];
-                    }
-
-                    if (_isLockedOn)
-                    {
-                        Vector3 relativeEnemyPosition = transform.InverseTransformPoint(_avaliableTargets[k].transform.position);
-
-                        var distanceFromLeftTarget = relativeEnemyPosition.x;
-                        var distanceFromRightTarget = relativeEnemyPosition.x;
-
-                        if (_avaliableTargets[k] == _currentLockOnTarget)
-                        {
-                            print(_avaliableTargets[k] + " is current target");
-                            continue;
-                        }
-
-                        if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget)
-                        {
-                            shortestDistanceOfLeftTarget = distanceFromLeftTarget;
-                            _leftLockOnTarget = _avaliableTargets[k];
-                        }
-                        else if (relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget)
-                        {
-                            shortestDistanceOfRightTarget = distanceFromRightTarget;
-                            _rightLockOnTarget = _avaliableTargets[k];
-                        }
-                    }
-                }
-
-                else
+                if (target == null)
                 {
                     ClearLockOnTargets();
                     SetLockOnStatus(false);
+                    return;
+                }
+
+                float distanceFromTarget = Vector3.Distance(_mainCam.transform.position, target.transform.position);
+
+                if (distanceFromTarget < shortestDistance)
+                {
+                    shortestDistance = distanceFromTarget;
+                    _nearestLockOnTarget = target;
+                }
+
+                if (_isLockedOn && target != _currentLockOnTarget)
+                {
+                    Vector3 relativeEnemyPosition = _mainCam.transform.InverseTransformPoint(target.transform.position);
+
+                    float distanceFromLeftTarget = relativeEnemyPosition.x;
+                    float distanceFromRightTarget = relativeEnemyPosition.x;
+
+                    if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget)
+                    {
+                        shortestDistanceOfLeftTarget = distanceFromLeftTarget;
+                        _leftLockOnTarget = target;
+                    }
+                    else if (relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget)
+                    {
+                        shortestDistanceOfRightTarget = distanceFromRightTarget;
+                        _rightLockOnTarget = target;
+                    }
                 }
             }
         }
@@ -531,6 +514,7 @@ namespace GnomeCrawler.Player
             {
                 ClearLockOnTargets();
                 SetLockOnStatus(false);
+                _currentLockOnTarget = null;
                 OnCamUnlock?.Invoke();
                 return;
             }
