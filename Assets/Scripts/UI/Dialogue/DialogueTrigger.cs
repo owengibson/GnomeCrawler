@@ -27,6 +27,7 @@ namespace GnomeCrawler
         [SerializeField, BoxGroup("b/PopupEmit")] private int _popupDelayAmount;
 
         [SerializeField] private UnityEvent onPlayerEnterTrigger;
+        [SerializeField] private UnityEvent onDialogueStart;
         [SerializeField] private UnityEvent onDialogueFinished;
 
         private bool _isCurrentDialogue = false;
@@ -79,6 +80,8 @@ namespace GnomeCrawler
         public void TriggerDialogue()
         {
             EventManager.OnDialogueStarted(_dialogue);
+
+            onDialogueStart?.Invoke();
 
             _isCurrentDialogue = true;
         }
