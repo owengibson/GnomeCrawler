@@ -577,7 +577,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1043413866}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GnomeCrawler.MainMenuNavigator, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
@@ -768,6 +768,58 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 926718315}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &391448789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 391448791}
+  - component: {fileID: 391448790}
+  m_Layer: 0
+  m_Name: Main Menu Navigator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &391448790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391448789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18cce277421ff1844afc208705e80ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _titleScreenCanvas: {fileID: 44563728}
+  _signWithButtons: {fileID: 65744802}
+  _mainCamAnimator: {fileID: 769851895}
+  _signButtonsFirst: {fileID: 1747132750}
+  _eventSystem: {fileID: 150178951}
+  _settingsPanel: {fileID: 1670808139}
+  _settingsPanelFirst: {fileID: 1670808138}
+  _animDuration: 0.5
+--- !u!4 &391448791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391448789}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.895082, y: 2.8277266, z: 30.650154}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &466750514
 GameObject:
   m_ObjectHideFlags: 0
@@ -1234,7 +1286,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1043413866}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GnomeCrawler.MainMenuNavigator, Assembly-CSharp
         m_MethodName: ToggleSettingsPanel
         m_Mode: 6
@@ -3036,46 +3088,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 878455183}
   m_Mesh: {fileID: 4783196677193979281, guid: 49391071842577c4b890d0bdb964dc31, type: 3}
---- !u!21 &905342483
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthHeightRadius: {r: 1176.633, g: 761.4142, b: 50, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &926718315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3117,7 +3129,7 @@ PrefabInstance:
     - target: {fileID: 1610599849664676189, guid: 7ffa62bf9fba5724fa042a8785200a11,
         type: 3}
       propertyPath: m_Name
-      value: Main Menu Navigator
+      value: Sign
       objectReference: {fileID: 0}
     - target: {fileID: 1610599849664676189, guid: 7ffa62bf9fba5724fa042a8785200a11,
         type: 3}
@@ -3474,10 +3486,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1610599849664676189, guid: 7ffa62bf9fba5724fa042a8785200a11,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1043413866}
-    - targetCorrespondingSourceObject: {fileID: 1610599849664676189, guid: 7ffa62bf9fba5724fa042a8785200a11,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1043413867}
     - targetCorrespondingSourceObject: {fileID: 3051680764269880868, guid: 7ffa62bf9fba5724fa042a8785200a11,
         type: 3}
@@ -3496,26 +3504,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 926718315}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1043413866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043413864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18cce277421ff1844afc208705e80ad3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _titleScreenCanvas: {fileID: 44563728}
-  _signWithButtons: {fileID: 65744802}
-  _mainCamAnimator: {fileID: 769851895}
-  _signButtonsFirst: {fileID: 1747132750}
-  _eventSystem: {fileID: 150178951}
-  _settingsPanel: {fileID: 1670808139}
-  _settingsPanelFirst: {fileID: 1670808138}
-  _animDuration: 0.5
 --- !u!114 &1043413867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4245,6 +4233,46 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1502ef189eef6f14eaebd489a3ae82b4, type: 3}
+--- !u!21 &1549309336
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
+    - _WidthHeightRadius: {r: 1176.633, g: 761.4142, b: 50, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1001 &1606795741
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4968,7 +4996,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1043413866}
+      objectReference: {fileID: 0}
     - target: {fileID: 5976688149888129327, guid: 2ce8a2504641fdd4a8206acef59312d1,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -6017,6 +6045,7 @@ SceneRoots:
   - {fileID: 1810109483}
   - {fileID: 1606795741}
   - {fileID: 2054695077}
+  - {fileID: 391448791}
   - {fileID: 521535041}
   - {fileID: 150178952}
   - {fileID: 154870563}
