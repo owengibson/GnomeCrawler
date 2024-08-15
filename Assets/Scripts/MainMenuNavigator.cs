@@ -2,7 +2,6 @@ using DG.Tweening;
 using GnomeCrawler.Systems;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -12,7 +11,7 @@ namespace GnomeCrawler
 {
     public class MainMenuNavigator : MonoBehaviour
     {
-        [SerializeField] private GameObject _titleScreenCanvas;
+        [SerializeField] private CanvasGroup _titleScreenCanvas;
         [SerializeField] private GameObject _signWithButtons;
         [SerializeField] private Animator _mainCamAnimator;
         [SerializeField] private GameObject _signButtonsFirst;
@@ -20,8 +19,6 @@ namespace GnomeCrawler
         [SerializeField] private GameObject _settingsPanel;
         [SerializeField] private GameObject _settingsPanelFirst;
         [SerializeField] private float _animDuration = 0.5f;
-
-        [SerializeField] private UnityEvent OnPressAnyKey; 
 
         private bool _titleOpened;
         private bool _canOpenMenu = true;
@@ -37,13 +34,12 @@ namespace GnomeCrawler
         {
             if (Input.anyKeyDown)
             {
-                _titleScreenCanvas.SetActive(false);
                 _mainCamAnimator.SetTrigger("PlayAnimation");
+                _titleScreenCanvas.DOFade(0, 0.5f);
+
                 if (!_titleOpened)
                 {
-                    _titleOpened = true;
-                    OnPressAnyKey?.Invoke();
-                    StartCoroutine(EnableButtonsCoroutine(1));
+                    StartCoroutine(EnableButtons(1.5f));
                 }
             }
         }
@@ -96,10 +92,12 @@ namespace GnomeCrawler
             Application.Quit();
         }
 
-        private IEnumerator EnableButtonsCoroutine(float delay)
+        private IEnumerator EnableButtons(float delay)
         {
+            _titleOpened = true;
             yield return new WaitForSeconds(delay);
             _signWithButtons.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(_signButtonsFirst);
         }
 
         private void StopMenus()
