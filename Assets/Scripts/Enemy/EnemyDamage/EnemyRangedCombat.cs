@@ -111,12 +111,10 @@ namespace GnomeCrawler.Enemies
             _originalColorIndex = 0;
         }
 
-
         private void EndHurtAnimation() 
         {
             _enemyAnim.SetBool("isDamaged", false);
         }
-
 
         private void TeleportAway()
         {

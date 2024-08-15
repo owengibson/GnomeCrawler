@@ -11,7 +11,7 @@ namespace GnomeCrawler
 {
     public class MainMenuNavigator : MonoBehaviour
     {
-        [SerializeField] private GameObject _titleScreenCanvas;
+        [SerializeField] private CanvasGroup _titleScreenCanvas;
         [SerializeField] private GameObject _signWithButtons;
         [SerializeField] private Animator _mainCamAnimator;
         [SerializeField] private GameObject _signButtonsFirst;
@@ -34,11 +34,12 @@ namespace GnomeCrawler
         {
             if (Input.anyKeyDown)
             {
-                _titleScreenCanvas.SetActive(false);
                 _mainCamAnimator.SetTrigger("PlayAnimation");
+                _titleScreenCanvas.DOFade(0, 0.5f);
+
                 if (!_titleOpened)
                 {
-                    StartCoroutine(EnableButtonsCoroutine(1));
+                    StartCoroutine(EnableButtons(1.5f));
                 }
             }
         }
@@ -91,11 +92,12 @@ namespace GnomeCrawler
             Application.Quit();
         }
 
-        private IEnumerator EnableButtonsCoroutine(float delay)
+        private IEnumerator EnableButtons(float delay)
         {
             _titleOpened = true;
             yield return new WaitForSeconds(delay);
             _signWithButtons.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(_signButtonsFirst);
         }
 
         private void StopMenus()
