@@ -20,6 +20,8 @@ namespace GnomeCrawler.Deckbuilding
         [SerializeField] private TextMeshProUGUI _titleText;
         [SerializeField] private TextMeshProUGUI _descriptionText;
         [SerializeField] private Image _backgroundImage;
+        [SerializeField] private Sprite _nonActivatableBackground;
+        [SerializeField] private Sprite _activatableBackground;
         [Space]
 
         [Header("Animation")]
@@ -28,10 +30,6 @@ namespace GnomeCrawler.Deckbuilding
         [SerializeField] private float _chosenAnimDuration;
 
         public GameObject ButtonGraphic;
-
-        private readonly Color _defenseColour = new Color32(165, 255, 140, 225);
-        private readonly Color _offenseColour = new Color32(255, 140, 140, 225);
-        private readonly Color _utilityColour = new Color32(140, 198, 255, 225);
 
         public void SetCard(CardSO card)
         {
@@ -49,20 +47,7 @@ namespace GnomeCrawler.Deckbuilding
             _titleText.text = card.Name;
             _descriptionText.text = card.Description;
 
-            /*switch (card.Category)
-            {
-                case CardCategory.Defense:
-                    _backgroundImage.color = _defenseColour;
-                    break;
-                case CardCategory.Offense:
-                    _backgroundImage.color = _offenseColour;
-                    break;
-                case CardCategory.Utility:
-                    _backgroundImage.color = _utilityColour;
-                    break;
-                default:
-                    break;
-            }*/
+            //_backgroundImage.sprite = card.IsActivatableCard ? _activatableBackground : _nonActivatableBackground;
         }
 
         public void ChooseCard()
