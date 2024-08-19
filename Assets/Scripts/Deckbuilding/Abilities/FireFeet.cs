@@ -10,7 +10,6 @@ namespace GnomeCrawler.Deckbuilding
     public class FireFeet : Ability
     {
         [SerializeField] private ParticleSystem _particleSystem;
-        [SerializeField] private GameObject _weapon;
 
         private ParticleSystem.Particle[] _particles;
         private List<GameObject> _damagedTargets;
@@ -18,9 +17,9 @@ namespace GnomeCrawler.Deckbuilding
         private void OnEnable()
         {
             EventManager.OnAttackAbilityToggle?.Invoke(true);
-            _weapon.SetActive(false);
 
             _particleSystem.gameObject.SetActive(true);
+            //Debug.Log(_particleSystem.gameObject.activeSelf);
             _particleSystem.Play();
 
             _particles = new ParticleSystem.Particle[1000];
@@ -36,7 +35,7 @@ namespace GnomeCrawler.Deckbuilding
             foreach (var particle in _particles)
             {
                 RaycastHit hit;
-                if (Physics.SphereCast(particle.position, particle.GetCurrentSize(_particleSystem) / 4f, Vector3.up, out hit, 0.5f, LayerMask.GetMask("Enemy")))
+                if (Physics.SphereCast(particle.position, particle.GetCurrentSize(_particleSystem) / 5f, Vector3.up, out hit, 0.5f, LayerMask.GetMask("Enemy")))
                 {
                     IDamageable target;
                     if (hit.collider.gameObject.TryGetComponent(out target))
@@ -46,12 +45,12 @@ namespace GnomeCrawler.Deckbuilding
                 }
             }
         }
-        /*private void OnDrawGizmos()
+/*        private void OnDrawGizmos()
         {
             foreach (var particle in _particles)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawSphere(particle.position, particle.GetCurrentSize(_particleSystem) / 3);
+                Gizmos.DrawSphere(particle.position, particle.GetCurrentSize(_particleSystem) / 5);
             }
         }*/
 
@@ -72,7 +71,6 @@ namespace GnomeCrawler.Deckbuilding
             _particleSystem.gameObject.SetActive(false);
 
             EventManager.OnAttackAbilityToggle?.Invoke(false);
-            _weapon.SetActive(true);
         }
     }
 }
