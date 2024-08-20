@@ -1,3 +1,4 @@
+using GnomeCrawler.Player;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -43,7 +44,7 @@ namespace GnomeCrawler.Enemies
 
         void Start()
         {
-            _playerCharacter = GameObject.FindWithTag("Player");
+            _playerCharacter = PlayerStateMachine.instance.gameObject;
 
             if (_playerCharacter != null)
             {
