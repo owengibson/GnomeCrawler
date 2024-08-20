@@ -47,7 +47,7 @@ namespace GnomeCrawler.Deckbuilding
             _titleText.text = card.Name;
             _descriptionText.text = card.Description;
 
-            //_backgroundImage.sprite = card.IsActivatableCard ? _activatableBackground : _nonActivatableBackground;
+            _backgroundImage.sprite = card.IsActivatableCard ? _activatableBackground : _nonActivatableBackground;
         }
 
         public void ChooseCard()
