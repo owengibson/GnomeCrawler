@@ -21,10 +21,12 @@ namespace GnomeCrawler.Rooms
         [SerializeField] private ParticleSystem _beacon; 
 
         private bool _hasExitBeenSet = false;
+        private BoxCollider _stopCollider;
 
         private void Awake()
         {
             Collider = GetComponent<BoxCollider>();
+            _stopCollider = _doorParticles.GetComponent<BoxCollider>();
 
             if (_otherDoorway == null)
                 Debug.LogError("Other doorway has not been set in " + transform.parent);
@@ -59,6 +61,7 @@ namespace GnomeCrawler.Rooms
                 _otherDoorway.Type = DoorwayType.Exit;
                 _otherDoorway.Collider.isTrigger = false;
                 _otherDoorway._doorParticles.SetActive(true);
+                _stopCollider.enabled = true;
             }
         }
 
@@ -69,7 +72,6 @@ namespace GnomeCrawler.Rooms
 
             if (Type == DoorwayType.Entry)
             {
-                Collider.isTrigger = false;
                 _doorParticles.SetActive(true);
             }
 

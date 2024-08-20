@@ -9,6 +9,7 @@ namespace GnomeCrawler
     public class BossRoom : MonoBehaviour
     {
         [SerializeField] private GameObject _boss;
+        [SerializeField] private bool _isRealRoom = false;
         private void OnEnable()
         {
             EventManager.OnEnteredBossRoom += SpawnBoss;
@@ -21,6 +22,7 @@ namespace GnomeCrawler
 
         private void SpawnBoss()
         {
+            if (!_isRealRoom) return;
             _boss.SetActive(true);
         }
     }

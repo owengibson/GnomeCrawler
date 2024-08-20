@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GnomeCrawler
@@ -62,6 +63,11 @@ namespace GnomeCrawler
         public void QuitGame()
         {
             Application.Quit();
+        }
+
+        public void LoadScene(string sceneName)
+        {
+            SceneManager.LoadScene(sceneName);
         }
 
         private void StopMenus()

@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GnomeCrawler
 {
@@ -21,6 +22,8 @@ namespace GnomeCrawler
 
         [SerializeField] private float _phase2HealthThresholdPercentage = .65f;
         [SerializeField] private float _phase3HealthThresholdPercentage = .35f;
+
+        [SerializeField] private Slider _healthSlider;
 
         private bool _phase2Activated = false;
         private bool _phase3Activated = false;
@@ -144,6 +147,8 @@ namespace GnomeCrawler
         public override void TakeDamage(float amount, GameObject damager)
         {
             base.TakeDamage(amount, damager);
+
+            _healthSlider.value = CurrentHealth;
 
             DamageFeedback();
         }
