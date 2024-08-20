@@ -15,5 +15,10 @@ namespace GnomeCrawler
             EventSystem.current.SetSelectedGameObject(_signButtonsFirst);
         }
 
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
+
     }
 }

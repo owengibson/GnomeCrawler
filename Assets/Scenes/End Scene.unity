@@ -584,6 +584,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Gnome (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 124.30005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -52.600098
+      objectReference: {fileID: 0}
     - target: {fileID: 8299221423421808768, guid: fd12d9bb5540c2a4ab5186227ba3144b,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -664,6 +674,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player Gnome (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 124.30005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -52.600098
       objectReference: {fileID: 0}
     - target: {fileID: 8299221423421808768, guid: fd12d9bb5540c2a4ab5186227ba3144b,
         type: 3}
@@ -1266,6 +1286,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Gnome (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 124.30005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -52.600098
+      objectReference: {fileID: 0}
     - target: {fileID: 7264959126832133154, guid: fd12d9bb5540c2a4ab5186227ba3144b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1377,6 +1407,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Gnome (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 124.30005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -52.600098
+      objectReference: {fileID: 0}
     - target: {fileID: 8299221423421808768, guid: fd12d9bb5540c2a4ab5186227ba3144b,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1469,6 +1509,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player Gnome
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 124.30005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -52.600098
       objectReference: {fileID: 0}
     - target: {fileID: 8299221423421808768, guid: fd12d9bb5540c2a4ab5186227ba3144b,
         type: 3}
@@ -2449,6 +2499,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Gnome (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 124.30005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -52.600098
+      objectReference: {fileID: 0}
     - target: {fileID: 8299221423421808768, guid: fd12d9bb5540c2a4ab5186227ba3144b,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -3310,7 +3370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &777788626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3630,10 +3690,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GnomeCrawler.MainMenuNavigator, Assembly-CSharp
-        m_MethodName: ToggleSettingsPanel
-        m_Mode: 6
+      - m_Target: {fileID: 777788626}
+        m_TargetAssemblyTypeName: GnomeCrawler.EndSceneManager, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4972,6 +5032,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player Gnome (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 124.30005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -52.600098
       objectReference: {fileID: 0}
     - target: {fileID: 8299221423421808768, guid: fd12d9bb5540c2a4ab5186227ba3144b,
         type: 3}
@@ -6955,6 +7025,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player Gnome (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 124.30005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971457300423639423, guid: fd12d9bb5540c2a4ab5186227ba3144b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -52.600098
       objectReference: {fileID: 0}
     - target: {fileID: 7264959126832133154, guid: fd12d9bb5540c2a4ab5186227ba3144b,
         type: 3}
