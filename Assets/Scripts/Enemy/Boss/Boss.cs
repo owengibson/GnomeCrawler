@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace GnomeCrawler
@@ -37,6 +38,11 @@ namespace GnomeCrawler
             { 6, 80 },
             { 7, 100 }
         };
+
+        public UnityEvent OnAttackOne;
+        public UnityEvent OnAttackTwo;
+        public UnityEvent OnAttackThree;
+        public UnityEvent OnRangedAttack;
 
         private void Awake()
         {

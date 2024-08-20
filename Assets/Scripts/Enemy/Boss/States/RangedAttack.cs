@@ -24,6 +24,7 @@ namespace GnomeCrawler
             base.OnEnter();
             _animator.SetTrigger(RangedAttackHash);
             StartRotating();
+            _boss.OnRangedAttack?.Invoke();
         }
 
         public override void OnExit()
