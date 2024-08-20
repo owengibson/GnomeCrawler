@@ -115,7 +115,7 @@ namespace GnomeCrawler.Deckbuilding
         {
             _titleText.text = "Card Title";
             _descriptionText.text = "Card description";
-            _backgroundImage.color = new Color32(255, 255, 255, 157);
+            _icon.sprite = null;
         }
 
         private void OnEnable()

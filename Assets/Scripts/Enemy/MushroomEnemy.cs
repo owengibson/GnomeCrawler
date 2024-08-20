@@ -1,3 +1,4 @@
+using DG.Tweening;
 using GnomeCrawler.Player;
 using GnomeCrawler.Systems;
 using System.Collections;
@@ -130,8 +131,7 @@ namespace GnomeCrawler
                 shapeModule.position = capsuleCollider.center;
                 yield return null;
             }
-            yield return new WaitForSeconds(_projectileLinger);
-            Destroy(_fartLine);
+            _fartLine.transform.DOScale(Vector3.zero, 0.5f).OnComplete(() => Destroy(_fartLine));
             yield return new WaitForSeconds(_projectileCooldown);
             _fartLineCO = null;
         }
