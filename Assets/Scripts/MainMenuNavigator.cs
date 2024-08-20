@@ -29,6 +29,8 @@ namespace GnomeCrawler
         {
             _playerControls = new PlayerControls();
             _playerControls.Player.Menu.performed += ToggleVolumePanel;
+
+            EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
         }
         private void Update()
         {
