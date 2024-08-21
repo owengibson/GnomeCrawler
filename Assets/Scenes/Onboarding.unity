@@ -7251,6 +7251,46 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 1701928366}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &655366278
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
+    - _WidthHeightRadius: {r: 1177.0239, g: 743.37, b: 50, a: 0}
+  m_BuildTextureStacks: []
 --- !u!224 &662617998 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4487394071341634994, guid: ba011f321aed5114c9ce0d478a0cda31,
@@ -7773,6 +7813,7 @@ Transform:
   - {fileID: 459223165}
   - {fileID: 246704332}
   - {fileID: 1908381399}
+  - {fileID: 1805306230}
   - {fileID: 375160283}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11033,12 +11074,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8516048869992419212, guid: 187a0b892bd0f494f8607e08a9aa20a1,
         type: 3}
+      propertyPath: OnDoorwayEntered.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8516048869992419212, guid: 187a0b892bd0f494f8607e08a9aa20a1,
+        type: 3}
       propertyPath: OnDoorwayEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8516048869992419212, guid: 187a0b892bd0f494f8607e08a9aa20a1,
         type: 3}
       propertyPath: OnDoorwayEntered.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8516048869992419212, guid: 187a0b892bd0f494f8607e08a9aa20a1,
+        type: 3}
+      propertyPath: OnDoorwayEntered.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8516048869992419212, guid: 187a0b892bd0f494f8607e08a9aa20a1,
@@ -11155,6 +11206,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tutorial
       objectReference: {fileID: 0}
+    - target: {fileID: 425261417052380789, guid: 4d3e5d2cd7bbeef4ea0e12630547327e,
+        type: 3}
+      propertyPath: m_text
+      value: "Press\tto see your hand"
+      objectReference: {fileID: 0}
     - target: {fileID: 1366274380843471219, guid: 4d3e5d2cd7bbeef4ea0e12630547327e,
         type: 3}
       propertyPath: m_IsActive
@@ -11260,6 +11316,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2954277482545500063, guid: 4d3e5d2cd7bbeef4ea0e12630547327e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 82c430539b646504497981352dce08d0,
+        type: 3}
+    - target: {fileID: 4413892287338748693, guid: 4d3e5d2cd7bbeef4ea0e12630547327e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5317396273893253529, guid: 4d3e5d2cd7bbeef4ea0e12630547327e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -11270,15 +11337,35 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 220.7002
       objectReference: {fileID: 0}
+    - target: {fileID: 6142481850897669300, guid: 4d3e5d2cd7bbeef4ea0e12630547327e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 174.9
+      objectReference: {fileID: 0}
     - target: {fileID: 6274313288316035679, guid: 4d3e5d2cd7bbeef4ea0e12630547327e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 260.2
       objectReference: {fileID: 0}
+    - target: {fileID: 7048535108597741475, guid: 4d3e5d2cd7bbeef4ea0e12630547327e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7322318884650907405, guid: 4d3e5d2cd7bbeef4ea0e12630547327e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 160.7002
+      objectReference: {fileID: 0}
+    - target: {fileID: 7610564424342416429, guid: 4d3e5d2cd7bbeef4ea0e12630547327e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 311.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408169258943149550, guid: 4d3e5d2cd7bbeef4ea0e12630547327e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 161
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19697,46 +19784,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 869184304}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1676011190
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthHeightRadius: {r: 1177.0239, g: 743.37, b: 50, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1001 &1680309366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21462,6 +21509,146 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 743218503}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1805306229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1805306230}
+  - component: {fileID: 1805306234}
+  - component: {fileID: 1805306233}
+  - component: {fileID: 1805306235}
+  - component: {fileID: 1805306231}
+  m_Layer: 0
+  m_Name: FINAL ROOOM SeeHand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1805306230
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805306229}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7416407, z: -0, w: -0.67079747}
+  m_LocalPosition: {x: 50.79, y: 11.27, z: -35.28}
+  m_LocalScale: {x: 2, y: 1, z: 25}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 701954703}
+  m_LocalEulerAnglesHint: {x: 0, y: 264.25702, z: 0}
+--- !u!114 &1805306231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805306229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 973585cf8913a4042afd8afc98558fd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogue:
+    _name: Gnomie
+    _sentences:
+    - "You can always check your current hand in case you forget what cards are in
+      your hand. \r"
+  _canListenForPopup: 0
+  _popupToListenFor: 0
+  _delayDialogue: 0
+  _dialogueDelayAmount: 0
+  _doesTriggerPopup: 1
+  _popupToTrigger: 8
+  _delayPopup: 0
+  _popupDelayAmount: 0
+  onPlayerEnterTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  onDialogueStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onDialogueFinished:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!23 &1805306233
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805306229}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1805306234
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805306229}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &1805306235
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805306229}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1814328759 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2700508262947502253, guid: 5ebe7b9d25b0a7e418ba91546a385ba1,
@@ -22480,8 +22667,6 @@ MonoBehaviour:
       hand. '
     - 'After you finish the room you can choose one card to add to your deck. Then
       when you go into a new room you will do the same. '
-    - "You can always check your current hand in case you forget what cards are in
-      your hand. \r"
   _canListenForPopup: 0
   _popupToListenFor: 0
   _delayDialogue: 0
