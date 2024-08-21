@@ -76,7 +76,10 @@
 	</object>
 	<object class="SingleSound" id="{a47f3754-0f15-40bc-baae-a6519d515375}">
 		<property name="length">
-			<value>2.5</value>
+			<value>2.40625</value>
+		</property>
+		<property name="timelockedOffset">
+			<value>0.09375</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{f2b981a7-5f84-4537-9eed-dc1ddd2fb23f}</destination>
@@ -90,12 +93,24 @@
 	<object class="MixerBusPanner" id="{6835010e-368f-4106-82c4-67db65716b62}" />
 	<object class="MixerBusEffectChain" id="{9b3fb7b7-6408-48a7-8cc4-1421be9a6670}">
 		<relationship name="effects">
+			<destination>{ca67052a-ea23-48cc-b333-77ac62f3c482}</destination>
+			<destination>{3b47a7ca-5c6a-4b06-a719-916fd48c8651}</destination>
 			<destination>{65a01060-6f2c-4ea6-b931-e78ea40be747}</destination>
 			<destination>{975fdf90-d683-41e3-ad28-f4502cb0fdce}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{7604ee69-3b4f-4e31-92d0-77e42016102a}" />
 	<object class="MixerBusFader" id="{b5c5e249-30a7-43ef-9809-d203bbe67596}" />
+	<object class="ChorusEffect" id="{ca67052a-ea23-48cc-b333-77ac62f3c482}">
+		<property name="depth">
+			<value>78.5</value>
+		</property>
+	</object>
+	<object class="PitchShifterEffect" id="{3b47a7ca-5c6a-4b06-a719-916fd48c8651}">
+		<property name="pitch">
+			<value>1.49000001</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{65a01060-6f2c-4ea6-b931-e78ea40be747}" />
 	<object class="SpatialiserEffect" id="{975fdf90-d683-41e3-ad28-f4502cb0fdce}" />
 </objects>

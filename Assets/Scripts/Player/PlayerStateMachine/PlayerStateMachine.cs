@@ -114,6 +114,8 @@ namespace GnomeCrawler.Player
 
         #region feedback Events
         public UnityEvent OnRoll;
+        public UnityEvent OnWalkStart;
+        public UnityEvent OnWalkStop;
         public UnityEvent OnRunStart;
         public UnityEvent OnRunStop;
         public UnityEvent OnCamLockOn;
