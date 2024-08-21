@@ -255,6 +255,7 @@ namespace GnomeCrawler.Deckbuilding
                 //_handQuickview.SetActive(true);
                 AnimateCardsBetweenScreenAndHand(true, _quickviewAnimDuration, _quickviewCards, null);
                 _animationStatus = CardAnimationStatus.Quickview;
+                EventManager.OnRemoveTutoialPopupQuery?.Invoke(8);
             }
             else if (ctx.canceled)
                 AnimateCardsBetweenScreenAndHand(false, _quickviewAnimDuration, _quickviewCards, () => _animationStatus = CardAnimationStatus.Closed);
