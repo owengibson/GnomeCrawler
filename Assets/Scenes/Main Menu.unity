@@ -3080,6 +3080,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 0}
+--- !u!21 &845885059
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI/RoundedCorners/RoundedCorners
+  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
+    m_Colors:
+    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
+    - _WidthHeightRadius: {r: 1176.633, g: 761.4142, b: 50, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &878455183
 GameObject:
   m_ObjectHideFlags: 0
@@ -4228,6 +4268,74 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1395705095}
   m_Mesh: {fileID: 5297573711559535529, guid: 8ddb3c990eaab6646ab54ee961adac20, type: 3}
+--- !u!1001 &1404782573
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3691649997646130435, guid: c0e2a463963f3f943987fffc20e782a6,
+        type: 3}
+      propertyPath: m_Name
+      value: InputDeviceManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750586921255585092, guid: c0e2a463963f3f943987fffc20e782a6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 914.5693
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750586921255585092, guid: c0e2a463963f3f943987fffc20e782a6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1328.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750586921255585092, guid: c0e2a463963f3f943987fffc20e782a6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -841.4134
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750586921255585092, guid: c0e2a463963f3f943987fffc20e782a6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750586921255585092, guid: c0e2a463963f3f943987fffc20e782a6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750586921255585092, guid: c0e2a463963f3f943987fffc20e782a6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750586921255585092, guid: c0e2a463963f3f943987fffc20e782a6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750586921255585092, guid: c0e2a463963f3f943987fffc20e782a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750586921255585092, guid: c0e2a463963f3f943987fffc20e782a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4750586921255585092, guid: c0e2a463963f3f943987fffc20e782a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c0e2a463963f3f943987fffc20e782a6, type: 3}
 --- !u!1001 &1530672501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6120,6 +6228,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 769851893}
   - {fileID: 1810109483}
+  - {fileID: 1404782573}
   - {fileID: 1606795741}
   - {fileID: 2054695077}
   - {fileID: 391448791}
