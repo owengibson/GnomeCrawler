@@ -14,8 +14,8 @@ namespace GnomeCrawler
         [SerializeField] private Tween tween;
         private void OnEnable()
         {
-            DecaySpeed(gameObject);
             EventManager.OnEnemyKilled += DecaySpeed;
+            DecaySpeed(gameObject);
         }
 
         private void OnDisable()
