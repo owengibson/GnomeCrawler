@@ -77,7 +77,7 @@ namespace GnomeCrawler
             At(idle, flee, ChoseFleeAfterCooldown());
             At(flee, rangedAttack, AttackComplete("Flee"));
             At(rangedAttack, chase, AttackComplete("RangedAttack"));
-            At(adds, chase, AddsPhaseOver());
+            At(adds, attack3, AddsPhaseOver());
             At(chase, rangedAttack, IsPlayerAtRangedRange());
 
             //maybe 2 adds states?

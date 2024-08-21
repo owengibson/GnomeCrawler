@@ -30,6 +30,10 @@ namespace GnomeCrawler
         [SerializeField] private UnityEvent OnBombCharge;
         [SerializeField] private UnityEvent OnBombHitGround;
 
+        [SerializeField] private UnityEvent ImpactOne;
+        [SerializeField] private UnityEvent ImpactTwo;
+        [SerializeField] private UnityEvent ImpactThree;
+
         private bool _phase2Activated = false;
         private bool _phase3Activated = false;
 
@@ -181,6 +185,20 @@ namespace GnomeCrawler
                 _originalColorIndex++;
             }
             _originalColorIndex = 0;
+        }
+
+        public void ImpactAttackOne()
+        {
+            ImpactOne?.Invoke();
+        }
+        public void ImpactAttackTwo()
+        {
+            ImpactTwo?.Invoke();
+        }
+        public void ImpactAttackThree()
+        {
+            ImpactThree?.Invoke();
+            StartShockwave();
         }
 
         public override void Die()
