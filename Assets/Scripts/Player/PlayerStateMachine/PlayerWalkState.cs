@@ -11,7 +11,7 @@ namespace GnomeCrawler.Player
 
         public override void EnterState()
         {
-
+            Ctx.OnWalkStart?.Invoke();
         }
 
         public override void UpdateState()
@@ -22,7 +22,10 @@ namespace GnomeCrawler.Player
             CheckSwitchStates();
         }
 
-        public override void ExitState() { }
+        public override void ExitState() 
+        {
+            Ctx.OnWalkStop?.Invoke();
+        }
 
         public override void InitialiseSubState() { }
 

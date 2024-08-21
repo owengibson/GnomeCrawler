@@ -25,6 +25,7 @@ namespace GnomeCrawler.Enemies
         [SerializeField] private UnityEvent OnTeleport;
         [SerializeField] private UnityEvent OnTeleportCharge;
         [SerializeField] private UnityEvent OnAttackCharging;
+        [SerializeField] private UnityEvent OnChargingStop;
 
         [SerializeField] private float _needToTeleportRadius;
         [SerializeField] private float _teleTimer = 1f;
@@ -73,8 +74,9 @@ namespace GnomeCrawler.Enemies
         public override void TakeDamage(float amount, GameObject damager)
         {
             base.TakeDamage(amount, damager);
+            OnChargingStop?.Invoke();
             _healthBar.SetProgress(CurrentHealth / _maxHealth);
-            /*hurtstate*/ DamageFeedback();
+            DamageFeedback();
         }
 
         public override void Die()
