@@ -144,8 +144,8 @@ namespace GnomeCrawler.Player
                 Debug.Log("shield hit");
                 return;
             }
-            _healthbarSlider.value = CurrentHealth;
             CurrentHealth -= amount;
+            _healthbarSlider.value = CurrentHealth;
             DamageTaken?.Invoke();
             OnDamagedNoStun.Invoke();
 
