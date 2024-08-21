@@ -9,7 +9,6 @@ namespace GnomeCrawler.Deckbuilding
 {
     public class ActivatableCardGalleryElement : MonoBehaviour
     {
-        [ShowInInspector]
         public CardSO Card { private set; get; }
 
         [SerializeField] private Image _icon;
