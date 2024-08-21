@@ -131,7 +131,9 @@ namespace GnomeCrawler
                 shapeModule.position = capsuleCollider.center;
                 yield return null;
             }
-            _fartLine.transform.DOScale(Vector3.zero, 0.5f).OnComplete(() => Destroy(_fartLine));
+            _fartLine.transform.DOScale(Vector3.zero, 0.5f).OnComplete(() => _fartLine.GetComponent<DamageOverTime>().DestroyParticles());
+            yield return new WaitForSeconds(_projectileLinger);
+            Destroy(_fartLine);
             yield return new WaitForSeconds(_projectileCooldown);
             _fartLineCO = null;
         }

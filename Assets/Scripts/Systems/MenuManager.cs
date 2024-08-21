@@ -17,6 +17,8 @@ namespace GnomeCrawler
         [SerializeField] private float _animDuration = 0.5f;
 
         private bool _canOpenMenu = true;
+        private GameObject _previousSelected;
+        private GameState _previousGameState = GameState.Gameplay;
 
         private PlayerControls _playerControls;
 
@@ -44,6 +46,8 @@ namespace GnomeCrawler
 
         private void OpenSettingsPanel()
         {
+            _previousSelected = EventSystem.current.currentSelectedGameObject;
+            _previousGameState = GameStateManager.Instance.CurrentGameState;
             EventManager.OnGameStateChanged?.Invoke(GameState.Paused);
             _settingsPanel.transform.localScale = Vector3.zero;
             _settingsPanel.SetActive(true);
@@ -56,7 +60,8 @@ namespace GnomeCrawler
             _settingsPanel.transform.DOScale(Vector3.zero, _animDuration).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
             {
                 _settingsPanel.SetActive(false);
-                EventManager.OnGameStateChanged?.Invoke(GameState.Gameplay);
+                EventManager.OnGameStateChanged?.Invoke(_previousGameState);
+                EventSystem.current.SetSelectedGameObject(_previousSelected);
             });
         }
 
