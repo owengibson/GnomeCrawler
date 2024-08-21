@@ -34,6 +34,21 @@ namespace GnomeCrawler
 
             _animator.SetInteger(MeleeAttackNumberHash, _attackNumber);
             _animator.SetTrigger(MeleeAttackHash);
+
+            switch (_attackNumber)
+            {
+                case 0:
+                    break;
+                case 1:
+                    _boss.OnAttackOne?.Invoke();
+                    break;
+                case 2:
+                    _boss.OnAttackTwo?.Invoke();
+                    break;
+                case 3:
+                    _boss.OnAttackThree?.Invoke();
+                    break;
+            }
         }
 
         public override void OnExit()

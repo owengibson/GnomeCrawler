@@ -23,6 +23,7 @@ namespace GnomeCrawler.Player
         [SerializeField] private GameObject _abilitiesGO;
 
         [SerializeField] private UnityEvent OnDamagedNoStun;
+        [SerializeField] private UnityEvent OnHealed;
 
         [SerializeField] private Transform _spinWeaponOrigin;
 
@@ -345,6 +346,7 @@ namespace GnomeCrawler.Player
             CurrentHealth += amount;
             CurrentHealth = Mathf.Clamp(CurrentHealth, 0, _maxHealth);
             _healthbarSlider.value = CurrentHealth;
+            OnHealed?.Invoke();
         }
 
         private void PerRoomHeal(int unUsed)

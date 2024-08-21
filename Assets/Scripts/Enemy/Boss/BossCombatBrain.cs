@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GnomeCrawler
@@ -24,6 +25,10 @@ namespace GnomeCrawler
         [SerializeField] private float _phase3HealthThresholdPercentage = .35f;
 
         [SerializeField] private Slider _healthSlider;
+
+        [SerializeField] private UnityEvent OnShockwave;
+        [SerializeField] private UnityEvent OnBombCharge;
+        [SerializeField] private UnityEvent OnBombHitGround;
 
         private bool _phase2Activated = false;
         private bool _phase3Activated = false;
@@ -88,6 +93,7 @@ namespace GnomeCrawler
             _projectileGO.transform.parent = _weaponTransforms[0].transform;
             _projectileGO.transform.localPosition = new Vector3(0,1,-1);
             StartCoroutine(ScaleProjectile(Vector3.one * 4, 1.0f));
+            OnBombCharge?.Invoke();
         }
 
         private IEnumerator ScaleProjectile(Vector3 targetScale, float duration)
@@ -132,6 +138,8 @@ namespace GnomeCrawler
                 yield return null;
             }
             _projectileGO.transform.position = finalPosition;
+
+            OnBombHitGround?.Invoke();
             
             yield return StartCoroutine(ScaleProjectile(Vector3.one * 13.5f, 0.5f));
 
@@ -142,6 +150,7 @@ namespace GnomeCrawler
         public void StartShockwave()
         {
             _shockwaveGO.SetActive(true);
+            OnShockwave?.Invoke();
         }
 
         public override void TakeDamage(float amount, GameObject damager)
