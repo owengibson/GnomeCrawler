@@ -250,6 +250,7 @@ namespace GnomeCrawler.Deckbuilding
         private void ToggleHandQuickview(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
         {
             if (!_hasFirstHandBeenDrawn) return;
+            if (_animationStatus == CardAnimationStatus.Choice || _animationStatus == CardAnimationStatus.HandReview) return;
             if (ctx.performed)
             {
                 //_handQuickview.SetActive(true);
